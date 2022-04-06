@@ -8,6 +8,7 @@ use App\Http\Controllers\Vendor\EventController;
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDahsboardController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,5 +59,12 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
     });
     Route::middleware('auth:admin')->group(function () {
         Route::get('/', [AdminDahsboardController::class, 'index'])->name('dashboard');
+        
+        Route::controller(AdminUserController::class)->name('user.')->prefix('user')->as('user.')->group(function () {
+            Route::get('/vendors', 'vendors')->name('vendors');
+            Route::get('/djs', 'djs')->name('djs');
+            Route::get('/promoters', 'promoters')->name('promoters');
+            Route::get('/customers', 'customers')->name('customers');
+        });
     });
 });
