@@ -13,7 +13,7 @@ class EventController extends Controller
     {
         $events = Event::get();
         return view('admin.event.list', [
-            'subtitle' => 'All',
+            'breadcrumb' => 'All',
             'events' => $events
         ]);
     }
@@ -22,7 +22,7 @@ class EventController extends Controller
     {
         $events = Event::get();
         return view('admin.event.list', [
-            'subtitle' => 'Upcoming',
+            'breadcrumb' => 'Upcoming',
             'events' => $events
         ]);
     }
@@ -31,7 +31,7 @@ class EventController extends Controller
     {
         $events = Event::get();
         return view('admin.event.list', [
-            'subtitle' => 'Featured',
+            'breadcrumb' => 'Featured',
             'events' => $events
         ]);
     }
@@ -40,7 +40,7 @@ class EventController extends Controller
     {
         $events = Event::get();
         return view('admin.event.list', [
-            'subtitle' => 'Complete',
+            'breadcrumb' => 'Complete',
             'events' => $events
         ]);
     }

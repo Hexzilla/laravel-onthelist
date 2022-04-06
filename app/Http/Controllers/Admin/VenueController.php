@@ -12,12 +12,18 @@ class VenueController extends Controller
     public function index()
     {
         $venues = Venue::get();
-        return view('admin.venue.list', ['venues' => $venues]);
+        return view('admin.venue.list', [
+            'breadcrumb' => 'All',
+            'venues' => $venues
+        ]);
     }
 
     public function featured()
     {
         $venues = Venue::get();
-        return view('admin.venue.list', ['venues' => $venues]);
+        return view('admin.venue.list', [
+            'breadcrumb' => 'Featured',
+            'venues' => $venues
+        ]);
     }
 }
