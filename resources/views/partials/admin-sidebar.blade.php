@@ -27,10 +27,10 @@
 
             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-restore-clock"></i><span class="nav-text">Events</span></a>
                 <ul aria-expanded="false">
-                    <li><a href="#">All</a></li>
-                    <li><a href="#">Upcoming</a></li>
-                    <li><a href="#">Featured</a></li>
-                    <li><a href="#">Complete</a></li>
+                    <li><a href="{{ route('admin.events.index') }}">All</a></li>
+                    <li><a href="{{ route('admin.events.upcoming') }}">Upcoming</a></li>
+                    <li><a href="{{ route('admin.events.featured') }}">Featured</a></li>
+                    <li><a href="{{ route('admin.events.complete') }}">Complete</a></li>
                 </ul>
             </li>
 
