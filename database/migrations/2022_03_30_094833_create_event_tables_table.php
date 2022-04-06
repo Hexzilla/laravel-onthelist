@@ -16,7 +16,7 @@ class CreateEventTablesTable extends Migration
         Schema::create('event_tables', function (Blueprint $table) {
             $table->id();
             $table->foreignId('event_id')->constrained()->onDelete('cascade');
-            $table->enum('type', ["Standard", "Low", "High"]);
+            $table->enum('type', ["Type 1", "Type 2", "Type 3"]);
             $table->integer('qty');
             $table->double('price', 10, 2)->default(0);
             $table->enum('approval', ["Yes", "No"]);

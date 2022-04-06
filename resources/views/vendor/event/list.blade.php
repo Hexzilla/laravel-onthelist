@@ -7,7 +7,7 @@
             <div class="col-sm-12 p-md-0 justify-content-sm-start mt-2 mt-sm-0 d-flex">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Venues</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Events</a></li>
                 </ol>
             </div> 
         </div>
@@ -21,38 +21,36 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Type</th>
-                                        <th>Location</th>
-                                        <th>Phone</th>
+                                        <th>Venue</th>
                                         <th>Details</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($venues as $venue)
+                                    @foreach($events as $event)
                                     <tr>
-                                        <td>{{$venue->name}}</td>
-                                        <td>{{$venue->type}}</td>
-                                        <td>{{$venue->location}}</td>
-                                        <td>{{$venue->phone}}</td>
+                                        <td>{{$event->name}}</td>
+                                        <td>{{$event->type}}</td>
+                                        <td>{{$event->venue_id}}</td>
                                         <td>
-                                            <button type="button" class="btn btn-rounded btn-outline-primary mb-1" onclick="openTimetableModal('{{$venue->name}}', '{{$venue->timetable}}')">Show Timetable</button>
-                                            <button type="button" class="btn btn-rounded btn-outline-secondary mb-1" onclick="openTableModal('{{$venue->name}}', '{{$venue->tables}}')">Show Tables</button>
-                                            <button type="button" class="btn btn-rounded btn-outline-success mb-1" onclick="openOfferModal('{{$venue->name}}', '{{$venue->offers}}')">Show Offers</button>
-                                            <button type="button" class="btn btn-rounded btn-outline-warning mb-1" onclick="openMediaModal('{{$venue->name}}', '{{$venue->header_image_path}}', '{{$venue->media}}')">Show Media</button>
-                                            <button type="button" class="btn btn-rounded btn-outline-info mb-1" onclick="openDetailModal('{{$venue}}')">Show More</button>
+                                            <button type="button" class="btn btn-rounded btn-outline-primary mb-1" onclick="openTableModal('{{$event->name}}', '{{$event->tickets}}')">Show Tickets</button>
+                                            <button type="button" class="btn btn-rounded btn-outline-secondary mb-1" onclick="openTableModal('{{$event->name}}', '{{$event->tables}}')">Show Tables</button>
+                                            <button type="button" class="btn btn-rounded btn-outline-success mb-1" onclick="openTableModal('{{$event->name}}', '{{$event->guestlists}}')">Show Guestlist</button>
+                                            <button type="button" class="btn btn-rounded btn-outline-warning mb-1" onclick="openMediaModal('{{$event->name}}', '{{$event->header_image_path}}', '{{$event->media}}')">Show Media</button>
+                                            <button type="button" class="btn btn-rounded btn-outline-info mb-1" onclick="openDetailModal('{{$event}}')">Show More</button>
                                         </td>
                                         <td>
-                                            @if($venue->isApproved())
+                                            @if($event->isApproved())
                                             <span class="badge badge-success">Approved</span>
                                             @else
                                             <span class="badge badge-warning">Pending</span>
                                             @endif
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-rounded btn-primary mb-1"><i class="fa fa-edit"></i> Edit</button>
-                                            @if(!$venue->isApproved())
-                                            <button type="button" class="btn btn-rounded btn-danger mb-1"><i class="fa fa-trash"></i> Delete</button>
+                                            <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('event.edit', $event->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
+                                            @if(!$event->isApproved())
+                                            <button type="button" class="btn btn-rounded btn-danger mb-1"><a href="{{ route('event.destroy', $event->id) }}"><i class="fa fa-trash"></i> Delete</a></button>
                                             @endif
                                         </td>
                                     </tr>
@@ -69,37 +67,10 @@
 
 @section('scripts')
     <script>
-        const openTimetableModal = (venue, timetable) => {
-            timetable = JSON.parse(timetable);
-            var days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
-            
-            $("#modal_venue").modal('show');
-            $("#modal_venue .modal-title").text(`"${venue}" Timetable`);
-            var content = '<div class="table-responsive"><table class="table table-responsive-sm">';
-                content += '<thead>';
-                    content += '<tr>';
-                        content += '<th>#</th>';
-                        content += '<th>Open</th>';
-                        content += '<th>Close</th>';
-                    content += '</tr>';
-                content += '</thead>';
-                content += '<tbody>';
-                    days.map(day => {
-                        content += '<tr>';
-                            content += '<td>' + day.toUpperCase() + '</td>';
-                            content += '<td>' + timetable[day + '_open'] + '</td>';
-                            content += '<td>' + timetable[day + '_close'] + '</td>';
-                        content += '</tr>';
-                    });
-                content += '</tbody>';
-            content += '</table></div>';
-            $("#modal_venue .modal-body").html(content);
-        }
-
-        const openTableModal = (venue, tables) => {
+        const openTableModal = (event, tables) => {
             tables = JSON.parse(tables);
             $("#modal_venue").modal('show');
-            $("#modal_venue .modal-title").text(`"${venue}" Tables`);
+            $("#modal_venue .modal-title").text(`"${event}" Tables`);
             var content = '<div class="table-responsive"><table class="table table-responsive-sm">';
                 content += '<thead>';
                     content += '<tr>';
@@ -118,35 +89,6 @@
                             content += '<td>' + table.qty + '</td>';
                             content += '<td>£' + table.price.toFixed(2) + '</td>';
                             content += '<td>' + table.approval + '</td>';
-                        content += '</tr>';
-                    });
-                content += '</tbody>';
-            content += '</table></div>';
-            $("#modal_venue .modal-body").html(content);
-        }
-
-        const openOfferModal = (venue, offers) => {
-            offers = JSON.parse(offers);
-            $("#modal_venue").modal('show');
-            $("#modal_venue .modal-title").text(`"${venue}" Offers`);
-            var content = '<div class="table-responsive"><table class="table table-responsive-sm">';
-                content += '<thead>';
-                    content += '<tr>';
-                        content += '<th>Type</th>';
-                        content += '<th>Description</th>';
-                        content += '<th>Quantity</th>';
-                        content += '<th>Price</th>';
-                        content += '<th>Approval</th>';
-                    content += '</tr>';
-                content += '</thead>';
-                content += '<tbody>';
-                    offers.map(offer => {
-                        content += '<tr>';
-                            content += '<td>' + offer.type + '</td>';
-                            content += '<td>' + offer.description + '</td>';
-                            content += '<td>' + offer.qty + '</td>';
-                            content += '<td>£' + offer.price.toFixed(2) + '</td>';
-                            content += '<td>' + offer.approval + '</td>';
                         content += '</tr>';
                     });
                 content += '</tbody>';

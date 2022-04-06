@@ -50,9 +50,9 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-rounded btn-primary mb-1"><i class="fa fa-edit"></i> Edit</button>
+                                            <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('venue.edit', $venue->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
                                             @if(!$venue->isApproved())
-                                            <button type="button" class="btn btn-rounded btn-danger mb-1"><i class="fa fa-trash"></i> Delete</button>
+                                            <button type="button" class="btn btn-rounded btn-danger mb-1"><a href="{{ route('venue.destroy', $venue->id) }}"><i class="fa fa-trash"></i> Delete</a></button>
                                             @endif
                                         </td>
                                     </tr>

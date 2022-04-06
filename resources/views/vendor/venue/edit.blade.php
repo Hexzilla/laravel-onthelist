@@ -8,14 +8,15 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Venues</a></li>
-                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Create Venue</a></li>
+                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Edit Venue</a></li>
                 </ol>
             </div> 
         </div>
         <div class="row mt-4">
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 col-xxl-8">			
-                <form method="POST" action="{{ route('venue.store') }}" class="EventForm" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('venue.update', $venue->id) }}" class="EventForm" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div id="step-1">
                         <div class="row">
                             <div class="col-md-12">
@@ -26,11 +27,11 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="EventName">Venue Name *</label>
-                                    <input type="text" class="form-control" id="VenueName" name="name" value="{{ old('name') }}" />
+                                    <input type="text" class="form-control" id="VenueName" name="name" value="{{ $venue->name }}" />
                                 </div>
                                 <div class="form-group">
                                     <label for="EventDetails">Venue Details</label>
-                                    <textarea class="form-control" rows="5" id="VenueDetails" name="details">{{ old('details') }}</textarea>
+                                    <textarea class="form-control" rows="5" id="VenueDetails" name="details">{{ $venue->description }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <div class="file-field addEventHeader">
@@ -41,7 +42,7 @@
                                         </div>
                                         <div class="d-flex justify-content-center">
                                             <div class="">
-                                                <input id="venue-header-image" class="d-none" type="file" name="header_image"/>
+                                                <input id="venue-header-image" class="d-none" type="file" name="header_image" value="{{ $venue->header_image_path }}"/>
                                                 <p>Upload an Image no larger than 10mb in jpeg, png or gif format. </p>
                                             </div>
                                         </div>
@@ -54,7 +55,7 @@
                                 <div class="form-group">
                                     <label for="VenueLocation">Address *</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="VenueLocation" name="address" value="{{ old('address') }}" >
+                                        <input type="text" class="form-control" id="VenueLocation" name="address" value="{{ $venue->address }}" >
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="mdi mdi-map-marker"></i></span>
                                         </div>
@@ -62,15 +63,15 @@
                                 </div>
                                 <div class="form-group border-input">
                                     <label for="VenueName">Town/City *</label>
-                                    <input type="text" class="form-control" placeholder="" id="VenueCity" name="city" value="{{ old('city') }}">
+                                    <input type="text" class="form-control" placeholder="" id="VenueCity" name="city" value="{{ $venue->city }}">
                                 </div>
                                 <div class="form-group border-input">
                                     <label for="VenueName">Postcode *</label>
-                                    <input type="text" class="form-control" placeholder="" id="VenuePostcode" name="postcode" value="{{ old('postcode') }}">
+                                    <input type="text" class="form-control" placeholder="" id="VenuePostcode" name="postcode" value="{{ $venue->postcode }}">
                                 </div>
                                 <div class="form-group border-input">
                                     <label for="VenueName">Phone Number *</label>
-                                    <input type="text" class="form-control" placeholder="" id="VenuePhone" name="phone" value="{{ old('phone') }}">
+                                    <input type="text" class="form-control" placeholder="" id="VenuePhone" name="phone" value="{{ $venue->phone }}">
                                 </div>
                             </div>
                         </div>
@@ -350,13 +351,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="offerQuantity">Table Quantity</label>
-                                            <input type="number" class="form-control" placeholder="00" name="table_qty[]" value="{{ old('offer_qty[]') ?? "00" }}">
+                                            <input type="number" class="form-control" placeholder="00" name="table_qty[]" value="{{ old('offer_price[]') ?? "00" }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="offerPrice">Table Price</label>
-                                            <input type="text" class="form-control" placeholder="£00.00" name="table_price[]" value="{{ old('offer_price[]') ?? "00.00" }}">
+                                            <input type="text" class="form-control" placeholder="£00.00" name="table_price[]" value="{{ old('table_price[]') ?? "00.00" }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -386,7 +387,7 @@
                                 <button id="venue-form-back" type="button" class="btn btn-primary"><i class="mdi mdi-chevron-left"></i> Back</button>
                             </div>
                             <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary">Create an venue <i class="mdi mdi-chevron-right"></i></button>
+                                <button type="submit" class="btn btn-primary">Update an venue <i class="mdi mdi-chevron-right"></i></button>
                             </div>
                         </div>
                     </div>
