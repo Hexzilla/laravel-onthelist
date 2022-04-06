@@ -6,10 +6,10 @@
 
             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-account"></i><span class="nav-text">Users</span></a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('admin.user.vendors') }}">Vendors</a></li>
-                    <li><a href="{{ route('admin.user.djs') }}">Djs</a></li>
-                    <li><a href="{{ route('admin.user.promoters') }}">Promoters</a></li>
-                    <li><a href="{{ route('admin.user.customers') }}">Customers</a></li>
+                    <li><a href="{{ route('admin.users.index', ['role' => 'vendor']) }}">Vendors</a></li>
+                    <li><a href="{{ route('admin.users.index', ['role' => 'dj']) }}">Djs</a></li>
+                    <li><a href="{{ route('admin.users.index', ['role' => 'promoter']) }}">Promoters</a></li>
+                    <li><a href="{{ route('admin.users.index', ['role' => 'customer']) }}">Customers</a></li>
                 </ul>
             </li>
 
