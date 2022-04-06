@@ -3,21 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Venue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class VenueController extends Controller
 {
-    public function index($role)
+    public function index()
     {
-        $users = User::where('role', $role)->get();
-        return view("admin.user.list", ['users' => $users]);
+        $venues = Venue::get();
+        return view('admin.venue.list', ['venues' => $venues]);
     }
 
-    public function featured($role)
+    public function featured()
     {
-        $users = User::where('role', $role)->get();
-        return view("admin.user.list", ['users' => $users]);
+        $venues = Venue::get();
+        return view('admin.venue.list', ['venues' => $venues]);
     }
 }

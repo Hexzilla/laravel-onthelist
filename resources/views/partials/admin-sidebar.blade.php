@@ -20,8 +20,8 @@
 
             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-home-map-marker"></i><span class="nav-text">Venues</span></a>
                 <ul aria-expanded="false">
-                    <li><a href="#">All</a></li>
-                    <li><a href="#">Featured</a></li>
+                    <li><a href="{{ route('admin.venues.index') }}">All</a></li>
+                    <li><a href="{{ route('admin.venues.featured') }}">Featured</a></li>
                 </ul>
             </li>
 

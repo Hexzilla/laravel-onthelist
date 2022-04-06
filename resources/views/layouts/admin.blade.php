@@ -7,10 +7,14 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Dashboard - Admin Panel</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon.ico') }}">
     <link rel="stylesheet" href="{{ asset('vendor/calender/calender.css') }}">
+    <link href="{{ asset('vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('vendor/toastr/css/toastr.min.css') }}">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
+    <!-- Inline styles -->
+    @yield('styles')
 </head>
 
 <body>
@@ -70,9 +74,23 @@
     <script src="{{ asset('vendor/raphael/raphael.min.js') }}"></script>
     <script src="{{ asset('vendor/morris/morris.min.js') }}"></script>
 
-
+    <script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('vendor/chart.js/Chart.bundle.min.js') }}"></script>
+    <script src="{{ asset('vendor/toastr/js/toastr.min.js') }}"></script>
     <script src="{{ asset('js/dashboard/dashboard-1.js') }}"></script>
+    
+    <!-- Inline scripts -->
+    @yield('scripts')
 
+    <script>
+        toastr.options = {
+            "preventDuplicates": true
+        }
+        @if(count($errors) > 0)
+            @foreach($errors->all() as $error)
+                toastr.error("{{ $error }}");
+            @endforeach
+        @endif
+    </script>
 </body>
 </html>
