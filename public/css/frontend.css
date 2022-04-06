@@ -1,0 +1,332 @@
+/*------- Font Family Starts -------*/
+
+@font-face { font-family: "opensans"; src: url("../fonts/OpenSans-Regular.ttf"); }
+@font-face { font-family: "oswald_bold"; src: url("../fonts/Oswald-Bold.ttf"); }
+@font-face { font-family: "oswald_light"; src: url("../fonts/Oswald-Light.ttf"); }
+@font-face { font-family: "oswald_regular"; src: url("../fonts/Oswald-Regular.ttf"); }
+@font-face { font-family: "lovelo-black"; src: url("../fonts/Lovelo_Black.otf"); }
+
+/*------- Font Family Ends -------*/
+
+/*------- Reset CSS Starts -------*/
+
+body { background-color: #161616; overflow-x: hidden;}
+html {
+  scroll-behavior: smooth;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+label,
+address { margin: 0; padding: 0; }
+li { list-style: none; }
+a,
+a:hover,
+a:focus { outline: 0; text-decoration: none; -webkit-transition: 0.5s ease; -moz-transition: 0.5s ease; -ms-transition: 0.5s ease; -o-transition: 0.5s ease; transition: 0.5s ease; }
+
+/*------- Reset CSS Ends -------*/
+
+/*------- Common CSS Starts -------*/
+.section-heading{padding-bottom: 40px;}
+.section-heading > h2 { 
+  /*font-family: 'lovelo-black'; */
+  font-size: 40px; 
+  text-transform: uppercase; 
+  color:#fff; 
+  position: relative;
+  margin-bottom: 30px;
+}
+.section-heading.dark >h2{
+  color: #3e3e3e;
+}
+.section-heading > h2:after, .section-heading > h2:before{
+  position: absolute;
+  content: "";
+  height: 1px;
+  width:80px;
+  background-color: #fff;
+  left:50%;
+  transform: translateX(-50%);  
+}
+.section-heading.dark > h2:after, .section-heading.dark > h2:before{
+
+  background-color:#3e3e3e ;
+  
+}
+
+.section-heading >h2:before{bottom: -10px;}
+.section-heading >h2:after{bottom: -15px;}
+
+.section-heading > p { text-transform: uppercase; color: #fff; }
+.section-heading.dark > p {color:#3e3e3e; }
+.section-heading > h4 { color: #fff; /*font-family: 'lovelo-black'; */ font-size: 18px; text-transform: uppercase; margin-top: 30px; }
+
+/*------- Common CSS Ends -------*/
+
+/*------- Home CSS Starts -------*/
+
+/*------- Mobile Navbar Menu Section Starts -------*/
+
+.bg-navbar-menu-mobile,
+.fixed-sidebar-menu-mobile { display: none; }
+
+/*------- Mobile Navbar Menu Section Ends -------*/
+
+/*------- Desktop Navbar Menu Section Starts -------*/
+
+.bg-navbar-menu-desktop { background-color: #101010; display: block; padding: 14px 15px; position: fixed; top: 0; width: 100%; z-index: 7; }
+.main-logo img{height: 34px; width:auto; object-fit: contain;}
+.menu-listing-desktop > li { margin-right: 40px; position: relative; }
+.menu-listing-desktop > li:last-child { margin-right: 0; }
+.menu-listing-desktop > li > a { 
+  color: #f3f3f3; display: block; /*font-family: "Lovelo_Black", sans-serif;*/ 
+  font-size: 14px; 
+  font-weight: 500; 
+  position: relative; 
+  text-transform: uppercase; 
+  z-index: 1; 
+  
+}
+.menu-listing-desktop > li > a:hover, .menu-listing-desktop > li > a:active {color: #bea467;}
+
+
+/*------- Desktop Navbar Menu Section Ends -------*/
+
+/*------- Banner Section Starts -------*/
+
+.bg-banner { 
+  background: rgb(0,0,0); 
+  background-image:url("../images/bar_image.png"); 
+  background-repeat:no-repeat;
+   background-position: center;
+   background-size: cover;
+  height: 90vh;  
+  background-image: url("../images/bar_image.png"),linear-gradient(70deg, rgba(0,0,0,1) 0%, rgba(38,38,38,1) 100%);
+  overflow: hidden; 
+  position: relative; 
+  z-index: 1; 
+}
+.banner-info { 
+  /*left: 30px; */
+  position: absolute; 
+  top: 60%; 
+  -webkit-transform: translateY(-50%); 
+  -moz-transform: translateY(-50%); 
+  -ms-transform: translateY(-50%); 
+  -o-transform: translateY(-50%); 
+  transform: translateY(-50%); 
+  z-index: 1; 
+  text-transform: uppercase;
+  color: #d1d1d1;
+}
+.banner-info > h3{font-size: 34px;}
+.banner-info span{color: #bea467;}
+.banner-info > h1 { color: #ffffff; /*font-family: "Lovelo_Black";*/ font-size: 60px; margin-bottom: 30px; text-transform: uppercase; }
+.banner-info > h1 > span { display: block; }
+.banner-info li{
+  display: inline-block; 
+  color:#bea467; 
+  padding-right: 20px; 
+  font-size: 18px; 
+  font-weight: bold;
+}
+.banner-img {text-align: right;}
+.banner-img img {
+  padding-top: 60px;
+  height: calc(90vh - 20px);    
+  box-sizing: border-box;
+}
+
+/*------- Banner Section Ends -------*/
+
+/*------- Below Banner Section Starts -------*/
+
+.below-banner{background-color: #1f1f1f; text-align: center;}
+.below-banner li{
+  display: inline-block;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 20px;
+  padding: 10px;
+}
+.below-banner li:first-child{padding-right: 24px;}
+.below-banner img{height: 50px;}
+
+/*------- Below Banner Section Ends -------*/
+
+/*------- whtdo Section Starts -------*/
+
+.bg-whtdo{ background-color: #fff; padding-top: 80px; padding-bottom: 80px; }
+.whtdo-box .img-box img{height: 180px; width: 180px; object-fit: contain;}
+.whtdo-box .img-box{display: flex;align-items: center; justify-content: center; padding: 10px;}
+.whtdo-box h5{text-transform: uppercase; margin: 20px 0; color: #5f5f5f; }
+.whtdo-box p{color: #a3a3a3; }
+
+
+/*------- whtdo Section Ends -------*/
+
+
+
+/*------- Play Your NightOut Section Starts -------*/
+
+.bg-nightOut { background-color: #1f1f1f; padding-top: 80px; padding-bottom: 80px; }
+.nightOut-content{padding-right: 100px; padding-top: 40px;   }
+.nightOut-content .section-heading{display: inline-block;}
+.nightOut-content h4 { color: #fff; text-transform: uppercase; margin-bottom: 30px; }
+.nightOut-content p{ color: #d4d4d4; font-size: 16px; }
+.nightOut-content ul{ color: #d4d4d4; font-size: 15px; padding-top: 20px; }
+.nightOut-content li{ padding-top: 10px; position: relative; padding-left: 30px;  }
+.nightOut-content li:before{ 
+  position: absolute; 
+  content:"\f054"; 
+  font-family: "Font Awesome 5 Pro"; font-weight: 900; 
+  font-size:12px;
+  background-color: #161616;
+  border-radius: 50%;
+  width:24px;
+  height: 24px;
+  color: #d4d4d4;
+  text-align: center;
+  line-height: 24px;
+  left: 0;
+}
+.download-btn{
+  background-color: #9e8959; 
+  color: #fff; 
+  border-radius: 4px; 
+  padding: 10px 14px; 
+  margin-top: 40px;  
+  border:none;
+  font-size: 16px;
+  font-weight: 600;
+  /*font-family: "Lovelo_Black";*/
+}
+
+/*------- Play Your NightOut Section Ends -------*/
+
+/*------- Our Growth Section Starts -------*/
+
+.bg-our-growth { background-color: #fff; padding-top: 80px; padding-bottom: 80px; }
+.trade-strategy-desc > p > span { display: block; }
+.growth-box {
+  border: dashed 1px #bea467;
+  text-align: center;
+  padding: 20px;
+  /*  margin: 0 40px;*/
+  
+}
+
+.growth-box span{
+  color: #3e3e3e; 
+  text-transform: uppercase; 
+  font-size: 16px;
+  display: block;
+}
+.counter-wrap span{
+  display: inline-block;
+  font-family: "oswald_light";
+  font-size:42px;
+  color: #bea467;
+  font-weight: 600;
+}
+
+/*------- Our Growth Section Ends -------*/
+
+/*------- Download Now Section Starts -.------*/
+.section-padding{padding: 100px 15px 140px;}
+.download-now{ 
+  position: relative;
+  background:url("../images/download_now_bg.jpg") no-repeat center; 
+  background-size: cover;  
+  padding: 0;
+}
+.download-now-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.75);
+  z-index: 0;
+}
+.and-list li{display: inline-block; padding: 0 20px;}
+.and-list img{height: 64px;}
+
+/*------- Download Now Section Ends -------*/
+
+/*------- Now Available Section Starts -------*/
+.now-avail-section{ background-color: #202020; padding-top: 80px; padding-bottom: 80px; }
+.now-avail-section p { padding:0 90px ; }
+.avail-img-box{display: block;position: relative;}
+span.avail-content {
+  position: absolute;   
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 24px;
+  background-color: rgba(0,0,0,.02);
+}
+
+/*------- Now Available Section Ends -------*/
+
+/*------- SectionBreak Starts -------*/
+.sectionBreak{background-color: #fff; height: 10px}
+/*------- SectionBreak Ends -------*/
+
+/*------- GetInTouch Section Starts -------*/
+
+.GetInTouch{ background-color: #161616; padding-top: 80px; padding-bottom: 80px; }
+.GetInTouch input, .GetInTouch textarea{
+  margin-bottom: 20px; 
+  border-radius: 0; 
+  text-transform: uppercase; 
+  color: #7f7f7f;
+  font-weight: 600;
+}
+.GetInTouch textarea{height: 100%; resize: none;}
+.GetInTouch input:last-child{margin-bottom: 0;}
+.form-control:focus{border-color:#bea467;box-shadow: 0 0 0 0.2rem rgb(211 158 0 / 25%); }
+.send-btn{
+  width: 100%; 
+  background-color: #fff;  
+  color: #7f7f7f; 
+  font-weight: 600; 
+  text-transform: uppercase; 
+  border-radius: 0;
+  margin:20px 0;
+}
+
+/*------- GetInTouch Section Ends -------*/
+
+/*------- Social Media Section Starts -------*/
+
+.bg-social{background-color: #fff; padding: 30px 15px;}
+.social_list{text-align: center;}
+.social_list > li { display: inline-block; padding: 0 10px;}
+.social_list i{font-size: 40px; color: #bea467;}
+
+/*------- Social Media Section Ends -------*/
+
+/*------- Copyright Section Starts -------*/
+
+.bg-copyright { padding: 20px 15px; background-color: #202020; }
+.copyright-info > p { 
+  color: #fff; 
+  font-size: 14px; 
+  text-transform:uppercase; 
+  font-family: "opensans";
+  font-weight: 500;
+}
+.copyright-info span { color: #bea467;}
+
+/*------- Copyright Section Ends -------*/
+

@@ -1,0 +1,334 @@
+@media only screen and (min-width: 320px) and (max-width: 575px) {
+
+  .section-heading > h2 { font-size: 30px; }
+  .section-heading > h3 { font-size: 28px; }
+
+
+  /*------- Mobile Navbar Menu Section Starts -------*/  
+  .bg-banner { height: 80vh; }
+  .banner-info { left: 0; padding:0 10px 0 20px; top: 0%; width: 100%; }
+  .bg-navbar-menu-mobile {
+    background-color: #000000;
+    display: block;
+    left: 0;
+    padding: 10px 15px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+  }
+  .banner-info li{font-size: 14px;}
+
+  /*------- Hamburger Menu CSS Starts -------*/
+
+  .burger-menu { background-color: transparent; cursor: pointer; height: 40px; position: relative; width: 40px; }
+  .burger-menu span { position: absolute; height: 2px; width: 18px; background-color: #ffffff; top: 50%; left: 50%; -webkit-transform: translate(-50%,-50%); -moz-transform: translate(-50%,-50%); -ms-transform: translate(-50%,-50%); -o-transform: translate(-50%,-50%); transform: translate(-50%,-50%); }
+  .burger-menu span::before,
+  .burger-menu span::after { content: ""; background-color: #ffffff; height: 2px; width: 18px; position: absolute; right: 0; top: 6px; -webkit-transition: 0.5s linear; -moz-transition: 0.5s linear; -ms-transition: 0.5s linear; -o-transition: 0.5s linear; transition: 0.5s linear; }
+  .burger-menu span::before { top: -6px; }
+  .burger-menu.active span { background-color: transparent; }
+  .burger-menu.active span::before { top: 0; -webkit-transform: rotate(-45deg); -moz-transform: rotate(-45deg); -ms-transform: rotate(-45deg); -o-transform: rotate(-45deg); transform: rotate(-45deg); width: 25px; }
+  .burger-menu.active span::after { top: 0; -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); -ms-transform: rotate(45deg); -o-transform: rotate(45deg); transform: rotate(45deg); width: 25px; }
+
+  /*------- Hamburger Menu CSS Ends -------*/
+
+  .header-logo {
+    left: 50%;
+    top: 30px;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+  } 
+
+
+
+  /*------- Mobile Navbar Menu Section Ends -------*/
+
+  /*------- Fixed Sidebar Menu Section Starts -------*/
+
+  .fixed-sidebar-menu-mobile {
+    background-color: #000000;
+    display: block;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    -webkit-transform: translateX(-100%);
+    -moz-transform: translateX(-100%);
+    -ms-transform: translateX(-100%);
+    -o-transform: translateX(-100%);
+    transform: translateX(-100%);
+    -webkit-transition: 0.5s ease;
+    -moz-transition: 0.5s ease;
+    -ms-transition: 0.5s ease;
+    -o-transition: 0.5s ease;
+    transition: 0.5s ease;
+    width: 100%;
+    z-index: 11;
+  }
+  .fixed-sidebar-menu-mobile.active {
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+    transform: translateX(0);
+  }
+  .fixed-sidebar-menu-close {
+    font-size: 18px;
+    padding-right: 15px;
+    padding-top: 15px;
+  }
+  .close-menu-white { color: #ffffff; }
+
+  .menu-listing-mobile {
+    height: calc(100% - 95px);
+    margin: 15px;
+    overflow-y: auto;
+  }
+  .menu-listing-mobile > li > a,
+  .menu-listing-mobile > li > p {
+    color: #f7f7f7;
+    display: block;
+    font-family: Helvetica, arial, sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    padding: 0 30px 15px;
+    position: relative;
+    z-index: 1;
+  }
+  .menu-listing-mobile > li > p,
+  .menu-listing-wsi-mobile > li:last-child > a { color: #a4a4a4; font-size: 14px; }
+  .menu-listing-mobile > li > a::after,
+  .menu-listing-mobile > li > p::after {
+    background-color: #4c4c4c80;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 1px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+  }
+  .menu-listing-mobile > li.active > a,
+  .menu-listing-mobile > li > a:hover { color:#bea467; }
+  .menu-listing-wsi-mobile > li:nth-last-child(2) > a { margin-bottom: 0; }
+  .menu-listing-wsi-mobile > li:last-child > a { font-size: 16px; padding: 0 0 15px; }
+
+  /*------- Fixed Sidebar Menu Section Ends -------*/
+
+
+
+  .banner-info > h1 > span { display: inline; } 
+
+  
+
+  /*------- Desktop Header Section Starts -------*/
+
+  .bg-header-desktop-ip { display: none; }
+
+  /*------- Desktop Header Section Ends -------*/
+  .bg-nightOut img {padding-right: 22%;}
+   .banner-img img {
+    padding-top: 60px;
+    height: calc(90vh - 120px);
+  }
+  .banner-info > h1 {
+    font-size: 22px;
+  }
+  .banner-info > h3 {
+    font-size: 17px;
+    margin-bottom: 10px;
+}
+
+}
+
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+
+  .section-heading > h2 { font-size: 35px; }
+  .section-heading > h3 { font-size: 28px; }
+
+
+  /*------- Mobile Navbar Menu Section Starts -------*/
+
+  .bg-navbar-menu-mobile {
+    background-color: #000000;
+    display: block;
+    left: 0;
+    padding: 10px 15px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+  }
+
+  /*------- Hamburger Menu CSS Starts -------*/
+
+  .burger-menu { background-color: transparent; cursor: pointer; height: 40px; position: relative; width: 40px; }
+  .burger-menu span { position: absolute; height: 2px; width: 25px; background-color: #ffffff; top: 50%; left: 50%; -webkit-transform: translate(-50%,-50%); -moz-transform: translate(-50%,-50%); -ms-transform: translate(-50%,-50%); -o-transform: translate(-50%,-50%); transform: translate(-50%,-50%); }
+  .burger-menu span::before,
+  .burger-menu span::after { content: ""; background-color: #ffffff; height: 2px; width: 25px; position: absolute; right: 0; top: 10px; -webkit-transition: 0.5s linear; -moz-transition: 0.5s linear; -ms-transition: 0.5s linear; -o-transition: 0.5s linear; transition: 0.5s linear; }
+  .burger-menu span::before { top: -10px; }
+  .burger-menu.active span { background-color: transparent; }
+  .burger-menu.active span::before { top: 0; -webkit-transform: rotate(-45deg); -moz-transform: rotate(-45deg); -ms-transform: rotate(-45deg); -o-transform: rotate(-45deg); transform: rotate(-45deg); width: 25px; }
+  .burger-menu.active span::after { top: 0; -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); -ms-transform: rotate(45deg); -o-transform: rotate(45deg); transform: rotate(45deg); width: 25px; }
+
+  /*------- Hamburger Menu CSS Ends -------*/
+
+  .header-logo {
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+  } 
+ 
+
+  /*------- Mobile Navbar Menu Section Ends -------*/
+
+  /*------- Fixed Sidebar Menu Section Starts -------*/
+
+  .fixed-sidebar-menu-mobile {
+    background-color: #000000;
+    display: block;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    -webkit-transform: translateX(-100%);
+    -moz-transform: translateX(-100%);
+    -ms-transform: translateX(-100%);
+    -o-transform: translateX(-100%);
+    transform: translateX(-100%);
+    -webkit-transition: 0.5s ease;
+    -moz-transition: 0.5s ease;
+    -ms-transition: 0.5s ease;
+    -o-transition: 0.5s ease;
+    transition: 0.5s ease;
+    width: 100%;
+    z-index: 11;
+  }
+  .fixed-sidebar-menu-mobile.active {
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+    transform: translateX(0);
+  }
+  .fixed-sidebar-menu-close {
+    font-size: 18px;
+    padding-right: 15px;
+    padding-top: 15px;
+  }
+  .close-menu-white { color: #ffffff; }
+
+  .menu-listing-mobile {
+    height: calc(100% - 95px);
+    margin: 15px;
+    overflow-y: auto;
+  }
+  .menu-listing-mobile > li > a,
+  .menu-listing-mobile > li > p {
+    color: #f7f7f7;
+    display: block;
+   /* font-family: "Lovelo_Black", sans-serif;*/
+    font-size: 22px;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    padding: 0 30px 15px;
+    position: relative;
+    z-index: 1;
+  }
+  .menu-listing-mobile > li > p { color: #a4a4a4; font-size: 14px; }
+  .menu-listing-mobile > li > a::after,
+  .menu-listing-mobile > li > p::after {
+    background-color: #4c4c4c80;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 1px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+  }
+  .menu-listing-mobile > li.active > a,
+  .menu-listing-mobile > li > a:hover { color:#bea467; }
+
+  /*------- Fixed Sidebar Menu Section Ends -------*/  
+
+  /*------- Desktop Header Section Starts -------*/
+
+  .bg-header-desktop-ip { display: none; }
+
+  /*------- Desktop Header Section Ends -------*/
+  .bg-nightOut img {padding-right: 22%;} 
+  .banner-info > h1{font-size: 40px;}
+  .banner-info > h3 {font-size: 28px; margin-bottom: 10px;}
+  .banner-img img {padding-top: 10px;}
+
+}
+@media only screen and (max-width: 575px){
+  .avail-img-box img {width: 100%;}
+  .and-list img{margin-top: 10px; }
+  /*.section-padding{padding:80px 15px;}*/
+  .banner-img img {padding-top: 30px; height: calc(90vh - 120px); }
+ 
+}
+@media only screen and (max-width: 768px){
+  .GetInTouch textarea{margin-top: 20px; margin-bottom: 0;}
+  .GetInTouch textarea{height: unset;}
+  .now-avail-section p {padding: 0; }
+  .avail-img-box {margin-bottom: 20px; }
+  .growth-box{margin-bottom: 20px;  }
+  .nightOut-content{padding-right: 0; }
+  .whtdo-box {padding-bottom: 30px; }
+  .bg-navbar-menu-desktop { display: none; }
+  .banner-info{top:60%;}
+  }
+
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+
+  .section-heading > h2 { font-size: 42px; }
+  .section-heading > h3 { font-size: 33px; }  
+  .banner-info { left: 0; width: 100%; }
+  .banner-info > h1 { font-size: 42px; }
+  .banner-info > h1 > span { display: inline; }  
+  .bg-nightOut img {padding-right: 22%;}
+  .counter-wrap span{font-size: 38px;}  
+}
+
+@media only screen and (max-width: 991px){
+  /*.bg-nightOut,.bg-our-growth,.section-padding, .now-avail-section,.GetInTouch, .bg-whtdo{padding-top: 50px; padding-bottom: 50px; }*/
+  .nightOut-content {padding-right: 15px; text-align: center; padding-top: 0; }
+  .nightOut-content ul{text-align: left;}
+  .below-banner img {height: 40px; }
+
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+
+  .section-heading > h2 { font-size: 40px; }
+  .section-heading > h2 > span { display: inline; }
+  .section-heading > h3 { font-size: 33px; }
+  .banner-info { left: 0; padding: 0 30px; top: 50%; width: 100%; }
+  .bg-banner {  
+    height: 80vh;
+    margin-bottom: -1px;
+  }
+  .banner-info > h1 { font-size: 42px; }
+  .growth-box{padding: 10px; font-size: 32px;}
+  .banner-img img {height: calc(90vh - 80px); }
+  /*------- Desktop Header Section Starts -------*/
+  /*------- Desktop Header Section Ends -------*/  
+  .nightOut-content {padding-right: 36px; }
+}
+
