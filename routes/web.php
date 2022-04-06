@@ -9,6 +9,7 @@ use App\Http\Controllers\Vendor\EventController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDahsboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\VenueController as AdminVenueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,11 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
         
         Route::controller(AdminUserController::class)->name('users.')->prefix('users')->as('users.')->group(function () {
             Route::get('/{role}', 'index')->name('index');
+        });
+
+        Route::controller(AdminVenueController::class)->name('venues.')->prefix('venues')->as('venues.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/featured', 'featured')->name('featured');
         });
     });
 });
