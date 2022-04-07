@@ -12,14 +12,15 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Events</a></li>
-                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Create Event</a></li>
+                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Edit Event</a></li>
                 </ol>
             </div> 
         </div>
         <div class="row mt-4">
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 col-xxl-8">			
-                <form method="POST" action="{{ route('event.store') }}" class="EventForm" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('event.update', $event->id) }}" class="EventForm" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div id="step-1">
                         <div class="row">
                             <div class="col-md-12">
@@ -30,11 +31,11 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="EventName">Event Name *</label>
-                                    <input type="text" class="form-control" id="EventName" name="name" value="{{ old('name') }}" />
+                                    <input type="text" class="form-control" id="EventName" name="name" value="{{ $event->name }}" />
                                 </div>
                                 <div class="form-group">
                                     <label for="EventDetails">Event Details</label>
-                                    <textarea class="form-control" rows="5" id="EventDetails" name="details">{{ old('details') }}</textarea>
+                                    <textarea class="form-control" rows="5" id="EventDetails" name="details">{{ $event->description }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <div class="file-field addEventHeader">
@@ -45,7 +46,7 @@
                                         </div>
                                         <div class="d-flex justify-content-center">
                                             <div class="">
-                                                <input id="header-image" class="d-none" type="file" name="header_image"/>
+                                                <input id="header-image" class="d-none" type="file" name="header_image" value="{{ $event->header_image_path }}"/>
                                                 <p>Upload an Image no larger than 10mb in jpeg, png or gif format. </p>
                                             </div>
                                         </div>
@@ -53,8 +54,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="EventType">Event Type *</label>
-                                    <select class="form-control" id="EventType" name="type">
-                                        <option disabled selected>Select Event Type</option>
+                                    <select class="form-control" id="EventType" name="type" value="{{ $event->type }}">
+                                        <option disabled>Select Event Type</option>
                                         <option value="Type 1">Type 1</option>
                                         <option value="Type 2">Type 2</option>
                                         <option value="Type 3">Type 3</option>
@@ -86,8 +87,8 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="EventVenue">Venue *</label>
-                                    <select class="form-control" id="EventVenue" name="venue_id">
-                                        <option disabled selected>Select Venue</option>
+                                    <select class="form-control" id="EventVenue" name="venue_id" value="{{$event->venue_id}}">
+                                        <option disabled>Select Venue</option>
                                         @foreach($venues as $venue)
                                         <option value="{{$venue->id}}" data-venue-location="{{$venue->location}}">{{$venue->name}}</option>
                                         @endforeach
@@ -194,13 +195,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="ticketQuantity">Ticket Quantity</label>
-                                            <input type="number" class="form-control" placeholder="00" name="ticket_qty[]" value="{{ old('ticket_qty[]') ?? '00' }}">
+                                            <input type="number" class="form-control" placeholder="00" name="ticket_qty[]">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="ticketPrice">Ticket Price</label>
-                                            <input type="number" class="form-control" placeholder="£00.00" name="ticket_price[]" value="{{ old('ticket_price[]') ?? '00.00' }}">
+                                            <input type="number" class="form-control" placeholder="£00.00" name="ticket_price[]">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -246,13 +247,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="tableQuantity">Table Quantity</label>
-                                            <input type="number" class="form-control" placeholder="00" name="table_qty[]" value="{{ old('table_qty[]') ?? '00' }}">
+                                            <input type="number" class="form-control" placeholder="00" name="table_qty[]">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="tablePrice">Table Price</label>
-                                            <input type="text" class="form-control" placeholder="£00.00" name="table_price[]" value="{{ old('table_price[]') ?? '00.00' }}">
+                                            <input type="text" class="form-control" placeholder="£00.00" name="table_price[]">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -298,13 +299,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="guestlistQuantity">Guestlist Quantity</label>
-                                            <input type="number" class="form-control" placeholder="00" name="guestlist_qty[]" value="{{ old('guestlist_qty[]') ?? '00' }}">
+                                            <input type="number" class="form-control" placeholder="00" name="guestlist_qty[]">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="guestlistPrice">Guestlist Price</label>
-                                            <input type="text" class="form-control" placeholder="£00.00" name="guestlist_price[]" value="{{ old('guestlist_qty[]') ?? '00.00' }}">
+                                            <input type="text" class="form-control" placeholder="£00.00" name="guestlist_price[]">
                                         </div>
                                     </div>
                                     <div class="col-md-6">

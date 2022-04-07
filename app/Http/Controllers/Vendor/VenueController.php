@@ -157,4 +157,172 @@ class VenueController extends Controller
             }
         }
     }
+
+    public function edit($id)
+    {
+        $user_id = Auth::user()->id;
+        $venue = Venue::where('user_id', $user_id)->where('id', $id)->get();
+        return view('vendor.venue.edit', ['venue' => $venue[0]]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user_id = Auth::user()->id;
+        $request->validate([
+            'name' => 'required',
+            'header_image' => 'required|mimes:jpeg,png,jpg,gif',
+            'address' => 'required',
+            'city' => 'required',
+            'postcode' => 'required',
+            'phone' => 'required',
+        ]);
+
+        $venues = Venue::where('user_id', $user_id)->where('id', $id)->get();
+        $venue = $venues[0];
+        $venue->user_id = $user_id;
+        $venue->name = $request->name;
+        $venue->type = "Type 1";
+        if(!is_null($request->details))
+            $venue->description = $request->details;
+        $venue->header_image_path = upload_file($request->file('header_image'), 'venue');
+        $venue->address = $request->address;
+        $venue->city = $request->city;
+        $venue->postcode = $request->postcode;
+        $venue->phone = $request->phone;
+        if(!is_null($request->facilities))
+            $venue->facilities = $request->facilities;
+        if(!is_null($request->music_policy))
+            $venue->music_policy = $request->music_policy;
+        if(!is_null($request->dress_code))
+            $venue->dress_code = $request->dress_code;
+        if(!is_null($request->perks))
+            $venue->perks = $request->perks;
+        $venue->save();
+
+        $this->updateTimetable($venue, $request);
+        $this->updateMedia($venue, $request);
+        $this->updateOffer($venue, $request);
+        $this->updateTable($venue, $request);
+
+        return redirect()->route('venue.index');
+    }
+
+    public function updateTimetable($venue, $request)
+    {
+        $timetable = VenueTimetable::find($venue->id);
+        $timetable->mon_open = $request->mon_open;
+        $timetable->mon_close = $request->mon_close;
+        $timetable->tue_open = $request->tue_open;
+        $timetable->tue_close = $request->tue_close;
+        $timetable->wed_open = $request->wed_open;
+        $timetable->wed_close = $request->wed_close;
+        $timetable->thu_open = $request->thu_open;
+        $timetable->thu_close = $request->thu_close;
+        $timetable->fri_open = $request->fri_open;
+        $timetable->fri_close = $request->fri_close;
+        $timetable->sat_open = $request->sat_open;
+        $timetable->sat_close = $request->sat_close;
+        $timetable->sun_open = $request->sun_open;
+        $timetable->sun_close = $request->sun_close;
+        $timetable->save();
+    }
+
+    public function updateMedia($venue, $request)
+    {
+        if($request->hasFile('gallery_image'))
+        {
+            $path = upload_file($request->file('gallery_image'), 'venue');
+            Log::info($path);
+            $media = VenueMedia::find($venue->id);
+            if ($media) {
+                $media->type = 'image';
+                $media->path = $path;
+                $media->save();
+            } else {
+                VenueMedia::create([
+                    'venue_id' => $venue->id,
+                    'type' => 'image',
+                    'path' => $path
+                ]);
+            }
+        }
+
+        // update media record if the video exists
+        if($request->hasFile('gallery_video'))
+        {
+            $path = upload_file($request->file('gallery_video'), 'venue');
+            $media = VenueMedia::find($venue->id);
+            if ($media) {
+                $media->type = 'video';
+                $media->path = $path;
+                $media->save();
+            } else {
+                VenueMedia::create([
+                    'venue_id' => $venue->id,
+                    'type' => 'video',
+                    'path' => $path
+                ]);
+            }
+        }
+
+        if(!is_null($request->video_link))
+        {
+            $media = VenueMedia::find($venue->id);
+            if ($media) {
+                $media->type = 'link';
+                $media->path = $request->video_link;
+                $media->save();
+            } else {
+                VenueMedia::create([
+                    'venue_id' => $venue->id,
+                    'type' => 'link',
+                    'path' => $request->video_link
+                ]);
+            }
+        }
+    }
+
+    public function updateOffer($venue, $request)
+    {
+        if($request->has('offer_type'))
+        {
+            $offerSize = sizeof($request->get('offer_type'));
+            for($i = 0; $i < $offerSize; $i++){
+                $offers = VenueOffer::where('venue_id', $venue->id)->get();
+                $offer = $offers[0];
+                $offer->type = $request->offer_type[$i];
+                $offer->qty = $request->offer_qty[$i];
+                $offer->price = $request->offer_price[$i];
+                $offer->approval = $request->offer_approval[$i];
+                $offer->description = $request->offer_description[$i];
+                $offer->save();
+            }
+        }
+    }
+
+    public function updateTable($venue, $request)
+    {
+        if($request->has('table_type'))
+        {
+            $tableSize = sizeof($request->get('table_type'));
+            for($i = 0; $i < $tableSize; $i++){
+                $tables = VenueTable::where('venue_id', $venue->id)->get();
+                $table = $tables[0];
+                $table->type = $request->table_type[$i];
+                $table->qty = $request->table_qty[$i];
+                $table->price = $request->table_price[$i];
+                $table->approval = $request->table_booking_approval[$i];
+                $table->description = $request->table_description[$i];
+                $table->save();
+            }
+        }
+    }
+
+    public function destroy($id)
+    {
+        $user_id = Auth::user()->id;
+        $venues = Venue::where('user_id', $user_id)->where('id', $id)->get();
+        $venues[0]->delete();
+        return redirect()->route('venue.index')->with('Success');
+    }
 }

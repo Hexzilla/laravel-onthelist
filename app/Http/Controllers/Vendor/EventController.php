@@ -20,7 +20,7 @@ class EventController extends Controller
     {
         $user_id = Auth::user()->id;
         $events = Event::where('user_id', $user_id)->get();
-        return view('vendor.venue.list', ['events' => $events]);
+        return view('vendor.event.list', ['events' => $events]);
     }
 
     public function create()
@@ -31,13 +31,14 @@ class EventController extends Controller
         return view('vendor.event.create', ['venues' => $venues, 'djs' => $djs]);
     }
 
+    
     public function store(Request $request)
     {
         $user_id = Auth::user()->id;
         $request->validate([
             'name' => 'required',
             'header_image' => 'required|mimes:jpeg,png,jpg,gif',
-            'type' => 'required|numeric',
+            'type' => 'required',
             'venue_id' => 'required|numeric',
             'djs' => 'required'
         ]);
@@ -45,13 +46,14 @@ class EventController extends Controller
         $event = new event();
         $event->user_id = $user_id;
         $event->name = $request->name;
-        $event->type = "Type 1";
+        $event->type = $request->type;
         if(!is_null($request->details))
             $event->description = $request->details;
         $event->header_image_path = upload_file($request->file('header_image'), 'event');
         $event->start = date('Y-m-d H:i', strtotime($request->start_date . ' ' . $request->start_time));
         $event->end = date('Y-m-d H:i', strtotime($request->end_date . ' ' . $request->end_time));
         $event->venue_id = $request->venue_id;
+        $event->is_weekly_event = 0;
         if($request->is_weekly_event == 'on')
             $event->is_weekly_event = 1;
         $event->save();
@@ -62,8 +64,10 @@ class EventController extends Controller
         $this->createGuestlist($event, $request);
         $this->createDjs($event->id, $request->djs);
 
-        return redirect()->route('venue.index');
+        return redirect()->route('event.index');
     }
+
+    
 
     public function createMedia($event, $request)
     {
@@ -145,7 +149,7 @@ class EventController extends Controller
                     'type' => $request->guestlist_type[$i],
                     'qty' => $request->guestlist_qty[$i],
                     'price' => $request->guestlist_price[$i],
-                    'approval' => $request->guestlist_approval[$i],
+                    'approval' => $request->guestlist_booking_approval[$i],
                     'description' => $request->guestlist_description[$i]
                 ]);
             }
@@ -160,5 +164,155 @@ class EventController extends Controller
                 'user_id' => $dj
             ]);
         }
+    }
+
+    public function edit($id)
+    {
+        $user_id = Auth::user()->id;
+        $djs = User::where('role', 'dj')->get();
+        $venues = Venue::where('user_id', $user_id)->get();
+        $events = Event::where('user_id', $user_id)->where('id', $id)->get();
+        $event = $events[0];
+        return view('vendor.event.edit', ['event' => $event, 'venues' => $venues, 'djs' => $djs]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user_id = Auth::user()->id;
+        $request->validate([
+            'name' => 'required',
+            'header_image' => 'required|mimes:jpeg,png,jpg,gif',
+            'type' => 'required',
+            'venue_id' => 'required|numeric',
+            'djs' => 'required'
+        ]);
+
+        $events = Event::where('user_id', $user_id)->where('id', $id)->get();
+        $event = $events[0];
+        $event->name = $request->name;
+        $event->type = $request->type;
+        if(!is_null($request->details))
+            $event->description = $request->details;
+        $event->header_image_path = upload_file($request->file('header_image'), 'event');
+        $event->start = date('Y-m-d H:i', strtotime($request->start_date . ' ' . $request->start_time));
+        $event->end = date('Y-m-d H:i', strtotime($request->end_date . ' ' . $request->end_time));
+        $event->venue_id = $request->venue_id;
+        if($request->is_weekly_event == 'on')
+            $event->is_weekly_event = 1;
+        $event->save();
+
+        $this->updateMedia($event, $request);
+        $this->updateTicket($event, $request);
+        $this->updateTable($event, $request);
+        $this->updateGuestlist($event, $request);
+        $this->updateDjs($event->id, $request->djs);
+
+        return redirect()->route('event.index');
+    }
+
+    public function updateMedia($event, $request)
+    {
+        if($request->hasFile('gallery_image'))
+        {
+            $path = upload_file($request->file('gallery_image'), 'event');
+            $event = EventMedia::where('event_id', $event_id)->get();
+            EventMedia::create([
+                'event_id' => $event->id,
+                'type' => 'image',
+                'path' => $path
+            ]);
+        }
+
+        // create media record if the video exists
+        if($request->hasFile('gallery_video'))
+        {
+            $path = upload_file($request->file('gallery_video'), 'event');
+            EventMedia::create([
+                'event_id' => $event->id,
+                'type' => 'video',
+                'path' => $path
+            ]);
+        }
+
+        if(!is_null($request->video_link))
+        {
+            EventMedia::create([
+                'event_id' => $event->id,
+                'type' => 'link',
+                'path' => $request->video_link
+            ]);
+        }
+    }
+
+    public function updateTicket($event, $request)
+    {
+        if($request->has('ticket_type'))
+        {
+            $ticketSize = sizeof($request->get('ticket_type'));
+            for($i = 0; $i < $ticketSize; $i++){
+                EventTicket::update([
+                    'event_id' => $event->id,
+                    'type' => $request->ticket_type[$i],
+                    'qty' => $request->ticket_qty[$i],
+                    'price' => $request->ticket_price[$i],
+                    'approval' => $request->ticket_approval[$i],
+                    'description' => $request->ticket_description[$i]
+                ]);
+            }
+        }
+    }
+
+    public function updateTable($event, $request)
+    {
+        if($request->has('table_type'))
+        {
+            $tableSize = sizeof($request->get('table_type'));
+            for($i = 0; $i < $tableSize; $i++){
+                EventTable::update([
+                    'event_id' => $event->id,
+                    'type' => $request->table_type[$i],
+                    'qty' => $request->table_qty[$i],
+                    'price' => $request->table_price[$i],
+                    'approval' => $request->table_booking_approval[$i],
+                    'description' => $request->table_description[$i]
+                ]);
+            }
+        }
+    }
+
+    public function updateGuestlist($event, $request)
+    {
+        if($request->has('guestlist_type'))
+        {
+            $guestlistSize = sizeof($request->get('guestlist_type'));
+            for($i = 0; $i < $guestlistSize; $i++){
+                EventGuestlist::update([
+                    'event_id' => $event->id,
+                    'type' => $request->guestlist_type[$i],
+                    'qty' => $request->guestlist_qty[$i],
+                    'price' => $request->guestlist_price[$i],
+                    'approval' => $request->guestlist_approval[$i],
+                    'description' => $request->guestlist_description[$i]
+                ]);
+            }
+        }
+    }
+
+    public function updateDjs($event_id, $djs)
+    {
+        foreach($djs as $dj){
+            EventDj::update([
+                'event_id' => $event_id,
+                'user_id' => $dj
+            ]);
+        }
+    }
+
+    public function destroy($id)
+    {
+        $user_id = Auth::user()->id;
+        $event = Event::where('user_id', $user_id)->where('id', $id)->get();
+        $event[0] -> delete();
+        return redirect()->route('event.index');
     }
 }
