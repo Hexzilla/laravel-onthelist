@@ -22,6 +22,7 @@
                                         <th>Name</th>
                                         <th>Type</th>
                                         <th>Venue</th>
+                                        <th>DJ's</th>
                                         <th>Details</th>
                                         <th>Status</th>
                                         <th>Actions</th>

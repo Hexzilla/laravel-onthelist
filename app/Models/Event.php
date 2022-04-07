@@ -46,6 +46,11 @@ class Event extends Model
         return $this->hasMany(EventMedia::class);
     }
 
+    public function djs()
+    {
+        return $this->hasMany(EventDj::class);
+    }
+
     public function isApproved()
     {
         return $this->status == "approved" ? true : false;

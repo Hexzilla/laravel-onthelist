@@ -229,12 +229,13 @@ class VenueController extends Controller
 
     public function updateMedia($venue, $request)
     {
+        $medias = VenueMedia::where('venue_id', $venue->id)->get();
+        $size = count($media);
         if($request->hasFile('gallery_image'))
         {
             $path = upload_file($request->file('gallery_image'), 'venue');
-            Log::info($path);
-            $media = VenueMedia::find($venue->id);
-            if ($media) {
+            if ($size > 0) {
+                $media = $medias[0];
                 $media->type = 'image';
                 $media->path = $path;
                 $media->save();
@@ -251,8 +252,8 @@ class VenueController extends Controller
         if($request->hasFile('gallery_video'))
         {
             $path = upload_file($request->file('gallery_video'), 'venue');
-            $media = VenueMedia::find($venue->id);
-            if ($media) {
+            if ($size > 0) {
+                $media = $medias[0];
                 $media->type = 'video';
                 $media->path = $path;
                 $media->save();
@@ -267,8 +268,9 @@ class VenueController extends Controller
 
         if(!is_null($request->video_link))
         {
-            $media = VenueMedia::find($venue->id);
-            if ($media) {
+            $medias = VenueMedia::where('venue_id', $venue->id)->get();
+            if ($size > 0) {
+                $media = $medias[0];
                 $media->type = 'link';
                 $media->path = $request->video_link;
                 $media->save();
@@ -287,15 +289,27 @@ class VenueController extends Controller
         if($request->has('offer_type'))
         {
             $offerSize = sizeof($request->get('offer_type'));
+            $offers = VenueOffer::where('venue_id', $venue->id)->get();
+            $size = count($offers);
             for($i = 0; $i < $offerSize; $i++){
-                $offers = VenueOffer::where('venue_id', $venue->id)->get();
-                $offer = $offers[0];
-                $offer->type = $request->offer_type[$i];
-                $offer->qty = $request->offer_qty[$i];
-                $offer->price = $request->offer_price[$i];
-                $offer->approval = $request->offer_approval[$i];
-                $offer->description = $request->offer_description[$i];
-                $offer->save();
+                if ($size > $i) {
+                    $offer = $offers[$i];
+                    $offer->type = $request->offer_type[$i];
+                    $offer->qty = $request->offer_qty[$i];
+                    $offer->price = $request->offer_price[$i];
+                    $offer->approval = $request->offer_approval[$i];
+                    $offer->description = $request->offer_description[$i];
+                    $offer->save();
+                } else {
+                    VenueOffer::create([
+                        'venue_id' => $venue->id,
+                        'type' => $request->offer_type[$i],
+                        'qty' => $request->offer_qty[$i],
+                        'price' => $request->offer_price[$i],
+                        'approval' => $request->offer_approval[$i],
+                        'description' => $request->offer_description[$i]
+                    ]);
+                } 
             }
         }
     }
@@ -305,15 +319,27 @@ class VenueController extends Controller
         if($request->has('table_type'))
         {
             $tableSize = sizeof($request->get('table_type'));
+            $tables = VenueTable::where('venue_id', $venue->id)->get();
+            $size = count($tables);
             for($i = 0; $i < $tableSize; $i++){
-                $tables = VenueTable::where('venue_id', $venue->id)->get();
-                $table = $tables[0];
-                $table->type = $request->table_type[$i];
-                $table->qty = $request->table_qty[$i];
-                $table->price = $request->table_price[$i];
-                $table->approval = $request->table_booking_approval[$i];
-                $table->description = $request->table_description[$i];
-                $table->save();
+                if ($size > $i) {
+                    $table = $tables[$i];
+                    $table->type = $request->table_type[$i];
+                    $table->qty = $request->table_qty[$i];
+                    $table->price = $request->table_price[$i];
+                    $table->approval = $request->table_booking_approval[$i];
+                    $table->description = $request->table_description[$i];
+                    $table->save();
+                } else {
+                    VenueTable::create([
+                        'venue_id' => $venue->id,
+                        'type' => $request->table_type[$i],
+                        'qty' => $request->table_qty[$i],
+                        'price' => $request->table_price[$i],
+                        'approval' => $request->table_booking_approval[$i],
+                        'description' => $request->table_description[$i]
+                    ]);
+                }  
             }
         }
     }

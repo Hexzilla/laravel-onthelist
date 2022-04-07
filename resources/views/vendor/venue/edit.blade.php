@@ -90,11 +90,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="monday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('mon_open') ?? "09:00" }}" step="60" id="monday-opening-time" name="mon_open" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->mon_open }}" step="60" id="monday-opening-time" name="mon_open" class="form-control" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="monday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('mon_close') ?? "20:00" }}" step="60" id="monday-closing-time" name="mon_close" value="{{ old('monday_closing_time') }}" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->mon_close }}" step="60" id="monday-closing-time" name="mon_close" value="{{ old('monday_closing_time') }}" class="form-control" />
                                 </div>
                             </div>
                             <div class="row">
@@ -106,11 +106,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="tuesday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('tue_open') ?? "09:00" }}" step="60" id="tuesday-opening-time" name="tue_open" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->tue_open }}" step="60" id="tuesday-opening-time" name="tue_open" class="form-control" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="tuesday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('tue_close') ?? "20:00" }}" step="60" id="tuesday-closing-time" name="tue_close" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->tue_close }}" step="60" id="tuesday-closing-time" name="tue_close" class="form-control" />
                                 </div>
                             </div>
                             <div class="row">
@@ -122,11 +122,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="wednesday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('wed_open') ?? "09:00" }}" step="60" id="wednesday-opening-time" name="wed_open" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->wed_open }}" step="60" id="wednesday-opening-time" name="wed_open" class="form-control" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="wednesday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('wed_close') ?? "20:00" }}" step="60" id="wednesday-closing-time" name="wed_close" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->wed_close }}" step="60" id="wednesday-closing-time" name="wed_close" class="form-control" />
                                 </div>
                             </div>
                             <div class="row">
@@ -138,11 +138,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="thursday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('thu_open') ?? "09:00" }}" step="60" id="thursday-opening-time" name="thu_open" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->thu_open }}" step="60" id="thursday-opening-time" name="thu_open" class="form-control" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="thursday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('thu_close') ?? "20:00" }}" step="60" id="thursday-closing-time" name="thu_close" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->thu_close }}" step="60" id="thursday-closing-time" name="thu_close" class="form-control" />
                                 </div>
                             </div>
                             <div class="row">
@@ -154,11 +154,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="friday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('fri_open') ?? "09:00" }}" step="60" id="friday-opening-time" name="fri_open" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->fri_open }}" step="60" id="friday-opening-time" name="fri_open" class="form-control" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="friday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('fri_close') ?? "20:00" }}" step="60" id="friday-closing-time" name="fri_close" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->fri_close }}" step="60" id="friday-closing-time" name="fri_close" class="form-control" />
                                 </div>
                             </div>
                             <div class="row">
@@ -170,11 +170,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="saturday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('sat_open') ?? "09:00" }}" step="60" id="saturday-opening-time" name="sat_open" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->sat_open }}" step="60" id="saturday-opening-time" name="sat_open" class="form-control" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="saturday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('sat_close') ?? "20:00" }}" step="60" id="saturday-closing-time" name="sat_close" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->sat_close }}" step="60" id="saturday-closing-time" name="sat_close" class="form-control" />
                                 </div>
                             </div>
                             <div class="row">
@@ -186,11 +186,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="sunday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('sun_open') ?? "09:00" }}" step="60" id="sunday-opening-time" name="sun_open" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->sun_open }}" step="60" id="sunday-opening-time" name="sun_open" class="form-control" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="sunday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('sun_close') ?? "20:00" }}" step="60" id="sunday-closing-time" name="sun_close" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->sun_close }}" step="60" id="sunday-closing-time" name="sun_close" class="form-control" />
                                 </div>
                             </div>
                         </div>
@@ -237,19 +237,19 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="facitliies">Facilities</label>
-                                        <input type="text" class="form-control" placeholder="" name="facilities" value="{{ old('facilities') }}">
+                                        <input type="text" class="form-control" placeholder="" name="facilities" value="{{ $venue->facilities }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="MusicPolicy">Music Policy</label>
-                                        <input type="text" class="form-control" placeholder="" name="music_policy" value="{{ old('music_policy') }}">
+                                        <input type="text" class="form-control" placeholder="" name="music_policy" value="{{ $venue->music_policy }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="DressCode">Dress Code</label>
-                                        <input type="text" class="form-control" placeholder="" name="dress_code" value="{{ old('dress_code') }}">
+                                        <input type="text" class="form-control" placeholder="" name="dress_code" value="{{ $venue->dress_code }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -261,7 +261,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Perks">Perks</label>
-                                        <input type="text" class="form-control" placeholder="" name="perks" value="{{ old('perks') }}">
+                                        <input type="text" class="form-control" placeholder="" name="perks" value="{{ $venue->perks }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6 my-5">
@@ -284,12 +284,13 @@
                             </div>
                         </div>
                         <div class="row">
+                            @foreach($venue->offers as $offer)
                             <div id="venue-offer-list" class="col-md-12">
                                 <div id="venue-offer-default" class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="offerType">Offer Type</label>
-                                            <select class="form-control" name="offer_type[]">
+                                            <select class="form-control" name="offer_type[]" value="{{ $offer->type }}">
                                                 <option value="Discount">Discount</option>
                                                 <option value="Type 2">Type 2</option>
                                                 <option value="Type 3">Type 3</option>
@@ -299,19 +300,19 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="offerQuantity">Offer Quantity</label>
-                                            <input type="number" class="form-control" placeholder="00" name="offer_qty[]" value="{{ old('offer_qty[]') ?? "00" }}">
+                                            <input type="number" class="form-control" placeholder="00" name="offer_qty[]" value="{{ $offer->qty }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="offerPrice">Offer Price</label>
-                                            <input type="number" class="form-control" placeholder="£00.00" name="offer_price[]" value="{{ old('offer_price[]') ?? "00.00" }}">
+                                            <input type="number" class="form-control" placeholder="£00.00" name="offer_price[]" value="{{ $offer->price }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="offerApproval">Offer Approval</label>
-                                            <select class="form-control" name="offer_approval[]">
+                                            <select class="form-control" name="offer_approval[]" value="{{ $offer->approval }}">
                                                 <option value="Yes">Yes</option>
                                                 <option value="No">No</option>
                                             </select>
@@ -320,12 +321,13 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="message">Description</label>
-                                            <textarea class="form-control" rows="3" name="offer_description[]" placeholder=""></textarea>
+                                            <textarea class="form-control" rows="3" name="offer_description[]" placeholder="">{{ $offer->description }}</textarea>
                                         </div>
                                     </div>
                                     <hr class="venue-offer-separator mb-3"/>
                                 </div>
                             </div>
+                            @endforeach
                             <div class="col-md-12">
                                 <a id="add-venue-offer" class="add-another-link"><i class="mdi mdi-plus"></i> Add another offer</a>
                             </div>
@@ -336,12 +338,13 @@
                             </div>
                         </div>
                         <div class="row">
+                            @foreach($venue->tables as $table)
                             <div id="venue-table-list" class="col-md-12">
                                 <div id="venue-table-default" class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="offerType">Table Type</label>
-                                            <select class="form-control" name="table_type[]">
+                                            <select class="form-control" name="table_type[]" value="{{ $table->type }}">
                                                 <option value="Type 1">Type 1</option>
                                                 <option value="Type 2">Type 2</option>
                                                 <option value="Type 3">Type 3</option>
@@ -351,19 +354,19 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="offerQuantity">Table Quantity</label>
-                                            <input type="number" class="form-control" placeholder="00" name="table_qty[]" value="{{ old('offer_price[]') ?? "00" }}">
+                                            <input type="number" class="form-control" placeholder="00" name="table_qty[]" value="{{ $table->qty }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="offerPrice">Table Price</label>
-                                            <input type="text" class="form-control" placeholder="£00.00" name="table_price[]" value="{{ old('table_price[]') ?? "00.00" }}">
+                                            <input type="text" class="form-control" placeholder="£00.00" name="table_price[]" value="{{ $table->price }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="offerApproval">Booking Approval</label>
-                                            <select class="form-control" name="table_booking_approval[]">
+                                            <select class="form-control" name="table_booking_approval[]" value="{{ $table->approval }}">
                                                 <option value="1">Yes</option>
                                                 <option value="0">No</option>
                                             </select>
@@ -372,12 +375,13 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="message">Description</label>
-                                            <textarea class="form-control" rows="3" placeholder="" name="table_description[]"></textarea>
+                                            <textarea class="form-control" rows="3" placeholder="" name="table_description[]">{{ $table->description }}</textarea>
                                         </div>
                                     </div>
                                     <hr class="venue-table-separator mb-3"/>
                                 </div>
                             </div>
+                            @endforeach
                             <div class="col-md-12">
                                 <a id="add-venue-table" class="add-another-link"><i class="mdi mdi-plus"></i> Add another table</a>
                             </div>

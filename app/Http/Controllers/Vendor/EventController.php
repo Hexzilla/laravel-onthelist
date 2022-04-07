@@ -212,35 +212,58 @@ class EventController extends Controller
 
     public function updateMedia($event, $request)
     {
+        $medias = EventMedia::where('event_id', $event->id)->get();
+        $size = count($medias);
+        
         if($request->hasFile('gallery_image'))
         {
             $path = upload_file($request->file('gallery_image'), 'event');
-            $event = EventMedia::where('event_id', $event_id)->get();
-            EventMedia::create([
-                'event_id' => $event->id,
-                'type' => 'image',
-                'path' => $path
-            ]);
+            if ($size > 0) {
+                $media = $medias[0];
+                $media->type = 'image';
+                $media->path = $path;
+                $media->save();
+            } else {
+                EventMedia::create([
+                    'event_id' => $event->id,
+                    'type' => 'image',
+                    'path' => $path
+                ]);
+            }
         }
 
-        // create media record if the video exists
+        // update media record if the video exists
         if($request->hasFile('gallery_video'))
         {
-            $path = upload_file($request->file('gallery_video'), 'event');
-            EventMedia::create([
-                'event_id' => $event->id,
-                'type' => 'video',
-                'path' => $path
-            ]);
+            $path = upload_file($request->file('gallery_video'), 'event');            
+            if ($size > 0) {
+                $media = $medias[0];
+                $media->type = 'video';
+                $media->path = $path;
+                $media->save();
+            } else {
+                VenueMedia::create([
+                    'event_id' => $event->id,
+                    'type' => 'video',
+                    'path' => $path
+                ]);
+            }
         }
 
         if(!is_null($request->video_link))
         {
-            EventMedia::create([
-                'event_id' => $event->id,
-                'type' => 'link',
-                'path' => $request->video_link
-            ]);
+            if ($size > 0) {
+                $media = $medias[0];
+                $media->type = 'link';
+                $media->path = $request->video_link;
+                $media->save();
+            } else {
+                EventMedia::create([
+                    'event_id' => $event->id,
+                    'type' => 'link',
+                    'path' => $request->video_link
+                ]);
+            }
         }
     }
 
@@ -249,15 +272,26 @@ class EventController extends Controller
         if($request->has('ticket_type'))
         {
             $ticketSize = sizeof($request->get('ticket_type'));
+            $tickets = EventTicket::where('event_id', $event->id)->get();
+            $size = count($tickets);
             for($i = 0; $i < $ticketSize; $i++){
-                EventTicket::update([
-                    'event_id' => $event->id,
-                    'type' => $request->ticket_type[$i],
-                    'qty' => $request->ticket_qty[$i],
-                    'price' => $request->ticket_price[$i],
-                    'approval' => $request->ticket_approval[$i],
-                    'description' => $request->ticket_description[$i]
-                ]);
+                if ($size > $i) {
+                    $ticket = $tickets[$i];
+                    $ticket->type = $request->ticket_type[$i];
+                    $ticket->qty = $request->ticket_qty[$i];
+                    $ticket->price = $request->ticket_price[$i];
+                    $ticket->approval = $request->ticket_approval[$i];
+                    $ticket->description = $request->ticket_description[$i];
+                } else {
+                    EventTicket::create([
+                        'event_id' => $event->id,
+                        'type' => $request->ticket_type[$i],
+                        'qty' => $request->ticket_qty[$i],
+                        'price' => $request->ticket_price[$i],
+                        'approval' => $request->ticket_approval[$i],
+                        'description' => $request->ticket_description[$i]
+                    ]);
+                }       
             }
         }
     }
@@ -267,15 +301,27 @@ class EventController extends Controller
         if($request->has('table_type'))
         {
             $tableSize = sizeof($request->get('table_type'));
+            $tables = EventTable::where('event_id', $event->id)->get();
+            $size = count($tables);
             for($i = 0; $i < $tableSize; $i++){
-                EventTable::update([
-                    'event_id' => $event->id,
-                    'type' => $request->table_type[$i],
-                    'qty' => $request->table_qty[$i],
-                    'price' => $request->table_price[$i],
-                    'approval' => $request->table_booking_approval[$i],
-                    'description' => $request->table_description[$i]
-                ]);
+                if ($size > $i) {
+                    $table = $tables[$i];
+                    $table->type = $request->table_type[$i];
+                    $table->qty = $request->table_qty[$i];
+                    $table->price = $request->table_price[$i];
+                    $table->approval = $request->table_booking_approval[$i];
+                    $table->description = $request->table_description[$i];
+                    $table->save();
+                } else {
+                    EventTable::create([
+                        'event_id' => $event->id,
+                        'type' => $request->table_type[$i],
+                        'qty' => $request->table_qty[$i],
+                        'price' => $request->table_price[$i],
+                        'approval' => $request->table_booking_approval[$i],
+                        'description' => $request->table_description[$i]
+                    ]);
+                }  
             }
         }
     }
@@ -285,26 +331,45 @@ class EventController extends Controller
         if($request->has('guestlist_type'))
         {
             $guestlistSize = sizeof($request->get('guestlist_type'));
+            $guestlists = EventGuestlist::where('event_id', $event->id)->get();
+            $size = count($guestlists);
             for($i = 0; $i < $guestlistSize; $i++){
-                EventGuestlist::update([
-                    'event_id' => $event->id,
-                    'type' => $request->guestlist_type[$i],
-                    'qty' => $request->guestlist_qty[$i],
-                    'price' => $request->guestlist_price[$i],
-                    'approval' => $request->guestlist_approval[$i],
-                    'description' => $request->guestlist_description[$i]
-                ]);
+                if ($size > $i) {
+                    $guestlist = $guestlists[$i];
+                    $guestlist->type = $request->guestlist_type[$i];
+                    $guestlist->qty = $request->guestlist_qty[$i];
+                    $guestlist->price = $request->guestlist_price[$i];
+                    $guestlist->approval = $request->guestlist_booking_approval[$i];
+                    $guestlist->description = $request->guestlist_description[$i];
+                    $guestlist->save();
+                } else {
+                    EventGuestlist::create([
+                        'event_id' => $event->id,
+                        'type' => $request->guestlist_type[$i],
+                        'qty' => $request->guestlist_qty[$i],
+                        'price' => $request->guestlist_price[$i],
+                        'approval' => $request->guestlist_booking_approval[$i],
+                        'description' => $request->guestlist_description[$i]
+                    ]);
+                }  
             }
         }
     }
 
     public function updateDjs($event_id, $djs)
     {
+        $i = 0;
         foreach($djs as $dj){
-            EventDj::update([
-                'event_id' => $event_id,
-                'user_id' => $dj
-            ]);
+            $eventdjs = EventDj::where('event_id', $event_id)->get();
+            $eventdj = $eventdjs[$i];
+            if (!$eventdj) {
+                EventDj::create([
+                    'event_id' => $event_id,
+                    'user_id' => $dj
+                ]);
+            } else {
+                $eventdj->user_id = $dj;
+            }
         }
     }
 

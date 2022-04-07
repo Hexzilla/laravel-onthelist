@@ -180,12 +180,13 @@
                             </div>
                         </div>
                         <div class="row">
+                            @foreach($event->tickets as $ticket)
                             <div id="event-ticket-list" class="col-md-12">
                                 <div id="event-ticket-default" class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="ticketType">Ticket Type</label>
-                                            <select class="form-control" name="ticket_type[]">
+                                            <select class="form-control" name="ticket_type[]"  value="{{ $ticket->type }}">
                                                 <option value="Standard">Standard</option>
                                                 <option value="Low">Low</option>
                                                 <option value="High">High</option>
@@ -195,19 +196,19 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="ticketQuantity">Ticket Quantity</label>
-                                            <input type="number" class="form-control" placeholder="00" name="ticket_qty[]">
+                                            <input type="number" class="form-control" placeholder="00" name="ticket_qty[]" value="{{ $ticket->qty }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="ticketPrice">Ticket Price</label>
-                                            <input type="number" class="form-control" placeholder="£00.00" name="ticket_price[]">
+                                            <input type="number" class="form-control" placeholder="£00.00" name="ticket_price[]" value="{{ $ticket->price }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="ticketApproval">Booking Approval</label>
-                                            <select class="form-control" name="ticket_approval[]">
+                                            <select class="form-control" name="ticket_approval[]"  value="{{ $ticket->approval }}">
                                                 <option value="Yes">Yes</option>
                                                 <option value="No">No</option>
                                             </select>
@@ -216,12 +217,13 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="message">Description</label>
-                                            <textarea class="form-control" rows="3" name="ticket_description[]" placeholder=""></textarea>
+                                            <textarea class="form-control" rows="3" name="ticket_description[]" placeholder="">{{ $ticket->description }}</textarea>
                                         </div>
                                     </div>
                                     <hr class="venue-table-separator mb-3"/>
                                 </div>
                             </div>
+                            @endforeach
                             <div class="col-md-12">
                                 <a id="add-event-ticket" class="add-another-link"><i class="mdi mdi-plus"></i> Add another ticket</a>
                             </div>
@@ -232,12 +234,13 @@
                             </div>
                         </div>
                         <div class="row">
+                            @foreach($event->tables as $table)
                             <div id="event-table-list" class="col-md-12">
                                 <div id="event-table-default" class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="tableType">Table Type</label>
-                                            <select class="form-control" name="table_type[]">
+                                            <select class="form-control" name="table_type[]" value="{{ $table->type }}">
                                                 <option value="Type 1">Type 1</option>
                                                 <option value="Type 2">Type 2</option>
                                                 <option value="Type 3">Type 3</option>
@@ -247,19 +250,19 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="tableQuantity">Table Quantity</label>
-                                            <input type="number" class="form-control" placeholder="00" name="table_qty[]">
+                                            <input type="number" class="form-control" placeholder="00" name="table_qty[]" value="{{ $table->qty }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="tablePrice">Table Price</label>
-                                            <input type="text" class="form-control" placeholder="£00.00" name="table_price[]">
+                                            <input type="text" class="form-control" placeholder="£00.00" name="table_price[]" value="{{ $table->price }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="tableApproval">Booking Approval</label>
-                                            <select class="form-control" name="table_booking_approval[]">
+                                            <select class="form-control" name="table_booking_approval[]" value="{{ $table->approval }}">
                                                 <option value="1">Yes</option>
                                                 <option value="0">No</option>
                                             </select>
@@ -268,12 +271,13 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="message">Description</label>
-                                            <textarea class="form-control" rows="3" placeholder="" name="table_description[]"></textarea>
+                                            <textarea class="form-control" rows="3" placeholder="" name="table_description[]">{{ $table->description }}</textarea>
                                         </div>
                                     </div>
                                     <hr class="venue-table-separator mb-3"/>
                                 </div>
                             </div>
+                            @endforeach
                             <div class="col-md-12">
                                 <a id="add-event-table" class="add-another-link"><i class="mdi mdi-plus"></i> Add another table</a>
                             </div>
@@ -284,12 +288,13 @@
                             </div>
                         </div>
                         <div class="row">
+                            @foreach($event->guestlists as $guestlist)
                             <div id="event-guestlist-list" class="col-md-12">
                                 <div id="event-guestlist-default" class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="guestlistType">Guestlist Type</label>
-                                            <select class="form-control" name="guestlist_type[]">
+                                            <select class="form-control" name="guestlist_type[]" value="{{ $guestlist->type }}">
                                                 <option value="Type 1">Type 1</option>
                                                 <option value="Type 2">Type 2</option>
                                                 <option value="Type 3">Type 3</option>
@@ -299,19 +304,19 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="guestlistQuantity">Guestlist Quantity</label>
-                                            <input type="number" class="form-control" placeholder="00" name="guestlist_qty[]">
+                                            <input type="number" class="form-control" placeholder="00" name="guestlist_qty[]" value="{{ $guestlist->qty }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="guestlistPrice">Guestlist Price</label>
-                                            <input type="text" class="form-control" placeholder="£00.00" name="guestlist_price[]">
+                                            <input type="text" class="form-control" placeholder="£00.00" name="guestlist_price[]" value="{{ $guestlist->price }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="guestlistApproval">Booking Approval</label>
-                                            <select class="form-control" name="guestlist_booking_approval[]">
+                                            <select class="form-control" name="guestlist_booking_approval[]" value="{{ $guestlist->approval }}">
                                                 <option value="1">Yes</option>
                                                 <option value="0">No</option>
                                             </select>
@@ -320,12 +325,13 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="message">Description</label>
-                                            <textarea class="form-control" rows="3" placeholder="" name="guestlist_description[]"></textarea>
+                                            <textarea class="form-control" rows="3" placeholder="" name="guestlist_description[]">{{ $guestlist->description }}</textarea>
                                         </div>
                                     </div>
                                     <hr class="venue-table-separator mb-3"/>
                                 </div>
                             </div>
+                            @endforeach
                             <div class="col-md-12">
                                 <a id="add-event-guestlist" class="add-another-link"><i class="mdi mdi-plus"></i> Add another guestlist</a>
                             </div>
@@ -335,7 +341,7 @@
                                 <button id="event-form-back" type="button" class="btn btn-primary"><i class="mdi mdi-chevron-left"></i> Back</button>
                             </div>
                             <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary">Create an Event <i class="mdi mdi-chevron-right"></i></button>
+                                <button type="submit" class="btn btn-primary">Update an Event <i class="mdi mdi-chevron-right"></i></button>
                             </div>
                         </div>
                     </div>
