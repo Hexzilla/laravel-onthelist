@@ -22,7 +22,8 @@ class Venue extends Model
         "music_policy",
         "dress_code",
         "perks",
-        "status"
+        "status",
+        "featured",
     ];
 
     protected $appends = ["location"];

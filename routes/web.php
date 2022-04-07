@@ -64,11 +64,18 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
         
         Route::controller(AdminUserController::class)->name('users.')->prefix('users')->as('users.')->group(function () {
             Route::get('/{role}', 'index')->name('index');
+            Route::get('/user/{id}', 'edit')->name('edit');
+            Route::put('/update/{id}', 'update')->name('update');
+            Route::get('/Djs/{id}', 'show')->name('show');
         });
 
         Route::controller(AdminVenueController::class)->name('venues.')->prefix('venues')->as('venues.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/featured', 'featured')->name('featured');
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::get('/delete/{id}', 'destroy')->name('destroy');
+            Route::put('/update/{id}', 'update')->name('update');
+            Route::get('/feature/{id}', 'feature')->name('feature');
         });
 
         Route::controller(AdminEventController::class)->name('events.')->prefix('events')->as('events.')->group(function () {
@@ -76,6 +83,10 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/upcoming', 'upcoming')->name('upcoming');
             Route::get('/featured', 'featured')->name('featured');
             Route::get('/complete', 'complete')->name('complete');
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::get('/delete/{id}', 'destroy')->name('destroy');
+            Route::put('/update/{id}', 'update')->name('update');
+            Route::get('/feature/{id}', 'feature')->name('feature');
         });
     });
 });

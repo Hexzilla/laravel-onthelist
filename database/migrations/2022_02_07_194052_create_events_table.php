@@ -18,7 +18,7 @@ class CreateEventsTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('venue_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->enum('type', ["Type 1", "Type 2", "Type 3"]);
+            $table->enum('type', ["Standard", "Low", "High"]);
             $table->text('description')->nullable();
             $table->string('header_image_path');
             $table->datetime('start');

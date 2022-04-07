@@ -380,4 +380,6 @@ class EventController extends Controller
         $event[0] -> delete();
         return redirect()->route('event.index');
     }
+
+    
 }

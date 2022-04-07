@@ -49,10 +49,11 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('event.edit', $event->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
+                                            <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('admin.events.edit', $event->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
                                             @if(!$event->isApproved())
-                                            <button type="button" class="btn btn-rounded btn-danger mb-1"><a href="{{ route('event.destroy', $event->id) }}"><i class="fa fa-trash"></i> Delete</a></button>
+                                            <button type="button" class="btn btn-rounded btn-danger mb-1"><a href="{{ route('admin.events.destroy', $event->id) }}"><i class="fa fa-trash"></i> Delete</a></button>
                                             @endif
+                                            <button type="button" class="btn btn-rounded btn-info mb-1"><a href="{{ route('admin.events.feature', $event->id) }}"> Featured</a></button>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -133,7 +134,7 @@
             var content = '<div id="carouselControls" class="carousel slide" data-ride="carousel">';
                 content += '<div class="carousel-inner">';
                     content += '<div class="carousel-item active">';
-                        content += '<img class="d-block w-100" src="' + headerImage + '" alt="Header Image">';
+                        content += '<img class="d-block w-100" src="../' + headerImage + '" alt="Header Image">';
                         content += '<div class="carousel-caption d-none d-md-block"><h5>Header Image</h5></div>';
                     content += '</div>';
                     images.map(image => {

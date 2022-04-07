@@ -180,7 +180,6 @@ class VenueController extends Controller
         $venue = $venues[0];
         $venue->user_id = $user_id;
         $venue->name = $request->name;
-        $venue->type = "Type 1";
         if(!is_null($request->details))
             $venue->description = $request->details;
         $venue->header_image_path = upload_file($request->file('header_image'), 'venue');
@@ -208,7 +207,8 @@ class VenueController extends Controller
 
     public function updateTimetable($venue, $request)
     {
-        $timetable = VenueTimetable::find($venue->id);
+        $timetables = VenueTimetable::where('venue_id', $venue->id)->get();
+        $timetable = $timetables[0];
         $timetable->mon_open = $request->mon_open;
         $timetable->mon_close = $request->mon_close;
         $timetable->tue_open = $request->tue_open;
@@ -229,7 +229,7 @@ class VenueController extends Controller
     public function updateMedia($venue, $request)
     {
         $medias = VenueMedia::where('venue_id', $venue->id)->get();
-        $size = count($media);
+        $size = count($medias);
         if($request->hasFile('gallery_image'))
         {
             $path = upload_file($request->file('gallery_image'), 'venue');
@@ -350,4 +350,6 @@ class VenueController extends Controller
         $venues[0]->delete();
         return redirect()->route('venue.index')->with('Success');
     }
+
+    
 }

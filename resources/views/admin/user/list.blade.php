@@ -7,7 +7,8 @@
             <div class="col-sm-12 p-md-0 justify-content-sm-start mt-2 mt-sm-0 d-flex">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Venues</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">User</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">{{ ucfirst($role) }}s</a></li>
                 </ol>
             </div> 
         </div>
@@ -34,7 +35,10 @@
                                         <td>{{$user->role}}</td>
                                         <td>{{$user->created_at}}</td>
                                         <td>
-                                            <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('venue.edit', $user->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
+                                            <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('admin.users.edit', $user->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
+                                            @if($role === 'dj')
+                                            <button type="button" class="btn btn-rounded btn-success mb-1"><a href="{{ route('admin.users.show', $user->id) }}"><i class="fa fa-show"></i> Show Event</a></button>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach

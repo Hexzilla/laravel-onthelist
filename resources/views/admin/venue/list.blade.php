@@ -51,10 +51,11 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('venue.edit', $venue->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
+                                            <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('admin.venues.edit', $venue->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
                                             @if(!$venue->isApproved())
-                                            <button type="button" class="btn btn-rounded btn-danger mb-1"><a href="{{ route('venue.destroy', $venue->id) }}"><i class="fa fa-trash"></i> Delete</a></button>
+                                            <button type="button" class="btn btn-rounded btn-danger mb-1"><a href="{{ route('admin.venues.destroy', $venue->id) }}"><i class="fa fa-trash"></i> Delete</a></button>
                                             @endif
+                                            <button type="button" class="btn btn-rounded btn-info mb-1"><a href="{{ route('admin.venues.feature', $venue->id) }}"> Featured</a></button>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -73,7 +74,6 @@
         const openTimetableModal = (venue, timetable) => {
             timetable = JSON.parse(timetable);
             var days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
-            
             $("#modal_venue").modal('show');
             $("#modal_venue .modal-title").text(`"${venue}" Timetable`);
             var content = '<div class="table-responsive"><table class="table table-responsive-sm">';
@@ -191,7 +191,7 @@
             var content = '<div id="carouselControls" class="carousel slide" data-ride="carousel">';
                 content += '<div class="carousel-inner">';
                     content += '<div class="carousel-item active">';
-                        content += '<img class="d-block w-100" src="' + headerImage + '" alt="Header Image">';
+                        content += '<img class="d-block w-100" src="../' + headerImage + '" alt="Header Image">';
                         content += '<div class="carousel-caption d-none d-md-block"><h5>Header Image</h5></div>';
                     content += '</div>';
                     images.map(image => {

@@ -62,11 +62,11 @@
                     </li>
                     <li class="nav-item dropdown header-profile">
                         <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="./images/users/2.jpg" alt="">
+                            <img src="{{ asset("images/user/no-avatar.png") }}" alt="">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <div class="dropdown-profile-header">
-                                <img src="./images/users/2.jpg" alt="">
+                                <img src="{{ asset("images/user/no-avatar.png") }}" alt="">
                                 <span class="avatar-name ml-2">John Doe</span>
                             </div>
                             <a href="app-profile.html" class="dropdown-item">

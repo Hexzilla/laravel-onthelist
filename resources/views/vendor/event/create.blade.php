@@ -237,9 +237,9 @@
                                         <div class="form-group">
                                             <label for="tableType">Table Type</label>
                                             <select class="form-control" name="table_type[]">
-                                                <option value="Type 1">Type 1</option>
-                                                <option value="Type 2">Type 2</option>
-                                                <option value="Type 3">Type 3</option>
+                                                <option value="Standard">Standard</option>
+                                                <option value="Low">Low</option>
+                                                <option value="High">High</option>
                                             </select>
                                         </div>
                                     </div>
@@ -289,9 +289,9 @@
                                         <div class="form-group">
                                             <label for="guestlistType">Guestlist Type</label>
                                             <select class="form-control" name="guestlist_type[]">
-                                                <option value="Type 1">Type 1</option>
-                                                <option value="Type 2">Type 2</option>
-                                                <option value="Type 3">Type 3</option>
+                                                <option value="Standard">Standard</option>
+                                                <option value="Low">Low</option>
+                                                <option value="High">High</option>
                                             </select>
                                         </div>
                                     </div>
