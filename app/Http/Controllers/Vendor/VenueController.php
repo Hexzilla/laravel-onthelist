@@ -93,7 +93,6 @@ class VenueController extends Controller
         if($request->hasFile('gallery_image'))
         {
             $path = upload_file($request->file('gallery_image'), 'venue');
-            Log::info($path);
             VenueMedia::create([
                 'venue_id' => $venue->id,
                 'type' => 'image',
