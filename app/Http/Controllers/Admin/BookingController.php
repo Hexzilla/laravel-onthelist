@@ -13,7 +13,7 @@ class BookingController extends Controller
     public function index()
     {
         $bookings = Booking::get();
-        return view('admin.booking', ['bookings' => $bookings]);
+        return view('admin.booking.index', ['bookings' => $bookings]);
     }
 
     public function approved($id)

@@ -5,12 +5,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\Vendor\DashboardController as VendorDahsboardController;
-use App\Http\Controllers\Vendor\VenueController;
-use App\Http\Controllers\Vendor\EventController;
-use App\Http\Controllers\Vendor\BookingController;
+use App\Http\Controllers\Vendor\VenueController as VendorVenueController;
+use App\Http\Controllers\Vendor\EventController as VendorEventController;
+use App\Http\Controllers\Vendor\BookingController as VendorBookingController;
+use App\Http\Controllers\Vendor\PaymentController as VendorPaymentController;
+use App\Http\Controllers\Vendor\SettingController as VendorSettingController;
 
 use App\Http\Controllers\Dj\DashboardController as DjDashboardController;
-use App\Http\Controllers\Dj\ProfileController;
+use App\Http\Controllers\Dj\ProfileController as DjProfileController;
 use App\Http\Controllers\Dj\EventController as DjEventController;
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
@@ -46,12 +48,21 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/', [VendorDahsboardController::class, 'index'])->name('dashboard');
 
-        Route::controller(BookingController::class)->name('booking.')->prefix('booking')->as('booking.')->group(function () {
+        Route::controller(VendorBookingController::class)->name('booking.')->prefix('booking')->as('booking.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/approved/{id}', 'approved')->name('approve');
         });
 
-        Route::controller(VenueController::class)->name('venue.')->prefix('venue')->as('venue.')->group(function () {
+        Route::controller(VendorSettingController::class)->name('setting.')->prefix('setting')->as('setting.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/store', 'store')->name('store');
+        });
+
+        Route::controller(VendorPaymentController::class)->name('payment.')->prefix('payment')->as('payment.')->group(function () {
+            Route::get('/', 'index')->name('index');
+        });
+
+        Route::controller(VendorVenueController::class)->name('venue.')->prefix('venue')->as('venue.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
@@ -59,7 +70,7 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
             Route::put('/update/{id}', 'update')->name('update');
             Route::get('/delete/{id}', 'destroy')->name('destroy');
         });
-        Route::controller(EventController::class)->name('event.')->prefix('event')->as('event.')->group(function () {
+        Route::controller(VendorEventController::class)->name('event.')->prefix('event')->as('event.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
@@ -75,16 +86,12 @@ Route::name('dj.')->prefix('dj')->as('dj.')->group(function () {
         Route::get('/', [DjDashboardController::class, 'index'])->name('dashboard');
         Route::get('/upcoming', [DjEventController::class, 'index'])->name('event');
         
-        Route::controller(ProfileController::class)->name('profile.')->prefix('profile')->as('profile.')->group(function () {
+        Route::controller(DjProfileController::class)->name('profile.')->prefix('profile')->as('profile.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
             Route::put('/store', 'store')->name('store');
             Route::get('/delete/media/{id}', 'deleteMedia')->name('deletemedia');
         });
-
-        
-
-        
     });
 });
 

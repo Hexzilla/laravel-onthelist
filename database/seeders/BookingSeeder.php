@@ -19,18 +19,20 @@ class BookingSeeder extends Seeder
         Booking::truncate();
         Schema::enableForeignKeyConstraints();
 
-        Booking::create([
-            'user_id' => 1,
-            'client_id' => 3,
-            'client_name' => 'User',
-            'venue' => 'Picture Palace Hall, London',
-            'event_id' => 1,
-            'event_name' => 'Party Nonstop',
-            'event_type' => 'Private',
-            'type' => 'Table Booking',
-            'price' => '500',
-            'status' => 'Pending',
-            'date' => '2022-04-12',
-        ]);
+        for ($i = 0; $i < 100; $i++) {
+            Booking::create([
+                'user_id' => 1,
+                'client_id' => 3,
+                'client_name' => 'User',
+                'venue' => 'Picture Palace Hall, London',
+                'event_id' => 1,
+                'event_name' => 'Party Nonstop',
+                'event_type' => 'Private',
+                'type' => 'Table Booking',
+                'price' => '500',
+                'status' => 'Pending',
+                'date' => '2022-04-12',
+            ]);
+        }
     }
 }

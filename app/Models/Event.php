@@ -28,7 +28,7 @@ class Event extends Model
 
     public function guestlists()
     {
-        return $this->hasMany(EventGuestList::class);
+        return $this->hasMany(EventGuestlist::class);
     }
 
     public function tables()
