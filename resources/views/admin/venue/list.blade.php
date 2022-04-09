@@ -197,12 +197,12 @@
                     images.map(image => {
                         content += '<div class="carousel-item">';
                         if(image.type === 'image'){
-                            content += '<img class="d-block w-100" src="' + image.path + '" alt="Gallery Image">';
+                            content += '<img class="d-block w-100" src="../' + image.path + '" alt="Gallery Image">';
                             content += '<div class="carousel-caption d-none d-md-block"><h5>Gallery Image</h5></div>';
                         }
                         if(image.type === 'video' || image.type === 'link'){
                             content += '<video controls autoplay>';
-                                content += '<source src="' + image.path + '" type="video/mp4">';
+                                content += '<source src="../' + image.path + '" type="video/mp4">';
                             content += '</video>';
                             content += '<div class="carousel-caption d-none d-md-block"><h5>Video</h5></div>';
                         }                        

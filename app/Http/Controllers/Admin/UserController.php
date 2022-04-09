@@ -28,7 +28,7 @@ class UserController extends Controller
     {
         $users = User::where('id', $id)->get();
         $user = $users[0];
-        $user->name = $request->role;
+        $user->name = $request->name;
         $user->email = $request->email;
         $user->role = $request->role;
         $user->save();
@@ -40,9 +40,12 @@ class UserController extends Controller
     {
         $user = User::where('id', $id)->firstOrFail();
         $lists = EventDj::where('user_id', $id)->get();
-        $size = count($lists);
-        for($i = 0; $i < $size; $i++){
-            $events[$i] = Event::where('id', $lists[$i]->event_id)->firstOrFail();
+        $events = array();
+        $i = 0;
+        foreach($lists as $list)
+        {
+            $events[$i] = Event::where('id', $list->event_id)->first();
+            $i++;
         }
         return view("admin.user.show", ['events' => $events, 'user' => $user]);
     }

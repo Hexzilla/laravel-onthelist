@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class DjMedia extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'type',
+        'path',
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }

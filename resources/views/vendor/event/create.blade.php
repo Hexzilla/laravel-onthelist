@@ -18,7 +18,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 col-xxl-8">			
-                <form method="POST" action="{{ route('event.store') }}" class="EventForm" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('vendors.event.store') }}" class="EventForm" enctype="multipart/form-data">
                     @csrf
                     <div id="step-1">
                         <div class="row">

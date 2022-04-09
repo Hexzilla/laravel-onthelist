@@ -49,9 +49,9 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('event.edit', $event->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
+                                            <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('vendors.event.edit', $event->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
                                             @if(!$event->isApproved())
-                                            <button type="button" class="btn btn-rounded btn-danger mb-1"><a href="{{ route('event.destroy', $event->id) }}"><i class="fa fa-trash"></i> Delete</a></button>
+                                            <button type="button" class="btn btn-rounded btn-danger mb-1"><a href="{{ route('vendors.event.destroy', $event->id) }}"><i class="fa fa-trash"></i> Delete</a></button>
                                             @endif
                                         </td>
                                     </tr>
@@ -133,18 +133,18 @@
             var content = '<div id="carouselControls" class="carousel slide" data-ride="carousel">';
                 content += '<div class="carousel-inner">';
                     content += '<div class="carousel-item active">';
-                        content += '<img class="d-block w-100" src="' + headerImage + '" alt="Header Image">';
+                        content += '<img class="d-block w-100" src="../' + headerImage + '" alt="Header Image">';
                         content += '<div class="carousel-caption d-none d-md-block"><h5>Header Image</h5></div>';
                     content += '</div>';
                     images.map(image => {
                         content += '<div class="carousel-item">';
                         if(image.type === 'image'){
-                            content += '<img class="d-block w-100" src="' + image.path + '" alt="Gallery Image">';
+                            content += '<img class="d-block w-100" src="../' + image.path + '" alt="Gallery Image">';
                             content += '<div class="carousel-caption d-none d-md-block"><h5>Gallery Image</h5></div>';
                         }
                         if(image.type === 'video' || image.type === 'link'){
                             content += '<video controls autoplay>';
-                                content += '<source src="' + image.path + '" type="video/mp4">';
+                                content += '<source src="../' + image.path + '" type="video/mp4">';
                             content += '</video>';
                             content += '<div class="carousel-caption d-none d-md-block"><h5>Video</h5></div>';
                         }                        

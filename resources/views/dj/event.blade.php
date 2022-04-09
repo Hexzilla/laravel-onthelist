@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.dj')
 
 @section('content')
 <div class="content-body">
@@ -8,7 +8,6 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Events</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">{{ $breadcrumb }}</a></li>
                 </ol>
             </div> 
         </div>
@@ -25,7 +24,6 @@
                                         <th>Venue</th>
                                         <th>Details</th>
                                         <th>Status</th>
-                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,13 +45,6 @@
                                             @else
                                             <span class="badge badge-warning">Pending</span>
                                             @endif
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('admin.events.edit', $event->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
-                                            @if(!$event->isApproved())
-                                            <button type="button" class="btn btn-rounded btn-danger mb-1"><a href="{{ route('admin.events.destroy', $event->id) }}"><i class="fa fa-trash"></i> Delete</a></button>
-                                            @endif
-                                            <button type="button" class="btn btn-rounded btn-info mb-1"><a href="{{ route('admin.events.feature', $event->id) }}"> Featured</a></button>
                                         </td>
                                     </tr>
                                     @endforeach

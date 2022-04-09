@@ -34,7 +34,7 @@
                 </ul>
             </li>
 
-            <li><a href="javascript:void()" aria-expanded="false"><i class="mdi mdi-table-large"></i><span class="nav-text">Bookings</span></a></li>
+            <li><a href="{{ route('admin.booking.index') }}" aria-expanded="false"><i class="mdi mdi-table-large"></i><span class="nav-text">Bookings</span></a></li>
             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-file-document"></i><span class="nav-text">Payments</span></a>
                 <ul aria-expanded="false">
                     <li><a href="#">Orders</a></li>

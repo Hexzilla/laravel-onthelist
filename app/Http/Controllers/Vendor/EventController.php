@@ -64,7 +64,7 @@ class EventController extends Controller
         $this->createGuestlist($event, $request);
         $this->createDjs($event->id, $request->djs);
 
-        return redirect()->route('event.index');
+        return redirect()->route('vendors.event.index');
     }
 
     
@@ -207,7 +207,7 @@ class EventController extends Controller
         $this->updateGuestlist($event, $request);
         $this->updateDjs($event->id, $request->djs);
 
-        return redirect()->route('event.index');
+        return redirect()->route('vendor.event.index');
     }
 
     public function updateMedia($event, $request)
@@ -378,7 +378,7 @@ class EventController extends Controller
         $user_id = Auth::user()->id;
         $event = Event::where('user_id', $user_id)->where('id', $id)->get();
         $event[0] -> delete();
-        return redirect()->route('event.index');
+        return redirect()->route('vendors.event.index');
     }
 
     

@@ -202,7 +202,7 @@ class VenueController extends Controller
         $this->updateOffer($venue, $request);
         $this->updateTable($venue, $request);
 
-        return redirect()->route('venue.index');
+        return redirect()->route('vendors.venue.index');
     }
 
     public function updateTimetable($venue, $request)
@@ -348,7 +348,7 @@ class VenueController extends Controller
         $user_id = Auth::user()->id;
         $venues = Venue::where('user_id', $user_id)->where('id', $id)->get();
         $venues[0]->delete();
-        return redirect()->route('venue.index')->with('Success');
+        return redirect()->route('vendors.venue.index')->with('Success');
     }
 
     

@@ -4,21 +4,14 @@
             <li class="nav-label">Navigation</li>
             <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"><a href="javascript:void()" aria-expanded="false"><i class="mdi mdi-home"></i><span class="nav-text">Dashboard</span></a></li>
 
-            <li class="{{ request()->routeIs('vendors.event.*') ? 'active' : '' }}"><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-account"></i><span class="nav-text">Events</span></a>
+            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-account"></i><span class="nav-text">Profile</span></a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('vendors.event.create') }}">Create event</a></li>
-                    <li><a href="{{ route('vendors.event.index') }}">My events</a></li>
+                    <li><a href="{{ route('dj.profile.create') }}">Create Profile</a></li>
+                    <li><a href="{{ route('dj.profile.index') }}">My Profile</a></li>
                 </ul>
             </li>
+            <li><a href="{{ route('dj.event') }}" aria-expanded="false"><i class="mdi mdi-restore-clock"></i><span class="nav-text">Upcoming Events</span></a></li>
 
-            <li class="{{ request()->routeIs('vendors.venue.*') ? 'active' : '' }}"><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-home-map-marker"></i><span class="nav-text">Venues</span></a>
-                <ul aria-expanded="false">
-                    <li><a href="{{ route('vendors.venue.create') }}">Create venue</a></li>
-                    <li><a href="{{ route('vendors.venue.index') }}">My Venues</a></li>
-                </ul>
-            </li>
-            
-            <li><a href="{{ route('vendors.booking.index') }}"><i class="mdi mdi-table-large"></i><span class="nav-text">Bookings</span></a></li>
             <li><a href="javascript:void()" aria-expanded="false"><i class="mdi mdi-restore-clock"></i><span class="nav-text">Orders</span></a></li>
             <li><a href="javascript:void()" aria-expanded="false"><i class="mdi mdi-file-document"></i><span class="nav-text">Payments</span></a></li>
             <li><a href="javascript:void()" aria-expanded="false"><i class="mdi mdi-content-save-settings"></i><span class="nav-text">Reps</span></a></li>

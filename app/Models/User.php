@@ -41,4 +41,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function profile()
+    {
+        return $this->hasMany(DjProfile::class);
+    }
+
+    public function media()
+    {
+        return $this->hasMany(DjMedia::class);
+    }
 }

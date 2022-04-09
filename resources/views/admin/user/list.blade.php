@@ -37,7 +37,7 @@
                                         <td>
                                             <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('admin.users.edit', $user->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
                                             @if($role === 'dj')
-                                            <button type="button" class="btn btn-rounded btn-success mb-1"><a href="{{ route('admin.users.show', $user->id) }}"><i class="fa fa-show"></i> Show Event</a></button>
+                                            <button type="button" class="btn btn-rounded btn-success mb-1"><a href="{{ route('admin.users.show', $user->id) }}"><i class="fa fa-visibility"></i> Show Event</a></button>
                                             @endif
                                         </td>
                                     </tr>

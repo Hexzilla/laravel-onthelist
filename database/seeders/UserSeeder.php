@@ -29,5 +29,23 @@ class UserSeeder extends Seeder
             'password' => Hash::make('vendor123'),
             'remember_token' => Str::random(10),
         ]);
+
+        User::create([
+            'name' => 'Dj',
+            'email' => 'dj@onthelist.app',
+            'email_verified_at' => date('Y-m-d H:i:s'),
+            'role' => 'dj',
+            'password' => Hash::make('djs123'),
+            'remember_token' => Str::random(10),
+        ]);
+
+        User::create([
+            'name' => 'User',
+            'email' => 'user@onthelist.app',
+            'email_verified_at' => date('Y-m-d H:i:s'),
+            'role' => 'customer',
+            'password' => Hash::make('djs123'),
+            'remember_token' => Str::random(10),
+        ]);
     }
 }

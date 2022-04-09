@@ -2,15 +2,23 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AuthController;
+
 use App\Http\Controllers\Vendor\DashboardController as VendorDahsboardController;
 use App\Http\Controllers\Vendor\VenueController;
 use App\Http\Controllers\Vendor\EventController;
+use App\Http\Controllers\Vendor\BookingController;
+
+use App\Http\Controllers\Dj\DashboardController as DjDashboardController;
+use App\Http\Controllers\Dj\ProfileController;
+use App\Http\Controllers\Dj\EventController as DjEventController;
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDahsboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\VenueController as AdminVenueController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,23 +38,53 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 /***********************************************************************
  *************************** Vendor Panel *******************************
  **********************************************************************/
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [VendorDahsboardController::class, 'index'])->name('dashboard');
-    Route::controller(VenueController::class)->name('venue.')->prefix('venue')->as('venue.')->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
-        Route::post('/store', 'store')->name('store');
-        Route::get('/edit/{id}', 'edit')->name('edit');
-        Route::put('/update/{id}', 'update')->name('update');
-        Route::get('/delete/{id}', 'destroy')->name('destroy');
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::post('login', [AuthController::class, 'login'])->name('login');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/', [VendorDahsboardController::class, 'index'])->name('dashboard');
+
+        Route::controller(BookingController::class)->name('booking.')->prefix('booking')->as('booking.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/approved/{id}', 'approved')->name('approve');
+        });
+
+        Route::controller(VenueController::class)->name('venue.')->prefix('venue')->as('venue.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::put('/update/{id}', 'update')->name('update');
+            Route::get('/delete/{id}', 'destroy')->name('destroy');
+        });
+        Route::controller(EventController::class)->name('event.')->prefix('event')->as('event.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::put('/update/{id}', 'update')->name('update');
+            Route::get('/delete/{id}', 'destroy')->name('destroy');
+        });
     });
-    Route::controller(EventController::class)->name('event.')->prefix('event')->as('event.')->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
-        Route::post('/store', 'store')->name('store');
-        Route::get('/edit/{id}', 'edit')->name('edit');
-        Route::put('/update/{id}', 'update')->name('update');
-        Route::get('/delete/{id}', 'destroy')->name('destroy');
+});
+
+Route::name('dj.')->prefix('dj')->as('dj.')->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/', [DjDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/upcoming', [DjEventController::class, 'index'])->name('event');
+        
+        Route::controller(ProfileController::class)->name('profile.')->prefix('profile')->as('profile.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::put('/store', 'store')->name('store');
+            Route::get('/delete/media/{id}', 'deleteMedia')->name('deletemedia');
+        });
+
+        
+
+        
     });
 });
 
@@ -61,6 +99,11 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
     });
     Route::middleware('auth:admin')->group(function () {
         Route::get('/', [AdminDahsboardController::class, 'index'])->name('dashboard');
+        
+        Route::controller(AdminBookingController::class)->name('booking.')->prefix('booking')->as('booking.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/approved/{id}', 'approved')->name('approve');
+        });
         
         Route::controller(AdminUserController::class)->name('users.')->prefix('users')->as('users.')->group(function () {
             Route::get('/{role}', 'index')->name('index');
