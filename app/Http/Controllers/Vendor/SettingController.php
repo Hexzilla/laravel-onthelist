@@ -24,13 +24,12 @@ class SettingController extends Controller
             'password_confirmation' => 'required|same:password',
         ]);
 
-        if (!(Hash::check($request->get('old_password'), Auth::user()->password))) {
-            // The passwords matches
-            return redirect()->back()->with("error","Your current password does not matches with the password.");
+        if (!(Hash::check($request->old_password, Auth::user()->password))) {
+            return redirect()->back()->withInput($request->only('old_password'));
         }   
 
         $user->password = bcrypt($request->get('password'));
         $user->save();
-        return redirect()->back()->with("success","Password successfully changed!");
+        return redirect()->route('vendors.dashboard')->with("success","Password successfully changed!");
     }
 }
