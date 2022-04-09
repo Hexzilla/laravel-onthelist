@@ -51,9 +51,9 @@
                                         <td>
                                             <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('admin.events.edit', $event->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
                                             @if(!$event->isApproved())
-                                            <button type="button" class="btn btn-rounded btn-danger mb-1"><a href="{{ route('admin.events.destroy', $event->id) }}"><i class="fa fa-trash"></i> Delete</a></button>
+                                            <button type="button" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$event->name}}')"><a href="{{ route('admin.events.destroy', $event->id) }}"><i class="fa fa-trash"></i> Delete</a></button>
                                             @endif
-                                            <button type="button" class="btn btn-rounded btn-info mb-1"><a href="{{ route('admin.events.feature', $event->id) }}"> Featured</a></button>
+                                            <button type="button" class="btn btn-rounded btn-info mb-1"><a href="{{ route('admin.events.feature', $event->id) }}">As Feature</a></button>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -69,6 +69,10 @@
 
 @section('scripts')
     <script>
+        const openDeleteModal = (event) => {
+            $("#modal_delete").modal('show');
+            var content = '<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>'
+        }
         const openTableModal = (event, tables) => {
             tables = JSON.parse(tables);
             $("#modal_venue").modal('show');

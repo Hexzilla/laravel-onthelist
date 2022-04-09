@@ -36,10 +36,10 @@
                                     @foreach($bookings as $booking)
                                     <tr>
                                         <td>{{$booking->id}}</td>
-                                        <td>{{$booking->client_name}}</td>
-                                        <td>{{$booking->event_name}}</td>
-                                        <td>{{$booking->venue}}</td>
-                                        <td>{{$booking->event_type}}</td>
+                                        <td></td>
+                                        <td>{{$booking->event->name}}</td>
+                                        <td>{{$booking->event->venue}}</td>
+                                        <td>{{$booking->event->type}}</td>
                                         <td>{{$booking->type}}</td>
                                         <td>{{$booking->price}}</td>
                                         <td>{{$booking->status}}</td>

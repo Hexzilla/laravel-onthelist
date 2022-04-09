@@ -21,13 +21,8 @@ class BookingSeeder extends Seeder
 
         for ($i = 0; $i < 100; $i++) {
             Booking::create([
-                'user_id' => 1,
-                'client_id' => 3,
-                'client_name' => 'User',
-                'venue' => 'Picture Palace Hall, London',
+                'user_id' => 3,
                 'event_id' => 1,
-                'event_name' => 'Party Nonstop',
-                'event_type' => 'Private',
                 'type' => 'Table Booking',
                 'price' => '500',
                 'status' => 'Pending',

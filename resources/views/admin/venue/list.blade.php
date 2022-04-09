@@ -55,7 +55,7 @@
                                             @if(!$venue->isApproved())
                                             <button type="button" class="btn btn-rounded btn-danger mb-1"><a href="{{ route('admin.venues.destroy', $venue->id) }}"><i class="fa fa-trash"></i> Delete</a></button>
                                             @endif
-                                            <button type="button" class="btn btn-rounded btn-info mb-1"><a href="{{ route('admin.venues.feature', $venue->id) }}"> Featured</a></button>
+                                            <button type="button" class="btn btn-rounded btn-info mb-1"><a href="{{ route('admin.venues.feature', $venue->id) }}">As Feature</a></button>
                                         </td>
                                     </tr>
                                     @endforeach
