@@ -16,7 +16,7 @@ class CreateBookingsTable extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->foreignId("user_id")->constrained()->onDelete('cascade');
-            $table->foreignId("client_id")->constrained()->onDelete('cascade');
+            $table->foreignId("client_id")->references('id')->on('users')->onDelete('cascade');
             $table->string('client_name');
             $table->foreignId("event_id")->constrained()->onDelete('cascade');
             $table->string("event_name");

@@ -51,6 +51,11 @@ class Event extends Model
         return $this->hasMany(EventDj::class);
     }
 
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
     public function isApproved()
     {
         return $this->status == "approved" ? true : false;
