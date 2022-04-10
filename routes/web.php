@@ -42,9 +42,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 /***********************************************************************
  *************************** Vendor Panel *******************************
  **********************************************************************/
-Route::get('/login', [AuthController::class, 'index'])->name('login');
-Route::post('login', [AuthController::class, 'login'])->name('login');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+// Route::get('/login', [AuthController::class, 'index'])->name('login');
+// Route::post('login', [AuthController::class, 'login'])->name('login');
+// Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
     Route::middleware('auth')->group(function () {
