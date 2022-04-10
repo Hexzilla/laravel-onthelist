@@ -28,7 +28,7 @@ class CreateVenuesTable extends Migration
             $table->string('music_policy')->nullable();
             $table->string('dress_code')->nullable();
             $table->string('perks')->nullable();
-            $table->enum('status', ["approved", "pending"])->default("pending");
+            $table->enum('status', ["Approved", "Pending", "Rejected"])->default("Pending");
             $table->timestamps();
         });
     }

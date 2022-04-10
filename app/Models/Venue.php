@@ -55,6 +55,6 @@ class Venue extends Model
 
     public function isApproved()
     {
-        return $this->status == "approved" ? true : false;
+        return $this->status == "Approved" ? true : false;
     }
 }

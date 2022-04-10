@@ -23,6 +23,7 @@
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Role</th>
+                                        <th>Status</th>
                                         <th>Created At</th>
                                         <th>Actions</th>
                                     </tr>
@@ -33,11 +34,14 @@
                                         <td>{{$user->name}}</td>
                                         <td>{{$user->email}}</td>
                                         <td>{{$user->role}}</td>
+                                        <td>{{$user->status}}</td>
                                         <td>{{$user->created_at}}</td>
                                         <td>
-                                            @if($role === 'dj')
+                                            <button class="btn btn-rounded btn-success mb-1"><a href="{{ route('admin.users.approve', $user->id) }}" aria-expanded="false"><i class="fa fa-edit"></i></a></button>
+                                            <button class="btn btn-rounded btn-danger mb-1"><a href="{{ route('admin.users.reject', $user->id) }}" aria-expanded="false"><i class="fa fa-remove"></i></a></button>
+                                            <!-- @if($role === 'dj')
                                             <button type="button" class="btn btn-rounded btn-success mb-1"><a href="{{ route('admin.users.show', $user->id) }}"><i class="fa fa-visibility"></i> Show Event</a></button>
-                                            @endif
+                                            @endif -->
                                         </td>
                                     </tr>
                                     @endforeach

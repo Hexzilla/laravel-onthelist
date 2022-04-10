@@ -50,7 +50,8 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
 
         Route::controller(VendorBookingController::class)->name('booking.')->prefix('booking')->as('booking.')->group(function () {
             Route::get('/', 'index')->name('index');
-            Route::get('/approved/{id}', 'approved')->name('approve');
+            Route::get('/approved/{id}', 'approve')->name('approve');
+            Route::get('/rejected/{id}', 'reject')->name('reject');
         });
 
         Route::controller(VendorSettingController::class)->name('setting.')->prefix('setting')->as('setting.')->group(function () {
@@ -117,6 +118,8 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/user/{id}', 'edit')->name('edit');
             Route::put('/update/{id}', 'update')->name('update');
             Route::get('/Djs/{id}', 'show')->name('show');
+            Route::get('/approve/{id}', 'approve')->name('approve');
+            Route::get('/reject/{id}', 'reject')->name('reject');
         });
 
         Route::controller(AdminVenueController::class)->name('venues.')->prefix('venues')->as('venues.')->group(function () {
@@ -126,6 +129,8 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/delete/{id}', 'destroy')->name('destroy');
             Route::put('/update/{id}', 'update')->name('update');
             Route::get('/feature/{id}', 'feature')->name('feature');
+            Route::get('/approve/{id}', 'approve')->name('approve');
+            Route::get('/reject/{id}', 'reject')->name('reject');
         });
 
         Route::controller(AdminEventController::class)->name('events.')->prefix('events')->as('events.')->group(function () {
@@ -137,6 +142,8 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/delete/{id}', 'destroy')->name('destroy');
             Route::put('/update/{id}', 'update')->name('update');
             Route::get('/feature/{id}', 'feature')->name('feature');
+            Route::get('/approve/{id}', 'approve')->name('approve');
+            Route::get('/reject/{id}', 'reject')->name('reject');
         });
     });
 });

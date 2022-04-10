@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\EventDj;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -39,14 +40,31 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::where('id', $id)->firstOrFail();
-        $lists = EventDj::where('user_id', $id)->get();
-        $events = array();
-        $i = 0;
-        foreach($lists as $list)
-        {
-            $events[$i] = Event::where('id', $list->event_id)->first();
-            $i++;
-        }
+        $current = Carbon::now();
+
+        $events = DB::table('event_djs')
+            ->join('events', 'events.id', '=', 'event_djs.event_id')
+            ->where('event_djs.user_id', $id)
+            ->where('events.start', '>', $current)
+            ->select('events.*')
+            ->get();
+        
         return view("admin.user.show", ['events' => $events, 'user' => $user]);
+    }
+
+    public function approve($id)
+    {
+        $user = User::where('id', $id)->firstOrFail();
+        $user->status = 'Approved';
+        $user->save();
+        return redirect()->back();
+    }
+
+    public function reject($id)
+    {
+        $user = User::where('id', $id)->firstOrFail();
+        $user->status = 'Rejected';
+        $user->save();
+        return redirect()->back();
     }
 }

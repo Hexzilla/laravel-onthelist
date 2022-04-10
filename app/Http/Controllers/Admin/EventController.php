@@ -279,4 +279,20 @@ class EventController extends Controller
         $event->save();
         return redirect()->route('admin.events.index');
     }
+
+    public function approve($id)
+    {
+        $event = Event::where('id', $id)->firstOrFail();
+        $event->status = 'Approved';
+        $event->save();
+        return redirect()->back();
+    }
+
+    public function reject($id)
+    {
+        $event = Event::where('id', $id)->firstOrFail();
+        $event->status = 'Rejected';
+        $event->save();
+        return redirect()->back();
+    }
 }

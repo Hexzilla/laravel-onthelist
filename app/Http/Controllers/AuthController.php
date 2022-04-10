@@ -12,7 +12,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('guest:admin')->except('logout');
+        $this->middleware('guest')->except('logout');
     }
 
     public function index()
@@ -26,19 +26,22 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6'
         ]);
+        $user = User::where('email', $request->email)->first();
 
         $credentials = $request->only('email', 'password');
-        if(Auth::attempt($credentials, $request->get('remember'))) {
-            $user = User::where('email', $request->email)->first();
-            if($user->role === 'vendor'){
-                return redirect()->intended('/vendors');
-            }elseif($user->role === 'dj'){
-                return redirect()->intended('/dj');
-            }else{
-                return redirect('/login');
+        if($user->status === 'Approved') {
+            if(Auth::attempt($credentials, $request->get('remember'))) {
+                if($user->role === 'vendor'){
+                    return redirect()->intended('/vendors');
+                }elseif($user->role === 'dj'){
+                    return redirect()->intended('/dj');
+                }else{
+                    return redirect('/login');
+                }
             }
+            return back()->withInput($request->only('email', 'remember'));
         }
-        return back()->withInput($request->only('email', 'remember'));
+        return redirect('home');
     }
 
     public function logout() {

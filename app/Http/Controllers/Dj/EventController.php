@@ -8,25 +8,22 @@ use Carbon\Carbon;
 use App\Models\Event;
 use App\Models\EventDj;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
     public function index()
     {
         $user_id = Auth::user()->id;
-        $lists = EventDj::where('user_id', $user_id)->get();
-        $size = count($lists);
         $current = Carbon::now();
-        $events = array();
-        $i = 0;
-        foreach ($lists as $list)
-        {
-            $event = Event::where('id', $list->event_id)->where('start', '>', $current)->get();
-            if(count($event) > 0){
-                $events[$i] = $event[0];
-                $i++;
-            }
-        }
+
+        $events = DB::table('event_djs')
+            ->join('events', 'events.id', '=', 'event_djs.event_id')
+            ->where('event_djs.user_id', $user_id)
+            ->where('events.start', '>', $current)
+            ->select('events.*')
+            ->get();
+        
         return view('dj.event', ['events' => $events]);
     }
 }

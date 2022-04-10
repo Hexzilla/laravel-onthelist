@@ -22,7 +22,6 @@
                                         <th>Name</th>
                                         <th>Type</th>
                                         <th>Venue</th>
-                                        <th>DJ's</th>
                                         <th>Details</th>
                                         <th>Status</th>
                                         <th>Actions</th>
@@ -51,7 +50,7 @@
                                         <td>
                                             <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('vendors.event.edit', $event->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
                                             @if(!$event->isApproved())
-                                            <button type="button" class="btn btn-rounded btn-danger mb-1"><a href="{{ route('vendors.event.destroy', $event->id) }}"><i class="fa fa-trash"></i> Delete</a></button>
+                                            <button type="button" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$event->name}}', '{{$event->id}}')"><i class="fa fa-trash"></i> Delete</a></button>
                                             @endif
                                         </td>
                                     </tr>
@@ -68,6 +67,18 @@
 
 @section('scripts')
     <script>
+        const openDeleteModal = (event, event_id) => {
+            let url = "{{ route('vendors.event.destroy', 0) }}";
+            url = url.substr(0, url.length-1) + event_id;
+            $("#modal_delete").modal('show');
+            $("#modal_delete .modal-title").text(`Delete ${event}`);
+            var content = '<button type="button" class="btn btn-info">';
+                content += `<a href="${url}">`;
+                content += "Delete</a></button>";
+                content += '<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>';
+            $("#modal_delete .modal-footer").html(content);
+        }
+
         const openTableModal = (event, tables) => {
             tables = JSON.parse(tables);
             $("#modal_venue").modal('show');

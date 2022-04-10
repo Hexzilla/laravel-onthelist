@@ -51,10 +51,12 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('admin.venues.edit', $venue->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
+                                            <!-- <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('admin.venues.edit', $venue->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
                                             @if(!$venue->isApproved())
-                                            <button type="button" class="btn btn-rounded btn-danger mb-1"><a href="{{ route('admin.venues.destroy', $venue->id) }}"><i class="fa fa-trash"></i> Delete</a></button>
-                                            @endif
+                                            <button type="button" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$venue->name}}', '{{$venue->id}}')"><i class="fa fa-trash"></i> Delete</button>
+                                            @endif -->
+                                            <button class="btn btn-rounded btn-success mb-1"><a href="{{ route('admin.venues.approve', $venue->id) }}" aria-expanded="false"><i class="fa fa-edit"></i></a></button>
+                                            <button class="btn btn-rounded btn-danger mb-1"><a href="{{ route('admin.venues.reject', $venue->id) }}" aria-expanded="false"><i class="fa fa-remove"></i></a></button>
                                             <button type="button" class="btn btn-rounded btn-info mb-1"><a href="{{ route('admin.venues.feature', $venue->id) }}">As Feature</a></button>
                                         </td>
                                     </tr>
@@ -71,6 +73,18 @@
 
 @section('scripts')
     <script>
+        const openDeleteModal = (venue, venue_id) => {
+            let url = "{{ route('admin.venues.destroy', 0) }}";
+            url = url.substr(0, url.length-1) + venue_id;
+            $("#modal_delete").modal('show');
+            $("#modal_delete .modal-title").text(`Delete ${venue}`);
+            var content = '<button type="button" class="btn btn-info">';
+                content += `<a href="${url}">`;
+                content += "Delete</a></button>";
+                content += '<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>';
+            $("#modal_delete .modal-footer").html(content);
+        }
+
         const openTimetableModal = (venue, timetable) => {
             timetable = JSON.parse(timetable);
             var days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];

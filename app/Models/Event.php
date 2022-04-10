@@ -23,7 +23,7 @@ class Event extends Model
 
     public function venue()
     {
-        return $this->hasOne(Venue::class);
+        return $this->belongsTo(Venue::class);
     }
 
     public function guestlists()
@@ -58,6 +58,6 @@ class Event extends Model
 
     public function isApproved()
     {
-        return $this->status == "approved" ? true : false;
+        return $this->status == "Approved" ? true : false;
     }
 }

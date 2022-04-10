@@ -232,4 +232,20 @@ class VenueController extends Controller
         $venue->save();
         return redirect()->route('admin.venues.index')->with('Success');
     }
+
+    public function approve($id)
+    {
+        $venue = Venue::where('id', $id)->first();
+        $venue->status = 'Approved';
+        $venue->save();
+        return redirect()->back();
+    }
+
+    public function reject($id)
+    {
+        $venue = Venue::where('id', $id)->first();
+        $venue->status = 'Rejected';
+        $venue->save();
+        return redirect()->back();
+    }
 }

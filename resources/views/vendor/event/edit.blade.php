@@ -180,8 +180,8 @@
                             </div>
                         </div>
                         <div class="row">
-                            @foreach($event->tickets as $ticket)
                             <div id="event-ticket-list" class="col-md-12">
+                                @foreach($event->tickets as $ticket)
                                 <div id="event-ticket-default" class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -222,8 +222,8 @@
                                     </div>
                                     <hr class="venue-table-separator mb-3"/>
                                 </div>
+                                @endforeach
                             </div>
-                            @endforeach
                             <div class="col-md-12">
                                 <a id="add-event-ticket" class="add-another-link"><i class="mdi mdi-plus"></i> Add another ticket</a>
                             </div>
@@ -234,8 +234,8 @@
                             </div>
                         </div>
                         <div class="row">
-                            @foreach($event->tables as $table)
                             <div id="event-table-list" class="col-md-12">
+                                @foreach($event->tables as $table)
                                 <div id="event-table-default" class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -276,8 +276,8 @@
                                     </div>
                                     <hr class="venue-table-separator mb-3"/>
                                 </div>
+                                @endforeach
                             </div>
-                            @endforeach
                             <div class="col-md-12">
                                 <a id="add-event-table" class="add-another-link"><i class="mdi mdi-plus"></i> Add another table</a>
                             </div>
@@ -288,8 +288,8 @@
                             </div>
                         </div>
                         <div class="row">
-                            @foreach($event->guestlists as $guestlist)
                             <div id="event-guestlist-list" class="col-md-12">
+                                @foreach($event->guestlists as $guestlist)
                                 <div id="event-guestlist-default" class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -330,8 +330,8 @@
                                     </div>
                                     <hr class="venue-table-separator mb-3"/>
                                 </div>
+                                @endforeach
                             </div>
-                            @endforeach
                             <div class="col-md-12">
                                 <a id="add-event-guestlist" class="add-another-link"><i class="mdi mdi-plus"></i> Add another guestlist</a>
                             </div>

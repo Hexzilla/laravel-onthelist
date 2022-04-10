@@ -20,6 +20,9 @@ class DatabaseSeeder extends Seeder
             EventSeeder::class,            
             BookingSeeder::class,
             TimetableSeeder::class,
+            EventTicketsSeeder::class,
+            EventTableSeeder::class,
+            EventGuestlistSeeder::class,
         ]);
     }
 }

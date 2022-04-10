@@ -16,10 +16,18 @@ class BookingController extends Controller
         return view('admin.booking.index', ['bookings' => $bookings]);
     }
 
-    public function approved($id)
+    public function approve($id)
     {
         $booking = Booking::where('id', $id)->first();
         $booking->status = "Approved";
+        $booking->save();
+        return redirect()->route('admin.booking.index');
+    }
+
+    public function reject($id)
+    {
+        $booking = Booking::where('id', $id)->first();
+        $booking->status = "Rejected";
         $booking->save();
         return redirect()->route('admin.booking.index');
     }

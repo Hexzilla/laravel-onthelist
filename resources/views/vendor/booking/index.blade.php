@@ -36,17 +36,17 @@
                                     @foreach($bookings as $booking)
                                     <tr>
                                         <td>{{$booking->id}}</td>
-                                        <td>{{$booking->user->name}}</td>
-                                        <td>{{$booking->event->name}}</td>
-                                        <td>{{$booking->event->venue}}</td>
-                                        <td>{{$booking->event->type}}</td>
+                                        <td>{{$booking->userName}}</td>
+                                        <td>{{$booking->eventName}}</td>
+                                        <td>{{$booking->venueName}}</td>
+                                        <td>{{$booking->eventType}}</td>
                                         <td>{{$booking->type}}</td>
                                         <td>{{$booking->price}}</td>
                                         <td>{{$booking->status}}</td>
                                         <td>{{$booking->date}}</td>
                                         <td>
-                                        <button class="btn btn-rounded btn-success mb-1"><a href="{{ route('vendors.booking.approve', $booking->id) }}" aria-expanded="false"><i class="fa fa-edit"></i></a></button>
-                                            <button class="btn btn-rounded btn-danger mb-1"><a href="javascript:void()" aria-expanded="false"><i class="fa fa-remove"></i></a></button>
+                                            <button class="btn btn-rounded btn-success mb-1"><a href="{{ route('vendors.booking.approve', $booking->id) }}" aria-expanded="false"><i class="fa fa-edit"></i></a></button>
+                                            <button class="btn btn-rounded btn-danger mb-1"><a href="{{ route('vendors.booking.reject', $booking->id) }}" aria-expanded="false"><i class="fa fa-remove"></i></a></button>
                                         </td>
                                         </td>
                                     </tr>

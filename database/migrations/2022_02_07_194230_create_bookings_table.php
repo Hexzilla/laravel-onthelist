@@ -19,7 +19,7 @@ class CreateBookingsTable extends Migration
             $table->foreignId("event_id")->constrained()->onDelete('cascade');
             $table->enum("type", ["Table Booking", "Ticket", "Guestlist"]);
             $table->double('price', 10, 2)->default(0);
-            $table->enum("status", ["Approved", "Pending"])->default('Pending');
+            $table->enum("status", ["Approved", "Pending", "Rejected"])->default('Pending');
             $table->date("date");
             $table->timestamps();
         });

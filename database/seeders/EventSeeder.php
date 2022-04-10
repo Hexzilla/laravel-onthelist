@@ -26,7 +26,29 @@ class EventSeeder extends Seeder
             'header_image_path' => '',
             'type' => 'Private',
             'start' => '2022-04-07',
-            'end' => '2022=05-07',
+            'end' => '2022-05-07',
+            'is_weekly_event' => true,
+        ]);
+
+        Event::create([
+            'user_id' => 1,
+            'venue_id' => 1,
+            'name' => 'Boogle Woogie',
+            'header_image_path' => '',
+            'type' => 'Private',
+            'start' => '2022-04-07',
+            'end' => '2022-05-07',
+            'is_weekly_event' => true,
+        ]);
+
+        Event::create([
+            'user_id' => 2,
+            'venue_id' => 1,
+            'name' => 'Drink TuesDay',
+            'header_image_path' => '',
+            'type' => 'Private',
+            'start' => '2022-04-07',
+            'end' => '2022-05-07',
             'is_weekly_event' => true,
         ]);
     }

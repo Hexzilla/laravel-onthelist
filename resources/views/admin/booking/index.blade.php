@@ -36,9 +36,9 @@
                                     @foreach($bookings as $booking)
                                     <tr>
                                         <td>{{$booking->id}}</td>
-                                        <td></td>
+                                        <td>{{$booking->user->name}}</td>
                                         <td>{{$booking->event->name}}</td>
-                                        <td>{{$booking->event->venue}}</td>
+                                        <td>{{$booking->event->venue->name}}</td>
                                         <td>{{$booking->event->type}}</td>
                                         <td>{{$booking->type}}</td>
                                         <td>{{$booking->price}}</td>
@@ -46,7 +46,7 @@
                                         <td>{{$booking->date}}</td>
                                         <td>
                                             <button class="btn btn-rounded btn-success mb-1"><a href="{{ route('admin.booking.approve', $booking->id) }}" aria-expanded="false"><i class="fa fa-edit"></i></a></button>
-                                            <button class="btn btn-rounded btn-danger mb-1"><a href="javascript:void()" aria-expanded="false"><i class="fa fa-remove"></i></a></button>
+                                            <button class="btn btn-rounded btn-danger mb-1"><a href="{{ route('admin.booking.reject', $booking->id) }}" aria-expanded="false"><i class="fa fa-remove"></i></a></button>
                                         </td>
                                     </tr>
                                     @endforeach
