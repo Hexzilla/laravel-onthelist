@@ -42,11 +42,19 @@
                                         <td>{{$booking->event->type}}</td>
                                         <td>{{$booking->type}}</td>
                                         <td>{{$booking->price}}</td>
-                                        <td>{{$booking->status}}</td>
+                                        <td>
+                                            @if($booking->status == 'Rejected')
+                                            <span class="badge badge-danger">Rejected</span>
+                                            @elseif($booking->status === 'Pending')
+                                            <span class="badge badge-warning">Pending</span>
+                                            @else
+                                            <span class="badge badge-success">Approved</span>
+                                            @endif
+                                        </td>
                                         <td>{{$booking->date}}</td>
                                         <!-- <td>
-                                            <button class="btn btn-rounded btn-success mb-1"><a href="{{ route('admin.booking.approve', $booking->id) }}" aria-expanded="false"><i class="fa fa-edit"></i></a></button>
-                                            <button class="btn btn-rounded btn-danger mb-1"><a href="{{ route('admin.booking.reject', $booking->id) }}" aria-expanded="false"><i class="fa fa-remove"></i></a></button>
+                                            <button class="btn btn-rounded btn-success mb-1" onclick="openApproveModal('{{$booking->id}}')"><i class="fa fa-check"></i></button>
+                                            <button class="btn btn-rounded btn-danger mb-1" onclick="openRejectModal('{{$booking->id}}')"><i class="fa fa-remove"></i></button>
                                         </td> -->
                                     </tr>
                                     @endforeach
@@ -62,6 +70,32 @@
 
 @section('scripts')
     <script>
+        const openApproveModal = (event_id) => {
+            let url = "{{ route('admin.booking.approve', 0) }}";
+            url = url.substr(0, url.length-1) + event_id;
+            $("#modal_delete").modal('show');
+            $("#modal_delete .modal-title").text(`Approve Booking`);
+            var content = '<button type="button" class="btn btn-info">';
+                content += `<a href="${url}">`;
+                content += "Yes</a></button>";
+                content += '<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>';
+            $("#modal_delete .modal-footer").html(content);
+            $("#modal_delete .modal-body").text('Are you sure you want to approve this booking?');
+        }
+
+        const openRejectModal = (event_id) => {
+            let url = "{{ route('admin.booking.reject', 0) }}";
+            url = url.substr(0, url.length-1) + event_id;
+            $("#modal_delete").modal('show');
+            $("#modal_delete .modal-title").text(`Reject Booking`);
+            var content = '<button type="button" class="btn btn-info">';
+                content += `<a href="${url}">`;
+                content += "Yes</a></button>";
+                content += '<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>';
+            $("#modal_delete .modal-footer").html(content);
+            $("#modal_delete .modal-body").text('Are you sure you want to reject this booking?');
+        }
+
         const openTimetableModal = (venue, timetable) => {
             timetable = JSON.parse(timetable);
             var days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];

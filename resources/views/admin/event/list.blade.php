@@ -42,20 +42,22 @@
                                             <button type="button" class="btn btn-rounded btn-outline-info mb-1" onclick="openDetailModal('{{$event}}')">Show More</button>
                                         </td>
                                         <td>
-                                            @if($event->isApproved())
-                                            <span class="badge badge-success">Approved</span>
-                                            @else
+                                            @if($event->status == 'Rejected')
+                                            <span class="badge badge-danger">Rejected</span>
+                                            @elseif($event->status === 'Pending')
                                             <span class="badge badge-warning">Pending</span>
+                                            @else
+                                            <span class="badge badge-success">{{$event->status}}</span>
                                             @endif
                                         </td>
                                         <td>
                                             <!-- <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('admin.events.edit', $event->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
                                             @if(!$event->isApproved())
-                                            <button type="button" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$event->name}}', '{{$event->id}}')"><i class="fa fa-trash"></i> Delete</button>
+                                            <button type="button" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$event->id}}')"><i class="fa fa-trash"></i> Delete</button>
                                             @endif -->
                                             <button type="button" class="btn btn-rounded btn-info mb-1"><a href="{{ route('admin.events.feature', $event->id) }}">As Feature</a></button>
-                                            <button class="btn btn-rounded btn-success mb-1"><a href="{{ route('admin.events.approve', $event->id) }}" aria-expanded="false"><i class="fa fa-edit"></i></a></button>
-                                            <button class="btn btn-rounded btn-danger mb-1"><a href="{{ route('admin.events.reject', $event->id) }}" aria-expanded="false"><i class="fa fa-remove"></i></a></button>
+                                            <button class="btn btn-rounded btn-success mb-1" onclick="openApproveModal('{{$event->id}}')"><i class="fa fa-check"></i></button>
+                                            <button class="btn btn-rounded btn-danger mb-1" onclick="openRejectModal('{{$event->id}}')"><i class="fa fa-remove"></i></button>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -71,17 +73,45 @@
 
 @section('scripts')
     <script>
-        const openDeleteModal = (event, event_id) => {
+        const openApproveModal = (event_id) => {
+            let url = "{{ route('admin.events.approve', 0) }}";
+            url = url.substr(0, url.length-1) + event_id;
+            $("#modal_delete").modal('show');
+            $("#modal_delete .modal-title").text(`Approve Event`);
+            var content = '<button type="button" class="btn btn-info">';
+                content += `<a href="${url}">`;
+                content += "Yes</a></button>";
+                content += '<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>';
+            $("#modal_delete .modal-footer").html(content);
+            $("#modal_delete .modal-body").text('Are you sure you want to approve this event?');
+        }
+
+        const openRejectModal = (event_id) => {
+            let url = "{{ route('admin.events.reject', 0) }}";
+            url = url.substr(0, url.length-1) + event_id;
+            $("#modal_delete").modal('show');
+            $("#modal_delete .modal-title").text(`Reject Event`);
+            var content = '<button type="button" class="btn btn-info">';
+                content += `<a href="${url}">`;
+                content += "Yes</a></button>";
+                content += '<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>';
+            $("#modal_delete .modal-footer").html(content);
+            $("#modal_delete .modal-body").text('Are you sure you want to reject this event?');
+        }
+
+        const openDeleteModal = (event_id) => {
             let url = "{{ route('admin.events.destroy', 0) }}";
             url = url.substr(0, url.length-1) + event_id;
             $("#modal_delete").modal('show');
-            $("#modal_delete .modal-title").text(`Delete ${event}`);
+            $("#modal_delete .modal-title").text(`Delete Event`);
             var content = '<button type="button" class="btn btn-info">';
                 content += `<a href="${url}">`;
-                content += "Delete</a></button>";
-                content += '<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>';
+                content += "Yes</a></button>";
+                content += '<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>';
             $("#modal_delete .modal-footer").html(content);
+            $("#modal_delete .modal-body").text('Are you sure you want to delete this event?');
         }
+
         const openTableModal = (event, tables) => {
             tables = JSON.parse(tables);
             $("#modal_venue").modal('show');

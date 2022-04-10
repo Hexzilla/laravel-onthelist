@@ -41,10 +41,12 @@
                                             <button type="button" class="btn btn-rounded btn-outline-info mb-1" onclick="openDetailModal('{{$event}}')">Show More</button>
                                         </td>
                                         <td>
-                                            @if($event->isApproved())
-                                            <span class="badge badge-success">Approved</span>
-                                            @else
+                                            @if($event->status == 'Rejected')
+                                            <span class="badge badge-danger">Rejected</span>
+                                            @elseif($event->status === 'Pending')
                                             <span class="badge badge-warning">Pending</span>
+                                            @else
+                                            <span class="badge badge-success">{{$event->status}}</span>
                                             @endif
                                         </td>
                                         <td>
