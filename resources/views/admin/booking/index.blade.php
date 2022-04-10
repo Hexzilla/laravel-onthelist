@@ -29,7 +29,7 @@
                                         <th>Price</th>
                                         <th>Status</th>
                                         <th>Date</th>
-                                        <th>Action</th>
+                                        <!-- <th>Action</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -44,10 +44,10 @@
                                         <td>{{$booking->price}}</td>
                                         <td>{{$booking->status}}</td>
                                         <td>{{$booking->date}}</td>
-                                        <td>
+                                        <!-- <td>
                                             <button class="btn btn-rounded btn-success mb-1"><a href="{{ route('admin.booking.approve', $booking->id) }}" aria-expanded="false"><i class="fa fa-edit"></i></a></button>
                                             <button class="btn btn-rounded btn-danger mb-1"><a href="{{ route('admin.booking.reject', $booking->id) }}" aria-expanded="false"><i class="fa fa-remove"></i></a></button>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                     @endforeach
                             </table>

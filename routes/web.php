@@ -15,6 +15,8 @@ use App\Http\Controllers\Dj\DashboardController as DjDashboardController;
 use App\Http\Controllers\Dj\ProfileController as DjProfileController;
 use App\Http\Controllers\Dj\EventController as DjEventController;
 
+use App\Http\Controllers\User\DashboardController as UserDashboardController;
+
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDahsboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
@@ -96,6 +98,13 @@ Route::name('dj.')->prefix('dj')->as('dj.')->group(function () {
     });
 });
 
+Route::name('user.')->prefix('user')->as('user.')->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/', [UserDashboardController::class, 'index'])->name('dashboard');
+        
+    });
+});
+
 /***********************************************************************
  *************************** Admin Panel *******************************
  **********************************************************************/
@@ -110,7 +119,8 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
         
         Route::controller(AdminBookingController::class)->name('booking.')->prefix('booking')->as('booking.')->group(function () {
             Route::get('/', 'index')->name('index');
-            Route::get('/approved/{id}', 'approved')->name('approve');
+            Route::get('/approve/{id}', 'approve')->name('approve');
+            Route::get('/reject/{id}', 'reject')->name('reject');
         });
         
         Route::controller(AdminUserController::class)->name('users.')->prefix('users')->as('users.')->group(function () {
