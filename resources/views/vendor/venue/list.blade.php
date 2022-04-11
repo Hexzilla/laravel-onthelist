@@ -1,6 +1,11 @@
 @extends('layouts.vendor')
 
 @section('content')
+<style>
+    .sample {
+        display: none;
+    }
+</style>
 <div class="content-body">
     <div class="container-fluid">
         <div class="row page-titles mx-0">
@@ -90,6 +95,41 @@
         </div>
     </div>
 </div>
+<!-- Time Table Modal -->
+<div class="modal fade" id="modal_time_table">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">$TITLE Timetable</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-responsive-sm">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Open</th>
+                                <th>Close</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="sample">
+                                <td>$DAY</td>
+                                <td>$DAY_OPEN</td>
+                                <td>$DAY_CLOSE</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('scripts')
@@ -100,35 +140,30 @@
 
             let html = $("#modal_delete_v2").html().replace('$URL', url);
             $("#modal_delete_v2").html(html);
-            
+
             $("#modal_delete_v2").modal('show');
         }
 
         const openTimetableModal = (venue, timetable) => {
             timetable = JSON.parse(timetable);
-            var days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
-            
-            $("#modal_venue").modal('show');
-            $("#modal_venue .modal-title").text(`"${venue}" Timetable`);
-            var content = '<div class="table-responsive"><table class="table table-responsive-sm">';
-                content += '<thead>';
-                    content += '<tr>';
-                        content += '<th>#</th>';
-                        content += '<th>Open</th>';
-                        content += '<th>Close</th>';
-                    content += '</tr>';
-                content += '</thead>';
-                content += '<tbody>';
-                    days.map(day => {
-                        content += '<tr>';
-                            content += '<td>' + day.toUpperCase() + '</td>';
-                            content += '<td>' + timetable[day + '_open'] + '</td>';
-                            content += '<td>' + timetable[day + '_close'] + '</td>';
-                        content += '</tr>';
-                    });
-                content += '</tbody>';
-            content += '</table></div>';
-            $("#modal_venue .modal-body").html(content);
+            const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+            const tbody = $('#modal_time_table tbody');
+            const sample = tbody.children('.sample');
+            tbody.find('.display').remove();
+
+            days.forEach(day => {
+                const clone = sample.clone().removeClass('sample').addClass('display');
+                let html = clone.html();
+                html = html.replace('$DAY', day)
+                html = html.replace('$DAY_OPEN', timetable[day + '_open'])
+                html = html.replace('$DAY_CLOSE', timetable[day + '_close'])
+                tbody.append(clone.html(html));
+            });
+
+            const modal = $('#modal_time_table').html().replace('$TITLE', venue);
+            $('#modal_time_table').html(modal);
+            $('#modal_time_table').modal('show');
         }
 
         const openTableModal = (venue, tables) => {
