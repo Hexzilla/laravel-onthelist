@@ -33,7 +33,7 @@
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                 </button>
             </div>
-            <div class="modal-body"></div>
+            <div class="modal-body" style="color:black"></div>
             <div class="modal-footer"></div>
         </div>
     </div>

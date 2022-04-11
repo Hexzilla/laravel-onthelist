@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Session;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -29,7 +30,7 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         $credentials = $request->only('email', 'password');
-        if($user->status === 'Approved') {
+        if($user->status === 'Approved' && is_null($user->deleted_at)) {
             if(Auth::attempt($credentials, $request->get('remember'))) {
                 if($user->role === 'vendor'){
                     return redirect()->intended('/vendors');
@@ -45,8 +46,10 @@ class AuthController extends Controller
     }
 
     public function logout() {
-        Session::flash();
-        Auth::logout();
-        return Redirect('home');
+        $this->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('home');
     }
 }

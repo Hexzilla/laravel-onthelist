@@ -58,7 +58,9 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
 
         Route::controller(VendorSettingController::class)->name('setting.')->prefix('setting')->as('setting.')->group(function () {
             Route::get('/', 'index')->name('index');
-            Route::post('/store', 'store')->name('store');
+            Route::post('/password', 'changePassword')->name('password');
+            Route::post('/contact', 'contact')->name('contact');
+            Route::get('/close', 'closeAccount')->name('close');
         });
 
         Route::controller(VendorPaymentController::class)->name('payment.')->prefix('payment')->as('payment.')->group(function () {

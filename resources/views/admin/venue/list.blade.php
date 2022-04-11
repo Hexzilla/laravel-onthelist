@@ -44,20 +44,22 @@
                                             <button type="button" class="btn btn-rounded btn-outline-info mb-1" onclick="openDetailModal('{{$venue}}')">Show More</button>
                                         </td>
                                         <td>
-                                            @if($venue->isApproved())
-                                            <span class="badge badge-success">Approved</span>
-                                            @else
+                                            @if($venue->status == 'Rejected')
+                                            <span class="badge badge-danger">Rejected</span>
+                                            @elseif($venue->status === 'Pending')
                                             <span class="badge badge-warning">Pending</span>
+                                            @else
+                                            <span class="badge badge-success">{{$venue->status}}</span>
                                             @endif
                                         </td>
                                         <td>
                                             <!-- <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('admin.venues.edit', $venue->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
                                             @if(!$venue->isApproved())
-                                            <button type="button" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$venue->name}}', '{{$venue->id}}')"><i class="fa fa-trash"></i> Delete</button>
+                                            <button type="button" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$venue->id}}')"><i class="fa fa-trash"></i> Delete</button>
                                             @endif -->
-                                            <button class="btn btn-rounded btn-success mb-1"><a href="{{ route('admin.venues.approve', $venue->id) }}" aria-expanded="false"><i class="fa fa-edit"></i></a></button>
-                                            <button class="btn btn-rounded btn-danger mb-1"><a href="{{ route('admin.venues.reject', $venue->id) }}" aria-expanded="false"><i class="fa fa-remove"></i></a></button>
                                             <button type="button" class="btn btn-rounded btn-info mb-1"><a href="{{ route('admin.venues.feature', $venue->id) }}">As Feature</a></button>
+                                            <button class="btn btn-rounded btn-success mb-1" onclick="openApproveModal('{{$venue->id}}')"><i class="fa fa-check"></i></button>
+                                            <button class="btn btn-rounded btn-danger mb-1" onclick="openRejectModal('{{$venue->id}}')"><i class="fa fa-remove"></i></button>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -73,16 +75,43 @@
 
 @section('scripts')
     <script>
-        const openDeleteModal = (venue, venue_id) => {
+        const openApproveModal = (venue_id) => {
+            let url = "{{ route('admin.venues.approve', 0) }}";
+            url = url.substr(0, url.length-1) + venue_id;
+            $("#modal_delete").modal('show');
+            $("#modal_delete .modal-title").text(`Approve Venue`);
+            var content = '<button type="button" class="btn btn-info">';
+                content += `<a href="${url}">`;
+                content += "Yes</a></button>";
+                content += '<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>';
+            $("#modal_delete .modal-footer").html(content);
+            $("#modal_delete .modal-body").text('Are you sure you want to approve this venue?');
+        }
+        
+        const openRejectModal = (venue_id) => {
+            let url = "{{ route('admin.venues.reject', 0) }}";
+            url = url.substr(0, url.length-1) + venue_id;
+            $("#modal_delete").modal('show');
+            $("#modal_delete .modal-title").text(`Reject Venue`);
+            var content = '<button type="button" class="btn btn-info">';
+                content += `<a href="${url}">`;
+                content += "Yes</a></button>";
+                content += '<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>';
+            $("#modal_delete .modal-footer").html(content);
+            $("#modal_delete .modal-body").text('Are you sure you want to reject this venue?');
+        }
+
+        const openDeleteModal = (venue_id) => {
             let url = "{{ route('admin.venues.destroy', 0) }}";
             url = url.substr(0, url.length-1) + venue_id;
             $("#modal_delete").modal('show');
-            $("#modal_delete .modal-title").text(`Delete ${venue}`);
+            $("#modal_delete .modal-title").text(`Delete Venue`);
             var content = '<button type="button" class="btn btn-info">';
                 content += `<a href="${url}">`;
-                content += "Delete</a></button>";
-                content += '<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>';
+                content += "Yes</a></button>";
+                content += '<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>';
             $("#modal_delete .modal-footer").html(content);
+            $("#modal_delete .modal-body").text('Are you sure you want to delete this venue?');
         }
 
         const openTimetableModal = (venue, timetable) => {

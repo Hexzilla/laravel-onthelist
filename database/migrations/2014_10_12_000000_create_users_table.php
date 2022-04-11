@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->datetime('deleted_at')->nullable();
             $table->enum('role', ['dj', 'vendor', 'customer'])->default('customer');
             $table->enum('status', ['Approved', 'Pending', 'Rejected'])->default('Pending');
             $table->rememberToken();

@@ -43,10 +43,12 @@
                                             <button type="button" class="btn btn-rounded btn-outline-info mb-1" onclick="openDetailModal('{{$venue}}')">Show More</button>
                                         </td>
                                         <td>
-                                            @if($venue->isApproved())
-                                            <span class="badge badge-success">Approved</span>
-                                            @else
+                                            @if($venue->status == 'Rejected')
+                                            <span class="badge badge-danger">Rejected</span>
+                                            @elseif($venue->status === 'Pending')
                                             <span class="badge badge-warning">Pending</span>
+                                            @else
+                                            <span class="badge badge-success">{{$venue->status}}</span>
                                             @endif
                                         </td>
                                         <td>
@@ -73,12 +75,13 @@
             let url = "{{ route('vendors.venue.destroy', 0) }}";
             url = url.substr(0, url.length-1) + venue_id;
             $("#modal_delete").modal('show');
-            $("#modal_delete .modal-title").text(`Delete ${venue}`);
+            $("#modal_delete .modal-title").text(`Delete Venue`);
             var content = '<button type="button" class="btn btn-info">';
                 content += `<a href="${url}">`;
-                content += "Delete</a></button>";
-                content += '<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>';
+                content += "Yes</a></button>";
+                content += '<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>';
             $("#modal_delete .modal-footer").html(content);
+            $("#modal_delete .modal-body").text('Are you sure you want to delete this venue?');
         }
 
         const openTimetableModal = (venue, timetable) => {

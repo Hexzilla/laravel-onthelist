@@ -41,10 +41,12 @@
                                             <button type="button" class="btn btn-rounded btn-outline-info mb-1" onclick="openDetailModal('{{$event}}')">Show More</button>
                                         </td>
                                         <td>
-                                            @if($event->isApproved())
-                                            <span class="badge badge-success">Approved</span>
-                                            @else
+                                            @if($event->status == 'Rejected')
+                                            <span class="badge badge-danger">Rejected</span>
+                                            @elseif($event->status === 'Pending')
                                             <span class="badge badge-warning">Pending</span>
+                                            @else
+                                            <span class="badge badge-success">{{$event->status}}</span>
                                             @endif
                                         </td>
                                         <td>
@@ -71,12 +73,13 @@
             let url = "{{ route('vendors.event.destroy', 0) }}";
             url = url.substr(0, url.length-1) + event_id;
             $("#modal_delete").modal('show');
-            $("#modal_delete .modal-title").text(`Delete ${event}`);
+            $("#modal_delete .modal-title").text(`Delete Event`);
             var content = '<button type="button" class="btn btn-info">';
                 content += `<a href="${url}">`;
                 content += "Delete</a></button>";
                 content += '<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>';
             $("#modal_delete .modal-footer").html(content);
+            $("#modal_delete .modal-body").text('Are you sure you want to delete this event?');
         }
 
         const openTableModal = (event, tables) => {
