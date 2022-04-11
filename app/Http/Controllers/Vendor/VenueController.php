@@ -36,12 +36,13 @@ class VenueController extends Controller
             'city' => 'required',
             'postcode' => 'required',
             'phone' => 'required',
+            'venue_type' => 'required',
         ]);
 
         $venue = new Venue();
         $venue->user_id = $user_id;
         $venue->name = $request->name;
-        $venue->type = "Type 1";
+        $venue->type = $request->venue_type;
         if(!is_null($request->details))
             $venue->description = $request->details;
         $venue->header_image_path = upload_file($request->file('header_image'), 'venue');
@@ -174,12 +175,14 @@ class VenueController extends Controller
             'city' => 'required',
             'postcode' => 'required',
             'phone' => 'required',
+            'venue_type' => 'required'
         ]);
 
         $venues = Venue::where('user_id', $user_id)->where('id', $id)->get();
         $venue = $venues[0];
         $venue->user_id = $user_id;
         $venue->name = $request->name;
+        $venue->type = $request->venue_type;
         if(!is_null($request->details))
             $venue->description = $request->details;
         $venue->header_image_path = upload_file($request->file('header_image'), 'venue');

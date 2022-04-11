@@ -185,7 +185,7 @@
                                         <div class="form-group">
                                             <label for="ticketType">Ticket Type</label>
                                             <select class="form-control" name="ticket_type[]">
-                                                <option value="Standard">Standard</option>
+                                                <option value="Standard" selected>Standard</option>
                                                 <option value="Low">Low</option>
                                                 <option value="High">High</option>
                                             </select>
@@ -237,7 +237,7 @@
                                         <div class="form-group">
                                             <label for="tableType">Table Type</label>
                                             <select class="form-control" name="table_type[]">
-                                                <option value="Standard">Standard</option>
+                                                <option value="Standard" selected>Standard</option>
                                                 <option value="Low">Low</option>
                                                 <option value="High">High</option>
                                             </select>
@@ -289,7 +289,7 @@
                                         <div class="form-group">
                                             <label for="guestlistType">Guestlist Type</label>
                                             <select class="form-control" name="guestlist_type[]">
-                                                <option value="Standard">Standard</option>
+                                                <option value="Standard" selected>Standard</option>
                                                 <option value="Low">Low</option>
                                                 <option value="High">High</option>
                                             </select>

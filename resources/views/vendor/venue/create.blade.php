@@ -253,7 +253,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="EventType">Venue Type</label>
+                                        <label for="EventType">Venue Type *</label>
                                         <input type="text" class="form-control" placeholder="" name="venue_type" value="{{ old('venue_type') }}">
                                     </div>
                                 </div>
@@ -289,7 +289,7 @@
                                         <div class="form-group">
                                             <label for="offerType">Offer Type</label>
                                             <select class="form-control" name="offer_type[]">
-                                                <option value="Discount">Discount</option>
+                                                <option value="Discount" selected>Discount</option>
                                                 <option value="Type 2">Type 2</option>
                                                 <option value="Type 3">Type 3</option>
                                             </select>
@@ -341,7 +341,7 @@
                                         <div class="form-group">
                                             <label for="offerType">Table Type</label>
                                             <select class="form-control" name="table_type[]">
-                                                <option value="Type 1">Type 1</option>
+                                                <option value="Type 1" selected>Type 1</option>
                                                 <option value="Type 2">Type 2</option>
                                                 <option value="Type 3">Type 3</option>
                                             </select>

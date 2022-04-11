@@ -35,7 +35,7 @@ class SettingController extends Controller
 
         $user->password = bcrypt($request->get('password'));
         $user->save();
-        return redirect()->route('vendors.dashboard')->with("success","Password successfully changed!");
+        return redirect()->route('/vendors')->with("success","Password successfully changed!");
     }
 
     public function contact(Request $request)
@@ -53,13 +53,14 @@ class SettingController extends Controller
 
         $this->createProfile($user, $request);
         
-        return redirect()->route('vendors.dashboard')->with("success","Profile successfully changed!");
+        return redirect('/vendors')->with("success","Profile successfully changed!");
     }
 
     public function createProfile($user, $request)
     {
-        $profile = UserProfile::where('user_id', $user->id)->firstOrFail();
-        if(!is_null($profile)){
+        $profiles = UserProfile::where('user_id', $user->id)->get();
+        if(count($profiles) > 0){
+            $profile = $profiles[0];
             $profile->phone = $request->phone;
             $profile->address = $request->address;
             if($request->hasFile('profile_image')){

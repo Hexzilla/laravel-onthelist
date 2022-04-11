@@ -254,7 +254,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="EventType">Venue Type</label>
+                                        <label for="EventType">Venue Type *</label>
                                         <input type="text" class="form-control" placeholder="" name="venue_type" value="{{ old('venue_type') }}">
                                     </div>
                                 </div>

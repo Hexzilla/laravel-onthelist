@@ -19,8 +19,8 @@ class CreateUserProfilesTable extends Migration
             $table->string('image_path')->nullable();
             $table->enum('gender', ['Male', 'Female']);
             $table->date('date_birth');
-            $table->string('address');
-            $table->string('phone');
+            $table->string('address')->nullable();
+            $table->string('phone')->nullable();
             $table->timestamps();
         });
     }
