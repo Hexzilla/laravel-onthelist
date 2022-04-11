@@ -50,9 +50,11 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('vendors.event.edit', $event->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
+                                            <button type="button" title="Edit" class="btn btn-rounded btn-primary mb-1">
+                                                <a href="{{ route('vendors.event.edit', $event->id) }}"><i class="fa fa-edit"></i></a>
+                                            </button>
                                             @if(!$event->isApproved())
-                                            <button type="button" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$event->name}}', '{{$event->id}}')"><i class="fa fa-trash"></i> Delete</a></button>
+                                            <button type="button" title="Delete" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$event->name}}', '{{$event->id}}')"><i class="fa fa-trash"></i></a></button>
                                             @endif
                                         </td>
                                     </tr>

@@ -52,9 +52,13 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('vendors.venue.edit', $venue->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
+                                            <button type="button" class="btn btn-rounded btn-primary mb-1" title="Edit">
+                                                <a href="{{ route('vendors.venue.edit', $venue->id) }}"><i class="fa fa-edit"></i></a>
+                                            </button>
                                             @if(!$venue->isApproved())
-                                            <button type="button" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$venue->name}}', '{{$venue->id}}' )"><i class="fa fa-trash"></i> Delete</button>
+                                            <button type="button" title="Delete" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$venue->name}}', '{{$venue->id}}' )">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
                                             @endif
                                         </td>
                                     </tr>
