@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-    .sample {
+    .hidden {
         display: none;
     }
 </style>
@@ -115,7 +115,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="sample">
+                            <tr class="hidden">
                                 <td>$DAY</td>
                                 <td>$DAY_OPEN</td>
                                 <td>$DAY_CLOSE</td>
@@ -149,11 +149,11 @@
             const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
             const tbody = $('#modal_time_table tbody');
-            const sample = tbody.children('.sample');
+            const sample = tbody.children('.hidden');
             tbody.find('.display').remove();
 
             days.forEach(day => {
-                const clone = sample.clone().removeClass('sample').addClass('display');
+                const clone = sample.clone().removeClass('hidden').addClass('display');
                 let html = clone.html();
                 html = html.replace('$DAY', day)
                 html = html.replace('$DAY_OPEN', timetable[day + '_open'])
