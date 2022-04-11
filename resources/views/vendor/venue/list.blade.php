@@ -71,6 +71,25 @@
         </div>
     </div>
 </div>
+<!-- Delete Venue Modal -->
+<div class="modal fade" id="modal_delete_v2">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Venue</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="color:black">Are you sure you want to delete this venue?</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info">
+                    <a href="$URL">Yes</a>
+                </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('scripts')
@@ -78,14 +97,11 @@
         const openDeleteModal = (venue, venue_id) => {
             let url = "{{ route('vendors.venue.destroy', 0) }}";
             url = url.substr(0, url.length-1) + venue_id;
-            $("#modal_delete").modal('show');
-            $("#modal_delete .modal-title").text(`Delete Venue`);
-            var content = '<button type="button" class="btn btn-info">';
-                content += `<a href="${url}">`;
-                content += "Yes</a></button>";
-                content += '<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>';
-            $("#modal_delete .modal-footer").html(content);
-            $("#modal_delete .modal-body").text('Are you sure you want to delete this venue?');
+
+            let html = $("#modal_delete_v2").html().replace('$URL', url);
+            $("#modal_delete_v2").html(html);
+            
+            $("#modal_delete_v2").modal('show');
         }
 
         const openTimetableModal = (venue, timetable) => {
