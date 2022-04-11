@@ -45,8 +45,8 @@
                                         </td>
                                         <td>{{$user->created_at}}</td>
                                         <td>
-                                            <button class="btn btn-rounded btn-success mb-1" onclick="openApproveModal('{{$user->id}}')"><i class="fa fa-check"></i></button>
-                                            <button class="btn btn-rounded btn-danger mb-1" onclick="openRejectModal('{{$user->id}}')"><i class="fa fa-remove"></i></button>
+                                            <button title="Approve" class="btn btn-rounded btn-success mb-1" onclick="openApproveModal('{{$user->id}}')"><i class="fa fa-check"></i></button>
+                                            <button title="Reject" class="btn btn-rounded btn-danger mb-1" onclick="openRejectModal('{{$user->id}}')"><i class="fa fa-remove"></i></button>
                                             <!-- @if($role === 'dj')
                                             <button type="button" class="btn btn-rounded btn-success mb-1"><a href="{{ route('admin.users.show', $user->id) }}"><i class="fa fa-visibility"></i> Show Event</a></button>
                                             @endif -->

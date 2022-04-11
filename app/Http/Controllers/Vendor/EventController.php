@@ -20,7 +20,7 @@ class EventController extends Controller
     {
         $user_id = Auth::user()->id;
         $events = Event::where('user_id', $user_id)->get();
-        return view('vendors.event.list', ['events' => $events]);
+        return view('vendor.event.list', ['events' => $events]);
     }
 
     public function create()
@@ -28,7 +28,7 @@ class EventController extends Controller
         $user_id = Auth::user()->id;
         $venues = Venue::where('user_id', $user_id)->get();
         $djs = User::where('role', 'dj')->get();
-        return view('vendors.event.create', ['venues' => $venues, 'djs' => $djs]);
+        return view('vendor.event.create', ['venues' => $venues, 'djs' => $djs]);
     }
 
     
@@ -242,7 +242,7 @@ class EventController extends Controller
                 $media->path = $path;
                 $media->save();
             } else {
-                VenueMedia::create([
+                EventMedia::create([
                     'event_id' => $event->id,
                     'type' => 'video',
                     'path' => $path

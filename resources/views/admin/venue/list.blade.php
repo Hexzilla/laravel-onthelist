@@ -57,9 +57,15 @@
                                             @if(!$venue->isApproved())
                                             <button type="button" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$venue->id}}')"><i class="fa fa-trash"></i> Delete</button>
                                             @endif -->
-                                            <button type="button" class="btn btn-rounded btn-info mb-1"><a href="{{ route('admin.venues.feature', $venue->id) }}">As Feature</a></button>
-                                            <button class="btn btn-rounded btn-success mb-1" onclick="openApproveModal('{{$venue->id}}')"><i class="fa fa-check"></i></button>
-                                            <button class="btn btn-rounded btn-danger mb-1" onclick="openRejectModal('{{$venue->id}}')"><i class="fa fa-remove"></i></button>
+                                            <button title="Approve" class="btn btn-rounded btn-success mb-1" onclick="openApproveModal('{{$venue->id}}')">
+                                                <i class="fa fa-check"></i>
+                                            </button>
+                                            <button title="Reject" class="btn btn-rounded btn-danger mb-1" onclick="openRejectModal('{{$venue->id}}')">
+                                                <i class="fa fa-remove"></i>
+                                            </button>
+                                            <button type="button" title="As Feature" class="btn btn-rounded btn-info mb-1">
+                                                <a href="{{ route('admin.venues.feature', $venue->id) }}"><i class="fa fa-bitcoin"></i></a>
+                                            </button>
                                         </td>
                                     </tr>
                                     @endforeach

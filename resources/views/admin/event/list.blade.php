@@ -55,9 +55,15 @@
                                             @if(!$event->isApproved())
                                             <button type="button" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$event->id}}')"><i class="fa fa-trash"></i> Delete</button>
                                             @endif -->
-                                            <button type="button" class="btn btn-rounded btn-info mb-1"><a href="{{ route('admin.events.feature', $event->id) }}">As Feature</a></button>
-                                            <button class="btn btn-rounded btn-success mb-1" onclick="openApproveModal('{{$event->id}}')"><i class="fa fa-check"></i></button>
-                                            <button class="btn btn-rounded btn-danger mb-1" onclick="openRejectModal('{{$event->id}}')"><i class="fa fa-remove"></i></button>
+                                            <button title="Approve" class="btn btn-rounded btn-success mb-1" onclick="openApproveModal('{{$event->id}}')">
+                                                <i class="fa fa-check"></i>
+                                            </button>
+                                            <button title="Reject" class="btn btn-rounded btn-danger mb-1" onclick="openRejectModal('{{$event->id}}')">
+                                                <i class="fa fa-remove"></i>
+                                            </button>
+                                            <button type="button" title="As Feature" class="btn btn-rounded btn-info mb-1">
+                                                <a href="{{ route('admin.events.feature', $event->id) }}"><i class="fa fa-bitcoin"></i></a>
+                                            </button>
                                         </td>
                                     </tr>
                                     @endforeach
