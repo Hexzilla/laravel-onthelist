@@ -65,7 +65,7 @@ class VenueController extends Controller
         $this->createOffer($venue, $request);
         $this->createTable($venue, $request);
 
-        return redirect()->route('venue.index');
+        return redirect()->route('vendors.venue.index');
     }
 
     public function createTimetable($venue, $request)
