@@ -20,7 +20,7 @@ class EventController extends Controller
     {
         $user_id = Auth::user()->id;
         $events = Event::where('user_id', $user_id)->get();
-        return view('vendor.event.list', ['events' => $events]);
+        return view('vendors.event.list', ['events' => $events]);
     }
 
     public function create()
@@ -28,7 +28,7 @@ class EventController extends Controller
         $user_id = Auth::user()->id;
         $venues = Venue::where('user_id', $user_id)->get();
         $djs = User::where('role', 'dj')->get();
-        return view('vendor.event.create', ['venues' => $venues, 'djs' => $djs]);
+        return view('vendors.event.create', ['venues' => $venues, 'djs' => $djs]);
     }
 
     
@@ -207,7 +207,7 @@ class EventController extends Controller
         $this->updateGuestlist($event, $request);
         $this->updateDjs($event->id, $request->djs);
 
-        return redirect()->route('vendor.event.index');
+        return redirect()->route('vendors.event.index');
     }
 
     public function updateMedia($event, $request)
@@ -361,14 +361,13 @@ class EventController extends Controller
         $i = 0;
         foreach($djs as $dj){
             $eventdjs = EventDj::where('event_id', $event_id)->get();
-            $eventdj = $eventdjs[$i];
-            if (!$eventdj) {
+            if (count($eventdjs) > $i) {
+                $eventdjs[$i]->user_id = $dj;
+            } else {
                 EventDj::create([
                     'event_id' => $event_id,
                     'user_id' => $dj
                 ]);
-            } else {
-                $eventdj->user_id = $dj;
             }
         }
     }
