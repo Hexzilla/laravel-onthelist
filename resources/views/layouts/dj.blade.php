@@ -45,8 +45,6 @@
 
         @include('partials.dj-footer')
 
-        @include('partials.vendor-modal')
-
     </div>
 
     <!-- Required vendors -->
