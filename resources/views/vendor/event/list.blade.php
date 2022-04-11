@@ -73,12 +73,13 @@
             let url = "{{ route('vendors.event.destroy', 0) }}";
             url = url.substr(0, url.length-1) + event_id;
             $("#modal_delete").modal('show');
-            $("#modal_delete .modal-title").text(`Delete ${event}`);
+            $("#modal_delete .modal-title").text(`Delete Event`);
             var content = '<button type="button" class="btn btn-info">';
                 content += `<a href="${url}">`;
                 content += "Delete</a></button>";
                 content += '<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>';
             $("#modal_delete .modal-footer").html(content);
+            $("#modal_delete .modal-body").text('Are you sure you want to delete this event?');
         }
 
         const openTableModal = (event, tables) => {
