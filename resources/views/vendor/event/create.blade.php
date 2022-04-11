@@ -55,9 +55,8 @@
                                     <label for="EventType">Event Type *</label>
                                     <select class="form-control" id="EventType" name="type">
                                         <option disabled selected>Select Event Type</option>
-                                        <option value="Type 1">Type 1</option>
-                                        <option value="Type 2">Type 2</option>
-                                        <option value="Type 3">Type 3</option>
+                                        <option value="Public">Public</option>
+                                        <option value="Private">Private</option>
                                     </select>
                                 </div>
                             </div>

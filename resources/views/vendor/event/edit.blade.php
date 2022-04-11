@@ -56,9 +56,8 @@
                                     <label for="EventType">Event Type *</label>
                                     <select class="form-control" id="EventType" name="type" value="{{ $event->type }}">
                                         <option disabled>Select Event Type</option>
-                                        <option value="Type 1" {{$event->type === 'Type 1' ? 'selected':''}}>Type 1</option>
-                                        <option value="Type 2" {{$event->type === 'Type 2' ? 'selected':''}}>Type 2</option>
-                                        <option value="Type 3" {{$event->type === 'Type 3' ? 'selected':''}}>Type 3</option>
+                                        <option value="Public" {{$event->type === 'Public' ? 'selected':''}}>Public</option>
+                                        <option value="Private" {{$event->type === 'Private' ? 'selected':''}}>Private</option>
                                     </select>
                                 </div>
                             </div>
