@@ -144,6 +144,14 @@
             $("#modal_delete_v2").modal('show');
         }
 
+        const titleCase = (str) => {
+            str = str.toLowerCase().split(' ');
+            for (var i = 0; i < str.length; i++) {
+                str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1); 
+            }
+            return str.join(' ');
+        }
+
         const openTimetableModal = (venue, timetable) => {
             timetable = JSON.parse(timetable);
             const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
@@ -155,7 +163,7 @@
             days.forEach(day => {
                 const clone = sample.clone().removeClass('hidden').addClass('display');
                 let html = clone.html();
-                html = html.replace('$DAY', day)
+                html = html.replace('$DAY', titleCase(day))
                 html = html.replace('$DAY_OPEN', timetable[day + '_open'])
                 html = html.replace('$DAY_CLOSE', timetable[day + '_close'])
                 tbody.append(clone.html(html));
