@@ -56,9 +56,9 @@
                                     <label for="EventType">Event Type *</label>
                                     <select class="form-control" id="EventType" name="type" value="{{ $event->type }}">
                                         <option disabled>Select Event Type</option>
-                                        <option value="Type 1">Type 1</option>
-                                        <option value="Type 2">Type 2</option>
-                                        <option value="Type 3">Type 3</option>
+                                        <option value="Type 1" {{$event->type === 'Type 1' ? 'selected':''}}>Type 1</option>
+                                        <option value="Type 2" {{$event->type === 'Type 2' ? 'selected':''}}>Type 2</option>
+                                        <option value="Type 3" {{$event->type === 'Type 3' ? 'selected':''}}>Type 3</option>
                                     </select>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                                     <select class="form-control" id="EventVenue" name="venue_id" value="{{$event->venue_id}}">
                                         <option disabled>Select Venue</option>
                                         @foreach($venues as $venue)
-                                        <option value="{{$venue->id}}" data-venue-location="{{$venue->location}}">{{$venue->name}}</option>
+                                        <option value="{{$venue->id}}" data-venue-location="{{$venue->location}}" {{$venue->id === $event->venue_id ? 'selected' : ''}}>{{$venue->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -187,9 +187,9 @@
                                         <div class="form-group">
                                             <label for="ticketType">Ticket Type</label>
                                             <select class="form-control" name="ticket_type[]"  value="{{ $ticket->type }}">
-                                                <option value="Standard">Standard</option>
-                                                <option value="Low">Low</option>
-                                                <option value="High">High</option>
+                                                <option value="Standard" {{$ticket->type === 'Standard' ? 'selected' : ''}}>Standard</option>
+                                                <option value="Low" {{$ticket->type === 'Low' ? 'selected' : ''}}>Low</option>
+                                                <option value="High" {{$ticket->type === 'High' ? 'selected' : ''}}>High</option>
                                             </select>
                                         </div>
                                     </div>
@@ -241,9 +241,9 @@
                                         <div class="form-group">
                                             <label for="tableType">Table Type</label>
                                             <select class="form-control" name="table_type[]" value="{{ $table->type }}">
-                                                <option value="Standard">Standard</option>
-                                                <option value="Low">Low</option>
-                                                <option value="High">High</option>
+                                                <option value="Standard" {{$table->type === 'Standard' ? 'selected' : ''}}>Standard</option>
+                                                <option value="Low" {{$table->type === 'Low' ? 'selected' : ''}}>Low</option>
+                                                <option value="High" {{$table->type === 'High' ? 'selected' : ''}}>High</option>
                                             </select>
                                         </div>
                                     </div>
@@ -295,9 +295,9 @@
                                         <div class="form-group">
                                             <label for="guestlistType">Guestlist Type</label>
                                             <select class="form-control" name="guestlist_type[]" value="{{ $guestlist->type }}">
-                                                <option value="Standard">Standard</option>
-                                                <option value="Low">Low</option>
-                                                <option value="High">High</option>
+                                                <option value="Standard" {{$guestlist->type === 'Standard' ? 'selected' : ''}}>Standard</option>
+                                                <option value="Low" {{$guestlist->type === 'Low' ? 'selected' : ''}}>Low</option>
+                                                <option value="High" {{$guestlist->type === 'High' ? 'selected' : ''}}>High</option>
                                             </select>
                                         </div>
                                     </div>

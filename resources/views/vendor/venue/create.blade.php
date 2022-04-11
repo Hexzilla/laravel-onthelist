@@ -254,7 +254,12 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="EventType">Venue Type *</label>
-                                        <input type="text" class="form-control" placeholder="" name="venue_type" value="{{ old('venue_type') }}">
+                                        <select class="form-control" name="venue_type">
+                                            <option disabled selected>Select Venue Type</option>            
+                                            <option value="Type 1">Type 1</option>
+                                            <option value="Type 2">Type 2</option>
+                                            <option value="Type 3">Type 3</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

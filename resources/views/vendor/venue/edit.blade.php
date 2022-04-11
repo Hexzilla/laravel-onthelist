@@ -255,7 +255,11 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="EventType">Venue Type *</label>
-                                        <input type="text" class="form-control" placeholder="" name="venue_type" value="{{ old('venue_type') }}">
+                                        <select class="form-control" name="venue_type">
+                                            <option value="Type 1" {{ $venue->type === "Type 1" ? 'selected' : ''}}>Type 1</option>
+                                            <option value="Type 2" {{ $venue->type === "Type 2" ? 'selected' : ''}}>Type 2</option>
+                                            <option value="Type 3" {{ $venue->type === "Type 3" ? 'selected' : ''}}>Type 3</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -291,9 +295,9 @@
                                         <div class="form-group">
                                             <label for="offerType">Offer Type</label>
                                             <select class="form-control" name="offer_type[]" value="{{ $offer->type }}">
-                                                <option value="Discount">Discount</option>
-                                                <option value="Type 2">Type 2</option>
-                                                <option value="Type 3">Type 3</option>
+                                                <option value="Discount" {{ $offer->type === "Discount" ? 'selected' : '' }}>Discount</option>
+                                                <option value="Type 2" {{ $offer->type === "Type 2" ? 'selected' : '' }}>Type 2</option>
+                                                <option value="Type 3" {{ $offer->type === "Type 3" ? 'selected' : '' }}>Type 3</option>
                                             </select>
                                         </div>
                                     </div>
@@ -345,9 +349,9 @@
                                         <div class="form-group">
                                             <label for="offerType">Table Type</label>
                                             <select class="form-control" name="table_type[]" value="{{ $table->type }}">
-                                                <option value="Type 1">Type 1</option>
-                                                <option value="Type 2">Type 2</option>
-                                                <option value="Type 3">Type 3</option>
+                                                <option value="Type 1" {{ $table->type === "Type 1" ? 'selected' : '' }}>Type 1</option>
+                                                <option value="Type 2" {{ $table->type === "Type 2" ? 'selected' : '' }}>Type 2</option>
+                                                <option value="Type 3" {{ $table->type === "Type 3" ? 'selected' : '' }}>Type 3</option>
                                             </select>
                                         </div>
                                     </div>
