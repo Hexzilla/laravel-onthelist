@@ -64,21 +64,21 @@
                         <div class="row">
                             <div class="form-group col-md-3">
                                 <label for="start-date">Start Date</label>
-                                <input type="date" value="{{ old('start_date') ?? date('Y-m-d') }}" id="start-date" name="start_date" class="form-control" />
+                                <input type="date" value="{{ old('start_date') ?? date('Y-m-d') }}" id="start-date" name="start_date" class="form-control text-center event-date-time" />
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="start-time">Start Time</label>
-                                <input type="time" value="{{ old('start_time') ?? "09:00" }}" step="60" id="start-time" name="start_time" class="form-control" />
+                                <input type="time" value="{{ old('start_time') ?? '00:00' }}" step="60" id="start-time" name="start_time" class="form-control text-center event-date-time" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-3">
                                 <label for="end-date">End Date</label>
-                                <input type="date" value="{{ old('end_date') ?? date('Y-m-d') }}" id="end-date" name="end_date" class="form-control" />
+                                <input type="date" value="{{ old('end_date') ?? date('Y-m-d') }}" id="end-date" name="end_date" class="form-control text-center event-date-time" />
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="end-time">End Time</label>
-                                <input type="time" value="{{ old('end_time') ?? "20:00" }}" step="60" id="end-time" name="end_time" class="form-control" />
+                                <input type="time" value="{{ old('end_time') ?? '00:00' }}" step="60" id="end-time" name="end_time" class="form-control text-center event-date-time" />
                             </div>
                         </div>
                         <div class="row">
@@ -404,6 +404,40 @@
                 $(new_guestlist).find("input, textarea").each((index, ele)=> $(ele).val(""));
                 new_guestlist.appendTo("div#event-guestlist-list");
             });
+
+            function formatDate(date) {
+                return date.toISOString().slice(0, 10);
+            }
+
+            function getDateTime(str) {
+                return new Date(str).getTime();
+            }
+
+            function updateEndDateTime() {
+                const startDate = $('#start-date').val();
+                const endDate = $('#end-date').val();
+
+                $('#end-date').attr('min', startDate)
+
+                if (getDateTime(startDate) > getDateTime(endDate)) {
+                    $('#end-date').val(startDate)
+                    return;
+                }
+
+                const startTime = $('#start-time').val();
+                const endTime = $('#end-time').val();
+                const date1 = `${startDate} ${startTime}:00`;
+                const date2 = `${endDate} ${endTime}:00`;
+                if (getDateTime(date1) > getDateTime(date2)) {
+                    $('#end-time').val(startTime)
+                }
+            }
+            updateEndDateTime();
+            
+            // Start Date
+            $('.event-date-time').on('change', function() {
+                updateEndDateTime();
+            })
         });
     </script>
 @endsection
