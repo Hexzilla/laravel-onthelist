@@ -379,6 +379,4 @@ class EventController extends Controller
         $event[0] -> delete();
         return redirect()->route('vendors.event.index');
     }
-
-    
 }

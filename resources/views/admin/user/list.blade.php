@@ -61,6 +61,45 @@
         </div>
     </div>
 </div>
+<!-- Approve Modal -->
+<div class="modal fade" id="modal_approve_v2">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Approve Venue</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="color:black">Are you sure you want to approve this venue?</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info">
+                    <a href="$URL">Yes</a>
+                </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reject Modal -->
+<div class="modal fade" id="modal_reject_v2">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reject Venue</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="color:black">Are you sure you want to reject this venue?</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info">
+                    <a href="$URL">Yes</a>
+                </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('scripts')
@@ -68,27 +107,17 @@
          const openApproveModal = (user_id) => {
             let url = "{{ route('admin.users.approve', 0) }}";
             url = url.substr(0, url.length-1) + user_id;
-            $("#modal_delete").modal('show');
-            $("#modal_delete .modal-title").text(`Approve User`);
-            var content = '<button type="button" class="btn btn-info">';
-                content += `<a href="${url}">`;
-                content += "Yes</a></button>";
-                content += '<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>';
-            $("#modal_delete .modal-footer").html(content);
-            $("#modal_delete .modal-body").text('Are you sure you want to approve this user?');
+            let html = $("#modal_approve_v2").html().replace('$URL', url);
+            $("#modal_approve_v2").html(html);
+            $("#modal_approve_v2").modal('show');
         }
 
         const openRejectModal = (user_id) => {
             let url = "{{ route('admin.users.reject', 0) }}";
             url = url.substr(0, url.length-1) + user_id;
-            $("#modal_delete").modal('show');
-            $("#modal_delete .modal-title").text(`Reject User`);
-            var content = '<button type="button" class="btn btn-info">';
-                content += `<a href="${url}">`;
-                content += "Yes</a></button>";
-                content += '<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>';
-            $("#modal_delete .modal-footer").html(content);
-            $("#modal_delete .modal-body").text('Are you sure you want to reject this user?');
+            let html = $("#modal_reject_v2").html().replace('$URL', url);
+            $("#modal_reject_v2").html(html);
+            $("#modal_reject_v2").modal('show');
         }
     </script>
     <script src="{{ asset('js/plugins-init/datatables.init.js') }}"></script>
