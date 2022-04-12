@@ -17,7 +17,7 @@ class CreateVenuesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->enum('type', ["Type 1", "Type 2", "Type 3"]);
+            $table->string('type');
             $table->text('description')->nullable();
             $table->string('header_image_path');
             $table->string('address');
@@ -28,6 +28,7 @@ class CreateVenuesTable extends Migration
             $table->string('music_policy')->nullable();
             $table->string('dress_code')->nullable();
             $table->string('perks')->nullable();
+            $table->enum('feature', ["yes", "no"])->default("no");
             $table->enum('status', ["Approved", "Pending", "Rejected"])->default("Pending");
             $table->timestamps();
         });

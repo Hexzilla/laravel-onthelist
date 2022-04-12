@@ -21,14 +21,17 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Venues</a></li>
-                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Create Venue</a></li>
+                    <li class="breadcrumb-item active"><a href="javascript:void(0)">{{ $title }} Venue</a></li>
                 </ol>
             </div> 
         </div>
         <div class="row mt-4">
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 col-xxl-8">			
-                <form method="POST" action="{{ route('vendors.venue.store') }}" class="EventForm needs-validation" enctype="multipart/form-data" novalidate>
+                <form method="POST" action="{{ $action }}" class="EventForm needs-validation" enctype="multipart/form-data" novalidate>
                     @csrf
+                    @if(isset($venue))
+                    @method('PUT')
+                    @endif
                     <div id="step-1">
                         <div class="row">
                             <div class="col-md-12">
@@ -39,12 +42,12 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="EventName">Venue Name *</label>
-                                    <input type="text" class="form-control" id="VenueName" name="name" value="{{ old('name') }}" required />
+                                    <input type="text" class="form-control" id="VenueName" name="name" value="{{ $venue? $venue->name : old('name') }}" required />
                                     <span class="invalid-feedback" role="alert">This field is required</span>
                                 </div>
                                 <div class="form-group">
                                     <label for="EventDetails">Venue Details</label>
-                                    <textarea class="form-control" rows="5" id="VenueDetails" name="details">{{ old('details') }}</textarea>
+                                    <textarea class="form-control" rows="5" id="VenueDetails" name="details">{{ $venue? $venue->description : old('details') }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <div class="file-field addEventHeader" id="header_image_wrapper">
@@ -55,7 +58,8 @@
                                         </div>
                                         <div class="d-flex justify-content-center">
                                             <div class="">
-                                                <input id="venue-header-image" class="d-none" type="file" name="header_image" required/>                                                
+                                                <input id="venue-header-image" class="d-none" type="file" name="header_image" 
+                                                    value="{{ $venue? $venue->header_image_path : old('header_image') }}" required/>
                                                 <p>Upload an Image no larger than 10mb in jpeg, png or gif format. </p>
                                             </div>
                                         </div>
@@ -69,7 +73,7 @@
                                 <div class="form-group">
                                     <label for="VenueLocation">Address *</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="VenueLocation" name="address" value="{{ old('address') }}" required >
+                                        <input type="text" class="form-control" id="VenueLocation" name="address" value="{{ $venue? $venue->address : old('address') }}" required >
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="mdi mdi-map-marker"></i></span>
                                         </div>
@@ -78,17 +82,17 @@
                                 </div>
                                 <div class="form-group border-input">
                                     <label for="VenueName">Town/City *</label>
-                                    <input type="text" class="form-control" placeholder="" id="VenueCity" name="city" value="{{ old('city') }}" required>
+                                    <input type="text" class="form-control" placeholder="" id="VenueCity" name="city" value="{{ $venue? $venue->city : old('city') }}" required>
                                     <span class="invalid-feedback" role="alert">This field is required</span>
                                 </div>
                                 <div class="form-group border-input">
                                     <label for="VenueName">Postcode *</label>
-                                    <input type="text" class="form-control" placeholder="" id="VenuePostcode" name="postcode" value="{{ old('postcode') }}" required>
+                                    <input type="text" class="form-control" placeholder="" id="VenuePostcode" name="postcode" value="{{ $venue? $venue->postcode : old('postcode') }}" required>
                                     <span class="invalid-feedback" role="alert">This field is required</span>
                                 </div>
                                 <div class="form-group border-input">
                                     <label for="VenueName">Phone Number *</label>
-                                    <input type="text" class="form-control" placeholder="" id="VenuePhone" name="phone" value="{{ old('phone') }}" required>
+                                    <input type="text" class="form-control" placeholder="" id="VenuePhone" name="phone" value="{{ $venue? $venue->phone : old('phone') }}" required>
                                     <span class="invalid-feedback" role="alert">This field is required</span>
                                 </div>
                             </div>
@@ -108,11 +112,13 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="monday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('mon_open') ?? "09:00" }}" step="60" id="monday-opening-time" name="mon_open" class="form-control text-center" />
+                                    <input type="time" value="{{ $venue ? $venue->timetable->mon_open : old('mon_open') ?? '09:00' }}" 
+                                        step="60" id="monday-opening-time" name="mon_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="monday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('mon_close') ?? "20:00" }}" step="60" id="monday-closing-time" name="mon_close" value="{{ old('monday_closing_time') }}" class="form-control text-center" />
+                                    <input type="time" value="{{ $venue ? $venue->timetable->mon_close : old('mon_close') ?? '20:00' }}" 
+                                        step="60" id="monday-closing-time" name="mon_close" class="form-control text-center" />
                                 </div>
                             </div>
                             <div class="row">
@@ -124,11 +130,13 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="tuesday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('tue_open') ?? "09:00" }}" step="60" id="tuesday-opening-time" name="tue_open" class="form-control text-center" />
+                                    <input type="time" value="{{ $venue ? $venue->timetable->tue_open : old('tue_open') ?? '09:00' }}" 
+                                        step="60" id="tuesday-opening-time" name="tue_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="tuesday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('tue_close') ?? "20:00" }}" step="60" id="tuesday-closing-time" name="tue_close" class="form-control text-center" />
+                                    <input type="time" value="{{ $venue ? $venue->timetable->tue_close : old('tue_close') ?? '20:00' }}" 
+                                        step="60" id="tuesday-closing-time" name="tue_close" class="form-control text-center" />
                                 </div>
                             </div>
                             <div class="row">
@@ -140,11 +148,13 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="wednesday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('wed_open') ?? "09:00" }}" step="60" id="wednesday-opening-time" name="wed_open" class="form-control text-center" />
+                                    <input type="time" value="{{ $venue ? $venue->timetable->wed_open : old('wed_open') ?? '09:00' }}" 
+                                        step="60" id="wednesday-opening-time" name="wed_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="wednesday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('wed_close') ?? "20:00" }}" step="60" id="wednesday-closing-time" name="wed_close" class="form-control text-center" />
+                                    <input type="time" value="{{ $venue ? $venue->timetable->wed_close : old('wed_close') ?? '20:00' }}" 
+                                        step="60" id="wednesday-closing-time" name="wed_close" class="form-control text-center" />
                                 </div>
                             </div>
                             <div class="row">
@@ -156,11 +166,13 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="thursday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('thu_open') ?? "09:00" }}" step="60" id="thursday-opening-time" name="thu_open" class="form-control text-center" />
+                                    <input type="time" value="{{ $venue ? $venue->timetable->thu_open : old('thu_open') ?? '09:00' }}" 
+                                        step="60" id="thursday-opening-time" name="thu_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="thursday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('thu_close') ?? "20:00" }}" step="60" id="thursday-closing-time" name="thu_close" class="form-control text-center" />
+                                    <input type="time" value="{{ $venue ? $venue->timetable->thu_close : old('thu_close') ?? '20:00' }}" 
+                                        step="60" id="thursday-closing-time" name="thu_close" class="form-control text-center" />
                                 </div>
                             </div>
                             <div class="row">
@@ -172,11 +184,13 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="friday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('fri_open') ?? "09:00" }}" step="60" id="friday-opening-time" name="fri_open" class="form-control text-center" />
+                                    <input type="time" value="{{ $venue ? $venue->timetable->fri_open : old('fri_open') ?? '09:00' }}" 
+                                        step="60" id="friday-opening-time" name="fri_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="friday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('fri_close') ?? "20:00" }}" step="60" id="friday-closing-time" name="fri_close" class="form-control text-center" />
+                                    <input type="time" value="{{ $venue ? $venue->timetable->fri_close : old('fri_close') ?? '20:00' }}" 
+                                        step="60" id="friday-closing-time" name="fri_close" class="form-control text-center" />
                                 </div>
                             </div>
                             <div class="row">
@@ -188,11 +202,13 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="saturday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('sat_open') ?? "09:00" }}" step="60" id="saturday-opening-time" name="sat_open" class="form-control text-center" />
+                                    <input type="time" value="{{ $venue ? $venue->timetable->sat_open : old('sat_open') ?? '09:00' }}" 
+                                        step="60" id="saturday-opening-time" name="sat_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="saturday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('sat_close') ?? "20:00" }}" step="60" id="saturday-closing-time" name="sat_close" class="form-control text-center" />
+                                    <input type="time" value="{{ $venue ? $venue->timetable->sat_close : old('sat_close') ?? '20:00' }}" 
+                                        step="60" id="saturday-closing-time" name="sat_close" class="form-control text-center" />
                                 </div>
                             </div>
                             <div class="row">
@@ -204,11 +220,13 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="sunday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('sun_open') ?? "09:00" }}" step="60" id="sunday-opening-time" name="sun_open" class="form-control text-center" />
+                                    <input type="time" value="{{ $venue ? $venue->timetable->sun_open : old('sun_open') ?? '09:00' }}" 
+                                        step="60" id="sunday-opening-time" name="sun_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="sunday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('sun_close') ?? "20:00" }}" step="60" id="sunday-closing-time" name="sun_close" class="form-control text-center" />
+                                    <input type="time" value="{{ $venue ? $venue->timetable->sun_close : old('sun_close') ?? '20:00' }}" 
+                                        step="60" id="sunday-closing-time" name="sun_close" class="form-control text-center" />
                                 </div>
                             </div>
                         </div>
@@ -252,68 +270,32 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="facitliies">Facilities</label>
-                                        <input type="text" class="form-control" placeholder="" name="facilities" value="{{ old('facilities') }}">
+                                        <input type="text" class="form-control" placeholder="" name="facilities" value="{{ $venue ? $venue->facilities : old('facilities') }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="music_policy">Music Policy</label>
-                                        <!-- <select id="music_policy" class="form-control" name="music_policy">
-                                            <option disabled selected>Select Music Policy</option>
-                                            <option value="1">Afro House</option>
-                                            <option value="2">Afro Beats</option>
-                                            <option value="3">Commercial</option>
-                                            <option value="4">Dance</option>
-                                            <option value="5">Deep House</option>
-                                            <option value="6">Dnb</option>
-                                            <option value="7">Electronic</option>
-                                            <option value="8">Hip-hop</option>
-                                            <option value="9">House</option>
-                                            <option value="10">Indie</option>
-                                            <option value="11">Jazz</option>
-                                            <option value="12">Pop</option>
-                                            <option value="13">Reggae</option>
-                                            <option value="14">Rnb</option>
-                                            <option value="15">Rock</option>
-                                            <option value="16">Tech-House</option>
-                                            <option value="17">Techno</option>
-                                            <option value="18">UK Garage</option>
-                                        </select> -->
-                                        <input type="text" class="form-control" placeholder="" id="music_policy" name="music_policy" value="{{ old('music_policy') }}">
+                                        <input type="text" class="form-control" placeholder="" id="music_policy" name="music_policy" value="{{ $venue ? $venue->music_policy : old('music_policy') }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="dress_code">Dress Code</label>
-                                        <!-- <select id="dress_code" class="form-control" name="dress_code">
-                                            <option disabled selected>Select Dress Code</option>
-                                            <option value="1">Casual</option>
-                                            <option value="2">No sportswear</option>
-                                            <option value="3">Smart</option>
-                                            <option value="4">Smart-Casual</option>
-                                        </select> -->
-                                        <input type="text" class="form-control" placeholder="" id="dress_code" name="dress_code" value="{{ old('dress_code') }}">
+                                        <input type="text" class="form-control" placeholder="" id="dress_code" name="dress_code" value="{{ $venue ? $venue->dress_code : old('dress_code') }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="EventType">Venue Type *</label>
-                                        <!-- <select class="form-control inputable-select" name="venue_type" id="venue_type_select">
-                                            <option disabled selected>Select Venue Type</option>            
-                                            <option value="Bar">Bar</option>
-                                            <option value="Festival">Festival</option>
-                                            <option value="Outdoor">Nightclub</option>
-                                            <option value="Rave">Rave</option>
-                                            <option value="Rooftoop">Rooftoop</option>
-                                        </select> -->
-                                        <input type="text" class="form-control" placeholder="" id="venue_type" name="venue_type" value="{{ old('venue_type') }}" required>
+                                        <input type="text" class="form-control" placeholder="" id="venue_type" name="venue_type" value="{{ $venue ? $venue->type : old('venue_type') }}" required>
                                         <span class="invalid-feedback" role="alert">This field is required</span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Perks">Perks</label>
-                                        <input type="text" class="form-control" placeholder="" name="perks" value="{{ old('perks') }}">
+                                        <input type="text" class="form-control" placeholder="" name="perks" value="{{ $venue ? $venue->perks : old('perks') }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6 my-5">
@@ -336,48 +318,15 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div id="venue-offer-list" class="col-md-12">
-                                <div id="venue-offer-default" class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="offerType">Offer Type</label>
-                                            <select class="form-control" name="offer_type[]">
-                                                <option value="Discount" selected>Discount</option>
-                                                <option value="Type 2">Type 2</option>
-                                                <option value="Type 3">Type 3</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="offerQuantity">Offer Quantity</label>
-                                            <input type="number" class="form-control" placeholder="0" name="offer_qty[]" value="{{ old('offer_qty[]') ?? '' }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="offerPrice">Offer Price</label>
-                                            <input type="number" class="form-control" placeholder="£0" name="offer_price[]" value="{{ old('offer_price[]') ?? '' }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="offerApproval">Offer Approval</label>
-                                            <select class="form-control" name="offer_approval[]">
-                                                <option value="Yes">Yes</option>
-                                                <option value="No">No</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="message">Description</label>
-                                            <textarea class="form-control" rows="3" name="offer_description[]" placeholder=""></textarea>
-                                        </div>
-                                    </div>
-                                    <hr class="venue-offer-separator mb-3"/>
-                                </div>
-                            </div>
+                            @if (is_null($venue))
+                                @include("vendor.venue.offer")
+                            @elseif (count($venue->offers) == 0)
+                                @include("vendor.venue.offer")
+                            @else
+                                @foreach($venue->offers as $offer)
+                                    @include("vendor.venue.offer", ['offer' => $offer])
+                                @endforeach
+                            @endif
                             <div class="col-md-12">
                                 <a id="add-venue-offer" class="add-another-link"><i class="mdi mdi-plus"></i> Add another offer</a>
                             </div>
@@ -458,6 +407,8 @@
             $("#venue-header-image").click();
         });
         $("#venue-header-image").on('change', function(){
+            $('#header_image_wrapper').css('border-color', '#dddee3');
+            $('#header_iamge_error').addClass('d-none')
             $("#venue-header-image-file-name").text($(this)[0].files[0].name);
         });
 
@@ -519,7 +470,7 @@
 
         const form = $(".needs-validation");
         $('#venue-form-next').click(function(event) {
-            form.addClass('was-validated');
+            /*form.addClass('was-validated');
             if ($('#venue-header-image').val() == '') {
                 $('#header_image_wrapper').css('border-color', '#FD5190');
                 $('#header_iamge_error').removeClass('d-none')
@@ -532,7 +483,7 @@
             
             $('#header_iamge_error').addClass('d-none');
             $('#header_iamge_error').removeClass('custom-validation-error')
-            form.removeClass('was-validated');
+            form.removeClass('was-validated');*/
 
             $("#step-1").addClass('d-none');
             $("#step-2").removeClass('d-none');
