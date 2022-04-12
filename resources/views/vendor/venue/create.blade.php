@@ -245,7 +245,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="music_policy">Music Policy</label>
-                                        <select id="music_policy" class="form-control" name="music_policy">
+                                        <!-- <select id="music_policy" class="form-control" name="music_policy">
                                             <option disabled selected>Select Music Policy</option>
                                             <option value="1">Afro House</option>
                                             <option value="2">Afro Beats</option>
@@ -265,32 +265,35 @@
                                             <option value="16">Tech-House</option>
                                             <option value="17">Techno</option>
                                             <option value="18">UK Garage</option>
-                                        </select>
+                                        </select> -->
+                                        <input type="text" class="form-control" placeholder="" id="music_policy" name="music_policy" value="{{ old('music_policy') }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="dress_code">Dress Code</label>
-                                        <select id="dress_code" class="form-control" name="dress_code">
+                                        <!-- <select id="dress_code" class="form-control" name="dress_code">
                                             <option disabled selected>Select Dress Code</option>
                                             <option value="1">Casual</option>
                                             <option value="2">No sportswear</option>
                                             <option value="3">Smart</option>
                                             <option value="4">Smart-Casual</option>
-                                        </select>
+                                        </select> -->
+                                        <input type="text" class="form-control" placeholder="" id="dress_code" name="dress_code" value="{{ old('dress_code') }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="EventType">Venue Type *</label>
-                                        <select class="form-control inputable-select" name="venue_type" id="venue_type_select">
+                                        <!-- <select class="form-control inputable-select" name="venue_type" id="venue_type_select">
                                             <option disabled selected>Select Venue Type</option>            
                                             <option value="Bar">Bar</option>
                                             <option value="Festival">Festival</option>
                                             <option value="Outdoor">Nightclub</option>
                                             <option value="Rave">Rave</option>
                                             <option value="Rooftoop">Rooftoop</option>
-                                        </select>
+                                        </select> -->
+                                        <input type="text" class="form-control" placeholder="" id="venue_type" name="venue_type" value="{{ old('venue_type') }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -483,6 +486,30 @@
             var new_table = $("#venue-table-default").clone();
             $(new_table).find("input, textarea").each((index, ele)=> $(ele).val(""));
             new_table.appendTo("div#venue-table-list");
+        });
+
+        const music_policies = ['Afro Beats', 'Commercial', 'Dance', 'Deep House', 'Dnb', 'Electronic', 'Hip-hop', 'House', 'Indie', 'Jazz', 'Pop', 'Reggae', 'Rnb', 'Rock', 'Tech-House', 'Techno', 'UK Garage']
+        $("#music_policy").autocomplete({
+            source: music_policies,
+            minLength: 0,
+        }).focus(function () {
+            $(this).autocomplete('search', $(this).val())
+        });
+
+        const dress_codes = ['Casual', 'No sportswear', 'Smart', 'Smart-Casual']
+        $("#dress_code").autocomplete({
+            source: dress_codes,
+            minLength: 0,
+        }).focus(function () {
+            $(this).autocomplete('search', $(this).val())
+        });
+
+        const venue_types = ['Bar', 'Festival', 'Nightclub', 'Outdoor', 'Rave', 'Rooftoop']
+        $("#venue_type").autocomplete({
+            source: venue_types,
+            minLength: 0,
+        }).focus(function () {
+            $(this).autocomplete('search', $(this).val())
         });
     });
 </script>
