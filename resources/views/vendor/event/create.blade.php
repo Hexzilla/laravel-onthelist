@@ -139,7 +139,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <div class="file-field">
                                             <div id="video-uploader" class="addImages-icon">
                                                 <i class="mdi mdi-video"></i> <span>Video</span>
@@ -151,13 +151,16 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
+                                    </div> -->
                                     <div class="form-group">
                                         <input type="text" class="form-control" placeholder="Video Link: https://www.youtube.com" name="video_link" value="{{ old('video_link') }}">
                                     </div>
                                 </div>
+                                <!-- <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Video Link: https://www.youtube.com" name="video_link" value="{{ old('video_link') }}">
+                                    </div>
+                                </div> -->
                                 <div class="col-md-6 my-5">
                                     <div class="form-group">
                                         <button type="button" id="event-form-next" class="btn btn-primary">Next Step <i class="mdi mdi-chevron-right"></i></button>
@@ -434,7 +437,7 @@
             }
             updateEndDateTime();
             
-            // Start Date
+            // Event Date and Times
             $('.event-date-time').on('change', function() {
                 updateEndDateTime();
             })
