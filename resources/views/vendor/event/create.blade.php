@@ -83,6 +83,16 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
+                                <div class="form-group form-check">
+                                    <input class="form-check-input" type="checkbox" name="is_weekly_event" @if(old('is_weekly_event') == 'on') checked @endif>
+                                    <label class="form-check-label">
+                                        Weekly Event
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="EventVenue">Venue *</label>
                                     <select class="form-control" id="EventVenue" name="venue_id">
@@ -103,16 +113,6 @@
                                         <option value="{{$dj->id}}">{{$dj->name}}</option>
                                         @endforeach
                                     </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group form-check">
-                                    <input class="form-check-input" type="checkbox" name="is_weekly_event" @if(old('is_weekly_event') == 'on') checked @endif>
-                                    <label class="form-check-label">
-                                        Weekly Event
-                                    </label>
                                 </div>
                             </div>
                         </div>
