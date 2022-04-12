@@ -45,8 +45,6 @@
 
         @include('partials.admin-footer')
 
-        @include('partials.vendor-modal')
-
     </div>
 
     <!-- Required vendors -->
