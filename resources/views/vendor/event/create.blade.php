@@ -187,22 +187,22 @@
                                         <div class="form-group">
                                             <label for="ticketType">Ticket Type</label>
                                             <select class="form-control" name="ticket_type[]">
-                                                <option value="Standard" selected>Standard</option>
-                                                <option value="Low">Low</option>
-                                                <option value="High">High</option>
+                                                <option value="earlybird">EarlyBird</option>
+                                                <option value="standard" selected>Standard</option>
+                                                <option value="vip">VIP</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="ticketQuantity">Ticket Quantity</label>
-                                            <input type="number" class="form-control" placeholder="00" name="ticket_qty[]" value="{{ old('ticket_qty[]') ?? '00' }}">
+                                            <input type="number" min="0" class="form-control" placeholder="0" name="ticket_qty[]" value="{{ old('ticket_qty[]') ?? '0' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="ticketPrice">Ticket Price</label>
-                                            <input type="number" class="form-control" placeholder="£00.00" name="ticket_price[]" value="{{ old('ticket_price[]') ?? '00.00' }}">
+                                            <label for="ticketPrice">Ticket Price (£)</label>
+                                            <input type="number" min="0" class="form-control" placeholder="£0" name="ticket_price[]" value="{{ old('ticket_price[]') ?? '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -239,22 +239,22 @@
                                         <div class="form-group">
                                             <label for="tableType">Table Type</label>
                                             <select class="form-control" name="table_type[]">
-                                                <option value="Standard" selected>Standard</option>
-                                                <option value="Low">Low</option>
-                                                <option value="High">High</option>
+                                                <option value="earlybird">EarlyBird</option>
+                                                <option value="standard" selected>Standard</option>
+                                                <option value="vip">VIP</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="tableQuantity">Table Quantity</label>
-                                            <input type="number" class="form-control" placeholder="00" name="table_qty[]" value="{{ old('table_qty[]') ?? '00' }}">
+                                            <input type="number" min="0" class="form-control" placeholder="0" name="table_qty[]" value="{{ old('table_qty[]') ?? '0' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="tablePrice">Table Price</label>
-                                            <input type="text" class="form-control" placeholder="£00.00" name="table_price[]" value="{{ old('table_price[]') ?? '00.00' }}">
+                                            <label for="tablePrice">Table Price (£)</label>
+                                            <input type="number" min="0" class="form-control" placeholder="£0" name="table_price[]" value="{{ old('table_price[]') ?? '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -291,22 +291,22 @@
                                         <div class="form-group">
                                             <label for="guestlistType">Guestlist Type</label>
                                             <select class="form-control" name="guestlist_type[]">
-                                                <option value="Standard" selected>Standard</option>
-                                                <option value="Low">Low</option>
-                                                <option value="High">High</option>
+                                                <option value="earlybird">EarlyBird</option>
+                                                <option value="standard" selected>Standard</option>
+                                                <option value="vip">VIP</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="guestlistQuantity">Guestlist Quantity</label>
-                                            <input type="number" class="form-control" placeholder="00" name="guestlist_qty[]" value="{{ old('guestlist_qty[]') ?? '00' }}">
+                                            <input type="number" min="0" class="form-control" placeholder="0" name="guestlist_qty[]" value="{{ old('guestlist_qty[]') ?? '0' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="guestlistPrice">Guestlist Price</label>
-                                            <input type="text" class="form-control" placeholder="£00.00" name="guestlist_price[]" value="{{ old('guestlist_qty[]') ?? '00.00' }}">
+                                            <label for="guestlistPrice">Guestlist Price (£)</label>
+                                            <input type="number" min="0" class="form-control" placeholder="£0" name="guestlist_price[]" value="{{ old('guestlist_qty[]') ?? '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
