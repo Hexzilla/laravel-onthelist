@@ -89,11 +89,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="monday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('mon_open') ?? "09:00" }}" step="60" id="monday-opening-time" name="mon_open" class="form-control" />
+                                    <input type="time" value="{{ old('mon_open') ?? "09:00" }}" step="60" id="monday-opening-time" name="mon_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="monday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('mon_close') ?? "20:00" }}" step="60" id="monday-closing-time" name="mon_close" value="{{ old('monday_closing_time') }}" class="form-control" />
+                                    <input type="time" value="{{ old('mon_close') ?? "20:00" }}" step="60" id="monday-closing-time" name="mon_close" value="{{ old('monday_closing_time') }}" class="form-control text-center" />
                                 </div>
                             </div>
                             <div class="row">
@@ -105,11 +105,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="tuesday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('tue_open') ?? "09:00" }}" step="60" id="tuesday-opening-time" name="tue_open" class="form-control" />
+                                    <input type="time" value="{{ old('tue_open') ?? "09:00" }}" step="60" id="tuesday-opening-time" name="tue_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="tuesday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('tue_close') ?? "20:00" }}" step="60" id="tuesday-closing-time" name="tue_close" class="form-control" />
+                                    <input type="time" value="{{ old('tue_close') ?? "20:00" }}" step="60" id="tuesday-closing-time" name="tue_close" class="form-control text-center" />
                                 </div>
                             </div>
                             <div class="row">
@@ -121,11 +121,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="wednesday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('wed_open') ?? "09:00" }}" step="60" id="wednesday-opening-time" name="wed_open" class="form-control" />
+                                    <input type="time" value="{{ old('wed_open') ?? "09:00" }}" step="60" id="wednesday-opening-time" name="wed_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="wednesday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('wed_close') ?? "20:00" }}" step="60" id="wednesday-closing-time" name="wed_close" class="form-control" />
+                                    <input type="time" value="{{ old('wed_close') ?? "20:00" }}" step="60" id="wednesday-closing-time" name="wed_close" class="form-control text-center" />
                                 </div>
                             </div>
                             <div class="row">
@@ -137,11 +137,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="thursday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('thu_open') ?? "09:00" }}" step="60" id="thursday-opening-time" name="thu_open" class="form-control" />
+                                    <input type="time" value="{{ old('thu_open') ?? "09:00" }}" step="60" id="thursday-opening-time" name="thu_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="thursday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('thu_close') ?? "20:00" }}" step="60" id="thursday-closing-time" name="thu_close" class="form-control" />
+                                    <input type="time" value="{{ old('thu_close') ?? "20:00" }}" step="60" id="thursday-closing-time" name="thu_close" class="form-control text-center" />
                                 </div>
                             </div>
                             <div class="row">
@@ -153,11 +153,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="friday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('fri_open') ?? "09:00" }}" step="60" id="friday-opening-time" name="fri_open" class="form-control" />
+                                    <input type="time" value="{{ old('fri_open') ?? "09:00" }}" step="60" id="friday-opening-time" name="fri_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="friday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('fri_close') ?? "20:00" }}" step="60" id="friday-closing-time" name="fri_close" class="form-control" />
+                                    <input type="time" value="{{ old('fri_close') ?? "20:00" }}" step="60" id="friday-closing-time" name="fri_close" class="form-control text-center" />
                                 </div>
                             </div>
                             <div class="row">
@@ -169,11 +169,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="saturday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('sat_open') ?? "09:00" }}" step="60" id="saturday-opening-time" name="sat_open" class="form-control" />
+                                    <input type="time" value="{{ old('sat_open') ?? "09:00" }}" step="60" id="saturday-opening-time" name="sat_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="saturday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('sat_close') ?? "20:00" }}" step="60" id="saturday-closing-time" name="sat_close" class="form-control" />
+                                    <input type="time" value="{{ old('sat_close') ?? "20:00" }}" step="60" id="saturday-closing-time" name="sat_close" class="form-control text-center" />
                                 </div>
                             </div>
                             <div class="row">
@@ -185,11 +185,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="sunday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ old('sun_open') ?? "09:00" }}" step="60" id="sunday-opening-time" name="sun_open" class="form-control" />
+                                    <input type="time" value="{{ old('sun_open') ?? "09:00" }}" step="60" id="sunday-opening-time" name="sun_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="sunday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ old('sun_close') ?? "20:00" }}" step="60" id="sunday-closing-time" name="sun_close" class="form-control" />
+                                    <input type="time" value="{{ old('sun_close') ?? "20:00" }}" step="60" id="sunday-closing-time" name="sun_close" class="form-control text-center" />
                                 </div>
                             </div>
                         </div>
@@ -216,7 +216,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <div class="file-field">
                                             <div id="venue-video-uploader" class="addImages-icon">
                                                 <i class="mdi mdi-video"></i> <span>Video</span>
@@ -228,12 +228,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
+                                    </div> -->
                                     <div class="form-group">
                                         <input type="text" class="form-control" placeholder="Video Link: https://www.youtube.com" name="video_link" value="{{ old('video_link') }}">
                                     </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <!-- <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Video Link: https://www.youtube.com" name="video_link" value="{{ old('video_link') }}">
+                                    </div> -->
                                     <div class="form-group">
                                         <label for="facitliies">Facilities</label>
                                         <input type="text" class="form-control" placeholder="" name="facilities" value="{{ old('facilities') }}">
@@ -241,24 +244,52 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="MusicPolicy">Music Policy</label>
-                                        <input type="text" class="form-control" placeholder="" name="music_policy" value="{{ old('music_policy') }}">
+                                        <label for="music_policy">Music Policy</label>
+                                        <select id="music_policy" class="form-control" name="music_policy">
+                                            <option disabled selected>Select Music Policy</option>
+                                            <option value="1">Afro House</option>
+                                            <option value="2">Afro Beats</option>
+                                            <option value="3">Commercial</option>
+                                            <option value="4">Dance</option>
+                                            <option value="5">Deep House</option>
+                                            <option value="6">Dnb</option>
+                                            <option value="7">Electronic</option>
+                                            <option value="8">Hip-hop</option>
+                                            <option value="9">House</option>
+                                            <option value="10">Indie</option>
+                                            <option value="11">Jazz</option>
+                                            <option value="12">Pop</option>
+                                            <option value="13">Reggae</option>
+                                            <option value="14">Rnb</option>
+                                            <option value="15">Rock</option>
+                                            <option value="16">Tech-House</option>
+                                            <option value="17">Techno</option>
+                                            <option value="18">UK Garage</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="DressCode">Dress Code</label>
-                                        <input type="text" class="form-control" placeholder="" name="dress_code" value="{{ old('dress_code') }}">
+                                        <label for="dress_code">Dress Code</label>
+                                        <select id="dress_code" class="form-control" name="dress_code">
+                                            <option disabled selected>Select Dress Code</option>
+                                            <option value="1">Casual</option>
+                                            <option value="2">No sportswear</option>
+                                            <option value="3">Smart</option>
+                                            <option value="4">Smart-Casual</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="EventType">Venue Type *</label>
-                                        <select class="form-control" name="venue_type">
+                                        <select class="form-control inputable-select" name="venue_type" id="venue_type_select">
                                             <option disabled selected>Select Venue Type</option>            
-                                            <option value="Type 1">Type 1</option>
-                                            <option value="Type 2">Type 2</option>
-                                            <option value="Type 3">Type 3</option>
+                                            <option value="Bar">Bar</option>
+                                            <option value="Festival">Festival</option>
+                                            <option value="Outdoor">Nightclub</option>
+                                            <option value="Rave">Rave</option>
+                                            <option value="Rooftoop">Rooftoop</option>
                                         </select>
                                     </div>
                                 </div>
@@ -403,56 +434,56 @@
 @endsection
 
 @section('scripts')
-    <script>
-        $(document).ready(function(){
-            // Header Image
-            $("#venue-header-image-uploader").on('click', function(){
-                $("#venue-header-image").click();
-            });
-            $("#venue-header-image").on('change', function(){
-                $("#venue-header-image-file-name").text($(this)[0].files[0].name);
-            });
-
-            // Gallery Images
-            $("#venue-images-uploader").on('click', function(){
-                $("#venue-images").click();
-            });
-            $("#venue-images").on('change', function(){
-                $("#venue-image-file-names").text(`(${$(this)[0].files[0].name})`);
-            });
-
-            // Gallery video
-            $("#venue-video-uploader").on('click', function(){
-                $("#venue-video").click();
-            });
-            $("#venue-video").on('change', function(){
-                $("#venue-video-file-name").text(`(${$(this)[0].files[0].name})`);
-            });
-
-            // Step switch
-            $("#venue-form-next").on('click', function(){
-                $("#step-1").addClass('d-none');
-                $("#step-2").removeClass('d-none');
-            });
-
-            $("#venue-form-back").on('click', function(){
-                $("#step-1").removeClass('d-none');
-                $("#step-2").addClass('d-none');
-            });
-
-            // Venue offer
-            $("#add-venue-offer").on('click', function(){
-                var new_offer = $("#venue-offer-default").clone();
-                $(new_offer).find("input, textarea").each((index, ele)=> $(ele).val(""));
-                new_offer.appendTo("div#venue-offer-list");
-            });
-
-            // Venue table
-            $("#add-venue-table").on('click', function(){
-                var new_table = $("#venue-table-default").clone();
-                $(new_table).find("input, textarea").each((index, ele)=> $(ele).val(""));
-                new_table.appendTo("div#venue-table-list");
-            });
+<script>
+    $(document).ready(function(){
+        // Header Image
+        $("#venue-header-image-uploader").on('click', function(){
+            $("#venue-header-image").click();
         });
-    </script>
+        $("#venue-header-image").on('change', function(){
+            $("#venue-header-image-file-name").text($(this)[0].files[0].name);
+        });
+
+        // Gallery Images
+        $("#venue-images-uploader").on('click', function(){
+            $("#venue-images").click();
+        });
+        $("#venue-images").on('change', function(){
+            $("#venue-image-file-names").text(`(${$(this)[0].files[0].name})`);
+        });
+
+        // Gallery video
+        $("#venue-video-uploader").on('click', function(){
+            $("#venue-video").click();
+        });
+        $("#venue-video").on('change', function(){
+            $("#venue-video-file-name").text(`(${$(this)[0].files[0].name})`);
+        });
+
+        // Step switch
+        $("#venue-form-next").on('click', function(){
+            $("#step-1").addClass('d-none');
+            $("#step-2").removeClass('d-none');
+        });
+
+        $("#venue-form-back").on('click', function(){
+            $("#step-1").removeClass('d-none');
+            $("#step-2").addClass('d-none');
+        });
+
+        // Venue offer
+        $("#add-venue-offer").on('click', function(){
+            var new_offer = $("#venue-offer-default").clone();
+            $(new_offer).find("input, textarea").each((index, ele)=> $(ele).val(""));
+            new_offer.appendTo("div#venue-offer-list");
+        });
+
+        // Venue table
+        $("#add-venue-table").on('click', function(){
+            var new_table = $("#venue-table-default").clone();
+            $(new_table).find("input, textarea").each((index, ele)=> $(ele).val(""));
+            new_table.appendTo("div#venue-table-list");
+        });
+    });
+</script>
 @endsection
