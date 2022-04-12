@@ -64,46 +64,21 @@
                         <div class="row">
                             <div class="form-group col-md-3">
                                 <label for="start-date">Start Date</label>
-                                <input type="date" value="{{ old('start_date') ?? date('Y-m-d') }}" id="start-date" name="start_date" class="form-control" />
+                                <input type="date" value="{{ old('start_date') ?? date('Y-m-d') }}" id="start-date" name="start_date" class="form-control text-center event-date-time" />
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="start-time">Start Time</label>
-                                <input type="time" value="{{ old('start_time') ?? "09:00" }}" step="60" id="start-time" name="start_time" class="form-control" />
+                                <input type="time" value="{{ old('start_time') ?? '00:00' }}" step="60" id="start-time" name="start_time" class="form-control text-center event-date-time" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-3">
                                 <label for="end-date">End Date</label>
-                                <input type="date" value="{{ old('end_date') ?? date('Y-m-d') }}" id="end-date" name="end_date" class="form-control" />
+                                <input type="date" value="{{ old('end_date') ?? date('Y-m-d') }}" id="end-date" name="end_date" class="form-control text-center event-date-time" />
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="end-time">End Time</label>
-                                <input type="time" value="{{ old('end_time') ?? "20:00" }}" step="60" id="end-time" name="end_time" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="EventVenue">Venue *</label>
-                                    <select class="form-control" id="EventVenue" name="venue_id">
-                                        <option disabled selected>Select Venue</option>
-                                        @foreach($venues as $venue)
-                                        <option value="{{$venue->id}}" data-venue-location="{{$venue->location}}">{{$venue->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group border-input">
-                                    <label for="EventName">Venue Location</label>
-                                    <input type="text" class="form-control" placeholder="" id="VenueLocation"/>
-                                </div>
-                                <div class="form-group">
-                                    <label for="facitliies">DJ's</label>
-                                    <select class="form-control multi-select" name="djs[]" multiple>
-                                        @foreach($djs as $dj)
-                                        <option value="{{$dj->id}}">{{$dj->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                <input type="time" value="{{ old('end_time') ?? '00:00' }}" step="60" id="end-time" name="end_time" class="form-control text-center event-date-time" />
                             </div>
                         </div>
                         <div class="row">
@@ -113,6 +88,31 @@
                                     <label class="form-check-label">
                                         Weekly Event
                                     </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="event_venue">Venue *</label>
+                                    <select class="form-control" id="event_venue" name="venue_id">
+                                        <option disabled selected>Select Venue</option>
+                                        @foreach($venues as $venue)
+                                        <option value="{{$venue->id}}" data-venue-location="{{$venue->location}}">{{$venue->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group border-input">
+                                    <label for="EventName">Venue Location</label>
+                                    <input type="text" class="form-control" placeholder="" id="venue_location"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="facitliies">DJ's</label>
+                                    <select class="form-control multi-select" name="djs[]" multiple>
+                                        @foreach($djs as $dj)
+                                        <option value="{{$dj->id}}">{{$dj->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -139,7 +139,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <div class="file-field">
                                             <div id="video-uploader" class="addImages-icon">
                                                 <i class="mdi mdi-video"></i> <span>Video</span>
@@ -151,13 +151,16 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
+                                    </div> -->
                                     <div class="form-group">
                                         <input type="text" class="form-control" placeholder="Video Link: https://www.youtube.com" name="video_link" value="{{ old('video_link') }}">
                                     </div>
                                 </div>
+                                <!-- <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Video Link: https://www.youtube.com" name="video_link" value="{{ old('video_link') }}">
+                                    </div>
+                                </div> -->
                                 <div class="col-md-6 my-5">
                                     <div class="form-group">
                                         <button type="button" id="event-form-next" class="btn btn-primary">Next Step <i class="mdi mdi-chevron-right"></i></button>
@@ -184,22 +187,22 @@
                                         <div class="form-group">
                                             <label for="ticketType">Ticket Type</label>
                                             <select class="form-control" name="ticket_type[]">
-                                                <option value="Standard" selected>Standard</option>
-                                                <option value="Low">Low</option>
-                                                <option value="High">High</option>
+                                                <option value="earlybird">EarlyBird</option>
+                                                <option value="standard" selected>Standard</option>
+                                                <option value="vip">VIP</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="ticketQuantity">Ticket Quantity</label>
-                                            <input type="number" class="form-control" placeholder="00" name="ticket_qty[]" value="{{ old('ticket_qty[]') ?? '00' }}">
+                                            <input type="number" min="0" class="form-control" placeholder="0" name="ticket_qty[]" value="{{ old('ticket_qty[]') ?? '0' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="ticketPrice">Ticket Price</label>
-                                            <input type="number" class="form-control" placeholder="£00.00" name="ticket_price[]" value="{{ old('ticket_price[]') ?? '00.00' }}">
+                                            <label for="ticketPrice">Ticket Price (£)</label>
+                                            <input type="number" min="0" class="form-control" placeholder="£0" name="ticket_price[]" value="{{ old('ticket_price[]') ?? '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -236,22 +239,22 @@
                                         <div class="form-group">
                                             <label for="tableType">Table Type</label>
                                             <select class="form-control" name="table_type[]">
-                                                <option value="Standard" selected>Standard</option>
-                                                <option value="Low">Low</option>
-                                                <option value="High">High</option>
+                                                <option value="earlybird">EarlyBird</option>
+                                                <option value="standard" selected>Standard</option>
+                                                <option value="vip">VIP</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="tableQuantity">Table Quantity</label>
-                                            <input type="number" class="form-control" placeholder="00" name="table_qty[]" value="{{ old('table_qty[]') ?? '00' }}">
+                                            <input type="number" min="0" class="form-control" placeholder="0" name="table_qty[]" value="{{ old('table_qty[]') ?? '0' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="tablePrice">Table Price</label>
-                                            <input type="text" class="form-control" placeholder="£00.00" name="table_price[]" value="{{ old('table_price[]') ?? '00.00' }}">
+                                            <label for="tablePrice">Table Price (£)</label>
+                                            <input type="number" min="0" class="form-control" placeholder="£0" name="table_price[]" value="{{ old('table_price[]') ?? '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -288,22 +291,22 @@
                                         <div class="form-group">
                                             <label for="guestlistType">Guestlist Type</label>
                                             <select class="form-control" name="guestlist_type[]">
-                                                <option value="Standard" selected>Standard</option>
-                                                <option value="Low">Low</option>
-                                                <option value="High">High</option>
+                                                <option value="earlybird">EarlyBird</option>
+                                                <option value="standard" selected>Standard</option>
+                                                <option value="vip">VIP</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="guestlistQuantity">Guestlist Quantity</label>
-                                            <input type="number" class="form-control" placeholder="00" name="guestlist_qty[]" value="{{ old('guestlist_qty[]') ?? '00' }}">
+                                            <input type="number" min="0" class="form-control" placeholder="0" name="guestlist_qty[]" value="{{ old('guestlist_qty[]') ?? '0' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="guestlistPrice">Guestlist Price</label>
-                                            <input type="text" class="form-control" placeholder="£00.00" name="guestlist_price[]" value="{{ old('guestlist_qty[]') ?? '00.00' }}">
+                                            <label for="guestlistPrice">Guestlist Price (£)</label>
+                                            <input type="number" min="0" class="form-control" placeholder="£0" name="guestlist_price[]" value="{{ old('guestlist_qty[]') ?? '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -404,6 +407,45 @@
                 $(new_guestlist).find("input, textarea").each((index, ele)=> $(ele).val(""));
                 new_guestlist.appendTo("div#event-guestlist-list");
             });
+
+            $("#event_venue").on('change', function(e) {
+                const location = $("#event_venue option:selected").attr('data-venue-location');
+                $('#venue_location').val(location);
+            })
+
+            function formatDate(date) {
+                return date.toISOString().slice(0, 10);
+            }
+
+            function getDateTime(str) {
+                return new Date(str).getTime();
+            }
+
+            function updateEndDateTime() {
+                const startDate = $('#start-date').val();
+                const endDate = $('#end-date').val();
+
+                $('#end-date').attr('min', startDate)
+
+                if (getDateTime(startDate) > getDateTime(endDate)) {
+                    $('#end-date').val(startDate)
+                    return;
+                }
+
+                const startTime = $('#start-time').val();
+                const endTime = $('#end-time').val();
+                const date1 = `${startDate} ${startTime}:00`;
+                const date2 = `${endDate} ${endTime}:00`;
+                if (getDateTime(date1) > getDateTime(date2)) {
+                    $('#end-time').val(startTime)
+                }
+            }
+            updateEndDateTime();
+            
+            // Event Date and Times
+            $('.event-date-time').on('change', function() {
+                updateEndDateTime();
+            })
         });
     </script>
 @endsection
