@@ -242,7 +242,7 @@ class EventController extends Controller
                 $media->path = $path;
                 $media->save();
             } else {
-                VenueMedia::create([
+                EventMedia::create([
                     'event_id' => $event->id,
                     'type' => 'video',
                     'path' => $path
