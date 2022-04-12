@@ -94,8 +94,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="EventVenue">Venue *</label>
-                                    <select class="form-control" id="EventVenue" name="venue_id">
+                                    <label for="event_venue">Venue *</label>
+                                    <select class="form-control" id="event_venue" name="venue_id">
                                         <option disabled selected>Select Venue</option>
                                         @foreach($venues as $venue)
                                         <option value="{{$venue->id}}" data-venue-location="{{$venue->location}}">{{$venue->name}}</option>
@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="form-group border-input">
                                     <label for="EventName">Venue Location</label>
-                                    <input type="text" class="form-control" placeholder="" id="VenueLocation"/>
+                                    <input type="text" class="form-control" placeholder="" id="venue_location"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="facitliies">DJ's</label>
@@ -407,6 +407,11 @@
                 $(new_guestlist).find("input, textarea").each((index, ele)=> $(ele).val(""));
                 new_guestlist.appendTo("div#event-guestlist-list");
             });
+
+            $("#event_venue").on('change', function(e) {
+                const location = $("#event_venue option:selected").attr('data-venue-location');
+                $('#venue_location').val(location);
+            })
 
             function formatDate(date) {
                 return date.toISOString().slice(0, 10);
