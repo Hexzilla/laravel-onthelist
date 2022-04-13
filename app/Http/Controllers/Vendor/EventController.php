@@ -32,8 +32,10 @@ class EventController extends Controller
             'venues' => $venues, 
             'djs' => $djs,
             'event' => null,
+            'starts' => null,
+            'ends' => null,
             'title' => 'Create Event',
-            'action' => 'vendors.event.store'
+            'action' => route('vendors.event.store')
         ]);
     }
 
@@ -44,12 +46,16 @@ class EventController extends Controller
         $venues = Venue::where('user_id', $user_id)->get();
         $events = Event::where('user_id', $user_id)->where('id', $id)->get();
         $event = $events[0];
-        return view('vendor.event.edit', [
+        $starts = explode(' ', $event->start);
+        $ends = explode(' ', $event->start);
+        return view('vendor.event.create', [
             'event' => $event, 
             'venues' => $venues, 
             'djs' => $djs,
             'title' => 'Edit Event',
-            'action' => 'vendors.event.update'
+            'action' => route('vendors.event.update', $id),
+            'starts' => $starts,
+            'ends' => $ends,
         ]);
     }
 
@@ -132,9 +138,9 @@ class EventController extends Controller
             for($i = 0; $i < $ticketSize; $i++){
                 EventTicket::create([
                     'event_id' => $event->id,
-                    'type' => $request->ticket_type[$i],
-                    'qty' => $request->ticket_qty[$i],
-                    'price' => $request->ticket_price[$i],
+                    'type' => $request->ticket_type[$i] ?? 'Standard',
+                    'qty' => $request->ticket_qty[$i] ?? 0,
+                    'price' => $request->ticket_price[$i] ?? 0,
                     'approval' => $request->ticket_approval[$i],
                     'description' => $request->ticket_description[$i]
                 ]);
@@ -150,9 +156,9 @@ class EventController extends Controller
             for($i = 0; $i < $tableSize; $i++){
                 EventTable::create([
                     'event_id' => $event->id,
-                    'type' => $request->table_type[$i],
-                    'qty' => $request->table_qty[$i],
-                    'price' => $request->table_price[$i],
+                    'type' => $request->table_type[$i] ?? 'Standard',
+                    'qty' => $request->table_qty[$i] ?? 0,
+                    'price' => $request->table_price[$i] ?? 0,
                     'approval' => $request->table_booking_approval[$i],
                     'description' => $request->table_description[$i]
                 ]);
@@ -168,9 +174,9 @@ class EventController extends Controller
             for($i = 0; $i < $guestlistSize; $i++){
                 EventGuestlist::create([
                     'event_id' => $event->id,
-                    'type' => $request->guestlist_type[$i],
-                    'qty' => $request->guestlist_qty[$i],
-                    'price' => $request->guestlist_price[$i],
+                    'type' => $request->guestlist_type[$i] ?? 'Standard',
+                    'qty' => $request->guestlist_qty[$i] ?? 0,
+                    'price' => $request->guestlist_price[$i] ?? 0,
                     'approval' => $request->guestlist_booking_approval[$i],
                     'description' => $request->guestlist_description[$i]
                 ]);
@@ -291,17 +297,17 @@ class EventController extends Controller
             for($i = 0; $i < $ticketSize; $i++){
                 if ($size > $i) {
                     $ticket = $tickets[$i];
-                    $ticket->type = $request->ticket_type[$i];
-                    $ticket->qty = $request->ticket_qty[$i];
-                    $ticket->price = $request->ticket_price[$i];
+                    $ticket->type = $request->ticket_type[$i] ?? 'Standard';
+                    $ticket->qty = $request->ticket_qty[$i] ?? 0;
+                    $ticket->price = $request->ticket_price[$i] ?? 0;
                     $ticket->approval = $request->ticket_approval[$i];
                     $ticket->description = $request->ticket_description[$i];
                 } else {
                     EventTicket::create([
                         'event_id' => $event->id,
-                        'type' => $request->ticket_type[$i],
-                        'qty' => $request->ticket_qty[$i],
-                        'price' => $request->ticket_price[$i],
+                        'type' => $request->ticket_type[$i] ?? 'Standard',
+                        'qty' => $request->ticket_qty[$i] ?? 0,
+                        'price' => $request->ticket_price[$i] ?? 0,
                         'approval' => $request->ticket_approval[$i],
                         'description' => $request->ticket_description[$i]
                     ]);
@@ -320,18 +326,18 @@ class EventController extends Controller
             for($i = 0; $i < $tableSize; $i++){
                 if ($size > $i) {
                     $table = $tables[$i];
-                    $table->type = $request->table_type[$i];
-                    $table->qty = $request->table_qty[$i];
-                    $table->price = $request->table_price[$i];
+                    $table->type = $request->table_type[$i] ?? 'Standard';
+                    $table->qty = $request->table_qty[$i] ?? 0;
+                    $table->price = $request->table_price[$i] ?? 0;
                     $table->approval = $request->table_booking_approval[$i];
                     $table->description = $request->table_description[$i];
                     $table->save();
                 } else {
                     EventTable::create([
                         'event_id' => $event->id,
-                        'type' => $request->table_type[$i],
-                        'qty' => $request->table_qty[$i],
-                        'price' => $request->table_price[$i],
+                        'type' => $request->table_type[$i] ?? 'Standard',
+                        'qty' => $request->table_qty[$i] ?? 0,
+                        'price' => $request->table_price[$i] ?? 0,
                         'approval' => $request->table_booking_approval[$i],
                         'description' => $request->table_description[$i]
                     ]);
@@ -350,18 +356,18 @@ class EventController extends Controller
             for($i = 0; $i < $guestlistSize; $i++){
                 if ($size > $i) {
                     $guestlist = $guestlists[$i];
-                    $guestlist->type = $request->guestlist_type[$i];
-                    $guestlist->qty = $request->guestlist_qty[$i];
-                    $guestlist->price = $request->guestlist_price[$i];
+                    $guestlist->type = $request->guestlist_type[$i] ?? 'Standard';
+                    $guestlist->qty = $request->guestlist_qty[$i] ?? 0;
+                    $guestlist->price = $request->guestlist_price[$i] ?? 0;
                     $guestlist->approval = $request->guestlist_booking_approval[$i];
                     $guestlist->description = $request->guestlist_description[$i];
                     $guestlist->save();
                 } else {
                     EventGuestlist::create([
                         'event_id' => $event->id,
-                        'type' => $request->guestlist_type[$i],
-                        'qty' => $request->guestlist_qty[$i],
-                        'price' => $request->guestlist_price[$i],
+                        'type' => $request->guestlist_type[$i] ?? 'Standard',
+                        'qty' => $request->guestlist_qty[$i] ?? 0,
+                        'price' => $request->guestlist_price[$i] ?? 0,
                         'approval' => $request->guestlist_booking_approval[$i],
                         'description' => $request->guestlist_description[$i]
                     ]);

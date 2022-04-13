@@ -29,7 +29,7 @@ class EventTableSeeder extends Seeder
 
         EventTable::create([
             'event_id' => 1,
-            'type' => 'Low',
+            'type' => 'EarlyBird',
             'qty' => 5,
             'price' => 150,
             'approval' => 'Yes',
@@ -37,7 +37,7 @@ class EventTableSeeder extends Seeder
 
         EventTable::create([
             'event_id' => 1,
-            'type' => 'High',
+            'type' => 'VIP',
             'qty' => 5,
             'price' => 250,
             'approval' => 'Yes',
@@ -53,7 +53,7 @@ class EventTableSeeder extends Seeder
 
         EventTable::create([
             'event_id' => 2,
-            'type' => 'Low',
+            'type' => 'EarlyBird',
             'qty' => 5,
             'price' => 300,
             'approval' => 'Yes',
@@ -61,7 +61,7 @@ class EventTableSeeder extends Seeder
 
         EventTable::create([
             'event_id' => 2,
-            'type' => 'High',
+            'type' => 'VIP',
             'qty' => 5,
             'price' => 500,
             'approval' => 'Yes',
@@ -77,7 +77,7 @@ class EventTableSeeder extends Seeder
 
         EventTable::create([
             'event_id' => 3,
-            'type' => 'Low',
+            'type' => 'EarlyBird',
             'qty' => 5,
             'price' => 250,
             'approval' => 'Yes',
@@ -85,7 +85,7 @@ class EventTableSeeder extends Seeder
 
         EventTable::create([
             'event_id' => 3,
-            'type' => 'High',
+            'type' => 'VIP',
             'qty' => 5,
             'price' => 400,
             'approval' => 'Yes',

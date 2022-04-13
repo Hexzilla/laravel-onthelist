@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
             EventTicketsSeeder::class,
             EventTableSeeder::class,
             EventGuestlistSeeder::class,
+            VenueOfferSeeder::class,
+            VenueTableSeeder::class,
         ]);
     }
 }

@@ -33,7 +33,7 @@
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 col-xxl-8">			
                 <form method="POST" action="{{ $action }}" class="EventForm needs-validation" enctype="multipart/form-data">
                     @csrf
-                    @if($event)
+                    @isset($event)
                         @method('PUT')
                     @endif
                     <div id="step-1">
@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="EventDetails">Event Details</label>
-                                    <textarea class="form-control" rows="5" id="EventDetails" name="details">{{ $event? $event->description : old('details') }}</textarea>
+                                    <textarea class="form-control" rows="5" id="EventDetails" name="details">{{ $event ? $event->description : old('details') }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <div class="file-field addEventHeader" id="header_image_wrapper">
@@ -64,7 +64,7 @@
                                         <div class="d-flex justify-content-center">
                                             <div class="">
                                                 <input id="header-image" class="d-none" type="file" name="header_image"
-                                                    value="{{ $event ? $event->header_image_path : '' }}" required/>
+                                                    value="{{ $event ? $event->header_image_path : old('header_image') }}" required/>
                                                 <p>Upload an Image no larger than 10mb in jpeg, png or gif format. </p>
                                             </div>
                                         </div>
@@ -85,21 +85,21 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="start-date">Start Date</label>
-                                <input type="date" value="{{ old('start_date') ?? date('Y-m-d') }}" id="start-date" name="start_date" class="form-control text-center event-date-time" />
+                                <input type="date" value="{{ $starts ? $starts[0] : date('Y-m-d') }}" id="start-date" name="start_date" class="form-control text-center event-date-time" />
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="start-time">Start Time</label>
-                                <input type="time" value="{{ old('start_time') ?? '00:00' }}" step="60" id="start-time" name="start_time" class="form-control text-center event-date-time" />
+                                <input type="time" value="{{ $starts ? $starts[1] : '00:00' }}" step="60" id="start-time" name="start_time" class="form-control text-center event-date-time" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="end-date">End Date</label>
-                                <input type="date" value="{{ old('end_date') ?? date('Y-m-d') }}" id="end-date" name="end_date" class="form-control text-center event-date-time" />
+                                <input type="date" value="{{ $ends ? $ends[0] : date('Y-m-d') }}" id="end-date" name="end_date" class="form-control text-center event-date-time" />
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="end-time">End Time</label>
-                                <input type="time" value="{{ old('end_time') ?? '00:00' }}" step="60" id="end-time" name="end_time" class="form-control text-center event-date-time" />
+                                <input type="time" value="{{ $ends ? $ends[1] : '00:00' }}" step="60" id="end-time" name="end_time" class="form-control text-center event-date-time" />
                             </div>
                         </div>
                         <div class="row">
@@ -119,7 +119,7 @@
                                     <select class="form-control" id="event_venue" name="venue_id">
                                         <option disabled selected>Select Venue</option>
                                         @foreach($venues as $venue)
-                                        <option value="{{$venue->id}}" data-venue-location="{{$venue->location}}">{{$venue->name}}</option>
+                                        <option value="{{$venue->id}}" data-venue-location="{{$venue->location}}" {{ ($event && $event->venue_id === $venue->id) ? 'selected' : '' }}>{{$venue->name}}</option>
                                         @endforeach
                                     </select>
                                     <span id='event_venue_error' class="d-none" role="alert">This field is required</span>
@@ -197,47 +197,13 @@
                         </div>
                         <div class="row">
                             <div id="event-ticket-list" class="col-md-12">
-                                <div id="event-ticket-default" class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="ticket_type">Ticket Type</label>
-                                            <input id="ticket_type" class="form-control" name="ticket_type[]"/>
-                                            <!-- <select class="form-control" name="ticket_type[]">
-                                                <option value="earlybird">EarlyBird</option>
-                                                <option value="standard" selected>Standard</option>
-                                                <option value="vip">VIP</option>
-                                            </select> -->
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="ticketQuantity">Ticket Quantity</label>
-                                            <input type="number" min="0" class="form-control" placeholder="0" name="ticket_qty[]" value="{{ old('ticket_qty[]') ?? '0' }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="ticketPrice">Ticket Price (£)</label>
-                                            <input type="number" min="0" class="form-control" placeholder="£0" name="ticket_price[]" value="{{ old('ticket_price[]') ?? '' }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="ticketApproval">Booking Approval</label>
-                                            <select class="form-control approval" name="ticket_approval[]">
-                                                <option value="Yes">Yes</option>
-                                                <option value="No">No</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="message">Description</label>
-                                            <textarea class="form-control" rows="3" name="ticket_description[]" placeholder=""></textarea>
-                                        </div>
-                                    </div>
-                                    <hr class="venue-table-separator mb-3"/>
-                                </div>
+                                @if(is_null($event))
+                                    @include("vendor.event.ticket", ['ticket' => null])
+                                @else
+                                    @foreach($event->tickets as $ticket)
+                                        @include("vendor.event.ticket", ['ticket' => $ticket])
+                                    @endforeach
+                                @endif
                             </div>
                             <div class="col-md-12">
                                 <a id="add-event-ticket" class="add-another-link"><i class="mdi mdi-plus"></i> Add another ticket</a>
@@ -250,47 +216,13 @@
                         </div>
                         <div class="row">
                             <div id="event-table-list" class="col-md-12">
-                                <div id="event-table-default" class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="table_type">Table Type</label>
-                                            <input type="text" id="table_type" class="form-control" name="table_type[]"/>
-                                            <!-- <select class="form-control" name="table_type[]">
-                                                <option value="earlybird">EarlyBird</option>
-                                                <option value="standard" selected>Standard</option>
-                                                <option value="vip">VIP</option>
-                                            </select> -->
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="tableQuantity">Table Quantity</label>
-                                            <input type="number" min="0" class="form-control" placeholder="0" name="table_qty[]" value="{{ old('table_qty[]') ?? '0' }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="tablePrice">Table Price (£)</label>
-                                            <input type="number" min="0" class="form-control" placeholder="£0" name="table_price[]" value="{{ old('table_price[]') ?? '' }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="tableApproval">Booking Approval</label>
-                                            <select class="form-control approval" name="table_booking_approval[]">
-                                                <option value="Yes">Yes</option>
-                                                <option value="No">No</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="message">Description</label>
-                                            <textarea class="form-control" rows="3" placeholder="" name="table_description[]"></textarea>
-                                        </div>
-                                    </div>
-                                    <hr class="venue-table-separator mb-3"/>
-                                </div>
+                                @if(is_null($event))
+                                    @include("vendor.event.table", ['table' => null])
+                                @else
+                                    @foreach($event->tables as $table)
+                                        @include("vendor.event.table", ['table' => $table])
+                                    @endforeach
+                                @endif
                             </div>
                             <div class="col-md-12">
                                 <a id="add-event-table" class="add-another-link"><i class="mdi mdi-plus"></i> Add another table</a>
@@ -303,47 +235,13 @@
                         </div>
                         <div class="row">
                             <div id="event-guestlist-list" class="col-md-12">
-                                <div id="event-guestlist-default" class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="guestlist_type">Guestlist Type</label>
-                                            <input type="text" id="guestlist_type" class="form-control" name="guestlist_type[]">
-                                            <!-- <select class="form-control" name="guestlist_type[]">
-                                                <option value="earlybird">EarlyBird</option>
-                                                <option value="standard" selected>Standard</option>
-                                                <option value="vip">VIP</option>
-                                            </select> -->
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="guestlistQuantity">Guestlist Quantity</label>
-                                            <input type="number" min="0" class="form-control" placeholder="0" name="guestlist_qty[]" value="{{ old('guestlist_qty[]') ?? '0' }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="guestlistPrice">Guestlist Price (£)</label>
-                                            <input type="number" min="0" class="form-control" placeholder="£0" name="guestlist_price[]" value="{{ old('guestlist_qty[]') ?? '' }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="guestlistApproval">Booking Approval</label>
-                                            <select class="form-control approval" name="guestlist_booking_approval[]">
-                                                <option value="Yes">Yes</option>
-                                                <option value="No">No</option>
-                                            </select>
-                                        </div>
-                                    </div>                                
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="message">Description</label>
-                                            <textarea class="form-control" rows="3" placeholder="" name="guestlist_description[]"></textarea>
-                                        </div>
-                                    </div>
-                                    <hr class="venue-table-separator mb-3"/>
-                                </div>
+                                @if(is_null($event))
+                                    @include("vendor.event.guestlist", ['guestlist' => null])
+                                @else
+                                    @foreach($event->guestlists as $guestlist)
+                                        @include("vendor.event.guestlist", ['guestlist' => $guestlist])
+                                    @endforeach
+                                @endif
                             </div>
                             <div class="col-md-12">
                                 <a id="add-event-guestlist" class="add-another-link"><i class="mdi mdi-plus"></i> Add another guestlist</a>
@@ -468,27 +366,30 @@
                 new_guestlist.appendTo("div#event-guestlist-list");
             });
 
+            const location = $("#event_venue option:selected").attr('data-venue-location');
+            $('#venue_location').val(location);
+
             $("#event_venue").on('change', function(e) {
                 const location = $("#event_venue option:selected").attr('data-venue-location');
                 $('#venue_location').val(location);
             });
 
             const booking_types = ['EarlyBird', 'Standard', 'VIP'];
-            $("#ticket_type").autocomplete({
+            $(".ticket_type").autocomplete({
                 source: booking_types,
                 minLength: 0,
             }).focus(function () {
                 $(this).autocomplete('search', $(this).val())
             });
 
-            $("#table_type").autocomplete({
+            $(".table_type").autocomplete({
                 source: booking_types,
                 minLength: 0,
             }).focus(function () {
                 $(this).autocomplete('search', $(this).val())
             });
 
-            $("#guestlist_type").autocomplete({
+            $(".guestlist_type").autocomplete({
                 source: booking_types,
                 minLength: 0,
             }).focus(function () {

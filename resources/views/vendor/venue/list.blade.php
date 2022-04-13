@@ -345,6 +345,7 @@
         const openDetailModal = (venue) => {
             venue = JSON.parse(venue);
             let html = $("#modal_venue_detail").html();
+            html = html.replace('$TITLE', venue.name);
             html = html.replace('$Description', venue.description);
             html = html.replace('$Facilities', venue.facilities);
             html = html.replace('$Music_Policy', venue.music_policy);

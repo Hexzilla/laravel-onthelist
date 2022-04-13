@@ -319,9 +319,7 @@
                         </div>
                         <div class="row">
                             @if (is_null($venue))
-                                @include("vendor.venue.offer")
-                            @elseif (count($venue->offers) == 0)
-                                @include("vendor.venue.offer")
+                                @include("vendor.venue.offer", ['offer' => null])
                             @else
                                 @foreach($venue->offers as $offer)
                                     @include("vendor.venue.offer", ['offer' => $offer])
@@ -338,46 +336,13 @@
                         </div>
                         <div class="row">
                             <div id="venue-table-list" class="col-md-12">
-                                <div id="venue-table-default" class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="offerType">Table Type</label>
-                                            <select class="form-control" name="table_type[]">
-                                                <option value="Type 1" selected>Type 1</option>
-                                                <option value="Type 2">Type 2</option>
-                                                <option value="Type 3">Type 3</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="offerQuantity">Table Quantity</label>
-                                            <input type="number" class="form-control" placeholder="0" name="table_qty[]" value="{{ old('offer_qty[]') ?? '' }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="offerPrice">Table Price</label>
-                                            <input type="text" class="form-control" placeholder="£0" name="table_price[]" value="{{ old('offer_price[]') ?? '' }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="offerApproval">Booking Approval</label>
-                                            <select class="form-control" name="table_booking_approval[]">
-                                                <option value="1">Yes</option>
-                                                <option value="0">No</option>
-                                            </select>
-                                        </div>
-                                    </div>                                
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="message">Description</label>
-                                            <textarea class="form-control" rows="3" placeholder="" name="table_description[]"></textarea>
-                                        </div>
-                                    </div>
-                                    <hr class="venue-table-separator mb-3"/>
-                                </div>
+                                @if (is_null($venue))
+                                    @include("vendor.venue.table", ['table' => null])
+                                @else
+                                    @foreach($venue->tables as $table)
+                                        @include("vendor.venue.table", ['table' => $table])
+                                    @endforeach
+                                @endif
                             </div>
                             <div class="col-md-12">
                                 <a id="add-venue-table" class="add-another-link"><i class="mdi mdi-plus"></i> Add another table</a>
@@ -388,7 +353,7 @@
                                 <button id="venue-form-back" type="button" class="btn btn-primary"><i class="mdi mdi-chevron-left"></i> Back</button>
                             </div>
                             <div class="col-md-6">
-                                <button id="submit-button" type="submit" class="btn btn-primary">Create an venue <i class="mdi mdi-chevron-right"></i></button>
+                                <button id="submit-button" type="submit" class="btn btn-primary">{{ $venue ? 'Update' : 'Create' }} an venue <i class="mdi mdi-chevron-right"></i></button>
                             </div>
                         </div>
                     </div>
@@ -470,7 +435,7 @@
 
         const form = $(".needs-validation");
         $('#venue-form-next').click(function(event) {
-            /*form.addClass('was-validated');
+            form.addClass('was-validated');
             if ($('#venue-header-image').val() == '') {
                 $('#header_image_wrapper').css('border-color', '#FD5190');
                 $('#header_iamge_error').removeClass('d-none')
@@ -483,7 +448,7 @@
             
             $('#header_iamge_error').addClass('d-none');
             $('#header_iamge_error').removeClass('custom-validation-error')
-            form.removeClass('was-validated');*/
+            form.removeClass('was-validated');
 
             $("#step-1").addClass('d-none');
             $("#step-2").removeClass('d-none');

@@ -29,7 +29,7 @@ class EventTicketsSeeder extends Seeder
 
         EventTicket::create([
             'event_id' => 1,
-            'type' => 'Low',
+            'type' => 'EarlyBird',
             'qty' => 50,
             'price' => 15,
             'approval' => 'Yes',
@@ -37,7 +37,7 @@ class EventTicketsSeeder extends Seeder
 
         EventTicket::create([
             'event_id' => 1,
-            'type' => 'High',
+            'type' => 'VIP',
             'qty' => 50,
             'price' => 25,
             'approval' => 'Yes',
@@ -53,7 +53,7 @@ class EventTicketsSeeder extends Seeder
 
         EventTicket::create([
             'event_id' => 2,
-            'type' => 'Low',
+            'type' => 'EarlyBird',
             'qty' => 50,
             'price' => 30,
             'approval' => 'Yes',
@@ -61,7 +61,7 @@ class EventTicketsSeeder extends Seeder
 
         EventTicket::create([
             'event_id' => 2,
-            'type' => 'High',
+            'type' => 'VIP',
             'qty' => 50,
             'price' => 50,
             'approval' => 'Yes',
@@ -77,7 +77,7 @@ class EventTicketsSeeder extends Seeder
 
         EventTicket::create([
             'event_id' => 3,
-            'type' => 'Low',
+            'type' => 'EarlyBird',
             'qty' => 50,
             'price' => 25,
             'approval' => 'Yes',
@@ -85,7 +85,7 @@ class EventTicketsSeeder extends Seeder
 
         EventTicket::create([
             'event_id' => 3,
-            'type' => 'High',
+            'type' => 'VIP',
             'qty' => 50,
             'price' => 40,
             'approval' => 'Yes',

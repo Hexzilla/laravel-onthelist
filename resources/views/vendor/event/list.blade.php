@@ -1,6 +1,41 @@
 @extends('layouts.vendor')
 
 @section('content')
+<style>
+    .event-card-img .nav-link {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+
+    .event-card-img img {
+        position: absolute;
+        top: 0;
+    }
+
+    .event-card-img h4, .event-card-img a {
+        color: #fff !important;
+    }
+
+    .event-card-img .dropdown-menu {
+        background-color: transparent;
+        border-color: transparent;
+        text-align: right;
+        padding: 5px;
+        color: #fff!important;
+    }
+
+    .event-card .card-footer, .card-sponsor {
+        background-color: #fff!important;
+    }
+
+    .event-card-img {
+        position: relative;
+        width: 100%;
+        padding-top: 50%;
+        overflow: hidden;
+    }
+</style>
 <div class="content-body">
     <div class="container-fluid">
         <div class="row page-titles mx-0">
@@ -12,57 +47,31 @@
             </div> 
         </div>
         <div class="row mt-4">
-            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 col-xxl-12">	
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="example" class="display" style="min-width: 845px">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Type</th>
-                                        <th>Venue</th>
-                                        <th>Details</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($events as $event)
-                                    <tr>
-                                        <td>{{$event->name}}</td>
-                                        <td>{{$event->type}}</td>
-                                        <td>{{$event->venue_id}}</td>
-                                        <td>
-                                            <button type="button" class="btn btn-rounded btn-outline-primary mb-1" onclick="openTableModal('{{$event->name}}', '{{$event->tickets}}')">Show Tickets</button>
-                                            <button type="button" class="btn btn-rounded btn-outline-secondary mb-1" onclick="openTableModal('{{$event->name}}', '{{$event->tables}}')">Show Tables</button>
-                                            <button type="button" class="btn btn-rounded btn-outline-success mb-1" onclick="openTableModal('{{$event->name}}', '{{$event->guestlists}}')">Show Guestlist</button>
-                                            <button type="button" class="btn btn-rounded btn-outline-warning mb-1" onclick="openMediaModal('{{$event->name}}', '{{$event->header_image_path}}', '{{$event->media}}')">Show Media</button>
-                                            <button type="button" class="btn btn-rounded btn-outline-info mb-1" onclick="openDetailModal('{{$event}}')">Show More</button>
-                                        </td>
-                                        <td>
-                                            @if($event->status == 'Rejected')
-                                            <span class="badge badge-danger">Rejected</span>
-                                            @elseif($event->status === 'Pending')
-                                            <span class="badge badge-warning">Pending</span>
-                                            @else
-                                            <span class="badge badge-success">{{$event->status}}</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <button type="button" title="Edit" class="btn btn-rounded btn-primary mb-1">
-                                                <a href="{{ route('vendors.event.edit', $event->id) }}"><i class="fa fa-edit"></i></a>
-                                            </button>
-                                            @if(!$event->isApproved())
-                                            <button type="button" title="Delete" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$event->name}}', '{{$event->id}}')"><i class="fa fa-trash"></i></a></button>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            @foreach($events as $event)
+                @include('vendor.event.card', ['event' => $event])
+            @endforeach
+        </div>
+    </div>
+</div>
+
+<!-- Event View Modal -->
+<div class="modal fade" id="event_view_modal">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">$TITLE</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <button type="button" class="btn btn-rounded btn-outline-primary mb-1" onclick="openTimetableModal('$NAME1', '$TICKETS')">Show Ticket</button>
+                <button type="button" class="btn btn-rounded btn-outline-secondary mb-1" onclick="openTableModal('$NAME2', '$TABLES')">Show Table</button>
+                <button type="button" class="btn btn-rounded btn-outline-success mb-1" onclick="openTableModal('$NAME3', '$GUESTLISTS')">Show Guestlist</button>
+                <button type="button" class="btn btn-rounded btn-outline-warning mb-1" onclick="openMediaModal('$NAME4', '$HEADERIMAGE', '$MEDIA')">Show Media</button>
+                <button type="button" class="btn btn-rounded btn-outline-info mb-1" onclick="openDetailModal('$EVENT')">Show More</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -215,6 +224,24 @@
             $("#event_delete_modal").modal('show');
         }
 
+        const openViewModal = (event, tables, tickets, guestlists, medias) => {
+            event1 = JSON.parse(event);
+            let html = $("#event_view_modal").html();
+            html = html.replace('$TITLE', event1.name);
+            html = html.replace('$NAME1', event1.name);
+            html = html.replace('$NAME2', event1.name);
+            html = html.replace('$NAME3', event1.name);
+            html = html.replace('$NAME4', event1.name);
+            html = html.replace('$TICKETS', tickets);
+            html = html.replace('$TABLES', tables);
+            html = html.replace('$GUESTLISTS', guestlists);
+            html = html.replace('$EVENT', event);
+            html = html.replace('$HEADERIMAGE', event1.header_image_path);
+            html = html.replace('$MEDIA', medias);
+            $("#event_view_modal").html(html);
+            $("#event_view_modal").modal("show");
+        }
+
         const openTableModal = (event, tables) => {
             tables = JSON.parse(tables);
             
@@ -241,6 +268,7 @@
         const openDetailModal = (event) => {
             event = JSON.parse(event);
             let html = $("#modal_event_detail").html();
+            html = html.replace('$TITLE', event.name);
             html = html.replace('$Description', event.description);
             html = html.replace('$Facilities', event.facilities);
             html = html.replace('$Music_Policy', event.music_policy);
