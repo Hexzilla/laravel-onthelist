@@ -23,7 +23,22 @@ class VenueController extends Controller
 
     public function create()
     {
-        return view('vendor.venue.create');
+        return view('vendor.venue.create', [
+            'title' => 'Create',
+            'action' => route('vendors.venue.store'),
+            'venue' => null,
+        ]);
+    }
+
+    public function edit($id)
+    {
+        $user_id = Auth::user()->id;
+        $venue = Venue::where('user_id', $user_id)->where('id', $id)->get();
+        return view('vendor.venue.create', [
+            'title' => 'Edit',
+            'action' => route('vendors.venue.update', $id),
+            'venue' => $venue[0]
+        ]);
     }
 
     public function store(Request $request)
@@ -131,8 +146,8 @@ class VenueController extends Controller
                 VenueOffer::create([
                     'venue_id' => $venue->id,
                     'type' => $request->offer_type[$i],
-                    'qty' => $request->offer_qty[$i],
-                    'price' => $request->offer_price[$i],
+                    'qty' => $request->offer_qty[$i] || 0,
+                    'price' => $request->offer_price[$i] || 0,
                     'approval' => $request->offer_approval[$i],
                     'description' => $request->offer_description[$i]
                 ]);
@@ -149,20 +164,13 @@ class VenueController extends Controller
                 VenueTable::create([
                     'venue_id' => $venue->id,
                     'type' => $request->table_type[$i],
-                    'qty' => $request->table_qty[$i],
-                    'price' => $request->table_price[$i],
+                    'qty' => $request->table_qty[$i] || 0,
+                    'price' => $request->table_price[$i] || 0,
                     'approval' => $request->table_booking_approval[$i],
                     'description' => $request->table_description[$i]
                 ]);
             }
         }
-    }
-
-    public function edit($id)
-    {
-        $user_id = Auth::user()->id;
-        $venue = Venue::where('user_id', $user_id)->where('id', $id)->get();
-        return view('vendor.venue.edit', ['venue' => $venue[0]]);
     }
 
     public function update(Request $request, $id)
@@ -353,6 +361,4 @@ class VenueController extends Controller
         $venues[0]->delete();
         return redirect()->route('vendors.venue.index')->with('Success');
     }
-
-    
 }

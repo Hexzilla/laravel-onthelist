@@ -1,6 +1,19 @@
 @extends('layouts.vendor')
 
 @section('content')
+<style>
+    .custom-validation-error {
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 80%;
+        color: #FD5190;
+    }
+
+    .was-validated .form-control:valid, .form-control.is-valid {
+        border-color: #dddee3;
+        background-image: none;
+    }
+</style>
 <div class="content-body">
     <div class="container-fluid">
         <div class="row page-titles mx-0">
@@ -14,7 +27,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 col-xxl-8">			
-                <form method="POST" action="{{ route('vendors.venue.update', $venue->id) }}" class="EventForm" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('vendors.venue.update', $venue->id) }}" class="EventForm needs-validation" enctype="multipart/form-data" novalidate>
                     @csrf
                     @method('PUT')
                     <div id="step-1">
@@ -27,14 +40,15 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="EventName">Venue Name *</label>
-                                    <input type="text" class="form-control" id="VenueName" name="name" value="{{ $venue->name }}" />
+                                    <input type="text" class="form-control" id="VenueName" name="name" value="{{ $venue->name }}" required />
+                                    <span class="invalid-feedback" role="alert">This field is required</span>
                                 </div>
                                 <div class="form-group">
                                     <label for="EventDetails">Venue Details</label>
                                     <textarea class="form-control" rows="5" id="VenueDetails" name="details">{{ $venue->description }}</textarea>
                                 </div>
                                 <div class="form-group">
-                                    <div class="file-field addEventHeader">
+                                    <div class="file-field addEventHeader" id="header_image_wrapper">
                                         <div class="addEvent-icon" id="venue-header-image-uploader">
                                             <i class="mdi mdi-image-multiple"></i>
                                             <span>Add Venue Header Image</span>
@@ -42,11 +56,12 @@
                                         </div>
                                         <div class="d-flex justify-content-center">
                                             <div class="">
-                                                <input id="venue-header-image" class="d-none" type="file" name="header_image" value="{{ $venue->header_image_path }}"/>
+                                                <input id="venue-header-image" class="d-none" type="file" name="header_image" value="{{ $venue->header_image_path }}" required/>
                                                 <p>Upload an Image no larger than 10mb in jpeg, png or gif format. </p>
                                             </div>
                                         </div>
                                     </div>
+                                    <span id="header_iamge_error" class="d-none" role="alert">This field is required</span>
                                 </div>
                             </div>
                         </div>	
@@ -55,23 +70,27 @@
                                 <div class="form-group">
                                     <label for="VenueLocation">Address *</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="VenueLocation" name="address" value="{{ $venue->address }}" >
+                                        <input type="text" class="form-control" id="VenueLocation" name="address" value="{{ $venue->address }}" required >
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="mdi mdi-map-marker"></i></span>
                                         </div>
+                                        <span class="invalid-feedback" role="alert">This field is required</span>
                                     </div>
                                 </div>
                                 <div class="form-group border-input">
                                     <label for="VenueName">Town/City *</label>
-                                    <input type="text" class="form-control" placeholder="" id="VenueCity" name="city" value="{{ $venue->city }}">
+                                    <input type="text" class="form-control" placeholder="" id="VenueCity" name="city" value="{{ $venue->city }}" required >
+                                    <span class="invalid-feedback" role="alert">This field is required</span>
                                 </div>
                                 <div class="form-group border-input">
                                     <label for="VenueName">Postcode *</label>
-                                    <input type="text" class="form-control" placeholder="" id="VenuePostcode" name="postcode" value="{{ $venue->postcode }}">
+                                    <input type="text" class="form-control" placeholder="" id="VenuePostcode" name="postcode" value="{{ $venue->postcode }}" required >
+                                    <span class="invalid-feedback" role="alert">This field is required</span>
                                 </div>
                                 <div class="form-group border-input">
                                     <label for="VenueName">Phone Number *</label>
-                                    <input type="text" class="form-control" placeholder="" id="VenuePhone" name="phone" value="{{ $venue->phone }}">
+                                    <input type="text" class="form-control" placeholder="" id="VenuePhone" name="phone" value="{{ $venue->phone }}" required>
+                                    <span class="invalid-feedback" role="alert">This field is required</span>
                                 </div>
                             </div>
                         </div>
@@ -90,11 +109,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="monday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue->timetable->mon_open }}" step="60" id="monday-opening-time" name="mon_open" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->mon_open }}" step="60" id="monday-opening-time" name="mon_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="monday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue->timetable->mon_close }}" step="60" id="monday-closing-time" name="mon_close" value="{{ old('monday_closing_time') }}" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->mon_close }}" step="60" id="monday-closing-time" name="mon_close" value="{{ old('monday_closing_time') }}" class="form-control text-center" />
                                 </div>
                             </div>
                             <div class="row">
@@ -106,11 +125,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="tuesday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue->timetable->tue_open }}" step="60" id="tuesday-opening-time" name="tue_open" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->tue_open }}" step="60" id="tuesday-opening-time" name="tue_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="tuesday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue->timetable->tue_close }}" step="60" id="tuesday-closing-time" name="tue_close" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->tue_close }}" step="60" id="tuesday-closing-time" name="tue_close" class="form-control text-center" />
                                 </div>
                             </div>
                             <div class="row">
@@ -122,11 +141,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="wednesday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue->timetable->wed_open }}" step="60" id="wednesday-opening-time" name="wed_open" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->wed_open }}" step="60" id="wednesday-opening-time" name="wed_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="wednesday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue->timetable->wed_close }}" step="60" id="wednesday-closing-time" name="wed_close" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->wed_close }}" step="60" id="wednesday-closing-time" name="wed_close" class="form-control text-center" />
                                 </div>
                             </div>
                             <div class="row">
@@ -138,11 +157,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="thursday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue->timetable->thu_open }}" step="60" id="thursday-opening-time" name="thu_open" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->thu_open }}" step="60" id="thursday-opening-time" name="thu_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="thursday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue->timetable->thu_close }}" step="60" id="thursday-closing-time" name="thu_close" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->thu_close }}" step="60" id="thursday-closing-time" name="thu_close" class="form-control text-center" />
                                 </div>
                             </div>
                             <div class="row">
@@ -154,11 +173,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="friday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue->timetable->fri_open }}" step="60" id="friday-opening-time" name="fri_open" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->fri_open }}" step="60" id="friday-opening-time" name="fri_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="friday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue->timetable->fri_close }}" step="60" id="friday-closing-time" name="fri_close" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->fri_close }}" step="60" id="friday-closing-time" name="fri_close" class="form-control text-center" />
                                 </div>
                             </div>
                             <div class="row">
@@ -170,11 +189,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="saturday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue->timetable->sat_open }}" step="60" id="saturday-opening-time" name="sat_open" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->sat_open }}" step="60" id="saturday-opening-time" name="sat_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="saturday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue->timetable->sat_close }}" step="60" id="saturday-closing-time" name="sat_close" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->sat_close }}" step="60" id="saturday-closing-time" name="sat_close" class="form-control text-center" />
                                 </div>
                             </div>
                             <div class="row">
@@ -186,11 +205,11 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="sunday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue->timetable->sun_open }}" step="60" id="sunday-opening-time" name="sun_open" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->sun_open }}" step="60" id="sunday-opening-time" name="sun_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="sunday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue->timetable->sun_close }}" step="60" id="sunday-closing-time" name="sun_close" class="form-control" />
+                                    <input type="time" value="{{ $venue->timetable->sun_close }}" step="60" id="sunday-closing-time" name="sun_close" class="form-control text-center" />
                                 </div>
                             </div>
                         </div>
@@ -223,18 +242,15 @@
                                                 <i class="mdi mdi-video"></i> <span>Video</span>
                                                 <span id="venue-video-file-name"></span>
                                             </div>
-                                            <div class="d-flex justify-content-center">
-                                                <div class="d-none">
-                                                    <input type="file"  id="venue-video" name="gallery_video">
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <div class="form-group">
+                                    <div class="form-group d-none" id="video_link">
                                         <input type="text" class="form-control" placeholder="Video Link: https://www.youtube.com" name="video_link" value="{{ old('video_link') }}">
                                     </div>
+                                </div>
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="facitliies">Facilities</label>
                                         <input type="text" class="form-control" placeholder="" name="facilities" value="{{ $venue->facilities }}">

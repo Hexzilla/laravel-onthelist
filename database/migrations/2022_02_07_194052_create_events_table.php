@@ -24,6 +24,7 @@ class CreateEventsTable extends Migration
             $table->datetime('start');
             $table->datetime('end');
             $table->boolean('is_weekly_event');
+            $table->enum('feature', ["yes", "no"])->default("no");
             $table->enum('status', ["Pending", "Approved", "Rejected", "Progress", "Completed"])->default("Pending");
             $table->timestamps();
         });
