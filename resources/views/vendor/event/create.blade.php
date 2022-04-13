@@ -25,14 +25,17 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Events</a></li>
-                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Create Event</a></li>
+                    <li class="breadcrumb-item active"><a href="javascript:void(0)">{{$title}}</a></li>
                 </ol>
             </div> 
         </div>
         <div class="row mt-4">
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 col-xxl-8">			
-                <form method="POST" action="{{ route('vendors.event.store') }}" class="EventForm needs-validation" enctype="multipart/form-data">
+                <form method="POST" action="{{ $action }}" class="EventForm needs-validation" enctype="multipart/form-data">
                     @csrf
+                    @if($event)
+                        @method('PUT')
+                    @endif
                     <div id="step-1">
                         <div class="row">
                             <div class="col-md-12">
@@ -43,12 +46,13 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="EventName">Event Name *</label>
-                                    <input type="text" class="form-control" id="EventName" name="name" value="{{ old('name') }}" required />
+                                    <input type="text" class="form-control" id="EventName" name="name" 
+                                        value="{{ $event? $event->name : old('name') }}" required />
                                     <span class="invalid-feedback" role="alert">This field is required</span>
                                 </div>
                                 <div class="form-group">
                                     <label for="EventDetails">Event Details</label>
-                                    <textarea class="form-control" rows="5" id="EventDetails" name="details">{{ old('details') }}</textarea>
+                                    <textarea class="form-control" rows="5" id="EventDetails" name="details">{{ $event? $event->description : old('details') }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <div class="file-field addEventHeader" id="header_image_wrapper">
@@ -59,7 +63,8 @@
                                         </div>
                                         <div class="d-flex justify-content-center">
                                             <div class="">
-                                                <input id="header-image" class="d-none" type="file" name="header_image" required/>
+                                                <input id="header-image" class="d-none" type="file" name="header_image"
+                                                    value="{{ $event ? $event->header_image_path : '' }}" required/>
                                                 <p>Upload an Image no larger than 10mb in jpeg, png or gif format. </p>
                                             </div>
                                         </div>
@@ -69,9 +74,9 @@
                                 <div class="form-group">
                                     <label for="EventType">Event Type *</label>
                                     <select class="form-control" id="event-type" name="type">
-                                        <option selected disabled>Select Event Type</option>
-                                        <option value="Public">Public</option>
-                                        <option value="Private">Private</option>
+                                        <option disabled {{ $event ? '' : 'selected'}}>Select Event Type</option>
+                                        <option value="Public" {{ ($event && $event->type === 'Public') ? 'selected' : '' }}>Public</option>
+                                        <option value="Private" {{ ($event && $event->type === 'Public') ? 'selected' : '' }}>Private</option>
                                     </select>
                                     <span id="event-type-error" class="d-none" role="alert">This field is required</span>
                                 </div>

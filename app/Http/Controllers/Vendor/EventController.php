@@ -28,7 +28,29 @@ class EventController extends Controller
         $user_id = Auth::user()->id;
         $venues = Venue::where('user_id', $user_id)->get();
         $djs = User::where('role', 'dj')->get();
-        return view('vendor.event.create', ['venues' => $venues, 'djs' => $djs]);
+        return view('vendor.event.create', [
+            'venues' => $venues, 
+            'djs' => $djs,
+            'event' => null,
+            'title' => 'Create Event',
+            'action' => 'vendors.event.store'
+        ]);
+    }
+
+    public function edit($id)
+    {
+        $user_id = Auth::user()->id;
+        $djs = User::where('role', 'dj')->get();
+        $venues = Venue::where('user_id', $user_id)->get();
+        $events = Event::where('user_id', $user_id)->where('id', $id)->get();
+        $event = $events[0];
+        return view('vendor.event.edit', [
+            'event' => $event, 
+            'venues' => $venues, 
+            'djs' => $djs,
+            'title' => 'Edit Event',
+            'action' => 'vendors.event.update'
+        ]);
     }
 
     
@@ -166,15 +188,7 @@ class EventController extends Controller
         }
     }
 
-    public function edit($id)
-    {
-        $user_id = Auth::user()->id;
-        $djs = User::where('role', 'dj')->get();
-        $venues = Venue::where('user_id', $user_id)->get();
-        $events = Event::where('user_id', $user_id)->where('id', $id)->get();
-        $event = $events[0];
-        return view('vendor.event.edit', ['event' => $event, 'venues' => $venues, 'djs' => $djs]);
-    }
+    
 
     public function update(Request $request, $id)
     {
