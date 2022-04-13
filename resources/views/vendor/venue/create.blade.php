@@ -8,6 +8,11 @@
         font-size: 80%;
         color: #FD5190;
     }
+
+    .was-validated .form-control:valid, .form-control.is-valid {
+        border-color: #dddee3;
+        background-image: none;
+    }
 </style>
 <div class="content-body">
     <div class="container-fluid">
@@ -230,27 +235,21 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <!-- <div class="form-group">
+                                    <div class="form-group">
                                         <div class="file-field">
                                             <div id="venue-video-uploader" class="addImages-icon">
                                                 <i class="mdi mdi-video"></i> <span>Video</span>
                                                 <span id="venue-video-file-name"></span>
                                             </div>
-                                            <div class="d-flex justify-content-center">
-                                                <div class="d-none">
-                                                    <input type="file"  id="venue-video" name="gallery_video">
-                                                </div>
-                                            </div>
                                         </div>
-                                    </div> -->
-                                    <div class="form-group">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group d-none" id="video_link">
                                         <input type="text" class="form-control" placeholder="Video Link: https://www.youtube.com" name="video_link" value="{{ old('video_link') }}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <!-- <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Video Link: https://www.youtube.com" name="video_link" value="{{ old('video_link') }}">
-                                    </div> -->
                                     <div class="form-group">
                                         <label for="facitliies">Facilities</label>
                                         <input type="text" class="form-control" placeholder="" name="facilities" value="{{ old('facilities') }}">
@@ -472,10 +471,7 @@
 
         // Gallery video
         $("#venue-video-uploader").on('click', function(){
-            $("#venue-video").click();
-        });
-        $("#venue-video").on('change', function(){
-            $("#venue-video-file-name").text(`(${$(this)[0].files[0].name})`);
+            $("#video_link").removeClass("d-none");
         });
 
         $("#venue-form-back").on('click', function(){

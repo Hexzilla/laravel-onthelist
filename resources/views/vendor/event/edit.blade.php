@@ -2,6 +2,19 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
+    <style>
+        .custom-validation-error {
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 80%;
+            color: #FD5190;
+        }
+
+        .was-validated .form-control:valid, .form-control.is-valid {
+            border-color: #dddee3;
+            background-image: none;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -18,7 +31,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 col-xxl-8">			
-                <form method="POST" action="{{ route('vendors.event.update', $event->id) }}" class="EventForm" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('vendors.event.update', $event->id) }}" class="EventForm needs-validation" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div id="step-1">
@@ -31,7 +44,8 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="EventName">Event Name *</label>
-                                    <input type="text" class="form-control" id="EventName" name="name" value="{{ $event->name }}" />
+                                    <input type="text" class="form-control" id="EventName" name="name" value="{{ $event->name }}" required/>
+                                    <span class="invalid-feedback" role="alert">This field is required</span>
                                 </div>
                                 <div class="form-group">
                                     <label for="EventDetails">Event Details</label>
@@ -46,15 +60,16 @@
                                         </div>
                                         <div class="d-flex justify-content-center">
                                             <div class="">
-                                                <input id="header-image" class="d-none" type="file" name="header_image" value="{{ $event->header_image_path }}"/>
+                                                <input id="header-image" class="d-none" type="file" name="header_image" value="{{ $event->header_image_path }}" required/>
                                                 <p>Upload an Image no larger than 10mb in jpeg, png or gif format. </p>
                                             </div>
                                         </div>
                                     </div>
+                                    <span id="header_image_error" class="d-none" role="alert">This field is required</span>
                                 </div>
                                 <div class="form-group">
                                     <label for="EventType">Event Type *</label>
-                                    <select class="form-control" id="EventType" name="type" value="{{ $event->type }}">
+                                    <select class="form-control" id="event-type" name="type" value="{{ $event->type }}">
                                         <option disabled>Select Event Type</option>
                                         <option value="Public" {{$event->type === 'Public' ? 'selected':''}}>Public</option>
                                         <option value="Private" {{$event->type === 'Private' ? 'selected':''}}>Private</option>
@@ -63,23 +78,33 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-6">
                                 <label for="start-date">Start Date</label>
                                 <input type="date" value="{{ old('start_date') ?? date('Y-m-d') }}" id="start-date" name="start_date" class="form-control" />
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-6">
                                 <label for="start-time">Start Time</label>
-                                <input type="time" value="{{ old('start_time') ?? "09:00" }}" step="60" id="start-time" name="start_time" class="form-control" />
+                                <input type="time" value="{{ old('start_time') ?? "00:00" }}" step="60" id="start-time" name="start_time" class="form-control" />
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-6">
                                 <label for="end-date">End Date</label>
                                 <input type="date" value="{{ old('end_date') ?? date('Y-m-d') }}" id="end-date" name="end_date" class="form-control" />
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-6">
                                 <label for="end-time">End Time</label>
-                                <input type="time" value="{{ old('end_time') ?? "20:00" }}" step="60" id="end-time" name="end_time" class="form-control" />
+                                <input type="time" value="{{ old('end_time') ?? "00:00" }}" step="60" id="end-time" name="end_time" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-check">
+                                    <input class="form-check-input" type="checkbox" name="is_weekly_event" @if(old('is_weekly_event') == 'on') checked @endif>
+                                    <label class="form-check-label">
+                                        Weekly Event
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -99,21 +124,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="facitliies">DJ's</label>
-                                    <select class="form-control multi-select" name="djs[]" multiple>
+                                    <select class="form-control multi-select" name="djs[]" multiple required>
                                         @foreach($djs as $dj)
                                         <option value="{{$dj->id}}">{{$dj->name}}</option>
                                         @endforeach
                                     </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group form-check">
-                                    <input class="form-check-input" type="checkbox" name="is_weekly_event" @if(old('is_weekly_event') == 'on') checked @endif>
-                                    <label class="form-check-label">
-                                        Weekly Event
-                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -146,16 +161,11 @@
                                                 <i class="mdi mdi-video"></i> <span>Video</span>
                                                 <span id="video-file-name"></span>
                                             </div>
-                                            <div class="d-flex justify-content-center">
-                                                <div class="d-none">
-                                                    <input type="file" id="video" name="gallery_video">
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <div class="form-group">
+                                    <div class="form-group d-none" id="video-link">
                                         <input type="text" class="form-control" placeholder="Video Link: https://www.youtube.com" name="video_link" value="{{ old('video_link') }}">
                                     </div>
                                 </div>
@@ -185,11 +195,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="ticketType">Ticket Type</label>
-                                            <select class="form-control" name="ticket_type[]"  value="{{ $ticket->type }}">
-                                                <option value="Standard" {{$ticket->type === 'Standard' ? 'selected' : ''}}>Standard</option>
-                                                <option value="Low" {{$ticket->type === 'Low' ? 'selected' : ''}}>Low</option>
-                                                <option value="High" {{$ticket->type === 'High' ? 'selected' : ''}}>High</option>
-                                            </select>
+                                            <input id="ticket_type" class="form-control" name="ticket_type[]" value="{{ $ticket->type}}"/>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -208,8 +214,8 @@
                                         <div class="form-group">
                                             <label for="ticketApproval">Booking Approval</label>
                                             <select class="form-control" name="ticket_approval[]"  value="{{ $ticket->approval }}">
-                                                <option value="Yes">Yes</option>
-                                                <option value="No">No</option>
+                                                <option value="Yes" {{ $ticket->approval == "Yes" ? 'selected' : ''}}>Yes</option>
+                                                <option value="No" {{ $ticket->approval == "No" ? 'selected' : ''}}>No</option>
                                             </select>
                                         </div>
                                     </div>
@@ -239,11 +245,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="tableType">Table Type</label>
-                                            <select class="form-control" name="table_type[]" value="{{ $table->type }}">
-                                                <option value="Standard" {{$table->type === 'Standard' ? 'selected' : ''}}>Standard</option>
-                                                <option value="Low" {{$table->type === 'Low' ? 'selected' : ''}}>Low</option>
-                                                <option value="High" {{$table->type === 'High' ? 'selected' : ''}}>High</option>
-                                            </select>
+                                            <input type="text" id="table_type" class="form-control" name="table_type[]"/>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -262,8 +264,8 @@
                                         <div class="form-group">
                                             <label for="tableApproval">Booking Approval</label>
                                             <select class="form-control" name="table_booking_approval[]" value="{{ $table->approval }}">
-                                                <option value="1">Yes</option>
-                                                <option value="0">No</option>
+                                                <option value="Yes" {{ $table->approval === "Yes" ? "selected" : ""}}>Yes</option>
+                                                <option value="No" {{ $table->aproval === "No" ? "selected":""}}>No</option>
                                             </select>
                                         </div>
                                     </div>                                
@@ -293,11 +295,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="guestlistType">Guestlist Type</label>
-                                            <select class="form-control" name="guestlist_type[]" value="{{ $guestlist->type }}">
-                                                <option value="Standard" {{$guestlist->type === 'Standard' ? 'selected' : ''}}>Standard</option>
-                                                <option value="Low" {{$guestlist->type === 'Low' ? 'selected' : ''}}>Low</option>
-                                                <option value="High" {{$guestlist->type === 'High' ? 'selected' : ''}}>High</option>
-                                            </select>
+                                            <input type="text" id="guestlist_type" class="form-control" name="guestlist_type[]" value="{{$guestlist->type}}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -316,8 +314,8 @@
                                         <div class="form-group">
                                             <label for="guestlistApproval">Booking Approval</label>
                                             <select class="form-control" name="guestlist_booking_approval[]" value="{{ $guestlist->approval }}">
-                                                <option value="1">Yes</option>
-                                                <option value="0">No</option>
+                                                <option value="Yes" {{$guestlist->approval === "Yes" ? "selected":""}}>Yes</option>
+                                                <option value="No" {{$guestlist->approval === "No" ? "selected":""}}>No</option>
                                             </select>
                                         </div>
                                     </div>                                
@@ -340,7 +338,7 @@
                                 <button id="event-form-back" type="button" class="btn btn-primary"><i class="mdi mdi-chevron-left"></i> Back</button>
                             </div>
                             <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary">Update an Event <i class="mdi mdi-chevron-right"></i></button>
+                                <button type="submit" class="submit-form btn btn-primary">Update an Event <i class="mdi mdi-chevron-right"></i></button>
                             </div>
                         </div>
                     </div>
@@ -362,6 +360,9 @@
             });
             $("#header-image").on('change', function(){
                 $("#header-image-file-name").text($(this)[0].files[0].name);
+                $('#header_image_wrapper').css('border-color', '#dddee3');
+                $('#header_image_error').addClass('d-none');
+                $('#header_image_error').removeClass('custom-validation-error');
             });
 
             // Gallery Images
@@ -374,14 +375,53 @@
 
             // Gallery video
             $("#video-uploader").on('click', function(){
-                $("#video").click();
+                $("#video-link").removeClass('d-none');
             });
-            $("#video").on('change', function(){
-                $("#video-file-name").text(`(${$(this)[0].files[0].name})`);
+            
+
+            $('#event-type').on('change', function(){
+                $('#event-type-error').removeClass('custom-validation-error');
+                $('#event-type-error').addClass('d-none');
+                if($('#event-type').val() === 'Public') {
+                    $(".approval").each((index, ele) => $(ele).val("No"));
+                    $(".approval").prop("disabled", true);
+                }
+            });
+
+            $('#event_venue').on('change', function(){
+                $('#event_venue_error').removeClass('custom-validation-error');
+                $('#event_venue_error').addClass('d-none');
             });
 
             // Step switch
+            const form = $(".needs-validation");
             $("#event-form-next").on('click', function(){
+                form.addClass('was-validated');
+                if ($('#header-image').val() == '') {
+                    $('#header_image_wrapper').css('border-color', '#FD5190');
+                    $('#header_image_error').removeClass('d-none');
+                    $('#header_image_error').addClass('custom-validation-error');
+                }
+                var is_valid = false;
+
+                if ($('#event-type').val() === null) {
+                    $('#event-type-error').addClass('custom-validation-error');
+                    $('#event-type-error').removeClass('d-none');
+                    is_valid = true;
+                };
+
+                if ($('#event_venue').val() == null) {
+                    $('#event_venue_error').addClass('custom-validation-error');
+                    $('#event_venue_error').removeClass('d-none');
+                    is_valid = true;
+                }
+
+                if (form[0].checkValidity() === false || is_valid) {
+                    event.preventDefault();
+                    return;
+                }
+                
+                form.removeClass('was-validated');
                 $("#step-1").addClass('d-none');
                 $("#step-2").removeClass('d-none');
             });
@@ -410,6 +450,77 @@
                 var new_guestlist = $("#event-guestlist-default").clone();
                 $(new_guestlist).find("input, textarea").each((index, ele)=> $(ele).val(""));
                 new_guestlist.appendTo("div#event-guestlist-list");
+            });
+
+            $("#event_venue").on('change', function(e) {
+                const location = $("#event_venue option:selected").attr('data-venue-location');
+                $('#venue_location').val(location);
+            });
+
+            const booking_types = ['EarlyBird', 'Standard', 'VIP'];
+            $("#ticket_type").autocomplete({
+                source: booking_types,
+                minLength: 0,
+            }).focus(function () {
+                $(this).autocomplete('search', $(this).val())
+            });
+
+            $("#table_type").autocomplete({
+                source: booking_types,
+                minLength: 0,
+            }).focus(function () {
+                $(this).autocomplete('search', $(this).val())
+            });
+
+            $("#guestlist_type").autocomplete({
+                source: booking_types,
+                minLength: 0,
+            }).focus(function () {
+                $(this).autocomplete('search', $(this).val())
+            });
+
+            function formatDate(date) {
+                return date.toISOString().slice(0, 10);
+            }
+
+            function getDateTime(str) {
+                return new Date(str).getTime();
+            }
+
+            function updateEndDateTime() {
+                const startDate = $('#start-date').val();
+                const endDate = $('#end-date').val();
+
+                $('#end-date').attr('min', startDate)
+
+                if (getDateTime(startDate) > getDateTime(endDate)) {
+                    $('#end-date').val(startDate)
+                    return;
+                }
+
+                const startTime = $('#start-time').val();
+                const endTime = $('#end-time').val();
+                const date1 = `${startDate} ${startTime}:00`;
+                const date2 = `${endDate} ${endTime}:00`;
+                if (getDateTime(date1) > getDateTime(date2)) {
+                    $('#end-time').val(startTime)
+                }
+            }
+            updateEndDateTime();
+            
+            // Event Date and Times
+            $('.event-date-time').on('change', function() {
+                updateEndDateTime();
+            })
+            
+            $('#submit-button').click(function(event) {
+                form.addClass('was-validated');
+
+                if (form[0].checkValidity() === false) {
+                    event.preventDefault();
+                    return;
+                }
+                form.removeClass('was-validated');
             });
         });
     </script>
