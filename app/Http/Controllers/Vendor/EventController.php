@@ -11,6 +11,7 @@ use App\Models\EventTable;
 use App\Models\EventTicket;
 use App\Models\User;
 use App\Models\Venue;
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,6 +21,11 @@ class EventController extends Controller
     {
         $user_id = Auth::user()->id;
         $events = Event::where('user_id', $user_id)->get();
+        foreach($events as $event)
+        {
+            $bookings = Booking::orderBy('created_at', 'DESC')->where('event_id', $event->id)->take(5)->get();
+            $event->bookings = $bookings;
+        }
         return view('vendor.event.list', ['events' => $events]);
     }
 
@@ -141,7 +147,7 @@ class EventController extends Controller
                     'type' => $request->ticket_type[$i] ?? 'Standard',
                     'qty' => $request->ticket_qty[$i] ?? 0,
                     'price' => $request->ticket_price[$i] ?? 0,
-                    'approval' => $request->ticket_approval[$i],
+                    'approval' => $request->ticket_approval[$i] ?? 'No',
                     'description' => $request->ticket_description[$i]
                 ]);
             }
@@ -159,7 +165,7 @@ class EventController extends Controller
                     'type' => $request->table_type[$i] ?? 'Standard',
                     'qty' => $request->table_qty[$i] ?? 0,
                     'price' => $request->table_price[$i] ?? 0,
-                    'approval' => $request->table_booking_approval[$i],
+                    'approval' => $request->table_booking_approval[$i] ?? 'No',
                     'description' => $request->table_description[$i]
                 ]);
             }
@@ -177,7 +183,7 @@ class EventController extends Controller
                     'type' => $request->guestlist_type[$i] ?? 'Standard',
                     'qty' => $request->guestlist_qty[$i] ?? 0,
                     'price' => $request->guestlist_price[$i] ?? 0,
-                    'approval' => $request->guestlist_booking_approval[$i],
+                    'approval' => $request->guestlist_booking_approval[$i] ?? 'No',
                     'description' => $request->guestlist_description[$i]
                 ]);
             }
@@ -300,7 +306,7 @@ class EventController extends Controller
                     $ticket->type = $request->ticket_type[$i] ?? 'Standard';
                     $ticket->qty = $request->ticket_qty[$i] ?? 0;
                     $ticket->price = $request->ticket_price[$i] ?? 0;
-                    $ticket->approval = $request->ticket_approval[$i];
+                    $ticket->approval = $request->ticket_approval[$i] ?? 'No';
                     $ticket->description = $request->ticket_description[$i];
                 } else {
                     EventTicket::create([
@@ -308,7 +314,7 @@ class EventController extends Controller
                         'type' => $request->ticket_type[$i] ?? 'Standard',
                         'qty' => $request->ticket_qty[$i] ?? 0,
                         'price' => $request->ticket_price[$i] ?? 0,
-                        'approval' => $request->ticket_approval[$i],
+                        'approval' => $request->ticket_approval[$i] ?? 'No',
                         'description' => $request->ticket_description[$i]
                     ]);
                 }       
@@ -329,7 +335,7 @@ class EventController extends Controller
                     $table->type = $request->table_type[$i] ?? 'Standard';
                     $table->qty = $request->table_qty[$i] ?? 0;
                     $table->price = $request->table_price[$i] ?? 0;
-                    $table->approval = $request->table_booking_approval[$i];
+                    $table->approval = $request->table_booking_approval[$i] ?? 'No';
                     $table->description = $request->table_description[$i];
                     $table->save();
                 } else {
@@ -338,7 +344,7 @@ class EventController extends Controller
                         'type' => $request->table_type[$i] ?? 'Standard',
                         'qty' => $request->table_qty[$i] ?? 0,
                         'price' => $request->table_price[$i] ?? 0,
-                        'approval' => $request->table_booking_approval[$i],
+                        'approval' => $request->table_booking_approval[$i] ?? 'No',
                         'description' => $request->table_description[$i]
                     ]);
                 }  
@@ -359,7 +365,7 @@ class EventController extends Controller
                     $guestlist->type = $request->guestlist_type[$i] ?? 'Standard';
                     $guestlist->qty = $request->guestlist_qty[$i] ?? 0;
                     $guestlist->price = $request->guestlist_price[$i] ?? 0;
-                    $guestlist->approval = $request->guestlist_booking_approval[$i];
+                    $guestlist->approval = $request->guestlist_booking_approval[$i] ?? 'No';
                     $guestlist->description = $request->guestlist_description[$i];
                     $guestlist->save();
                 } else {
@@ -368,7 +374,7 @@ class EventController extends Controller
                         'type' => $request->guestlist_type[$i] ?? 'Standard',
                         'qty' => $request->guestlist_qty[$i] ?? 0,
                         'price' => $request->guestlist_price[$i] ?? 0,
-                        'approval' => $request->guestlist_booking_approval[$i],
+                        'approval' => $request->guestlist_booking_approval[$i] ?? 'No',
                         'description' => $request->guestlist_description[$i]
                     ]);
                 }  

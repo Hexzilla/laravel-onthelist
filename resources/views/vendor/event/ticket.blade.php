@@ -21,7 +21,7 @@
         <div class="form-group">
             <label for="ticketApproval">Booking Approval</label>
             <select class="form-control approval" name="ticket_approval[]">
-                <option value="Yes" {{ ($ticket && $ticket->approval !== 'Yes') ? '' : 'selected' }}>Yes</option>
+                <option value="Yes" {{ ($ticket && $ticket->approval === 'Yes') ? 'selected' : '' }}>Yes</option>
                 <option value="No" {{ ($ticket && $ticket->approval === 'No') ? 'selected' : '' }}>No</option>
             </select>
         </div>

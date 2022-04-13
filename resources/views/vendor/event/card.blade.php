@@ -5,17 +5,17 @@
             <h4>{{ $event->name }}</h4>
             <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">...</a>
             <div class="dropdown-menu dropdown-menu-right">
-                <div>
-                    <a href="{{ route('vendors.event.edit', $event->id) }}"><i class="fa fa-edit"></i> Edit</a>
-                </div>
+                <div><a href="{{ route('vendors.event.edit', $event->id) }}"><i class="fa fa-edit"></i> Edit</a></div>
                 <div>
                     @if(!$event->isApproved())
                     <a onclick="openDeleteModal('{{$event->name}}', '{{$event->id}}')"><i class="fa fa-trash"></i> Delete</a>
                     @endif
                 </div>
-                <div>
-                    <a onclick="openViewModal('{{$event}}', '{{$event->tables}}', '{{$event->tickets}}', '{{$event->guestlists}}', '{{$event->media}}' )"><i class="fa fa-visibility"></i> View</a> 
-                </div>
+                <div><a onclick="openTableModal('{{$event->name}}', '{{$event->tickets}}')"><i class="fa fa-view"></i> Show Tickets</a></div>
+                <div><a onclick="openTableModal('{{$event->name}}', '{{$event->tables}}')"><i class="fa fa-view"></i> Show Tables</a></div>
+                <div><a onclick="openTableModal('{{$event->name}}', '{{$event->guestlists}}')"><i class="fa fa-view"></i> Show Guestlists</a></div>
+                <div><a onclick="openMediaModal('{{$event->name}}', '{{$event->header_image_path}}', '{{$event->media}}')"><i class="fa fa-view"></i> Show Media</a></div>
+                <div><a onclick="openDetailModal('{{$event}}')"><i class="fa fa-view"></i> Show Detail</a></div>
             </div>
         </div>
         <div class="card-body p-4">
@@ -39,11 +39,16 @@
                 <div class="col-auto">
                     <h4>Attending</h4>
                     <div class="card-sponsor-img">
-                        @foreach($event->bookings as $booking)
+                        <!-- @foreach($event->bookings as $booking)
                             <a href="#">
                                 <img class="img-fluid" src="">
                             </a>
-                        @endforeach
+                        @endforeach -->
+                        <a href="#"><img class="img-fluid" src="../images/user/1621929509477160abadff1a619.png"/></a>
+                        <a href="#"><img class="img-fluid" src="../images/user/1622395133656360b26be8d6249.png"/></a>
+                        <a href="#"><img class="img-fluid" src="../images/user/1622436388735760b23d94d4018.png"/></a>
+                        <a href="#"><img class="img-fluid" src="../images/user/1622441283070160b1a2e818e0a.png"/></a>
+                        <a href="#"><img class="img-fluid" src="../images/user/1622455400325160b1f02fc510d.png"/></a>
                     </div>
                 </div>
                 <div class="col-auto">

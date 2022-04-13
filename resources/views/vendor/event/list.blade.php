@@ -11,6 +11,7 @@
     .event-card-img img {
         position: absolute;
         top: 0;
+        
     }
 
     .event-card-img h4, .event-card-img a {
@@ -27,6 +28,10 @@
 
     .event-card .card-footer, .card-sponsor {
         background-color: #fff!important;
+    }
+
+    .card-sponsor .img-fluid {
+        border-radius: 50%;
     }
 
     .event-card-img {
@@ -64,7 +69,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <button type="button" class="btn btn-rounded btn-outline-primary mb-1" onclick="openTimetableModal('$NAME1', '$TICKETS')">Show Ticket</button>
+                <button type="button" class="btn btn-rounded btn-outline-primary mb-1" onclick="openTableModal('$NAME1', '$TICKETS')">Show Ticket</button>
                 <button type="button" class="btn btn-rounded btn-outline-secondary mb-1" onclick="openTableModal('$NAME2', '$TABLES')">Show Table</button>
                 <button type="button" class="btn btn-rounded btn-outline-success mb-1" onclick="openTableModal('$NAME3', '$GUESTLISTS')">Show Guestlist</button>
                 <button type="button" class="btn btn-rounded btn-outline-warning mb-1" onclick="openMediaModal('$NAME4', '$HEADERIMAGE', '$MEDIA')">Show Media</button>
@@ -207,7 +212,7 @@
                 </ul>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary close-button" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -226,7 +231,10 @@
 
         const openViewModal = (event, tables, tickets, guestlists, medias) => {
             event1 = JSON.parse(event);
-            let html = $("#event_view_modal").html();
+            $(".display").remove();
+            const list = $("#event_view_modal").clone().addClass("display");
+            const body = $("body");
+            let html = list.html();
             html = html.replace('$TITLE', event1.name);
             html = html.replace('$NAME1', event1.name);
             html = html.replace('$NAME2', event1.name);
@@ -238,8 +246,7 @@
             html = html.replace('$EVENT', event);
             html = html.replace('$HEADERIMAGE', event1.header_image_path);
             html = html.replace('$MEDIA', medias);
-            $("#event_view_modal").html(html);
-            $("#event_view_modal").modal("show");
+            body.append(list.html(html).modal("show"));
         }
 
         const openTableModal = (event, tables) => {
