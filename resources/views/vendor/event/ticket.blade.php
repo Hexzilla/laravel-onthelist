@@ -1,4 +1,5 @@
 <div id="event-ticket-default" class="row">
+    <input type="hidden" name="ticket_id[]" value="{{ $ticket ? $ticket->id : old('ticket_id[]')}}">
     <div class="col-md-6">
         <div class="form-group">
             <label for="ticket_type">Ticket Type</label>

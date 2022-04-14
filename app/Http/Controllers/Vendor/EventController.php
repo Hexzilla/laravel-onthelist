@@ -259,52 +259,20 @@ class EventController extends Controller
         if($request->hasFile('gallery_image'))
         {
             $path = upload_file($request->file('gallery_image'), 'event');
-            if ($size > 0) {
-                $media = $medias[0];
-                $media->type = 'image';
-                $media->path = $path;
-                $media->save();
-            } else {
-                EventMedia::create([
-                    'event_id' => $event->id,
-                    'type' => 'image',
-                    'path' => $path
-                ]);
-            }
-        }
-
-        // update media record if the video exists
-        if($request->hasFile('gallery_video'))
-        {
-            $path = upload_file($request->file('gallery_video'), 'event');            
-            if ($size > 0) {
-                $media = $medias[0];
-                $media->type = 'video';
-                $media->path = $path;
-                $media->save();
-            } else {
-                EventMedia::create([
-                    'event_id' => $event->id,
-                    'type' => 'video',
-                    'path' => $path
-                ]);
-            }
+            EventMedia::create([
+                'event_id' => $event->id,
+                'type' => 'image',
+                'path' => $path
+            ]);
         }
 
         if(!is_null($request->video_link))
         {
-            if ($size > 0) {
-                $media = $medias[0];
-                $media->type = 'link';
-                $media->path = $request->video_link;
-                $media->save();
-            } else {
-                EventMedia::create([
-                    'event_id' => $event->id,
-                    'type' => 'link',
-                    'path' => $request->video_link
-                ]);
-            }
+            EventMedia::create([
+                'event_id' => $event->id,
+                'type' => 'link',
+                'path' => $request->video_link
+            ]);
         }
     }
 
@@ -313,28 +281,19 @@ class EventController extends Controller
         if($request->has('ticket_type'))
         {
             $ticketSize = sizeof($request->get('ticket_type'));
-            $tickets = EventTicket::where('event_id', $event->id)->get();
-            $size = count($tickets);
+            $tickets = array();
             for($i = 0; $i < $ticketSize; $i++){
-                if ($size > $i) {
-                    $ticket = $tickets[$i];
-                    $ticket->type = $request->ticket_type[$i] ?? 'Standard';
-                    $ticket->qty = $request->ticket_qty[$i] ?? 0;
-                    $ticket->price = $request->ticket_price[$i] ?? 0;
-                    $ticket->approval = $request->ticket_approval[$i] ?? 'No';
-                    $ticket->description = $request->ticket_description[$i];
-                    $ticket->save();
-                } else {
-                    EventTicket::create([
-                        'event_id' => $event->id,
-                        'type' => $request->ticket_type[$i] ?? 'Standard',
-                        'qty' => $request->ticket_qty[$i] ?? 0,
-                        'price' => $request->ticket_price[$i] ?? 0,
-                        'approval' => $request->ticket_approval[$i] ?? 'No',
-                        'description' => $request->ticket_description[$i]
-                    ]);
-                }       
+                array_push($tickets, [
+                    'id' =>  $request->ticket_id[$i],
+                    'event_id' => $event->id,
+                    'type' => $request->ticket_type[$i] ?? 'Standard',
+                    'qty' => $request->ticket_qty[$i] ?? 0,
+                    'price' => $request->ticket_price[$i] ?? 0,
+                    'approval' => $request->ticket_approval[$i] ?? 'No',
+                    'description' => $request->ticket_description[$i]
+                ]);       
             }
+            EventTicket::upsert($tables, ['id'], ['type', 'qty', 'price', 'approval', 'description']);
         }
     }
 
@@ -364,28 +323,19 @@ class EventController extends Controller
         if($request->has('guestlist_type'))
         {
             $guestlistSize = sizeof($request->get('guestlist_type'));
-            $guestlists = EventGuestlist::where('event_id', $event->id)->get();
-            $size = count($guestlists);
-            for($i = 0; $i < $guestlistSize; $i++){
-                if ($size > $i) {
-                    $guestlist = $guestlists[$i];
-                    $guestlist->type = $request->guestlist_type[$i] ?? 'Standard';
-                    $guestlist->qty = $request->guestlist_qty[$i] ?? 0;
-                    $guestlist->price = $request->guestlist_price[$i] ?? 0;
-                    $guestlist->approval = $request->guestlist_booking_approval[$i] ?? 'No';
-                    $guestlist->description = $request->guestlist_description[$i];
-                    $guestlist->save();
-                } else {
-                    EventGuestlist::create([
-                        'event_id' => $event->id,
-                        'type' => $request->guestlist_type[$i] ?? 'Standard',
-                        'qty' => $request->guestlist_qty[$i] ?? 0,
-                        'price' => $request->guestlist_price[$i] ?? 0,
-                        'approval' => $request->guestlist_booking_approval[$i] ?? 'No',
-                        'description' => $request->guestlist_description[$i]
-                    ]);
-                }  
+            $guestlists = array();
+            for($i = 0; $i < $tableSize; $i++) {
+                array_push($guestlists, [
+                    'id' =>  $request->guestlist_id[$i],
+                    'event_id' => $event->id,
+                    'type' =>  $request->guestlist_type[$i] ?? 'Standard',
+                    'qty' =>  $request->guestlist_qty[$i] ?? 0,
+                    'price' =>  $request->guestlist_price[$i] ?? 0,
+                    'approval' =>  $request->guestlist_booking_approval[$i] ?? 'No',
+                    'description' =>  $request->guestlist_description[$i],
+                ]);
             }
+            EventGuestlist::upsert($tables, ['id'], ['type', 'qty', 'price', 'approval', 'description']);
         }
     }
 

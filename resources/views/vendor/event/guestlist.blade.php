@@ -1,4 +1,5 @@
 <div id="event-guestlist-default" class="row">
+<input type="hidden" name="guestlist_id[]" value="{{ $guestlist ? $guestlist->id : old('guestlist_id[]')}}">
     <div class="col-md-6">
         <div class="form-group">
             <label for="guestlist_type">Guestlist Type</label>
