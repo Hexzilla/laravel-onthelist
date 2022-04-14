@@ -37,9 +37,7 @@
     <div class="col-md-12">
         <div class="form-group">
             <label for="message">Description</label>
-            <textarea class="form-control" rows="3" placeholder="" name="table_description[]">
-                {{$table ? $table->description : old('table_description[]')}}
-            </textarea>
+            <textarea class="form-control" rows="3" placeholder="" name="table_description[]">{{$table ? $table->description : old('table_description[]')}}</textarea>
         </div>
     </div>
     <hr class="venue-table-separator mb-3"/>

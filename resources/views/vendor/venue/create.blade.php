@@ -321,13 +321,15 @@
                             </div>
                         </div>
                         <div class="row">
-                            @if (is_null($venue))
-                                @include("vendor.venue.offer", ['offer' => null])
-                            @else
-                                @foreach($venue->offers as $offer)
-                                    @include("vendor.venue.offer", ['offer' => $offer])
-                                @endforeach
-                            @endif
+                            <div id="venue-offer-list" class="col-md-12">
+                                @if (is_null($venue))
+                                    @include("vendor.venue.offer", ['offer' => NULL])
+                                @else
+                                    @foreach($venue->offers as $offer)
+                                        @include("vendor.venue.offer", ['offer' => $offer])
+                                    @endforeach
+                                @endif
+                            </div>
                             <div class="col-md-12">
                                 <a id="add-venue-offer" class="add-another-link"><i class="mdi mdi-plus"></i> Add another offer</a>
                             </div>
@@ -340,7 +342,7 @@
                         <div class="row">
                             <div id="venue-table-list" class="col-md-12">
                                 @if (is_null($venue))
-                                    @include("vendor.venue.table", ['table' => null])
+                                    @include("vendor.venue.table", ['table' => NULL])
                                 @else
                                     @foreach($venue->tables as $table)
                                         @include("vendor.venue.table", ['table' => $table])
