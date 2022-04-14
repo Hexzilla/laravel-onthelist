@@ -38,9 +38,9 @@ class EventController extends Controller
         return view('vendor.event.create', [
             'venues' => $venues, 
             'djs' => $djs,
-            'event' => null,
-            'starts' => null,
-            'ends' => null,
+            'event' => NULL,
+            'starts' => NULL,
+            'ends' => NULL,
             'title' => 'Create Event',
             'action' => route('vendors.event.store')
         ]);
@@ -52,7 +52,7 @@ class EventController extends Controller
         $djs = User::where('role', 'dj')->get();
         $venues = Venue::where('user_id', $user_id)->get();
         $event = Event::where('user_id', $user_id)->where('id', $id)->firstOrFail();
-        if(is_null($event)) {
+        if (is_null($event)) {
             return redirect()->back();
         }
         $starts = explode(' ', $event->start);
@@ -96,14 +96,15 @@ class EventController extends Controller
         $event->user_id = $user_id;
         $event->name = $request->name;
         $event->type = $request->type;
-        if(!is_null($request->details))
+        if (!is_null($request->details)) {
             $event->description = $request->details;
+        }
         $event->header_image_path = upload_file($request->file('header_image'), 'event');
         $event->start = date('Y-m-d H:i', strtotime($request->start_date . ' ' . $request->start_time));
         $event->end = date('Y-m-d H:i', strtotime($request->end_date . ' ' . $request->end_time));
         $event->venue_id = $request->venue_id;
         $event->is_weekly_event = 0;
-        if($request->is_weekly_event == 'on')
+        if ($request->is_weekly_event == 'on')
             $event->is_weekly_event = 1;
         $event->save();
 
@@ -116,11 +117,9 @@ class EventController extends Controller
         return redirect()->route('vendors.event.index');
     }
 
-    
-
     public function createMedia($event, $request)
     {
-        if($request->hasFile('gallery_image'))
+        if ($request->hasFile('gallery_image'))
         {
             $path = upload_file($request->file('gallery_image'), 'event');
             EventMedia::create([
@@ -131,7 +130,7 @@ class EventController extends Controller
         }
 
         // create media record if the video exists
-        if($request->hasFile('gallery_video'))
+        if ($request->hasFile('gallery_video'))
         {
             $path = upload_file($request->file('gallery_video'), 'event');
             EventMedia::create([
@@ -141,7 +140,7 @@ class EventController extends Controller
             ]);
         }
 
-        if(!is_null($request->video_link))
+        if (!is_null($request->video_link))
         {
             EventMedia::create([
                 'event_id' => $event->id,
@@ -153,7 +152,7 @@ class EventController extends Controller
 
     public function createTicket($event, $request)
     {
-        if($request->has('ticket_type'))
+        if ($request->has('ticket_type'))
         {
             $ticketSize = sizeof($request->get('ticket_type'));
             for($i = 0; $i < $ticketSize; $i++){
@@ -171,7 +170,7 @@ class EventController extends Controller
 
     public function createTable($event, $request)
     {
-        if($request->has('table_type'))
+        if ($request->has('table_type'))
         {
             $tableSize = sizeof($request->get('table_type'));
             for($i = 0; $i < $tableSize; $i++){
@@ -189,7 +188,7 @@ class EventController extends Controller
 
     public function createGuestlist($event, $request)
     {
-        if($request->has('guestlist_type'))
+        if ($request->has('guestlist_type'))
         {
             $guestlistSize = sizeof($request->get('guestlist_type'));
             for($i = 0; $i < $guestlistSize; $i++){
@@ -215,8 +214,6 @@ class EventController extends Controller
         }
     }
 
-    
-
     public function update(Request $request, $id)
     {
         $user_id = Auth::user()->id;
@@ -231,15 +228,16 @@ class EventController extends Controller
         $event = $events[0];
         $event->name = $request->name;
         $event->type = $request->type;
-        if(!is_null($request->details))
+        if (!is_null($request->details)) {
             $event->description = $request->details;
-        if(!is_null($request->file('header_image'))) {
+        }
+        if (!is_null($request->file('header_image'))) {
             $event->header_image_path = upload_file($request->file('header_image'), 'event');
         }
         $event->start = date('Y-m-d H:i', strtotime($request->start_date . ' ' . $request->start_time));
         $event->end = date('Y-m-d H:i', strtotime($request->end_date . ' ' . $request->end_time));
         $event->venue_id = $request->venue_id;
-        if($request->is_weekly_event == 'on')
+        if ($request->is_weekly_event == 'on')
             $event->is_weekly_event = 1;
         $event->save();
 
@@ -254,7 +252,7 @@ class EventController extends Controller
 
     public function updateMedia($event, $request)
     {
-        if($request->hasFile('gallery_image'))
+        if ($request->hasFile('gallery_image'))
         {
             $path = upload_file($request->file('gallery_image'), 'event');
             EventMedia::create([
@@ -264,7 +262,7 @@ class EventController extends Controller
             ]);
         }
 
-        if(!is_null($request->video_link))
+        if (!is_null($request->video_link))
         {
             EventMedia::create([
                 'event_id' => $event->id,
@@ -276,11 +274,16 @@ class EventController extends Controller
 
     public function updateTicket($event, $request)
     {
-        if($request->has('ticket_type'))
+        if ($request->has('ticket_type'))
         {
             $ticketIds = $request->get('ticket_id');
-            if(count($ticketIds) > 0) {
-                EventTicket::whereNotIn('id', $ticketIds)->delete();
+            $ticketIds = array_filter($ticketIds, function($id) {
+                return isset($id);
+            });
+            if (count($ticketIds) > 0) {
+                EventTicket::where('event_id', $event->id)->whereNotIn('id', $ticketIds)->delete();
+            } else {
+                EventTicket::where('event_id', $event->id)->delete();
             }
            
             $ticketSize = sizeof($request->get('ticket_type'));
@@ -305,8 +308,13 @@ class EventController extends Controller
         if ($request->has('table_type'))
         {
             $tableIds = $request->get('table_id');
-            if(count($tableIds)) {
-                EventTable::whereNotIn('id', $tableIds)->delete();
+            $tableIds = array_filter($tableIds, function($id) {
+                return isset($id);
+            });
+            if (count($tableIds) > 0) {
+                EventTable::where('event_id', $event->id)->whereNotIn('id', $tableIds)->delete();
+            } else {
+                EventTable::where('event_id', $event->id)->delete();
             }
 
             $tableSize = sizeof($request->get('table_type'));
@@ -328,11 +336,16 @@ class EventController extends Controller
 
     public function updateGuestlist($event, $request)
     {
-        if($request->has('guestlist_type'))
+        if ($request->has('guestlist_type'))
         {
             $guestIds = $request->get('guestlist_id');
-            if(count($guestIds) > 0) {
-                EventGuestlist::whereNotIn('id', $guestIds)->delete();
+            $guestIds = array_filter($guestIds, function($id) {
+                return isset($id);
+            });
+            if (count($guestIds) > 0) {
+                EventGuestlist::where('event_id', $event->id)->whereNotIn('id', $guestIds)->delete();
+            } else {
+                EventGuestlist::where('event_id', $event->id)->delete();
             }
             
             $guestlistSize = sizeof($request->get('guestlist_type'));
