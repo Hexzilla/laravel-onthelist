@@ -1,22 +1,29 @@
+<style>
+.event-title {
+    background: #000A;
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+</style>
 <div class="col-md-6 col-sm-12 col-lg-6 col-xl-4 col-xxl-6">
     <div class="card event-card">
         <div class="event-card-img">
             <img class="img-fluid" src="../{{ $venue->header_image_path }}" data-toggle="modal" data-target="#event-view" height >
-            <h4>{{ $venue->name }}</h4>
+            <h4 class="event-title">{{ $venue->name }}</h4>
         </div>
         <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">...</a>
         <div class="dropdown-menu dropdown-menu-right">
-            <div><a href="{{ route('vendors.venue.edit', $venue->id) }}"><i class="fa fa-edit"></i> Edit</a></div>
+            <div class="mb-1"><a href="{{ route('vendors.venue.edit', $venue->id) }}"><i class="fa fa-edit"></i> Edit</a></div>
+            @if(!$venue->isApproved())
             <div>
-                @if(!$venue->isApproved())
                 <a onclick="openDeleteModal('{{$venue->name}}', '{{$venue->id}}')"><i class="fa fa-trash"></i> Delete</a>
-                @endif
             </div>
-            <div><a onclick="openTimetableModal('{{$venue->name}}', '{{$venue->timetable}}')">TimeTables</a></div>
-            <div><a onclick="openTableModal('{{$venue->name}}', '{{$venue->tables}}')">Tables</a></div>
-            <div><a onclick="openTableModal('{{$venue->name}}', '{{$venue->offers}}')">Offers</a></div>
-            <!-- <div><a onclick="openMediaModal('{{$venue->name}}', '{{$venue->header_image_path}}', '{{$venue->media}}')">Media</a></div>
-            <div><a onclick="openDetailModal('{{$venue}}')">Detail</a></div> -->
+            @endif
+            <div class="mb-1"><a onclick="openTimetableModal('{{$venue->name}}', '{{$venue->timetable}}')">TimeTables</a></div>
+            <div class="mb-1"><a onclick="openTableModal('{{$venue->name}}', '{{$venue->tables}}')">Tables</a></div>
+            <div class="mb-1"><a onclick="openTableModal('{{$venue->name}}', '{{$venue->offers}}')">Offers</a></div>
+            <!-- <div class="mb-1"><a onclick="openMediaModal('{{$venue->name}}', '{{$venue->header_image_path}}', '{{$venue->media}}')">Media</a></div>
+            <div class="mb-1"><a onclick="openDetailModal('{{$venue}}')">Detail</a></div> -->
         </div>
         <div class="card-body p-4">
             <div class="row">
