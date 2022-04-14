@@ -149,7 +149,7 @@
                         </div>
                         <div class="carousel-item video d-none">
                             <video controls autoplay>
-                                <source src="../$PATH" type="video/mp4">
+                                <source src="$PATH" type="video/mp4">
                             </video>
                             <div class="carousel-caption d-none d-md-block"><h5>Video</h5></div>
                         </div>

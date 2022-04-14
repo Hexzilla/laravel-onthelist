@@ -14,13 +14,13 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="offerQuantity">Offer Quantity</label>
-                <input type="number" class="form-control" placeholder="0" name="offer_qty[]" value="{{ $offer ? $offer->qty : old('offer_qty[]') }}">
+                <input type="number" min="0" max="100000000" class="form-control" placeholder="0" name="offer_qty[]" value="{{ $offer ? $offer->qty : old('offer_qty[]') }}">
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label for="offerPrice">Offer Price</label>
-                <input type="number" class="form-control" placeholder="£0" name="offer_price[]" value="{{ $offer ? $offer->price : old('offer_price[]') }}">
+                <input type="number" min="0" max="100000000" class="form-control" placeholder="£0" name="offer_price[]" value="{{ $offer ? $offer->price : old('offer_price[]') }}">
             </div>
         </div>
         <div class="col-md-6">

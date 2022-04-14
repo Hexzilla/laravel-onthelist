@@ -13,13 +13,13 @@
     <div class="col-md-6">
         <div class="form-group">
             <label for="offerQuantity">Table Quantity</label>
-            <input type="number" class="form-control" placeholder="0" name="table_qty[]" value="{{ $table ? $table->qty : old('table_qty[]') }}">
+            <input type="number" min="0" max="100000000" class="form-control" placeholder="0" name="table_qty[]" value="{{ $table ? $table->qty : old('table_qty[]') }}">
         </div>
     </div>
     <div class="col-md-6">
         <div class="form-group">
             <label for="offerPrice">Table Price</label>
-            <input type="text" class="form-control" placeholder="£0" name="table_price[]" value="{{ $table ? $table->price : old('table_price[]') }}">
+            <input type="number" min="0" max="100000000" class="form-control" placeholder="£0" name="table_price[]" value="{{ $table ? $table->price : old('table_price[]') }}">
         </div>
     </div>
     <div class="col-md-6">

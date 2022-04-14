@@ -23,7 +23,8 @@ class BookingSeeder extends Seeder
             Booking::create([
                 'user_id' => 3,
                 'event_id' => 1,
-                'type' => 'Table Booking',
+                'booking_type' => 'Table Booking',
+                'type' => 'EarlyBird',
                 'price' => '500',
                 'status' => 'Pending',
                 'date' => '2022-04-12',
@@ -32,7 +33,8 @@ class BookingSeeder extends Seeder
             Booking::create([
                 'user_id' => 1,
                 'event_id' => 2,
-                'type' => 'Ticket',
+                'booking_type' => 'Ticket',
+                'type' => 'EarlyBird',
                 'price' => '25',
                 'status' => 'Pending',
                 'date' => '2022-04-12',
@@ -41,7 +43,8 @@ class BookingSeeder extends Seeder
             Booking::create([
                 'user_id' => 3,
                 'event_id' => 3,
-                'type' => 'Guestlist',
+                'booking_type' => 'Guestlist',
+                'type' => 'VIP',
                 'price' => '100',
                 'status' => 'Pending',
                 'date' => '2022-04-12',

@@ -40,7 +40,7 @@
                                         <td>{{$booking->eventName}}</td>
                                         <td>{{$booking->venueName}}</td>
                                         <td>{{$booking->eventType}}</td>
-                                        <td>{{$booking->type}}</td>
+                                        <td>{{$booking->booking_type}}</td>
                                         <td>{{$booking->price}}</td>
                                         <td>
                                             @if($booking->status == 'Rejected')
