@@ -41,7 +41,7 @@
     .event-card-img {
         position: relative;
         width: 100%;
-        padding-top: 50%;
+        padding-top: 45%;
         overflow: hidden;
     }
 </style>
