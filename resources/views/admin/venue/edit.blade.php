@@ -35,14 +35,14 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="file-field addEventHeader">
-                                        <div class="addEvent-icon" id="venue-header-image-uploader">
+                                        <div class="addEvent-icon" id="v-header-image-uploader">
                                             <i class="mdi mdi-image-multiple"></i>
                                             <span>Add Venue Header Image</span>
-                                            <span id="venue-header-image-file-name"></span>
+                                            <span id="v-header-image-file-name"></span>
                                         </div>
                                         <div class="d-flex justify-content-center">
                                             <div class="">
-                                                <input id="venue-header-image" class="d-none" type="file" name="header_image" value="{{ $venue->header_image_path }}"/>
+                                                <input id="v-header-image" class="d-none" type="file" name="header_image" value="{{ $venue->header_image_path }}"/>
                                                 <p>Upload an Image no larger than 10mb in jpeg, png or gif format. </p>
                                             </div>
                                         </div>
@@ -406,11 +406,11 @@
     <script>
         $(document).ready(function(){
             // Header Image
-            $("#venue-header-image-uploader").on('click', function(){
-                $("#venue-header-image").click();
+            $("#v-header-image-uploader").on('click', function(){
+                $("#v-header-image").click();
             });
-            $("#venue-header-image").on('change', function(){
-                $("#venue-header-image-file-name").text($(this)[0].files[0].name);
+            $("#v-header-image").on('change', function(){
+                $("#v-header-image-file-name").text($(this)[0].files[0].name);
             });
 
             // Gallery Images

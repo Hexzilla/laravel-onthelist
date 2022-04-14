@@ -32,8 +32,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="EventName">Venue Name *</label>
-                                    <input type="text" class="form-control" id="VenueName" name="name" value="{{ $venue? $venue->name : old('name') }}" required />
+                                    <label for="name">Venue Name *</label>
+                                    <input type="text" class="form-control" id="name" name="name" value="{{ $venue? $venue->name : old('name') }}" required />
                                     <span class="invalid-feedback" role="alert">This field is required</span>
                                 </div>
                                 <div class="form-group">
@@ -42,14 +42,14 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="file-field addEventHeader" id="header_image_wrapper">
-                                        <div class="addEvent-icon" id="venue-header-image-uploader">
+                                        <div class="addEvent-icon" id="v-header-image-uploader">
                                             <i class="mdi mdi-image-multiple"></i>
                                             <span>Add Venue Header Image</span>
-                                            <span id="venue-header-image-file-name">{{ $venue? $venue->header_image_path : old('header_image') }}</span>
+                                            <span id="v-header-image-file-name">{{ $venue? $venue->header_image_path : old('header_image') }}</span>
                                         </div>
                                         <div class="d-flex justify-content-center">
                                             <div class="">
-                                                <input id="venue-header-image" class="d-none" type="file" name="header_image" 
+                                                <input id="v-header-image" class="d-none" type="file" name="header_image" 
                                                     value="{{ $venue? $venue->header_image_path : old('header_image') }}"/>
                                                 <p>Upload an Image no larger than 10mb in jpeg, png or gif format. </p>
                                             </div>
@@ -72,18 +72,18 @@
                                     </div>
                                 </div>
                                 <div class="form-group border-input">
-                                    <label for="VenueName">Town/City *</label>
-                                    <input type="text" class="form-control" placeholder="" id="VenueCity" name="city" value="{{ $venue? $venue->city : old('city') }}" required>
+                                    <label for="city">Town/City *</label>
+                                    <input type="text" class="form-control" placeholder="" id="city" name="city" value="{{ $venue? $venue->city : old('city') }}" required>
                                     <span class="invalid-feedback" role="alert">This field is required</span>
                                 </div>
                                 <div class="form-group border-input">
-                                    <label for="VenueName">Postcode *</label>
-                                    <input type="text" class="form-control" placeholder="" id="VenuePostcode" name="postcode" value="{{ $venue? $venue->postcode : old('postcode') }}" required>
+                                    <label for="postcode">Postcode *</label>
+                                    <input type="text" class="form-control" placeholder="" id="postcode" name="postcode" value="{{ $venue? $venue->postcode : old('postcode') }}" required>
                                     <span class="invalid-feedback" role="alert">This field is required</span>
                                 </div>
                                 <div class="form-group border-input">
-                                    <label for="VenueName">Phone Number *</label>
-                                    <input type="text" class="form-control" placeholder="" id="VenuePhone" name="phone" value="{{ $venue? $venue->phone : old('phone') }}" required>
+                                    <label for="phone">Phone Number *</label>
+                                    <input type="text" class="form-control" placeholder="" id="phone" name="phone" value="{{ $venue? $venue->phone : old('phone') }}" required>
                                     <span id="venue_phone_error" class="d-none" role="alert">This field is required</span>
                                 </div>
                             </div>
@@ -231,13 +231,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="file-field">
-                                            <div id="venue-images-uploader" class="addImages-icon">
+                                            <div id="v-images-uploader" class="addImages-icon">
                                                 <i class="mdi mdi-image-multiple"></i> <span>Add Image</span>
-                                                <span id="venue-image-file-names"></span>
+                                                <span id="v-image-file-names"></span>
                                             </div>
                                             <div class="d-flex justify-content-center">
                                                 <div class="d-none">
-                                                    <input type="file" id="venue-images" name="gallery_image">
+                                                    <input type="file" id="v-images" name="gallery_image">
                                                 </div>
                                             </div>
                                         </div>
@@ -365,21 +365,21 @@
 <script>
     $(document).ready(function(){
         // Header Image
-        $("#venue-header-image-uploader").on('click', function(){
-            $("#venue-header-image").click();
+        $("#v-header-image-uploader").on('click', function(){
+            $("#v-header-image").click();
         });
-        $("#venue-header-image").on('change', function(){
+        $("#v-header-image").on('change', function(){
             $('#header_image_wrapper').css('border-color', '#dddee3');
             $('#header_iamge_error').addClass('d-none')
-            $("#venue-header-image-file-name").text($(this)[0].files[0].name);
+            $("#v-header-image-file-name").text($(this)[0].files[0].name);
         });
 
         // Gallery Images
-        $("#venue-images-uploader").on('click', function(){
-            $("#venue-images").click();
+        $("#v-images-uploader").on('click', function(){
+            $("#v-images").click();
         });
-        $("#venue-images").on('change', function(){
-            $("#venue-image-file-names").text(`(${$(this)[0].files[0].name})`);
+        $("#v-images").on('change', function(){
+            $("#v-image-file-names").text(`(${$(this)[0].files[0].name})`);
         });
 
         // Gallery video
@@ -471,7 +471,7 @@
         $('#venue-form-next').click(function(event) {
             form.addClass('was-validated');
             var is_valid = false;
-            if ($('#venue-header-image-file-name').html() == '') {
+            if ($('#v-header-image-file-name').html() == '') {
                 $('#header_image_wrapper').css('border-color', '#FD5190');
                 $('#header_iamge_error').removeClass('d-none')
                 $('#header_iamge_error').addClass('custom-validation-error')

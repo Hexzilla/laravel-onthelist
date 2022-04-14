@@ -111,11 +111,11 @@
     <script>
         $(document).ready(function(){
             // Header Image
-            $("#venue-header-image-uploader").on('click', function(){
-                $("#venue-header-image").click();
+            $("#v-header-image-uploader").on('click', function(){
+                $("#v-header-image").click();
             });
-            $("#venue-header-image").on('change', function(){
-                $("#venue-header-image-file-name").text($(this)[0].files[0].name);
+            $("#v-header-image").on('change', function(){
+                $("#v-header-image-file-name").text($(this)[0].files[0].name);
             });
 
             // Gallery Images

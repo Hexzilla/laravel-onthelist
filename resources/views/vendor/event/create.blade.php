@@ -33,8 +33,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="EventName">Event Name *</label>
-                                    <input type="text" class="form-control" id="EventName" name="name" 
+                                    <label for="name">Event Name *</label>
+                                    <input type="text" class="form-control" id="name" name="name" 
                                         value="{{ $event? $event->name : old('name') }}" required />
                                     <span class="invalid-feedback" role="alert">This field is required</span>
                                 </div>
@@ -113,7 +113,7 @@
                                     <span id='event_venue_error' class="d-none" role="alert">This field is required</span>
                                 </div>
                                 <div class="form-group border-input">
-                                    <label for="EventName">Venue Location</label>
+                                    <label for="venue_location">Venue Location</label>
                                     <input type="text" class="form-control" placeholder="" id="venue_location"/>
                                 </div>
                                 <div class="form-group">
