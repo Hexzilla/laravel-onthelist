@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             EventGuestlistSeeder::class,
             VenueOfferSeeder::class,
             VenueTableSeeder::class,
+            EventDjSeeder::class,
         ]);
     }
 }

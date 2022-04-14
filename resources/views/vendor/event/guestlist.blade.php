@@ -29,9 +29,7 @@
     <div class="col-md-12">
         <div class="form-group">
             <label for="message">Description</label>
-            <textarea class="form-control" rows="3" placeholder="" name="guestlist_description[]">
-                {{$guestlist ? $guestlist->description : old('guestlist_description[]')}}
-            </textarea>
+            <textarea class="form-control" rows="3" placeholder="" name="guestlist_description[]">{{$guestlist ? $guestlist->description : ''}}</textarea>
         </div>
     </div>
     <hr class="venue-table-separator mb-3"/>

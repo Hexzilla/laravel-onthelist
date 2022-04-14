@@ -22,7 +22,7 @@ class VenueSeeder extends Seeder
         Venue::create([
             'user_id' => 1,
             'name' => 'Picture Palace Hall',
-            'header_image_path' => '',
+            'header_image_path' => 'images/event.jpg',
             'type' => 'Type 1',
             'address' => '123',
             'city' => 'London',
