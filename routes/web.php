@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SettingController as SettingController;
 
 use App\Http\Controllers\Vendor\DashboardController as VendorDahsboardController;
+use App\Http\Controllers\Vendor\DjController as VendorDjController;
 use App\Http\Controllers\Vendor\VenueController as VendorVenueController;
 use App\Http\Controllers\Vendor\EventController as VendorEventController;
 use App\Http\Controllers\Vendor\BookingController as VendorBookingController;
@@ -67,6 +68,15 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
             Route::get('/', 'index')->name('index');
         });
 
+        Route::controller(VendorDjController::class)->name('dj.')->prefix('dj')->as('dj.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::put('/update/{id}', 'update')->name('update');
+            Route::get('/delete/{id}', 'destroy')->name('destroy');
+        });
+
         Route::controller(VendorVenueController::class)->name('venue.')->prefix('venue')->as('venue.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
@@ -75,6 +85,7 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
             Route::put('/update/{id}', 'update')->name('update');
             Route::get('/delete/{id}', 'destroy')->name('destroy');
         });
+
         Route::controller(VendorEventController::class)->name('event.')->prefix('event')->as('event.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');

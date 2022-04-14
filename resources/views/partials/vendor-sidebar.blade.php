@@ -11,6 +11,14 @@
                 </ul>
             </li>
 
+            <li class="{{ request()->routeIs('vendors.dj.*') ? 'active' : '' }}">
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-home-map-marker"></i><span class="nav-text">Djs</span></a>
+                <ul aria-expanded="false">
+                    <li><a href="{{ route('vendors.dj.create') }}">Create Dj</a></li>
+                    <li><a href="{{ route('vendors.dj.index') }}">My Djs</a></li>
+                </ul>
+            </li>
+
             <li class="{{ request()->routeIs('vendors.venue.*') ? 'active' : '' }}"><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-home-map-marker"></i><span class="nav-text">Venues</span></a>
                 <ul aria-expanded="false">
                     <li><a href="{{ route('vendors.venue.create') }}">Create venue</a></li>
