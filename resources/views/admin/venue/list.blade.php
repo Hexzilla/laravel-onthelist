@@ -39,7 +39,7 @@
                                         <td>
                                             <button type="button" class="btn btn-rounded btn-outline-primary mb-1" onclick="openTimetableModal('{{$venue->name}}', '{{$venue->timetable}}')">Show Timetable</button>
                                             <button type="button" class="btn btn-rounded btn-outline-secondary mb-1" onclick="openTableModal('{{$venue->name}}', '{{$venue->tables}}')">Show Tables</button>
-                                            <button type="button" class="btn btn-rounded btn-outline-success mb-1" onclick="openOfferModal('{{$venue->name}}', '{{$venue->offers}}')">Show Offers</button>
+                                            <button type="button" class="btn btn-rounded btn-outline-success mb-1" onclick="openTableModal('{{$venue->name}}', '{{$venue->offers}}')">Show Offers</button>
                                             <button type="button" class="btn btn-rounded btn-outline-warning mb-1" onclick="openMediaModal('{{$venue->name}}', '{{$venue->header_image_path}}', '{{$venue->media}}')">Show Media</button>
                                             <button type="button" class="btn btn-rounded btn-outline-info mb-1" onclick="openDetailModal('{{$venue}}')">Show More</button>
                                         </td>
@@ -163,6 +163,46 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Venue Table Modal -->
+<div class="modal fade" id="modal_venue_table">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">$TITLE Venue</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-responsive-am">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Approval</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="d-none">
+                                <td>$Type</td>
+                                <td>$Description</td>
+                                <td>$Quantity</td>
+                                <td>$Price</td>
+                                <td>$Approval</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

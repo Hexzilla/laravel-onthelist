@@ -59,12 +59,12 @@
                                         <div class="addEvent-icon" id="header-image-uploader">
                                             <i class="mdi mdi-image-multiple"></i>
                                             <span>Add Event Header Image</span>
-                                            <span id="header-image-file-name"></span>
+                                            <span id="header-image-file-name">{{ $event ? $event->header_image_path : old('header_image') }}</span>
                                         </div>
                                         <div class="d-flex justify-content-center">
                                             <div class="">
                                                 <input id="header-image" class="d-none" type="file" name="header_image"
-                                                    value="{{ $event ? $event->header_image_path : old('header_image') }}" required/>
+                                                    value="{{ $event ? $event->header_image_path : old('header_image') }}"/>
                                                 <p>Upload an Image no larger than 10mb in jpeg, png or gif format. </p>
                                             </div>
                                         </div>
@@ -132,7 +132,7 @@
                                     <label for="facitliies">DJ's *</label>
                                     <select class="form-control multi-select" name="djs[]" multiple required>
                                         @foreach($djs as $dj)
-                                        <option value="{{$dj->id}}">{{$dj->name}}</option>
+                                        <option value="{{$dj->id}}" {{ $dj->selected }}>{{$dj->name}}</option>
                                         @endforeach
                                     </select>
                                     <span class="invalid-feedback" role="alert">This field is required</span>
@@ -252,7 +252,7 @@
                                 <button id="event-form-back" type="button" class="btn btn-primary"><i class="mdi mdi-chevron-left"></i> Back</button>
                             </div>
                             <div class="col-md-6">
-                                <button id="submit-button" type="submit" class="btn btn-primary">Create an Event <i class="mdi mdi-chevron-right"></i></button>
+                                <button id="submit-button" type="submit" class="btn btn-primary">{{ $event ? 'Update' : 'Create'}} an Event <i class="mdi mdi-chevron-right"></i></button>
                             </div>
                         </div>
                     </div>
@@ -292,6 +292,10 @@
                 $("#video-link").removeClass('d-none');
             });
             
+            if($('#event-type').val() === 'Public') {
+                $(".approval").each((index, ele) => $(ele).val("No"));
+                $(".approval").prop("disabled", true);
+            }
 
             $('#event-type').on('change', function(){
                 $('#event-type-error').removeClass('custom-validation-error');
@@ -299,6 +303,8 @@
                 if($('#event-type').val() === 'Public') {
                     $(".approval").each((index, ele) => $(ele).val("No"));
                     $(".approval").prop("disabled", true);
+                } else if($("#event-type").val() === 'Private') {
+                    $(".approval").prop("disabled", false);
                 }
             });
 
@@ -311,12 +317,15 @@
             const form = $(".needs-validation");
             $("#event-form-next").on('click', function(){
                 form.addClass('was-validated');
-                if ($('#header-image').val() == '') {
+                var is_valid = false;
+
+                if ($('#header-image-file-name').html() == '') {
                     $('#header_image_wrapper').css('border-color', '#FD5190');
                     $('#header_image_error').removeClass('d-none');
                     $('#header_image_error').addClass('custom-validation-error');
+                    is_valid = true;
                 }
-                var is_valid = false;
+                
 
                 if ($('#event-type').val() === null) {
                     $('#event-type-error').addClass('custom-validation-error');
@@ -343,27 +352,6 @@
             $("#event-form-back").on('click', function(){
                 $("#step-1").removeClass('d-none');
                 $("#step-2").addClass('d-none');
-            });
-
-            // Event ticket
-            $("#add-event-ticket").on('click', function(){
-                var new_ticket = $("#event-ticket-default").clone();
-                $(new_ticket).find("input, textarea").each((index, ele)=> $(ele).val(""));
-                new_ticket.appendTo("div#event-ticket-list");
-            });
-
-            // Event table
-            $("#add-event-table").on('click', function(){
-                var new_table = $("#event-table-default").clone();
-                $(new_table).find("input, textarea").each((index, ele)=> $(ele).val(""));
-                new_table.appendTo("div#event-table-list");
-            });
-
-            // Event guestlist
-            $("#add-event-guestlist").on('click', function(){
-                var new_guestlist = $("#event-guestlist-default").clone();
-                $(new_guestlist).find("input, textarea").each((index, ele)=> $(ele).val(""));
-                new_guestlist.appendTo("div#event-guestlist-list");
             });
 
             const location = $("#event_venue option:selected").attr('data-venue-location');
@@ -394,6 +382,45 @@
                 minLength: 0,
             }).focus(function () {
                 $(this).autocomplete('search', $(this).val())
+            });
+
+            // Event ticket
+            $("#add-event-ticket").on('click', function(){
+                var new_ticket = $("#event-ticket-default").clone();
+                $(new_ticket).find("input, textarea").each((index, ele)=> $(ele).val(""));
+                $(new_ticket).find(".ticket_type").eq(0).autocomplete({
+                    source: booking_types,
+                    minLength: 0,
+                }).focus(function () {
+                    $(this).autocomplete('search', $(this).val())
+                });
+                new_ticket.appendTo("div#event-ticket-list");
+            });
+
+            // Event table
+            $("#add-event-table").on('click', function(){
+                var new_table = $("#event-table-default").clone();
+                $(new_table).find("input, textarea").each((index, ele)=> $(ele).val(""));
+                $(new_table).find(".table_type").eq(0).autocomplete({
+                    source: booking_types,
+                    minLength: 0,
+                }).focus(function () {
+                    $(this).autocomplete('search', $(this).val())
+                });
+                new_table.appendTo("div#event-table-list");
+            });
+
+            // Event guestlist
+            $("#add-event-guestlist").on('click', function(){
+                var new_guestlist = $("#event-guestlist-default").clone();
+                $(new_guestlist).find("input, textarea").each((index, ele)=> $(ele).val(""));
+                $(new_guestlist).find(".guestlist_type").eq(0).autocomplete({
+                    source: booking_types,
+                    minLength: 0,
+                }).focus(function () {
+                    $(this).autocomplete('search', $(this).val())
+                });
+                new_guestlist.appendTo("div#event-guestlist-list");
             });
 
             function formatDate(date) {

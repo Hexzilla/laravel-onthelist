@@ -283,6 +283,9 @@ class EventController extends Controller
     public function approve($id)
     {
         $event = Event::where('id', $id)->firstOrFail();
+        if (is_null($event)) {
+            return redirect()->back();
+        }
         $event->status = 'Approved';
         $event->save();
         return redirect()->back();

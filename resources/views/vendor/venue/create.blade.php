@@ -54,12 +54,12 @@
                                         <div class="addEvent-icon" id="venue-header-image-uploader">
                                             <i class="mdi mdi-image-multiple"></i>
                                             <span>Add Venue Header Image</span>
-                                            <span id="venue-header-image-file-name"></span>
+                                            <span id="venue-header-image-file-name">{{ $venue? $venue->header_image_path : old('header_image') }}</span>
                                         </div>
                                         <div class="d-flex justify-content-center">
                                             <div class="">
                                                 <input id="venue-header-image" class="d-none" type="file" name="header_image" 
-                                                    value="{{ $venue? $venue->header_image_path : old('header_image') }}" required/>
+                                                    value="{{ $venue? $venue->header_image_path : old('header_image') }}"/>
                                                 <p>Upload an Image no larger than 10mb in jpeg, png or gif format. </p>
                                             </div>
                                         </div>
@@ -436,12 +436,14 @@
         const form = $(".needs-validation");
         $('#venue-form-next').click(function(event) {
             form.addClass('was-validated');
-            if ($('#venue-header-image').val() == '') {
+            var is_valid = false;
+            if ($('#venue-header-image-file-name').html() == '') {
                 $('#header_image_wrapper').css('border-color', '#FD5190');
                 $('#header_iamge_error').removeClass('d-none')
                 $('#header_iamge_error').addClass('custom-validation-error')
+                is_valid = true;
             }
-            if (form[0].checkValidity() === false) {
+            if (form[0].checkValidity() === false || is_valid) {
                 event.preventDefault();
                 return;
             }

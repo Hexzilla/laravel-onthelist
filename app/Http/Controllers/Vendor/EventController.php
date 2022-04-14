@@ -50,10 +50,24 @@ class EventController extends Controller
         $user_id = Auth::user()->id;
         $djs = User::where('role', 'dj')->get();
         $venues = Venue::where('user_id', $user_id)->get();
-        $events = Event::where('user_id', $user_id)->where('id', $id)->get();
-        $event = $events[0];
+        $event = Event::where('user_id', $user_id)->where('id', $id)->firstOrFail();
+        if(is_null($event)) {
+            return redirect()->back();
+        }
         $starts = explode(' ', $event->start);
         $ends = explode(' ', $event->start);
+
+        foreach($djs as $dj) {
+            $selected = '';
+            foreach($event->djs as $event_dj) {
+                if ($event_dj->user_id == $dj->id) {
+                    $selected = 'selected';
+                    break;
+                }
+            }
+            $dj->selected = $selected;
+        }
+
         return view('vendor.event.create', [
             'event' => $event, 
             'venues' => $venues, 
@@ -207,7 +221,6 @@ class EventController extends Controller
         $user_id = Auth::user()->id;
         $request->validate([
             'name' => 'required',
-            'header_image' => 'required|mimes:jpeg,png,jpg,gif',
             'type' => 'required',
             'venue_id' => 'required|numeric',
             'djs' => 'required'
@@ -219,7 +232,9 @@ class EventController extends Controller
         $event->type = $request->type;
         if(!is_null($request->details))
             $event->description = $request->details;
-        $event->header_image_path = upload_file($request->file('header_image'), 'event');
+        if(!is_null($request->file('header_image'))) {
+            $event->header_image_path = upload_file($request->file('header_image'), 'event');
+        }
         $event->start = date('Y-m-d H:i', strtotime($request->start_date . ' ' . $request->start_time));
         $event->end = date('Y-m-d H:i', strtotime($request->end_date . ' ' . $request->end_time));
         $event->venue_id = $request->venue_id;

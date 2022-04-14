@@ -66,11 +66,11 @@
     <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Approve Venue</h5>
+                <h5 class="modal-title">Approve User</h5>
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                 </button>
             </div>
-            <div class="modal-body" style="color:black">Are you sure you want to approve this venue?</div>
+            <div class="modal-body" style="color:black">Are you sure you want to approve this user?</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-info">
                     <a href="$URL">Yes</a>
@@ -86,11 +86,11 @@
     <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Reject Venue</h5>
+                <h5 class="modal-title">Reject User</h5>
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                 </button>
             </div>
-            <div class="modal-body" style="color:black">Are you sure you want to reject this venue?</div>
+            <div class="modal-body" style="color:black">Are you sure you want to reject this user?</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-info">
                     <a href="$URL">Yes</a>

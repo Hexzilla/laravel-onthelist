@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-    .event-card-img .nav-link {
+    .event-card .nav-link {
         position: absolute;
         top: 5px;
         right: 5px;
@@ -11,19 +11,23 @@
     .event-card-img img {
         position: absolute;
         top: 0;
-        
     }
 
-    .event-card-img h4, .event-card-img a {
+    .event-card-img h4, .event-card a {
         color: #fff !important;
     }
 
-    .event-card-img .dropdown-menu {
-        background-color: transparent;
+    .event-card .dropdown-menu {
+        z-index: 1000;
         border-color: transparent;
         text-align: right;
-        padding: 5px;
-        color: #fff!important;
+        color: #eee!important;
+        background-color: rgba(0, 0, 0, 0.5);
+        min-width: 0!important;
+    }
+
+    .event-card .dropdown-menu a {
+        padding: 10px;
     }
 
     .event-card .card-footer, .card-sponsor {
