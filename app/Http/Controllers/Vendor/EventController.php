@@ -314,7 +314,7 @@ class EventController extends Controller
                     'description' =>  $request->table_description[$i],
                 ]);
             }
-            EventTable::upsert($tables, ['id'], ['type', 'qty', 'price', 'approval', 'description']);
+            EventTable::upsert($tickets, ['id'], ['type', 'qty', 'price', 'approval', 'description']);
         }
     }
 
@@ -335,7 +335,7 @@ class EventController extends Controller
                     'description' =>  $request->guestlist_description[$i],
                 ]);
             }
-            EventGuestlist::upsert($tables, ['id'], ['type', 'qty', 'price', 'approval', 'description']);
+            EventGuestlist::upsert($guestlists, ['id'], ['type', 'qty', 'price', 'approval', 'description']);
         }
     }
 
