@@ -20,17 +20,17 @@ class EventDjSeeder extends Seeder
         Schema::enableForeignKeyConstraints();
 
         EventDj::create([
-            'user_id' => 3,
+            'dj_id' => 1,
             'event_id' => 1,
         ]);
 
         EventDj::create([
-            'user_id' => 3,
+            'dj_id' => 2,
             'event_id' => 2,
         ]);
 
         EventDj::create([
-            'user_id' => 3,
+            'dj_id' => 3,
             'event_id' => 3,
         ]);
     }

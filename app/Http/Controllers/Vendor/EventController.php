@@ -11,6 +11,7 @@ use App\Models\EventTable;
 use App\Models\EventTicket;
 use App\Models\User;
 use App\Models\Venue;
+use App\Models\Dj;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +35,7 @@ class EventController extends Controller
     {
         $user_id = Auth::user()->id;
         $venues = Venue::where('user_id', $user_id)->get();
-        $djs = User::where('role', 'dj')->get();
+        $djs = Dj::where('user_id', $user_id)->get();
         return view('vendor.event.create', [
             'venues' => $venues, 
             'djs' => $djs,
@@ -49,7 +50,7 @@ class EventController extends Controller
     public function edit($id)
     {
         $user_id = Auth::user()->id;
-        $djs = User::where('role', 'dj')->get();
+        $djs = Dj::where('user_id', $user_id)->get();
         $venues = Venue::where('user_id', $user_id)->get();
         $event = Event::where('user_id', $user_id)->where('id', $id)->firstOrFail();
         if (is_null($event)) {
@@ -61,7 +62,7 @@ class EventController extends Controller
         foreach($djs as $dj) {
             $selected = '';
             foreach($event->djs as $event_dj) {
-                if ($event_dj->user_id == $dj->id) {
+                if ($event_dj->dj_id == $dj->id) {
                     $selected = 'selected';
                     break;
                 }

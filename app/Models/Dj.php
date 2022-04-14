@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Dj extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        "name",
+        "description",
+        "mixcloud_link",
+        "venue_id",
+        "genre",
+    ];
+
 }
