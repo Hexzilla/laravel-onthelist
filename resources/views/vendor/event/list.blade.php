@@ -1,56 +1,10 @@
 @extends('layouts.vendor')
 
+@section('styles')
+    <link href="{{ asset('css/vendor.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
-<style>
-    .event-title {
-        background: #000A;
-        padding: 2px 8px;
-        border-radius: 6px;
-    }
-    .event-card .nav-link {
-        position: absolute;
-        right: 5px;
-        font-size: 20px;
-        font-weight: 600;
-    }
-
-    .event-card-img img {
-        position: absolute;
-        top: 0;
-    }
-
-    .event-card-img h4, .event-card a {
-        color: #fff !important;
-    }
-
-    .event-card .dropdown-menu {
-        z-index: 1000;
-        border-color: transparent;
-        text-align: right;
-        color: #eee!important;
-        background-color: rgba(0, 0, 0, 0.5);
-        min-width: 0!important;
-    }
-
-    .event-card .dropdown-menu a {
-        padding: 10px;
-    }
-
-    .event-card .card-footer, .card-sponsor {
-        background-color: #fff!important;
-    }
-
-    .card-sponsor .img-fluid {
-        border-radius: 50%;
-    }
-
-    .event-card-img {
-        position: relative;
-        width: 100%;
-        padding-top: 45%;
-        overflow: hidden;
-    }
-</style>
 <div class="content-body">
     <div class="container-fluid">
         <div class="row page-titles mx-0">

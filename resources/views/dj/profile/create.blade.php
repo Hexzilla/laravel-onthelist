@@ -50,7 +50,7 @@
                                     @if(count($user->profile) > 0)
                                     <input type="number" class="form-control" placeholder="" id="Age" name="age" value="{{ $user->profile[0]->age }}">
                                     @else
-                                    <input type="text" class="form-control" placeholder="" id="Genres" name="genres" value="{{ '' }}">
+                                    <input type="number" min="1" class="form-control" placeholder="" id="Genres" name="genres" value="{{ '' }}">
                                     @endif
                                 </div>
                             </div>

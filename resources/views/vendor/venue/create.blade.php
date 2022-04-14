@@ -1,19 +1,10 @@
 @extends('layouts.vendor')
 
-@section('content')
-<style>
-    .custom-validation-error {
-        width: 100%;
-        margin-top: 0.25rem;
-        font-size: 80%;
-        color: #FD5190;
-    }
+@section('styles')
+    <link href="{{ asset('css/vendor.css') }}" rel="stylesheet">
+@endsection
 
-    .was-validated .form-control:valid, .form-control.is-valid {
-        border-color: #dddee3;
-        background-image: none;
-    }
-</style>
+@section('content')
 <div class="content-body">
     <div class="container-fluid">
         <div class="row page-titles mx-0">

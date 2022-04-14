@@ -2,19 +2,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
-    <style>
-        .custom-validation-error {
-            width: 100%;
-            margin-top: 0.25rem;
-            font-size: 80%;
-            color: #FD5190;
-        }
-
-        .was-validated .form-control:valid, .form-control.is-valid {
-            border-color: #dddee3;
-            background-image: none;
-        }
-    </style>
+    <link href="{{ asset('css/vendor.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')

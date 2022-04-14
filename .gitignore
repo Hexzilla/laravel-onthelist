@@ -16,4 +16,4 @@ yarn-error.log
 /.vscode
 /vendor
 /.ssh
-
+package-lock.json
