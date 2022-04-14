@@ -26,7 +26,7 @@ class DjController extends Controller
         return view('vendor.dj.create', [
             'title' => 'Create',
             'action' => route('vendors.venue.store'),
-            'venue' => null,
+            'dj' => NULL,
         ]);
     }
 

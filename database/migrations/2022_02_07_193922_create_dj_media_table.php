@@ -15,6 +15,9 @@ class CreateDjMediaTable extends Migration
     {
         Schema::create('dj_media', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->enum('type', ["image", "video"]);
+            $table->string('path');
             $table->timestamps();
         });
     }
