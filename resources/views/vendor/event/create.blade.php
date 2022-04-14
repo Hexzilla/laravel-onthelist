@@ -264,265 +264,265 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('vendor/select2/js/select2.full.min.js') }}"></script>
-    <script>
-        $(document).ready(function(){
-            $('.multi-select').select2();
-            // Header Image
-            $("#header-image-uploader").on('click', function(){
-                $("#header-image").click();
-            });
-            $("#header-image").on('change', function(){
-                $("#header-image-file-name").text($(this)[0].files[0].name);
-                $('#header_image_wrapper').css('border-color', '#dddee3');
-                $('#header_image_error').addClass('d-none');
-                $('#header_image_error').removeClass('custom-validation-error');
-            });
+<script src="{{ asset('vendor/select2/js/select2.full.min.js') }}"></script>
+<script>
+    $(document).ready(function(){
+        $('.multi-select').select2();
+        // Header Image
+        $("#header-image-uploader").on('click', function(){
+            $("#header-image").click();
+        });
+        $("#header-image").on('change', function(){
+            $("#header-image-file-name").text($(this)[0].files[0].name);
+            $('#header_image_wrapper').css('border-color', '#dddee3');
+            $('#header_image_error').addClass('d-none');
+            $('#header_image_error').removeClass('custom-validation-error');
+        });
 
-            // Gallery Images
-            $("#images-uploader").on('click', function(){
-                $("#images").click();
-            });
-            $("#images").on('change', function(){
-                $("#image-file-names").text(`(${$(this)[0].files[0].name})`);
-            });
+        // Gallery Images
+        $("#images-uploader").on('click', function(){
+            $("#images").click();
+        });
+        $("#images").on('change', function(){
+            $("#image-file-names").text(`(${$(this)[0].files[0].name})`);
+        });
 
-            // Gallery video
-            $("#video-uploader").on('click', function(){
-                $("#video-link").removeClass('d-none');
-            });
-            
+        // Gallery video
+        $("#video-uploader").on('click', function(){
+            $("#video-link").removeClass('d-none');
+        });
+        
+        if($('#event-type').val() === 'Public') {
+            $(".approval").each((index, ele) => $(ele).val("No"));
+            $(".approval").prop("disabled", true);
+        }
+
+        $('#event-type').on('change', function(){
+            $('#event-type-error').removeClass('custom-validation-error');
+            $('#event-type-error').addClass('d-none');
             if($('#event-type').val() === 'Public') {
                 $(".approval").each((index, ele) => $(ele).val("No"));
                 $(".approval").prop("disabled", true);
+            } else if($("#event-type").val() === 'Private') {
+                $(".approval").prop("disabled", false);
             }
-
-            $('#event-type').on('change', function(){
-                $('#event-type-error').removeClass('custom-validation-error');
-                $('#event-type-error').addClass('d-none');
-                if($('#event-type').val() === 'Public') {
-                    $(".approval").each((index, ele) => $(ele).val("No"));
-                    $(".approval").prop("disabled", true);
-                } else if($("#event-type").val() === 'Private') {
-                    $(".approval").prop("disabled", false);
-                }
-            });
-
-            $('#event_venue').on('change', function(){
-                $('#event_venue_error').removeClass('custom-validation-error');
-                $('#event_venue_error').addClass('d-none');
-            });
-
-            // Step switch
-            const form = $(".needs-validation");
-            $("#event-form-next").on('click', function(){
-                form.addClass('was-validated');
-                var is_valid = false;
-
-                if ($('#header-image-file-name').html() == '') {
-                    $('#header_image_wrapper').css('border-color', '#FD5190');
-                    $('#header_image_error').removeClass('d-none');
-                    $('#header_image_error').addClass('custom-validation-error');
-                    is_valid = true;
-                }
-                
-
-                if ($('#event-type').val() === null) {
-                    $('#event-type-error').addClass('custom-validation-error');
-                    $('#event-type-error').removeClass('d-none');
-                    is_valid = true;
-                };
-
-                if ($('#event_venue').val() == null) {
-                    $('#event_venue_error').addClass('custom-validation-error');
-                    $('#event_venue_error').removeClass('d-none');
-                    is_valid = true;
-                }
-
-                if (form[0].checkValidity() === false || is_valid) {
-                    event.preventDefault();
-                    return;
-                }
-                
-                form.removeClass('was-validated');
-                $("#step-1").addClass('d-none');
-                $("#step-2").removeClass('d-none');
-            });
-
-            $("#event-form-back").on('click', function(){
-                $("#step-1").removeClass('d-none');
-                $("#step-2").addClass('d-none');
-            });
-
-            const location = $("#event_venue option:selected").attr('data-venue-location');
-            $('#venue_location').val(location);
-
-            $("#event_venue").on('change', function(e) {
-                const location = $("#event_venue option:selected").attr('data-venue-location');
-                $('#venue_location').val(location);
-            });
-
-            const booking_types = ['EarlyBird', 'Standard', 'VIP'];
-            $(".ticket_type").autocomplete({
-                source: booking_types,
-                minLength: 0,
-            }).focus(function () {
-                $(this).autocomplete('search', $(this).val())
-            });
-
-            $(".table_type").autocomplete({
-                source: booking_types,
-                minLength: 0,
-            }).focus(function () {
-                $(this).autocomplete('search', $(this).val())
-            });
-
-            $(".guestlist_type").autocomplete({
-                source: booking_types,
-                minLength: 0,
-            }).focus(function () {
-                $(this).autocomplete('search', $(this).val())
-            });
-
-            function removeEventTicket() {
-                $('.remove-event-ticket').on('click', function() {
-                    if($(".event-ticket").length === 1) {
-                        return;
-                    }
-                    $(this).parent().parent().remove();
-                });
-            }
-            removeEventTicket();
-
-            // Event ticket
-            $("#add-event-ticket").on('click', function(){
-                var new_ticket = $("#event-ticket-default").clone();
-                $(new_ticket).find("input, textarea").each((index, ele)=> $(ele).val(""));
-                $(new_ticket).find(".ticket_type").eq(0).autocomplete({
-                    source: booking_types,
-                    minLength: 0,
-                }).focus(function () {
-                    $(this).autocomplete('search', $(this).val())
-                });
-                new_ticket.appendTo("div#event-ticket-list");
-                removeEventTicket();
-            });
-
-            function removeEventTable() {
-                $('.remove-event-table').on('click', function() {
-                    if($(".event-table").length === 1) {
-                        return;
-                    }
-                    $(this).parent().parent().remove();
-                });
-            }
-            removeEventTable();
-
-            // Event table
-            $("#add-event-table").on('click', function(){
-                var new_table = $("#event-table-default").clone();
-                $(new_table).find("input, textarea").each((index, ele)=> $(ele).val(""));
-                $(new_table).find(".table_type").eq(0).autocomplete({
-                    source: booking_types,
-                    minLength: 0,
-                }).focus(function () {
-                    $(this).autocomplete('search', $(this).val())
-                });
-                new_table.appendTo("div#event-table-list");
-                removeEventTable();
-            });
-        
-            // Event guestlist
-            function removeEventGuest() {
-                $('.remove-event-guestlist').on('click', function() {
-                    if($(".event-guestlist").length === 1) {
-                        return;
-                    }
-                    $(this).parent().parent().remove();
-                });
-            }
-            removeEventGuest();
-
-            $("#add-event-guestlist").on('click', function(){
-                var new_guestlist = $("#event-guestlist-default").clone();
-                $(new_guestlist).find("input, textarea").each((index, ele)=> $(ele).val(""));
-                $(new_guestlist).find(".guestlist_type").eq(0).autocomplete({
-                    source: booking_types,
-                    minLength: 0,
-                }).focus(function () {
-                    $(this).autocomplete('search', $(this).val())
-                });
-                new_guestlist.appendTo("div#event-guestlist-list");
-                removeEventGuest();
-            });
-
-            function formatDate(date) {
-                return date.toISOString().slice(0, 10);
-            }
-
-            function getDateTime(str) {
-                return new Date(str).getTime();
-            }
-
-            function updateEndDateTime() {
-                const startDate = $('#start-date').val();
-                const endDate = $('#end-date').val();
-
-                $('#end-date').attr('min', startDate)
-
-                if (getDateTime(startDate) > getDateTime(endDate)) {
-                    $('#end-date').val(startDate)
-                    return;
-                }
-
-                const startTime = $('#start-time').val();
-                const endTime = $('#end-time').val();
-                const date1 = `${startDate} ${startTime}:00`;
-                const date2 = `${endDate} ${endTime}:00`;
-                if (getDateTime(date1) > getDateTime(date2)) {
-                    $('#end-time').val(startTime)
-                }
-            }
-            updateEndDateTime();
-            
-            // Event Date and Times
-            $('.event-date-time').on('change', function() {
-                updateEndDateTime();
-            })
-            
-            $('#submit-button').click(function(event) {
-                form.addClass('was-validated');
-
-                if (form[0].checkValidity() === false) {
-                    event.preventDefault();
-                    return;
-                }
-                form.removeClass('was-validated');
-            });
-            
         });
 
-        function initMap() {
-            const input = document.getElementById("venue_location");
-            const options = {
-                fields: ["formatted_address", "geometry", "name"],
-                strictBounds: false,
-                types: ["establishment"],
-            };
-            const autocomplete = new google.maps.places.Autocomplete(input, options);
-            autocomplete.addListener("place_changed", () => {
-                const place = autocomplete.getPlace();
-                console.log('place', place)
+        $('#event_venue').on('change', function(){
+            $('#event_venue_error').removeClass('custom-validation-error');
+            $('#event_venue_error').addClass('d-none');
+        });
 
-                if (!place.geometry || !place.geometry.location) {
-                    // User entered the name of a Place that was not suggested and
-                    // pressed the Enter key, or the Place Details request failed.
-                    //window.alert("No details available for input: '" + place.name + "'");
+        // Step switch
+        const form = $(".needs-validation");
+        $("#event-form-next").on('click', function(){
+            form.addClass('was-validated');
+            var is_valid = false;
+
+            if ($('#header-image-file-name').html() == '') {
+                $('#header_image_wrapper').css('border-color', '#FD5190');
+                $('#header_image_error').removeClass('d-none');
+                $('#header_image_error').addClass('custom-validation-error');
+                is_valid = true;
+            }
+            
+
+            if ($('#event-type').val() === null) {
+                $('#event-type-error').addClass('custom-validation-error');
+                $('#event-type-error').removeClass('d-none');
+                is_valid = true;
+            };
+
+            if ($('#event_venue').val() == null) {
+                $('#event_venue_error').addClass('custom-validation-error');
+                $('#event_venue_error').removeClass('d-none');
+                is_valid = true;
+            }
+
+            if (form[0].checkValidity() === false || is_valid) {
+                event.preventDefault();
+                return;
+            }
+            
+            form.removeClass('was-validated');
+            $("#step-1").addClass('d-none');
+            $("#step-2").removeClass('d-none');
+        });
+
+        $("#event-form-back").on('click', function(){
+            $("#step-1").removeClass('d-none');
+            $("#step-2").addClass('d-none');
+        });
+
+        const location = $("#event_venue option:selected").attr('data-venue-location');
+        $('#venue_location').val(location);
+
+        $("#event_venue").on('change', function(e) {
+            const location = $("#event_venue option:selected").attr('data-venue-location');
+            $('#venue_location').val(location);
+        });
+
+        const booking_types = ['EarlyBird', 'Standard', 'VIP'];
+        $(".ticket_type").autocomplete({
+            source: booking_types,
+            minLength: 0,
+        }).focus(function () {
+            $(this).autocomplete('search', $(this).val())
+        });
+
+        $(".table_type").autocomplete({
+            source: booking_types,
+            minLength: 0,
+        }).focus(function () {
+            $(this).autocomplete('search', $(this).val())
+        });
+
+        $(".guestlist_type").autocomplete({
+            source: booking_types,
+            minLength: 0,
+        }).focus(function () {
+            $(this).autocomplete('search', $(this).val())
+        });
+
+        function removeEventTicket() {
+            $('.remove-event-ticket').on('click', function() {
+                if($(".event-ticket").length === 1) {
                     return;
                 }
+                $(this).parent().parent().remove();
             });
         }
-    </script>
+        removeEventTicket();
+
+        // Event ticket
+        $("#add-event-ticket").on('click', function(){
+            var new_ticket = $("#event-ticket-default").clone();
+            $(new_ticket).find("input, textarea").each((index, ele)=> $(ele).val(""));
+            $(new_ticket).find(".ticket_type").eq(0).autocomplete({
+                source: booking_types,
+                minLength: 0,
+            }).focus(function () {
+                $(this).autocomplete('search', $(this).val())
+            });
+            new_ticket.appendTo("div#event-ticket-list");
+            removeEventTicket();
+        });
+
+        function removeEventTable() {
+            $('.remove-event-table').on('click', function() {
+                if($(".event-table").length === 1) {
+                    return;
+                }
+                $(this).parent().parent().remove();
+            });
+        }
+        removeEventTable();
+
+        // Event table
+        $("#add-event-table").on('click', function(){
+            var new_table = $("#event-table-default").clone();
+            $(new_table).find("input, textarea").each((index, ele)=> $(ele).val(""));
+            $(new_table).find(".table_type").eq(0).autocomplete({
+                source: booking_types,
+                minLength: 0,
+            }).focus(function () {
+                $(this).autocomplete('search', $(this).val())
+            });
+            new_table.appendTo("div#event-table-list");
+            removeEventTable();
+        });
+    
+        // Event guestlist
+        function removeEventGuest() {
+            $('.remove-event-guestlist').on('click', function() {
+                if($(".event-guestlist").length === 1) {
+                    return;
+                }
+                $(this).parent().parent().remove();
+            });
+        }
+        removeEventGuest();
+
+        $("#add-event-guestlist").on('click', function(){
+            var new_guestlist = $("#event-guestlist-default").clone();
+            $(new_guestlist).find("input, textarea").each((index, ele)=> $(ele).val(""));
+            $(new_guestlist).find(".guestlist_type").eq(0).autocomplete({
+                source: booking_types,
+                minLength: 0,
+            }).focus(function () {
+                $(this).autocomplete('search', $(this).val())
+            });
+            new_guestlist.appendTo("div#event-guestlist-list");
+            removeEventGuest();
+        });
+
+        function formatDate(date) {
+            return date.toISOString().slice(0, 10);
+        }
+
+        function getDateTime(str) {
+            return new Date(str).getTime();
+        }
+
+        function updateEndDateTime() {
+            const startDate = $('#start-date').val();
+            const endDate = $('#end-date').val();
+
+            $('#end-date').attr('min', startDate)
+
+            if (getDateTime(startDate) > getDateTime(endDate)) {
+                $('#end-date').val(startDate)
+                return;
+            }
+
+            const startTime = $('#start-time').val();
+            const endTime = $('#end-time').val();
+            const date1 = `${startDate} ${startTime}:00`;
+            const date2 = `${endDate} ${endTime}:00`;
+            if (getDateTime(date1) > getDateTime(date2)) {
+                $('#end-time').val(startTime)
+            }
+        }
+        updateEndDateTime();
+        
+        // Event Date and Times
+        $('.event-date-time').on('change', function() {
+            updateEndDateTime();
+        })
+        
+        $('#submit-button').click(function(event) {
+            form.addClass('was-validated');
+
+            if (form[0].checkValidity() === false) {
+                event.preventDefault();
+                return;
+            }
+            form.removeClass('was-validated');
+        });
+        
+    });
+
+    function initMap() {
+        const input = document.getElementById("venue_location");
+        const options = {
+            fields: ["formatted_address", "geometry", "name"],
+            strictBounds: false,
+            types: ["establishment"],
+        };
+        const autocomplete = new google.maps.places.Autocomplete(input, options);
+        autocomplete.addListener("place_changed", () => {
+            const place = autocomplete.getPlace();
+            console.log('place', place)
+
+            if (!place.geometry || !place.geometry.location) {
+                // User entered the name of a Place that was not suggested and
+                // pressed the Enter key, or the Place Details request failed.
+                //window.alert("No details available for input: '" + place.name + "'");
+                return;
+            }
+        });
+    }
+</script>
 <script
     src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_API_KEY')}}&callback=initMap&libraries=places&v=weekly" 
     async
