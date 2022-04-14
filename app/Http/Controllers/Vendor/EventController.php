@@ -105,8 +105,9 @@ class EventController extends Controller
         $event->end = date('Y-m-d H:i', strtotime($request->end_date . ' ' . $request->end_time));
         $event->venue_id = $request->venue_id;
         $event->is_weekly_event = 0;
-        if ($request->is_weekly_event == 'on')
+        if ($request->is_weekly_event == 'on') {
             $event->is_weekly_event = 1;
+        }
         $event->save();
 
         $this->createMedia($event, $request);
