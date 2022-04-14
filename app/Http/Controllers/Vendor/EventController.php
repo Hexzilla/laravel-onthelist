@@ -253,9 +253,6 @@ class EventController extends Controller
 
     public function updateMedia($event, $request)
     {
-        $medias = EventMedia::where('event_id', $event->id)->get();
-        $size = count($medias);
-        
         if($request->hasFile('gallery_image'))
         {
             $path = upload_file($request->file('gallery_image'), 'event');
@@ -341,17 +338,15 @@ class EventController extends Controller
 
     public function updateDjs($event_id, $djs)
     {
-        $i = 0;
+        $eventdjs = EventDj::where('event_id', $event_id)->get();
+        foreach($eventdjs as $eventdj) {
+            $eventdj->delete();
+        }
         foreach($djs as $dj){
-            $eventdjs = EventDj::where('event_id', $event_id)->get();
-            if (count($eventdjs) > $i) {
-                $eventdjs[$i]->user_id = $dj;
-            } else {
-                EventDj::create([
-                    'event_id' => $event_id,
-                    'user_id' => $dj
-                ]);
-            }
+            EventDj::create([
+                'event_id' => $event_id,
+                'user_id' => $dj
+            ]);
         }
     }
 

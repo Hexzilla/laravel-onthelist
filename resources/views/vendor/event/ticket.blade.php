@@ -9,13 +9,13 @@
     <div class="col-md-6">
         <div class="form-group">
             <label for="ticketQuantity">Ticket Quantity</label>
-            <input type="number" min="0" class="form-control" placeholder="0" name="ticket_qty[]" value="{{ $ticket ? $ticket->qty : old('ticket_qty[]') }}">
+            <input type="number" min="0" max="100000000" class="form-control" placeholder="0" name="ticket_qty[]" value="{{ $ticket ? $ticket->qty : old('ticket_qty[]') }}">
         </div>
     </div>
     <div class="col-md-6">
         <div class="form-group">
             <label for="ticketPrice">Ticket Price (£)</label>
-            <input type="number" min="0" class="form-control" placeholder="£0" name="ticket_price[]" value="{{ $ticket ? $ticket->price : old('ticket_price[]') }}">
+            <input type="number" min="0" max="100000000" class="form-control" placeholder="£0" name="ticket_price[]" value="{{ $ticket ? $ticket->price : old('ticket_price[]') }}">
         </div>
     </div>
     <div class="col-md-6">
