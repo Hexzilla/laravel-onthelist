@@ -13,6 +13,7 @@ class Dj extends Model
         "name",
         "description",
         "mixcloud_link",
+        "header_image_path",
         "venue_id",
         "genre",
     ];

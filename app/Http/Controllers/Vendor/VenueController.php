@@ -345,9 +345,7 @@ class VenueController extends Controller
 
     public function destroy($id)
     {
-        $user_id = Auth::user()->id;
-        $venues = Venue::where('user_id', $user_id)->where('id', $id)->get();
-        $venues[0]->delete();
+        Venue::where('id', $id)->delete();
         return redirect()->route('vendors.venue.index')->with('Success');
     }
 }

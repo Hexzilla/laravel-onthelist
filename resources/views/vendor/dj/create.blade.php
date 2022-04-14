@@ -61,8 +61,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group border-input">
-                                <label for="mixclud_link">Dj Mixcloud link:</label>
-                                <input type="text" class="form-control" placeholder="https://www.mixcloud.com" id="mixclud_link" name="mixclud_link" value="{{ $dj? $dj->postcode : old('mixclud_link') }}">
+                                <label for="mixcloud_link">Dj Mixcloud link:</label>
+                                <input type="text" class="form-control" placeholder="https://www.mixcloud.com" id="mixcloud_link" name="mixcloud_link" value="{{ $dj? $dj->postcode : old('mixclud_link') }}">
                                 <span class="invalid-feedback" role="alert">This field is required</span>
                             </div>
                             <div class="form-group">
