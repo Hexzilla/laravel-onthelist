@@ -3,13 +3,13 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SettingController as SettingController;
 
 use App\Http\Controllers\Vendor\DashboardController as VendorDahsboardController;
 use App\Http\Controllers\Vendor\VenueController as VendorVenueController;
 use App\Http\Controllers\Vendor\EventController as VendorEventController;
 use App\Http\Controllers\Vendor\BookingController as VendorBookingController;
 use App\Http\Controllers\Vendor\PaymentController as VendorPaymentController;
-use App\Http\Controllers\Vendor\SettingController as VendorSettingController;
 
 use App\Http\Controllers\Dj\DashboardController as DjDashboardController;
 use App\Http\Controllers\Dj\ProfileController as DjProfileController;
@@ -46,6 +46,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // Route::post('login', [AuthController::class, 'login'])->name('login');
 // Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::controller(SettingController::class)->name('setting.')->prefix('setting')->as('setting.')->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::post('/password', 'changePassword')->name('password');
+    Route::post('/contact', 'contact')->name('contact');
+    Route::get('/close', 'closeAccount')->name('close');
+});
+
 Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/', [VendorDahsboardController::class, 'index'])->name('dashboard');
@@ -54,13 +61,6 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/approved/{id}', 'approve')->name('approve');
             Route::get('/rejected/{id}', 'reject')->name('reject');
-        });
-
-        Route::controller(VendorSettingController::class)->name('setting.')->prefix('setting')->as('setting.')->group(function () {
-            Route::get('/', 'index')->name('index');
-            Route::post('/password', 'changePassword')->name('password');
-            Route::post('/contact', 'contact')->name('contact');
-            Route::get('/close', 'closeAccount')->name('close');
         });
 
         Route::controller(VendorPaymentController::class)->name('payment.')->prefix('payment')->as('payment.')->group(function () {

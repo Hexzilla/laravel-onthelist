@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Vendor;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ class SettingController extends Controller
     {
         $user_id = Auth::user()->id;
         $user = User::where('id', $user_id)->first();
-        return view('vendor.setting.index', ['user' => $user]);
+        return view('setting.index', ['user' => $user]);
     }
 
     public function changePassword(Request $request)
