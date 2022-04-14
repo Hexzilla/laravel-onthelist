@@ -63,20 +63,20 @@ class VenueController extends Controller
         $venue->user_id = $user_id;
         $venue->name = $request->name;
         $venue->type = $request->venue_type;
-        if(!is_null($request->details))
+        if (!is_null($request->details))
             $venue->description = $request->details;
         $venue->header_image_path = upload_file($request->file('header_image'), 'venue');
         $venue->address = $request->address;
         $venue->city = $request->city;
         $venue->postcode = $request->postcode;
         $venue->phone = $request->phone;
-        if(!is_null($request->facilities))
+        if (!is_null($request->facilities))
             $venue->facilities = $request->facilities;
-        if(!is_null($request->music_policy))
+        if (!is_null($request->music_policy))
             $venue->music_policy = $request->music_policy;
-        if(!is_null($request->dress_code))
+        if (!is_null($request->dress_code))
             $venue->dress_code = $request->dress_code;
-        if(!is_null($request->perks))
+        if (!is_null($request->perks))
             $venue->perks = $request->perks;
         $venue->save();
 
@@ -111,7 +111,7 @@ class VenueController extends Controller
 
     public function createMedia($venue, $request)
     {
-        if($request->hasFile('gallery_image'))
+        if ($request->hasFile('gallery_image'))
         {
             $path = upload_file($request->file('gallery_image'), 'venue');
             VenueMedia::create([
@@ -122,7 +122,7 @@ class VenueController extends Controller
         }
 
         // create media record if the video exists
-        if($request->hasFile('gallery_video'))
+        if ($request->hasFile('gallery_video'))
         {
             $path = upload_file($request->file('gallery_video'), 'venue');
             VenueMedia::create([
@@ -132,7 +132,7 @@ class VenueController extends Controller
             ]);
         }
 
-        if(!is_null($request->video_link))
+        if (!is_null($request->video_link))
         {
             VenueMedia::create([
                 'venue_id' => $venue->id,
@@ -144,10 +144,10 @@ class VenueController extends Controller
 
     public function createOffer($venue, $request)
     {
-        if($request->has('offer_type'))
+        if ($request->has('offer_type'))
         {
             $offerSize = sizeof($request->get('offer_type'));
-            for($i = 0; $i < $offerSize; $i++){
+            for ($i = 0; $i < $offerSize; $i++) {
                 VenueOffer::create([
                     'venue_id' => $venue->id,
                     'type' => $request->offer_type[$i],
@@ -162,10 +162,10 @@ class VenueController extends Controller
 
     public function createTable($venue, $request)
     {
-        if($request->has('table_type'))
+        if ($request->has('table_type'))
         {
             $tableSize = sizeof($request->get('table_type'));
-            for($i = 0; $i < $tableSize; $i++){
+            for ($i = 0; $i < $tableSize; $i++){
                 VenueTable::create([
                     'venue_id' => $venue->id,
                     'type' => $request->table_type[$i],
@@ -195,23 +195,28 @@ class VenueController extends Controller
         $venue->user_id = $user_id;
         $venue->name = $request->name;
         $venue->type = $request->venue_type;
-        if(!is_null($request->details))
+        if (!is_null($request->details)) {
             $venue->description = $request->details;
-        if(!is_null($request->file('header_image'))) {
+        }
+        if (!is_null($request->file('header_image'))) {
             $venue->header_image_path = upload_file($request->file('header_image'), 'venue');
         }
         $venue->address = $request->address;
         $venue->city = $request->city;
         $venue->postcode = $request->postcode;
         $venue->phone = $request->phone;
-        if(!is_null($request->facilities))
+        if (!is_null($request->facilities)) {
             $venue->facilities = $request->facilities;
-        if(!is_null($request->music_policy))
+        }
+        if (!is_null($request->music_policy)) {
             $venue->music_policy = $request->music_policy;
-        if(!is_null($request->dress_code))
+        }
+        if (!is_null($request->dress_code)) {
             $venue->dress_code = $request->dress_code;
-        if(!is_null($request->perks))
+        }
+        if (!is_null($request->perks)) {
             $venue->perks = $request->perks;
+        }
         $venue->save();
 
         $this->updateTimetable($venue, $request);
@@ -245,7 +250,7 @@ class VenueController extends Controller
 
     public function updateMedia($venue, $request)
     {
-        if($request->hasFile('gallery_image'))
+        if ($request->hasFile('gallery_image'))
         {
             $path = upload_file($request->file('gallery_image'), 'venue');
             VenueMedia::create([
@@ -256,7 +261,7 @@ class VenueController extends Controller
         }
 
         // update media record if the video exists
-        if($request->hasFile('gallery_video'))
+        if ($request->hasFile('gallery_video'))
         {
             $path = upload_file($request->file('gallery_video'), 'venue');
             VenueMedia::create([
@@ -266,7 +271,7 @@ class VenueController extends Controller
             ]);
         }
 
-        if(!is_null($request->video_link))
+        if (!is_null($request->video_link))
         {
             VenueMedia::create([
                 'venue_id' => $venue->id,
@@ -278,15 +283,21 @@ class VenueController extends Controller
 
     public function updateOffer($venue, $request)
     {
-        if($request->has('offer_type'))
+        if ($request->has('offer_type'))
         {
             $offerIds = $request->get('offer_id');
-            if(count($offerIds) > 0) {
-                VenueOffer::whereNotIn('id', $offerIds)->delete();
+            $offerIds = array_filter($offerIds, function($id) {
+                return isset($id);
+            });
+            if (count($offerIds) > 0) {
+                VenueOffer::where('venue_id', $venue->id)->whereNotIn('id', $offerIds)->delete();
+            } else {
+                VenueOffer::where('venue_id', $venue->id)->delete();
             }
+
             $offerSize = sizeof($request->get('offer_type'));
             $offers = array();
-            for($i = 0; $i < $offerSize; $i++){
+            for ($i = 0; $i < $offerSize; $i++){
                 array_push($offers, [
                     'id' => $request->offer_id[$i],
                     'venue_id' => $venue->id,
@@ -303,15 +314,21 @@ class VenueController extends Controller
 
     public function updateTable($venue, $request)
     {
-        if($request->has('table_type'))
+        if ($request->has('table_type'))
         {
             $tableIds = $request->get('table_id');
-            if(count($tableIds) > 0) {
-                VenueTable::whereNotIn('id', $tableIds)->delete();
+            $tableIds = array_filter($tableIds, function($id) {
+                return isset($id);
+            });
+            if (count($tableIds) > 0) {
+                VenueTable::where('venue_id', $venue->id)->whereNotIn('id', $tableIds)->delete();
+            } else {
+                VenueTable::where('venue_id', $venue->id)->delete();
             }
+
             $tableSize = sizeof($request->get('table_type'));
             $tables = array();
-            for($i = 0; $i < $tableSize; $i++) {
+            for ($i = 0; $i < $tableSize; $i++) {
                 array_push($tables, [
                     'id' =>  $request->table_id[$i],
                     'venue_id' => $venue->id,

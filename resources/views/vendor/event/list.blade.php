@@ -97,18 +97,20 @@
                     <table class="table table-responsive-am">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Date</th>
                                 <th>Type</th>
+                                <th>Description</th>
+                                <th>Quantity</th>
                                 <th>Price</th>
+                                <th>Approval</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr class="d-none">
-                                <td>$Name</td>
-                                <td>$Date</td>
                                 <td>$Type</td>
+                                <td>$Description</td>
+                                <td>$Quantity</td>
                                 <td>$Price</td>
+                                <td>$Approval</td>
                             </tr>
                         </tbody>
                     </table>
@@ -238,10 +240,11 @@
             tables.forEach(table => {
                 const clone = sample.clone().removeClass('d-none').addClass('display');
                 let html = clone.html();
-                html = html.replace('$Name', table.userName)
-                html = html.replace('$Date', table.date)
                 html = html.replace('$Type', table.type)
+                html = html.replace('$Description', table.description || '')
+                html = html.replace('$Quantity', table.qty)
                 html = html.replace('$Price', table.price)
+                html = html.replace('$Approval', table.approval)
                 tbody.append(clone.html(html));
             });
 

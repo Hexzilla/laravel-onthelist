@@ -12,11 +12,11 @@
                 <a onclick="openDeleteModal('{{$event->name}}', '{{$event->id}}')"><i class="fa fa-trash"></i> Delete</a>
                 @endif
             </div>
-            <div><a onclick="openTableModal('{{$event->name}}', '{{$event->ticket}}')">Tickets</a></div>
-            <div><a onclick="openTableModal('{{$event->name}}', '{{$event->table}}')">Tables</a></div>
+            <div><a onclick="openTableModal('{{$event->name}}', '{{$event->tickets}}')">Tickets</a></div>
+            <div><a onclick="openTableModal('{{$event->name}}', '{{$event->tables}}')">Tables</a></div>
             <!-- <div><a onclick="openMediaModal('{{$event->name}}', '{{$event->header_image_path}}', '{{$event->media}}')">Media</a></div>
             <div><a onclick="openDetailModal('{{$event}}')">Detail</a></div> -->
-            <div><a onclick="openTableModal('{{$event->name}}', '{{$event->guestlist}}')">Guestlists</a></div>
+            <div><a onclick="openTableModal('{{$event->name}}', '{{$event->guestlists}}')">Guestlists</a></div>
         </div>
         <div class="card-body p-4">
             <div class="row">
