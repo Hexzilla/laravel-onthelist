@@ -1,7 +1,7 @@
 <div class="col-md-6 col-sm-12 col-lg-6 col-xl-4 col-xxl-6">
     <div class="card event-card">
         <div class="event-card-img">
-            <img class="img-fluid" src="../{{ $event->header_image_path }}" data-toggle="modal" data-target="#event-view" height >
+            <img class="img-fluid h-100" src="../{{ $event->header_image_path }}" data-toggle="modal" data-target="#event-view" height >
             <h4 class="event-title">{{ $event->name }}</h4>
         </div>
         <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">...</a>
