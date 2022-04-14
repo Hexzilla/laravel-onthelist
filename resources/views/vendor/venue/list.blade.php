@@ -2,8 +2,47 @@
 
 @section('content')
 <style>
-    .hidden {
-        display: none;
+    .event-card .nav-link {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+
+    .event-card-img img {
+        position: absolute;
+        top: 0;
+    }
+
+    .event-card-img h4, .event-card a {
+        color: #fff !important;
+    }
+
+    .event-card .dropdown-menu {
+        z-index: 1000;
+        border-color: transparent;
+        text-align: right;
+        color: #eee!important;
+        background-color: rgba(0, 0, 0, 0.5);
+        min-width: 0!important;
+    }
+
+    .event-card .dropdown-menu a {
+        padding: 10px;
+    }
+
+    .event-card .card-footer, .card-sponsor {
+        background-color: #fff!important;
+    }
+
+    .card-sponsor .img-fluid {
+        border-radius: 50%;
+    }
+
+    .event-card-img {
+        position: relative;
+        width: 100%;
+        padding-top: 45%;
+        overflow: hidden;
     }
 </style>
 <div class="content-body">
@@ -17,62 +56,9 @@
             </div> 
         </div>
         <div class="row mt-4">
-            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 col-xxl-12">	
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="example" class="display" style="min-width: 845px">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Type</th>
-                                        <th>Location</th>
-                                        <th>Phone</th>
-                                        <th>Details</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($venues as $venue)
-                                    <tr>
-                                        <td>{{$venue->name}}</td>
-                                        <td>{{$venue->type}}</td>
-                                        <td>{{$venue->location}}</td>
-                                        <td>{{$venue->phone}}</td>
-                                        <td>
-                                            <button type="button" class="btn btn-rounded btn-outline-primary mb-1" onclick="openTimetableModal('{{$venue->name}}', '{{$venue->timetable}}')">Show Timetable</button>
-                                            <button type="button" class="btn btn-rounded btn-outline-secondary mb-1" onclick="openTableModal('{{$venue->name}}', '{{$venue->tables}}')">Show Tables</button>
-                                            <button type="button" class="btn btn-rounded btn-outline-success mb-1" onclick="openTableModal('{{$venue->name}}', '{{$venue->offers}}')">Show Offers</button>
-                                            <button type="button" class="btn btn-rounded btn-outline-warning mb-1" onclick="openMediaModal('{{$venue->name}}', '{{$venue->header_image_path}}', '{{$venue->media}}')">Show Media</button>
-                                            <button type="button" class="btn btn-rounded btn-outline-info mb-1" onclick="openDetailModal('{{$venue}}')">Show More</button>
-                                        </td>
-                                        <td>
-                                            @if($venue->status == 'Rejected')
-                                            <span class="badge badge-danger">Rejected</span>
-                                            @elseif($venue->status === 'Pending')
-                                            <span class="badge badge-warning">Pending</span>
-                                            @else
-                                            <span class="badge badge-success">{{$venue->status}}</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-rounded btn-primary mb-1" title="Edit">
-                                                <a href="{{ route('vendors.venue.edit', $venue->id) }}"><i class="fa fa-edit"></i></a>
-                                            </button>
-                                            @if(!$venue->isApproved())
-                                            <button type="button" title="Delete" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$venue->name}}', '{{$venue->id}}' )">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @foreach($venues as $venue)
+                @include('vendor.venue.card', ['venue' => $venue])
+            @endforeach            
         </div>
     </div>
 </div>
@@ -187,7 +173,7 @@
                         </div>
                         <div class="carousel-item video d-none">
                             <video controls autoplay>
-                                <source src="../$PATH" type="video/mp4">
+                                <source src="$PATH" type="video/mp4">
                             </video>
                             <div class="carousel-caption d-none d-md-block"><h5>Video</h5></div>
                         </div>

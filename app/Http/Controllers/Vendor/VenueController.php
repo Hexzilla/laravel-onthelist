@@ -280,6 +280,10 @@ class VenueController extends Controller
     {
         if($request->has('offer_type'))
         {
+            $offerIds = $request->get('offer_id');
+            if(count($offerIds) > 0) {
+                VenueOffer::whereNotIn('id', $offerIds)->delete();
+            }
             $offerSize = sizeof($request->get('offer_type'));
             $offers = array();
             for($i = 0; $i < $offerSize; $i++){
@@ -301,6 +305,10 @@ class VenueController extends Controller
     {
         if($request->has('table_type'))
         {
+            $tableIds = $request->get('table_id');
+            if(count($tableIds) > 0) {
+                VenueTable::whereNotIn('id', $tableIds)->delete();
+            }
             $tableSize = sizeof($request->get('table_type'));
             $tables = array();
             for($i = 0; $i < $tableSize; $i++) {

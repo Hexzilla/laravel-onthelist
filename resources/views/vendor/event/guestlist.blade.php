@@ -1,5 +1,8 @@
-<div id="event-guestlist-default" class="row">
-<input type="hidden" name="guestlist_id[]" value="{{ $guestlist ? $guestlist->id : old('guestlist_id[]')}}">
+<div id="event-guestlist-default" class="row event-guestlist">
+    <input type="hidden" name="guestlist_id[]" value="{{ $guestlist ? $guestlist->id : old('guestlist_id[]')}}">
+    <div class="col-md-12">
+        <a class="remove-event-guestlist add-another-link float-right"><i class="mdi mdi-minus"></i> Remove guestlist</a>
+    </div>
     <div class="col-md-6">
         <div class="form-group">
             <label for="guestlist_type">Guestlist Type</label>

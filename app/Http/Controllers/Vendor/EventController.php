@@ -14,6 +14,7 @@ use App\Models\Venue;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
@@ -277,6 +278,11 @@ class EventController extends Controller
     {
         if($request->has('ticket_type'))
         {
+            $ticketIds = $request->get('ticket_id');
+            if(count($ticketIds) > 0) {
+                EventTicket::whereNotIn('id', $ticketIds)->delete();
+            }
+           
             $ticketSize = sizeof($request->get('ticket_type'));
             $tickets = array();
             for($i = 0; $i < $ticketSize; $i++){
@@ -298,6 +304,11 @@ class EventController extends Controller
     {
         if ($request->has('table_type'))
         {
+            $tableIds = $request->get('table_id');
+            if(count($tableIds)) {
+                EventTable::whereNotIn('id', $tableIds)->delete();
+            }
+
             $tableSize = sizeof($request->get('table_type'));
             $tables = array();
             for($i = 0; $i < $tableSize; $i++) {
@@ -319,6 +330,11 @@ class EventController extends Controller
     {
         if($request->has('guestlist_type'))
         {
+            $guestIds = $request->get('guestlist_id');
+            if(count($guestIds) > 0) {
+                EventGuestlist::whereNotIn('id', $guestIds)->delete();
+            }
+            
             $guestlistSize = sizeof($request->get('guestlist_type'));
             $guestlists = array();
             for($i = 0; $i < $guestlistSize; $i++) {

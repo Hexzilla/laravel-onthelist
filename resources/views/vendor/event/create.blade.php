@@ -384,6 +384,16 @@
                 $(this).autocomplete('search', $(this).val())
             });
 
+            function removeEventTicket() {
+                $('.remove-event-ticket').on('click', function() {
+                    if($(".event-ticket").length === 1) {
+                        return;
+                    }
+                    $(this).parent().parent().remove();
+                });
+            }
+            removeEventTicket();
+
             // Event ticket
             $("#add-event-ticket").on('click', function(){
                 var new_ticket = $("#event-ticket-default").clone();
@@ -395,7 +405,18 @@
                     $(this).autocomplete('search', $(this).val())
                 });
                 new_ticket.appendTo("div#event-ticket-list");
+                removeEventTicket();
             });
+
+            function removeEventTable() {
+                $('.remove-event-table').on('click', function() {
+                    if($(".event-table").length === 1) {
+                        return;
+                    }
+                    $(this).parent().parent().remove();
+                });
+            }
+            removeEventTable();
 
             // Event table
             $("#add-event-table").on('click', function(){
@@ -408,9 +429,20 @@
                     $(this).autocomplete('search', $(this).val())
                 });
                 new_table.appendTo("div#event-table-list");
+                removeEventTable();
             });
-
+        
             // Event guestlist
+            function removeEventGuest() {
+                $('.remove-event-guestlist').on('click', function() {
+                    if($(".event-guestlist").length === 1) {
+                        return;
+                    }
+                    $(this).parent().parent().remove();
+                });
+            }
+            removeEventGuest();
+
             $("#add-event-guestlist").on('click', function(){
                 var new_guestlist = $("#event-guestlist-default").clone();
                 $(new_guestlist).find("input, textarea").each((index, ele)=> $(ele).val(""));
@@ -421,6 +453,7 @@
                     $(this).autocomplete('search', $(this).val())
                 });
                 new_guestlist.appendTo("div#event-guestlist-list");
+                removeEventGuest();
             });
 
             function formatDate(date) {

@@ -1,5 +1,8 @@
-<div id="event-ticket-default" class="row">
+<div id="event-ticket-default" class="event-ticket row">
     <input type="hidden" name="ticket_id[]" value="{{ $ticket ? $ticket->id : old('ticket_id[]')}}">
+    <div class="col-md-12">
+        <a class="remove-event-ticket add-another-link float-right"><i class="mdi mdi-minus"></i> Remove ticket</a>
+    </div>
     <div class="col-md-6">
         <div class="form-group">
             <label for="ticket_type">Ticket Type</label>

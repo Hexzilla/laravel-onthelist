@@ -1,5 +1,8 @@
-<div id="venue-offer-list" class="col-md-12">
+<div id="venue-offer-list" class="col-md-12 venue-offer">
     <input type="hidden" name="offer_id[]" value="{{ $offer ? $offer->id : old('offer_id[]')}}">
+    <div class="col-md-12">
+        <a class="remove-venue-offer add-another-link float-right"><i class="mdi mdi-minus"></i> Remove offer</a>
+    </div>
     <div id="venue-offer-default" class="row">
         <div class="col-md-6">
             <div class="form-group">

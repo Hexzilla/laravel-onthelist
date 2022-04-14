@@ -63,29 +63,6 @@
     </div>
 </div>
 
-<!-- Event View Modal -->
-<div class="modal fade" id="event_view_modal">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">$TITLE</h5>
-                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <button type="button" class="btn btn-rounded btn-outline-primary mb-1" onclick="openTableModal('$NAME1', '$TICKETS')">Show Ticket</button>
-                <button type="button" class="btn btn-rounded btn-outline-secondary mb-1" onclick="openTableModal('$NAME2', '$TABLES')">Show Table</button>
-                <button type="button" class="btn btn-rounded btn-outline-success mb-1" onclick="openTableModal('$NAME3', '$GUESTLISTS')">Show Guestlist</button>
-                <button type="button" class="btn btn-rounded btn-outline-warning mb-1" onclick="openMediaModal('$NAME4', '$HEADERIMAGE', '$MEDIA')">Show Media</button>
-                <button type="button" class="btn btn-rounded btn-outline-info mb-1" onclick="openDetailModal('$EVENT')">Show More</button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Event Delete Modal -->
 <div class="modal fade" id="event_delete_modal">
     <div class="modal-dialog modal-dialog-centered modal-md" role="document">
@@ -120,20 +97,18 @@
                     <table class="table table-responsive-am">
                         <thead>
                             <tr>
+                                <th>Name</th>
+                                <th>Date</th>
                                 <th>Type</th>
-                                <th>Description</th>
-                                <th>Quantity</th>
                                 <th>Price</th>
-                                <th>Approval</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr class="d-none">
+                                <td>$Name</td>
+                                <td>$Date</td>
                                 <td>$Type</td>
-                                <td>$Description</td>
-                                <td>$Quantity</td>
                                 <td>$Price</td>
-                                <td>$Approval</td>
                             </tr>
                         </tbody>
                     </table>
@@ -163,7 +138,7 @@
                         </div>
                         <div class="carousel-item video d-none">
                             <video controls autoplay>
-                                <source src="../$PATH" type="video/mp4">
+                                <source src="$PATH" type="video/mp4">
                             </video>
                             <div class="carousel-caption d-none d-md-block"><h5>Video</h5></div>
                         </div>
@@ -263,11 +238,10 @@
             tables.forEach(table => {
                 const clone = sample.clone().removeClass('d-none').addClass('display');
                 let html = clone.html();
+                html = html.replace('$Name', table.userName)
+                html = html.replace('$Date', table.date)
                 html = html.replace('$Type', table.type)
-                html = html.replace('$Description', table.description || '')
-                html = html.replace('$Quantity', table.qty)
                 html = html.replace('$Price', table.price)
-                html = html.replace('$Approval', table.approval)
                 tbody.append(clone.html(html));
             });
 
@@ -302,14 +276,14 @@
             images.forEach(image => {
                 if(image.type === 'image')
                 {
-                    const clone = imagesample.clone().removeClass('hidden').addClass('display');
+                    const clone = imagesample.clone().removeClass('d-none').addClass('display');
                     let html = clone.html();
                     html = html.replace('$PATH', image.path);
-                    list.append(clone.html(html)); 
+                    list.append(clone.html(html));
                 }
                 if(image.type === 'video' || image.type === 'link')
                 {
-                    const clone = videosample.clone().removeClass('hidden').addClass('display');
+                    const clone = videosample.clone().removeClass('d-none').addClass('display');
                     let html = clone.html();
                     html = html.replace('$PATH', image.path);
                     list.append(clone.html(html));

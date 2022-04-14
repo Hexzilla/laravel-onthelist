@@ -93,7 +93,7 @@
                                 <div class="form-group border-input">
                                     <label for="VenueName">Phone Number *</label>
                                     <input type="text" class="form-control" placeholder="" id="VenuePhone" name="phone" value="{{ $venue? $venue->phone : old('phone') }}" required>
-                                    <span class="invalid-feedback" role="alert">This field is required</span>
+                                    <span id="venue_phone_error" class="d-none" role="alert">This field is required</span>
                                 </div>
                             </div>
                         </div>
@@ -112,12 +112,12 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="monday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue ? $venue->timetable->mon_open : old('mon_open') ?? '09:00' }}" 
+                                    <input type="time" value="{{ $venue ? $venue->timetable->mon_open : old('mon_open') ?? '00:00' }}" 
                                         step="60" id="monday-opening-time" name="mon_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="monday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue ? $venue->timetable->mon_close : old('mon_close') ?? '20:00' }}" 
+                                    <input type="time" value="{{ $venue ? $venue->timetable->mon_close : old('mon_close') ?? '00:00' }}" 
                                         step="60" id="monday-closing-time" name="mon_close" class="form-control text-center" />
                                 </div>
                             </div>
@@ -130,12 +130,12 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="tuesday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue ? $venue->timetable->tue_open : old('tue_open') ?? '09:00' }}" 
+                                    <input type="time" value="{{ $venue ? $venue->timetable->tue_open : old('tue_open') ?? '00:00' }}" 
                                         step="60" id="tuesday-opening-time" name="tue_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="tuesday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue ? $venue->timetable->tue_close : old('tue_close') ?? '20:00' }}" 
+                                    <input type="time" value="{{ $venue ? $venue->timetable->tue_close : old('tue_close') ?? '00:00' }}" 
                                         step="60" id="tuesday-closing-time" name="tue_close" class="form-control text-center" />
                                 </div>
                             </div>
@@ -148,12 +148,12 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="wednesday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue ? $venue->timetable->wed_open : old('wed_open') ?? '09:00' }}" 
+                                    <input type="time" value="{{ $venue ? $venue->timetable->wed_open : old('wed_open') ?? '00:00' }}" 
                                         step="60" id="wednesday-opening-time" name="wed_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="wednesday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue ? $venue->timetable->wed_close : old('wed_close') ?? '20:00' }}" 
+                                    <input type="time" value="{{ $venue ? $venue->timetable->wed_close : old('wed_close') ?? '00:00' }}" 
                                         step="60" id="wednesday-closing-time" name="wed_close" class="form-control text-center" />
                                 </div>
                             </div>
@@ -166,12 +166,12 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="thursday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue ? $venue->timetable->thu_open : old('thu_open') ?? '09:00' }}" 
+                                    <input type="time" value="{{ $venue ? $venue->timetable->thu_open : old('thu_open') ?? '00:00' }}" 
                                         step="60" id="thursday-opening-time" name="thu_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="thursday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue ? $venue->timetable->thu_close : old('thu_close') ?? '20:00' }}" 
+                                    <input type="time" value="{{ $venue ? $venue->timetable->thu_close : old('thu_close') ?? '00:00' }}" 
                                         step="60" id="thursday-closing-time" name="thu_close" class="form-control text-center" />
                                 </div>
                             </div>
@@ -184,12 +184,12 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="friday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue ? $venue->timetable->fri_open : old('fri_open') ?? '09:00' }}" 
+                                    <input type="time" value="{{ $venue ? $venue->timetable->fri_open : old('fri_open') ?? '00:00' }}" 
                                         step="60" id="friday-opening-time" name="fri_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="friday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue ? $venue->timetable->fri_close : old('fri_close') ?? '20:00' }}" 
+                                    <input type="time" value="{{ $venue ? $venue->timetable->fri_close : old('fri_close') ?? '00:00' }}" 
                                         step="60" id="friday-closing-time" name="fri_close" class="form-control text-center" />
                                 </div>
                             </div>
@@ -202,12 +202,12 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="saturday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue ? $venue->timetable->sat_open : old('sat_open') ?? '09:00' }}" 
+                                    <input type="time" value="{{ $venue ? $venue->timetable->sat_open : old('sat_open') ?? '00:00' }}" 
                                         step="60" id="saturday-opening-time" name="sat_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="saturday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue ? $venue->timetable->sat_close : old('sat_close') ?? '20:00' }}" 
+                                    <input type="time" value="{{ $venue ? $venue->timetable->sat_close : old('sat_close') ?? '00:00' }}" 
                                         step="60" id="saturday-closing-time" name="sat_close" class="form-control text-center" />
                                 </div>
                             </div>
@@ -220,12 +220,12 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="sunday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue ? $venue->timetable->sun_open : old('sun_open') ?? '09:00' }}" 
+                                    <input type="time" value="{{ $venue ? $venue->timetable->sun_open : old('sun_open') ?? '00:00' }}" 
                                         step="60" id="sunday-opening-time" name="sun_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="sunday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue ? $venue->timetable->sun_close : old('sun_close') ?? '20:00' }}" 
+                                    <input type="time" value="{{ $venue ? $venue->timetable->sun_close : old('sun_close') ?? '00:00' }}" 
                                         step="60" id="sunday-closing-time" name="sun_close" class="form-control text-center" />
                                 </div>
                             </div>
@@ -270,19 +270,22 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="facitliies">Facilities</label>
-                                        <input type="text" class="form-control" placeholder="" name="facilities" value="{{ $venue ? $venue->facilities : old('facilities') }}">
+                                        <input type="text" class="form-control" placeholder="" name="facilities" value="{{ $venue ? $venue->facilities : old('facilities') }}" required>
+                                        <span class="invalid-feedback" role="alert">This field is required</span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="music_policy">Music Policy</label>
-                                        <input type="text" class="form-control" placeholder="" id="music_policy" name="music_policy" value="{{ $venue ? $venue->music_policy : old('music_policy') }}">
+                                        <input type="text" class="form-control" placeholder="" id="music_policy" name="music_policy" value="{{ $venue ? $venue->music_policy : old('music_policy') }}" required>
+                                        <span class="invalid-feedback" role="alert">This field is required</span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="dress_code">Dress Code</label>
-                                        <input type="text" class="form-control" placeholder="" id="dress_code" name="dress_code" value="{{ $venue ? $venue->dress_code : old('dress_code') }}">
+                                        <input type="text" class="form-control" placeholder="" id="dress_code" name="dress_code" value="{{ $venue ? $venue->dress_code : old('dress_code') }}" required>
+                                        <span class="invalid-feedback" role="alert">This field is required</span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -347,6 +350,7 @@
                             <div class="col-md-12">
                                 <a id="add-venue-table" class="add-another-link"><i class="mdi mdi-plus"></i> Add another table</a>
                             </div>
+                            
                         </div>
                         <div class="row my-5">
                             <div class="col-md-6">
@@ -396,18 +400,48 @@
         });
 
         // Venue offer
+        function removeVenueOffer() {
+            $(".remove-venue-offer").on("click", function(){
+                if($(".venue-offer").length === 1) {
+                    return;
+                }
+                $(this).parent().parent().remove();
+            })
+        }
+        removeVenueOffer();
+
         $("#add-venue-offer").on('click', function(){
             var new_offer = $("#venue-offer-default").clone();
             $(new_offer).find("input, textarea").each((index, ele)=> $(ele).val(""));
             new_offer.appendTo("div#venue-offer-list");
+            removeVenueOffer();
         });
 
         // Venue table
+        function removeVenueTable(){
+            $(".remove-venue-table").on("click", function(){
+                if($(".venue-table").length === 1){ 
+                    return;
+                }
+                $(this).parent().parent().remove();
+            })
+        }
+        removeVenueTable();
+
         $("#add-venue-table").on('click', function(){
             var new_table = $("#venue-table-default").clone();
             $(new_table).find("input, textarea").each((index, ele)=> $(ele).val(""));
             new_table.appendTo("div#venue-table-list");
+            removeVenueTable();
         });
+
+        $("#remove-venue-table").on('click', function(){
+            var tableSize = $(".venue-table").length;
+            $(".venue-table:last").remove();
+            if(tableSize == 2) {
+                $("#remove-venue-table").addClass("d-none");
+            }
+        })
 
         const music_policies = ['Afro Beats', 'Commercial', 'Dance', 'Deep House', 'Dnb', 'Electronic', 'Hip-hop', 'House', 'Indie', 'Jazz', 'Pop', 'Reggae', 'Rnb', 'Rock', 'Tech-House', 'Techno', 'UK Garage']
         $("#music_policy").autocomplete({
@@ -433,6 +467,13 @@
             $(this).autocomplete('search', $(this).val())
         });
 
+        $('#VenuePhone').on("change", function() {
+            if($.isNumeric($('#VenuePhone').val())) {
+                $('#venue_phone_error').addClass('d-none');
+                $('#venue_phone_error').removeClass('custom-validation-error');
+            }
+        })
+
         const form = $(".needs-validation");
         $('#venue-form-next').click(function(event) {
             form.addClass('was-validated');
@@ -442,6 +483,13 @@
                 $('#header_iamge_error').removeClass('d-none')
                 $('#header_iamge_error').addClass('custom-validation-error')
                 is_valid = true;
+            }
+            const phone = $('#VenuePhone').val();
+            const check = $.isNumeric(phone);
+            if(!check) {
+                is_valid = true;
+                $('#venue_phone_error').removeClass('d-none');
+                $('#venue_phone_error').addClass('custom-validation-error');
             }
             if (form[0].checkValidity() === false || is_valid) {
                 event.preventDefault();

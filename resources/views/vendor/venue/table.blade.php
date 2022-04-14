@@ -1,5 +1,8 @@
-<div id="venue-table-default" class="row">
+<div id="venue-table-default" class="row venue-table">
     <input type="hidden" name="table_id[]" value="{{ $table ? $table->id : old('table_id[]')}}">
+    <div class="col-md-12">
+        <a class="remove-venue-table add-another-link float-right"><i class="mdi mdi-minus"></i> Remove table</a>
+    </div>
     <div class="col-md-6">
         <div class="form-group">
             <label for="offerType">Table Type</label>
