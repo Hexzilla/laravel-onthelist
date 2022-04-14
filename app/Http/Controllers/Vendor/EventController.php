@@ -293,7 +293,7 @@ class EventController extends Controller
                     'description' => $request->ticket_description[$i]
                 ]);       
             }
-            EventTicket::upsert($tables, ['id'], ['type', 'qty', 'price', 'approval', 'description']);
+            EventTicket::upsert($tickets, ['id'], ['type', 'qty', 'price', 'approval', 'description']);
         }
     }
 
@@ -314,7 +314,7 @@ class EventController extends Controller
                     'description' =>  $request->table_description[$i],
                 ]);
             }
-            EventTable::upsert($tickets, ['id'], ['type', 'qty', 'price', 'approval', 'description']);
+            EventTable::upsert($tables, ['id'], ['type', 'qty', 'price', 'approval', 'description']);
         }
     }
 
@@ -324,7 +324,7 @@ class EventController extends Controller
         {
             $guestlistSize = sizeof($request->get('guestlist_type'));
             $guestlists = array();
-            for($i = 0; $i < $tableSize; $i++) {
+            for($i = 0; $i < $guestlistSize; $i++) {
                 array_push($guestlists, [
                     'id' =>  $request->guestlist_id[$i],
                     'event_id' => $event->id,
