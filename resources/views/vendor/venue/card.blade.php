@@ -1,10 +1,3 @@
-<style>
-.event-title {
-    background: #000A;
-    padding: 2px 8px;
-    border-radius: 6px;
-}
-</style>
 <div class="col-md-6 col-sm-12 col-lg-6 col-xl-4 col-xxl-6">
     <div class="card event-card">
         <div class="event-card-img">
