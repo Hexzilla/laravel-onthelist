@@ -32,8 +32,7 @@ class VenueController extends Controller
 
     public function edit($id)
     {
-        $user_id = Auth::user()->id;
-        $venue = Venue::where('user_id', $user_id)->where('id', $id)->firstOrFail();
+        $venue = Venue::where('id', $id)->firstOrFail();
 
         if (is_null($venue)) {
             return redirect()->route('vendors.venue.index');

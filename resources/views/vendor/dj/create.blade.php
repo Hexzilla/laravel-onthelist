@@ -46,6 +46,9 @@
                                         <span>Add Dj Header Image</span>
                                         <span id="v-header-image-file-name">{{ $dj? $dj->header_image_path : old('header_image') }}</span>
                                     </div>
+                                    @if (isset($dj))
+                                    <input type="hidden" name="header_image_path" value={{$dj->header_image_path}} />
+                                    @endif
                                     <div class="d-flex justify-content-center">
                                         <div class="">
                                             <input id="v-header-image" class="d-none" type="file" name="header_image" 
@@ -62,7 +65,7 @@
                         <div class="col-md-12">
                             <div class="form-group border-input">
                                 <label for="mixcloud_link">Dj Mixcloud link:</label>
-                                <input type="text" class="form-control" placeholder="https://www.mixcloud.com" id="mixcloud_link" name="mixcloud_link" value="{{ $dj? $dj->postcode : old('mixclud_link') }}">
+                                <input type="text" class="form-control" placeholder="https://www.mixcloud.com" id="mixcloud_link" name="mixcloud_link" value="{{ $dj? $dj->mixcloud_link : old('mixcloud_link') }}">
                                 <span class="invalid-feedback" role="alert">This field is required</span>
                             </div>
                             <div class="form-group">
