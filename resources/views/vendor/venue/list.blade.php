@@ -2,10 +2,16 @@
 
 @section('content')
 <style>
+    .event-title {
+        background: #000A;
+        padding: 2px 8px;
+        border-radius: 6px;
+    }
     .event-card .nav-link {
         position: absolute;
-        top: 5px;
         right: 5px;
+        font-size: 20px;
+        font-weight: 600;
     }
 
     .event-card-img img {
