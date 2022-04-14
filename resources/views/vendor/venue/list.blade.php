@@ -330,7 +330,7 @@
                 const clone = sample.clone().removeClass('d-none').addClass('display');
                 let html = clone.html();
                 html = html.replace('$Type', table.type)
-                html = html.replace('$Description', table.description)
+                html = html.replace('$Description', table.description || '')
                 html = html.replace('$Quantity', table.qty)
                 html = html.replace('$Price', table.price)
                 html = html.replace('$Approval', table.approval)
@@ -346,11 +346,11 @@
             venue = JSON.parse(venue);
             let html = $("#modal_venue_detail").html();
             html = html.replace('$TITLE', venue.name);
-            html = html.replace('$Description', venue.description);
-            html = html.replace('$Facilities', venue.facilities);
-            html = html.replace('$Music_Policy', venue.music_policy);
-            html = html.replace('$Dress_code', venue.dress_code);
-            html = html.replace('$Perks', venue.perks);
+            html = html.replace('$Description', venue.description || '');
+            html = html.replace('$Facilities', venue.facilities || '');
+            html = html.replace('$Music_Policy', venue.music_policy || '');
+            html = html.replace('$Dress_code', venue.dress_code || '');
+            html = html.replace('$Perks', venue.perks || '');
             $("#modal_venue_detail").html(html);
             $("#modal_venue_detail").modal('show');
         }

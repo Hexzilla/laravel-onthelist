@@ -356,30 +356,6 @@ class EventController extends Controller
                 ]);
             }
             EventTable::upsert($tables, ['id'], ['type', 'qty', 'price', 'approval', 'description']);
-
-            // $tableSize = sizeof($request->get('table_type'));
-            // $tables = EventTable::where('event_id', $event->id)->get();
-            // $size = count($tables);
-            // for($i = 0; $i < $tableSize; $i++){
-            //     if ($size > $i) {
-            //         $table = $tables[$i];
-            //         $table->type = $request->table_type[$i] ?? 'Standard';
-            //         $table->qty = $request->table_qty[$i] ?? 0;
-            //         $table->price = $request->table_price[$i] ?? 0;
-            //         $table->approval = $request->table_booking_approval[$i] ?? 'No';
-            //         $table->description = $request->table_description[$i];
-            //         $table->save();
-            //     } else {
-            //         EventTable::create([
-            //             'event_id' => $event->id,
-            //             'type' => $request->table_type[$i] ?? 'Standard',
-            //             'qty' => $request->table_qty[$i] ?? 0,
-            //             'price' => $request->table_price[$i] ?? 0,
-            //             'approval' => $request->table_booking_approval[$i] ?? 'No',
-            //             'description' => $request->table_description[$i]
-            //         ]);
-            //     }  
-            // }
         }
     }
 
