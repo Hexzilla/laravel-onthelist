@@ -245,7 +245,6 @@ class VenueController extends Controller
 
     public function updateMedia($venue, $request)
     {
-        $medias = VenueMedia::where('venue_id', $venue->id)->get();
         if($request->hasFile('gallery_image'))
         {
             $path = upload_file($request->file('gallery_image'), 'venue');
