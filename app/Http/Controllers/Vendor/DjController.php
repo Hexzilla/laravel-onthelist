@@ -18,12 +18,12 @@ class DjController extends Controller
     {
         $user_id = Auth::user()->id;
         $venues = Venue::where('user_id', $user_id)->get();
-        return view('vendor.venue.list', ['venues' => $venues]);
+        return view('vendor.dj.list', ['venues' => $venues]);
     }
 
     public function create()
     {
-        return view('vendor.venue.create', [
+        return view('vendor.dj.create', [
             'title' => 'Create',
             'action' => route('vendors.venue.store'),
             'venue' => null,
@@ -39,7 +39,7 @@ class DjController extends Controller
             return redirect()->route('vendors.venue.index');
         }
 
-        return view('vendor.venue.create', [
+        return view('vendor.dj.create', [
             'title' => 'Edit',
             'action' => route('vendors.venue.update', $id),
             'venue' => $venue,

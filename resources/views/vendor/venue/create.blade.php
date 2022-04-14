@@ -350,7 +350,7 @@
                                 <button id="venue-form-back" type="button" class="btn btn-primary"><i class="mdi mdi-chevron-left"></i> Back</button>
                             </div>
                             <div class="col-md-6">
-                                <button id="submit-button" type="submit" class="btn btn-primary">{{ $venue ? 'Update' : 'Create' }} an venue <i class="mdi mdi-chevron-right"></i></button>
+                                <button id="submit-button" type="submit" class="btn btn-primary">{{ $venue ? 'Update' : 'Create' }} a venue <i class="mdi mdi-chevron-right"></i></button>
                             </div>
                         </div>
                     </div>
