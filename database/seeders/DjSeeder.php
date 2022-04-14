@@ -23,6 +23,7 @@ class DjSeeder extends Seeder
             'name' => 'Ronalonia',
             'description' => 'Top performance coach',
             'mixcloud_link' => 'https://maxcloud.com/ronalonia',
+            'header_image_path' => 'images/event.jpg',
             'genre' => 'performance',
             'user_id' => 1,
         ]);
@@ -31,6 +32,7 @@ class DjSeeder extends Seeder
             'name' => 'John James',
             'description' => 'Top 1 Music Player',
             'mixcloud_link' => 'https://maxcloud.com/john',
+            'header_image_path' => 'images/event.jpg',
             'genre' => 'Music',
             'user_id' => 1,
         ]);
@@ -39,6 +41,7 @@ class DjSeeder extends Seeder
             'name' => 'Tommy Jackson',
             'description' => 'Web Designer',
             'mixcloud_link' => 'https://maxcloud.com/tommy',
+            'header_image_path' => 'images/event.jpg',
             'genre' => 'IT',
             'user_id' => 1,
         ]);

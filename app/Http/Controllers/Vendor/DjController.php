@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
+use App\Models\Dj;
 use App\Models\Venue;
 use App\Models\VenueMedia;
 use App\Models\VenueOffer;
@@ -17,8 +18,8 @@ class DjController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
-        $venues = Venue::where('user_id', $user_id)->get();
-        return view('vendor.dj.list', ['venues' => $venues]);
+        $djs = Dj::where('user_id', $user_id)->get();
+        return view('vendor.dj.list', ['djs' => $djs]);
     }
 
     public function create()

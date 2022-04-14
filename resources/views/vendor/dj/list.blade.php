@@ -11,13 +11,13 @@
             <div class="col-sm-12 p-md-0 justify-content-sm-start mt-2 mt-sm-0 d-flex">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Venues</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Djs</a></li>
                 </ol>
             </div> 
         </div>
         <div class="row mt-4">
-            @foreach($venues as $venue)
-                @include('vendor.venue.card', ['venue' => $venue])
+            @foreach($djs as $dj)
+                @include('vendor.dj.card', ['dj' => $dj])
             @endforeach            
         </div>
     </div>

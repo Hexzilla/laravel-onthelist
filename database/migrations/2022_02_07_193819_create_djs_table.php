@@ -17,6 +17,7 @@ class CreateDjsTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->string('header_image_path');
             $table->string('mixcloud_link')->nullable();
             $table->string('genre');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
