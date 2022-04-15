@@ -10,7 +10,7 @@ class DjMedia extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'dj_id',
         'type',
         'path',
     ];

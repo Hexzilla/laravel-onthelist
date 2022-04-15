@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Vendor;
 use App\Http\Controllers\Controller;
 use App\Models\Dj;
 use App\Models\Venue;
-use App\Models\VenueMedia;
+use App\Models\DjMedia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -33,7 +33,7 @@ class DjController extends Controller
         $dj = Dj::where('id', $id)->firstOrFail();
 
         if (is_null($dj)) {
-            return redirect()->route('vendors.venue.index');
+            return redirect()->route('vendors.dj.index');
         }
 
         return view('vendor.dj.create', [
@@ -57,7 +57,7 @@ class DjController extends Controller
             $header_image_path = upload_file($request->file('header_image'), 'venue');
         }
 
-        Dj::create([
+        $dj = Dj::create([
             'user_id' => $user_id,
             'name' => $request->name,
             'description' => $request->description,
@@ -65,6 +65,8 @@ class DjController extends Controller
             'mixcloud_link' => $request->mixcloud_link,
             'genre' => $request->genre,
         ]);
+
+        $this->createMedia($dj, $request);
 
         return redirect()->route('vendors.dj.index');
     }
@@ -97,16 +99,18 @@ class DjController extends Controller
         $dj->genre = $request->genre;
         $dj->save();        
 
+        $this->updateMedia($dj, $request);
+
         return redirect()->route('vendors.dj.index');
     }
 
-    public function createMedia($venue, $request)
+    public function createMedia($dj, $request)
     {
         if ($request->hasFile('gallery_image'))
         {
-            $path = upload_file($request->file('gallery_image'), 'venue');
-            VenueMedia::create([
-                'venue_id' => $venue->id,
+            $path = upload_file($request->file('gallery_image'), 'dj');
+            DjMedia::create([
+                'dj_id' => $dj->id,
                 'type' => 'image',
                 'path' => $path
             ]);
@@ -115,9 +119,9 @@ class DjController extends Controller
         // create media record if the video exists
         if ($request->hasFile('gallery_video'))
         {
-            $path = upload_file($request->file('gallery_video'), 'venue');
-            VenueMedia::create([
-                'venue_id' => $venue->id,
+            $path = upload_file($request->file('gallery_video'), 'dj');
+            DjMedia::create([
+                'dj_id' => $dj->id,
                 'type' => 'video',
                 'path' => $path
             ]);
@@ -125,32 +129,32 @@ class DjController extends Controller
 
         if (!is_null($request->video_link))
         {
-            VenueMedia::create([
-                'venue_id' => $venue->id,
+            DjMedia::create([
+                'dj_id' => $dj->id,
                 'type' => 'link',
                 'path' => $request->video_link
             ]);
         }
     }
 
-    public function updateMedia($venue, $request)
+    public function updateMedia($dj, $request)
     {
         if ($request->hasFile('gallery_image'))
         {
-            $path = upload_file($request->file('gallery_image'), 'venue');
-            VenueMedia::create([
-                'venue_id' => $venue->id,
+            $path = upload_file($request->file('gallery_image'), 'dj');
+            DjMedia::create([
+                'dj_id' => $dj->id,
                 'type' => 'image',
                 'path' => $path
             ]);
         }
 
-        // update media record if the video exists
+        // create media record if the video exists
         if ($request->hasFile('gallery_video'))
         {
-            $path = upload_file($request->file('gallery_video'), 'venue');
-            VenueMedia::create([
-                'venue_id' => $venue->id,
+            $path = upload_file($request->file('gallery_video'), 'dj');
+            DjMedia::create([
+                'dj_id' => $dj->id,
                 'type' => 'video',
                 'path' => $path
             ]);
@@ -158,8 +162,8 @@ class DjController extends Controller
 
         if (!is_null($request->video_link))
         {
-            VenueMedia::create([
-                'venue_id' => $venue->id,
+            DjMedia::create([
+                'dj_id' => $dj->id,
                 'type' => 'link',
                 'path' => $request->video_link
             ]);

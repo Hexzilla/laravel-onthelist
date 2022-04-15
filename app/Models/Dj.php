@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\DjModel;
 
 class Dj extends Model
 {
@@ -18,4 +19,8 @@ class Dj extends Model
         "genre",
     ];
 
+    public function media()
+    {
+        return $this->hasMany(DjMedia::class);
+    }
 }
