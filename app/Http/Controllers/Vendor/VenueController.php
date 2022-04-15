@@ -54,7 +54,7 @@ class VenueController extends Controller
             'address' => 'required',
             'city' => 'required',
             'postcode' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|digits:11',
             'venue_type' => 'required',
         ]);
 
@@ -185,7 +185,7 @@ class VenueController extends Controller
             'address' => 'required',
             'city' => 'required',
             'postcode' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|digits:10',
             'venue_type' => 'required'
         ]);
 

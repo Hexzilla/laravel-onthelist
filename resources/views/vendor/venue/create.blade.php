@@ -83,8 +83,8 @@
                                 </div>
                                 <div class="form-group border-input">
                                     <label for="phone">Phone Number *</label>
-                                    <input type="text" class="form-control" placeholder="" id="phone" name="phone" value="{{ $venue? $venue->phone : old('phone') }}" required>
-                                    <span id="venue_phone_error" class="d-none" role="alert">This field is required</span>
+                                    <input type="text" class="form-control" pattern="^\d{11}$" placeholder="07912349988" id="phone" name="phone" value="{{ $venue? $venue->phone : old('phone') }}" required>
+                                    <span class="invalid-feedback" role="alert">Please enter 11 digit mobile number</span>
                                 </div>
                             </div>
                         </div>
@@ -460,13 +460,6 @@
             $(this).autocomplete('search', $(this).val())
         });
 
-        $('#phone').on("change", function() {
-            if($.isNumeric($('#phone').val())) {
-                $('#venue_phone_error').addClass('d-none');
-                $('#venue_phone_error').removeClass('custom-validation-error');
-            }
-        })
-
         const form = $(".needs-validation");
         $('#venue-form-next').click(function(event) {
             form.addClass('was-validated');
@@ -477,15 +470,9 @@
                 $('#header_iamge_error').addClass('custom-validation-error')
                 is_valid = true;
             }
-            const phone = $('#phone').val();
-            const check = $.isNumeric(phone);
-            if(!check) {
-                is_valid = true;
-                $('#venue_phone_error').removeClass('d-none');
-                $('#venue_phone_error').addClass('custom-validation-error');
-            }
             if (form[0].checkValidity() === false || is_valid) {
                 event.preventDefault();
+                event.stopPropagation();
                 return;
             }
             
