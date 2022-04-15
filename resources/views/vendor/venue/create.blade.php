@@ -460,8 +460,8 @@
             $(this).autocomplete('search', $(this).val())
         });
 
-        $('#VenuePhone').on("change", function() {
-            if($.isNumeric($('#VenuePhone').val())) {
+        $('#phone').on("change", function() {
+            if($.isNumeric($('#phone').val())) {
                 $('#venue_phone_error').addClass('d-none');
                 $('#venue_phone_error').removeClass('custom-validation-error');
             }
@@ -477,7 +477,7 @@
                 $('#header_iamge_error').addClass('custom-validation-error')
                 is_valid = true;
             }
-            const phone = $('#VenuePhone').val();
+            const phone = $('#phone').val();
             const check = $.isNumeric(phone);
             if(!check) {
                 is_valid = true;
