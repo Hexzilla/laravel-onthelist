@@ -214,13 +214,11 @@
             return str.join(' ');
         }
 
-        const openTimetableModal = (venue, timetable) => {
+        function openTimetableModal(venue, timetable) {
             timetable = JSON.parse(timetable);
             const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
-            $(".display-modal").remove();
-            const table = $("#modal_time_table").clone().addClass("display-modal");
-            const tbody = table.find('tbody');
+            const tbody = $('#modal_time_table tbody');
             const sample = tbody.children('.d-none');
             tbody.find('.display').remove();
 
@@ -234,8 +232,8 @@
             });
 
             const modal = $('#modal_time_table').html().replace('$TITLE', venue);
-            $('body')append(table.html(modal));
-            table.modal('show');
+            $('#modal_time_table').html(modal);
+            $('#modal_time_table').modal('show');
         }
 
         const openMediaModal = (venue, headerImage, images) => {
@@ -306,7 +304,7 @@
             html = html.replace('$Music_Policy', venue.music_policy || '');
             html = html.replace('$Dress_code', venue.dress_code || '');
             html = html.replace('$Perks', venue.perks || '');
-            $("body")append(detail.html(html));
+            $("body").append(detail.html(html));
             detail.modal('show');
         }
     </script>
