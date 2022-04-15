@@ -16,9 +16,52 @@
             </div> 
         </div>
         <div class="row mt-4">
-            @foreach($djs as $dj)
-                @include('vendor.dj.card', ['dj' => $dj])
-            @endforeach            
+        <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 col-xxl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example" class="display" style="min-width: 845px">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Genre</th>
+                                        <th>Mixcloud link</th>
+                                        <th>Details</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($djs as $dj)
+                                    <tr>
+                                        <td>{{$dj->name}}</td>
+                                        <td>{{$dj->genre}}</td>
+                                        <td><a href="{{$dj->mixcloud_link}}">{{$dj->mixcloud_link}}</a></td>
+                                        <td>
+                                            <button class="btn btn-rounded btn-success mb-1" onclick="openMediaModal('{{$dj->name}}', '{{$dj->header_image_path}}', '{{$dj->media}}')">Show Media</button>
+                                            <button class="btn btn-rounded btn-warning mb-1" onclick="openDetailModal('{{$dj}}')">Show Detail</button>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-rounded btn-primary">
+                                                <a href="{{ route('vendors.dj.edit', $dj->id) }}" title="Edit"><i class="fa fa-edit"></i></a>
+                                            </button>
+                                            <button type="button" class="btn btn-rounded btn-danger">
+                                                <a onclick="openDeleteModal('{{$dj->name}}', '{{$dj->id}}')" title="Delete"><i class="fa fa-trash"></i></a>
+                                            </button>
+                                        <td>
+
+                                            <!-- <button class="btn btn-rounded btn-success mb-1" title="Approve" onclick="openApproveModal('{{$dj->id}}')">
+                                                <i class="fa fa-check"></i>
+                                            </button>
+                                            <button class="btn btn-rounded btn-danger mb-1" title="Reject" onclick="openRejectModal('{{$dj->id}}')">
+                                                <i class="fa fa-remove"></i>
+                                            </button> -->
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                            </table>
+                        </div>
+                    </div>
+                </div>         
         </div>
     </div>
 </div>
@@ -127,16 +170,6 @@
                             <img class="d-block w-100" src="../$HEADERIMAGE" alt="Header Image">
                             <div class="carousel-caption d-none d-md-block"><h5>Header Image</h5></div>
                         </div>
-                        <div class="carousel-item image d-none">
-                            <img class="d-block w-100" src="../$PATH" alt="Gallery Image">
-                            <div class="carousel-caption d-none d-md-block"><h5>Gallery Image</h5></div>
-                        </div>
-                        <div class="carousel-item video d-none">
-                            <video controls autoplay>
-                                <source src="$PATH" type="video/mp4">
-                            </video>
-                            <div class="carousel-caption d-none d-md-block"><h5>Video</h5></div>
-                        </div>
                     </div>
                     <a class="carousel-control-prev" href="#carouselControls" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -146,14 +179,24 @@
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
                     </a>
+                    <div class="carousel-item image d-none">
+                        <img class="d-block w-100" src="../$PATH" alt="Gallery Image">
+                        <div class="carousel-caption d-none d-md-block"><h5>Gallery Image</h5></div>
+                    </div>
+                    <div class="carousel-item video d-none">
+                        <video controls autoplay>
+                            <source src="$PATH" type="video/mp4">
+                        </video>
+                        <div class="carousel-caption d-none d-md-block"><h5>Video</h5></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Venue Detail Modal -->
-<div class="modal fade" id="modal_venue_detail">
+<!-- Dj Detail Modal -->
+<div class="modal fade" id="modal_dj_detail">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -167,7 +210,7 @@
                         <h5>Description:</h5>
                         <span>$Description<span>
                     </li>
-                    <li class="list-group-item">
+                    <!-- <li class="list-group-item">
                         <h5>Facilities:</h5>
                         <span>$Facilities<span>
                     </li>
@@ -182,7 +225,7 @@
                     <li class="list-group-item">
                         <h5>Perks:</h5>
                         <span>$Perks<span>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             <div class="modal-footer">
@@ -213,92 +256,52 @@
             return str.join(' ');
         }
 
-        const openTimetableModal = (venue, timetable) => {
-            timetable = JSON.parse(timetable);
-            const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-
-            const tbody = $('#modal_time_table tbody');
-            const sample = tbody.children('.d-none');
-            tbody.find('.display').remove();
-
-            days.forEach(day => {
-                const clone = sample.clone().removeClass('d-none').addClass('display');
-                let html = clone.html();
-                html = html.replace('$DAY', titleCase(day))
-                html = html.replace('$DAY_OPEN', timetable[day + '_open'])
-                html = html.replace('$DAY_CLOSE', timetable[day + '_close'])
-                tbody.append(clone.html(html));
-            });
-
-            const modal = $('#modal_time_table').html().replace('$TITLE', venue);
-            $('#modal_time_table').html(modal);
-            $('#modal_time_table').modal('show');
-        }
-
         const openMediaModal = (venue, headerImage, images) => {
             images = JSON.parse(images);
             
-            const list = $('#modal_venue_media_v2 .carousel-inner');
+            $(".display-media").remove();
+            const media = $('#modal_venue_media_v2').clone().addClass("display-media")
+            const list = media.find('.carousel-inner');
             const html = list.html().replace('$HEADERIMAGE', headerImage);
             list.html(html);
-            const videosample = list.children('.video');
-            const imagesample = list.children('.image');
-            list.find('.display').remove();
+            const videosample = media.find(".video");
+            const imagesample = media.find(".image");
 
             images.forEach(image => {
                 if(image.type === 'image')
                 {
-                    const clone = imagesample.clone().removeClass('hidden').addClass('display');
+                    const clone = imagesample.clone().removeClass('d-none').addClass('display');
                     let html = clone.html();
                     html = html.replace('$PATH', image.path);
                     list.append(clone.html(html)); 
                 }
                 if(image.type === 'video' || image.type === 'link')
                 {
-                    const clone = videosample.clone().removeClass('hidden').addClass('display');
+                    const clone = videosample.clone().removeClass('d-none').addClass('display');
                     let html = clone.html();
                     html = html.replace('$PATH', image.path);
                     list.append(clone.html(html));
                 }
             });
-            $('.carousel').carousel();
-            $("#modal_venue_media_v2").modal('show');
+            media.find('.carousel').carousel();
+            $("body").append(media);
+            media.modal('show');
         }
 
-        const openTableModal = (venue, tables) => {
-            tables = JSON.parse(tables);
-            
-            const tbody = $("#modal_venue_table tbody");
-            const sample = tbody.children('.d-none');
-            tbody.find('.display').remove();
+        const openDetailModal = (dj) => {
+            dj = JSON.parse(dj);
 
-            tables.forEach(table => {
-                const clone = sample.clone().removeClass('d-none').addClass('display');
-                let html = clone.html();
-                html = html.replace('$Type', table.type)
-                html = html.replace('$Description', table.description || '')
-                html = html.replace('$Quantity', table.qty)
-                html = html.replace('$Price', table.price)
-                html = html.replace('$Approval', table.approval)
-                tbody.append(clone.html(html));
-            });
-
-            const modal = $('#modal_venue_table').html().replace('$TITLE', venue);
-            $('#modal_venue_table').html(modal);
-            $('#modal_venue_table').modal('show');
-        }
-
-        const openDetailModal = (venue) => {
-            venue = JSON.parse(venue);
-            let html = $("#modal_venue_detail").html();
-            html = html.replace('$TITLE', venue.name);
-            html = html.replace('$Description', venue.description || '');
-            html = html.replace('$Facilities', venue.facilities || '');
-            html = html.replace('$Music_Policy', venue.music_policy || '');
-            html = html.replace('$Dress_code', venue.dress_code || '');
-            html = html.replace('$Perks', venue.perks || '');
-            $("#modal_venue_detail").html(html);
-            $("#modal_venue_detail").modal('show');
+            $(".display-modal").remove();
+            const description = $("#modal_dj_detail").clone().addClass("display-modal");
+            let html = description.html();
+            html = html.replace('$TITLE', dj.name);
+            html = html.replace('$Description', dj.description || '');
+            // html = html.replace('$Facilities', dj.facilities || '');
+            // html = html.replace('$Music_Policy', dj.music_policy || '');
+            // html = html.replace('$Dress_code', vendjue.dress_code || '');
+            // html = html.replace('$Perks', dj.perks || '');
+            $("body").append(description.html(html));
+            description.modal('show');
         }
     </script>
     <script src="{{ asset('js/plugins-init/datatables.init.js') }}"></script>

@@ -127,16 +127,7 @@
                             <img class="d-block w-100" src="../$HEADERIMAGE" alt="Header Image">
                             <div class="carousel-caption d-none d-md-block"><h5>Header Image</h5></div>
                         </div>
-                        <div class="carousel-item image d-none">
-                            <img class="d-block w-100" src="../$PATH" alt="Gallery Image">
-                            <div class="carousel-caption d-none d-md-block"><h5>Gallery Image</h5></div>
-                        </div>
-                        <div class="carousel-item video d-none">
-                            <video controls autoplay>
-                                <source src="$PATH" type="video/mp4">
-                            </video>
-                            <div class="carousel-caption d-none d-md-block"><h5>Video</h5></div>
-                        </div>
+                        
                     </div>
                     <a class="carousel-control-prev" href="#carouselControls" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -146,6 +137,16 @@
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
                     </a>
+                    <div class="carousel-item image d-none">
+                        <img class="d-block w-100" src="../$PATH" alt="Gallery Image">
+                        <div class="carousel-caption d-none d-md-block"><h5>Gallery Image</h5></div>
+                    </div>
+                    <div class="carousel-item video d-none">
+                        <video controls autoplay>
+                            <source src="$PATH" type="video/mp4">
+                        </video>
+                        <div class="carousel-caption d-none d-md-block"><h5>Video</h5></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -217,7 +218,9 @@
             timetable = JSON.parse(timetable);
             const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
-            const tbody = $('#modal_time_table tbody');
+            $(".display-modal").remove();
+            const table = $("#modal_time_table").clone().addClass("display-modal");
+            const tbody = table.find('tbody');
             const sample = tbody.children('.d-none');
             tbody.find('.display').remove();
 
@@ -231,19 +234,20 @@
             });
 
             const modal = $('#modal_time_table').html().replace('$TITLE', venue);
-            $('#modal_time_table').html(modal);
-            $('#modal_time_table').modal('show');
+            $('body')append(table.html(modal));
+            table.modal('show');
         }
 
         const openMediaModal = (venue, headerImage, images) => {
             images = JSON.parse(images);
             
-            const list = $('#modal_venue_media_v2 .carousel-inner');
+            $(".display-media").remove();
+            const media = $("#modal_venue_media_v2").clone().addClass("display-media");
+            const list = media.find('.carousel-inner');
             const html = list.html().replace('$HEADERIMAGE', headerImage);
             list.html(html);
-            const videosample = list.children('.video');
-            const imagesample = list.children('.image');
-            list.find('.display').remove();
+            const videosample = media.find('.video');
+            const imagesample = media.find('.image');
 
             images.forEach(image => {
                 if(image.type === 'image')
@@ -261,16 +265,18 @@
                     list.append(clone.html(html));
                 }
             });
-            $('.carousel').carousel();
-            $("#modal_venue_media_v2").modal('show');
+            media.find('.carousel').carousel();
+            $("body").append(media);
+            media.modal('show');
         }
 
         const openTableModal = (venue, tables) => {
             tables = JSON.parse(tables);
             
-            const tbody = $("#modal_venue_table tbody");
+            $(".display-modal").remove();
+            const body = $("#modal_venue_table").clone().addClass("display-modal");
+            const tbody = body.find("tbody");
             const sample = tbody.children('.d-none');
-            tbody.find('.display').remove();
 
             tables.forEach(table => {
                 const clone = sample.clone().removeClass('d-none').addClass('display');
@@ -283,22 +289,25 @@
                 tbody.append(clone.html(html));
             });
 
-            const modal = $('#modal_venue_table').html().replace('$TITLE', venue);
-            $('#modal_venue_table').html(modal);
-            $('#modal_venue_table').modal('show');
+            const modal = body.html().replace('$TITLE', venue);
+            $("body").append(body.html(modal));
+            body.modal('show');
         }
 
         const openDetailModal = (venue) => {
             venue = JSON.parse(venue);
-            let html = $("#modal_venue_detail").html();
+
+            $(".display-modal").remove();
+            const detail = $("#modal_venue_detail").clone().addClass("display-modal");
+            let html = detail.html();
             html = html.replace('$TITLE', venue.name);
             html = html.replace('$Description', venue.description || '');
             html = html.replace('$Facilities', venue.facilities || '');
             html = html.replace('$Music_Policy', venue.music_policy || '');
             html = html.replace('$Dress_code', venue.dress_code || '');
             html = html.replace('$Perks', venue.perks || '');
-            $("#modal_venue_detail").html(html);
-            $("#modal_venue_detail").modal('show');
+            $("body")append(detail.html(html));
+            detail.modal('show');
         }
     </script>
     <script src="{{ asset('js/plugins-init/datatables.init.js') }}"></script>

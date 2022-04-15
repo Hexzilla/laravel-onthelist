@@ -170,32 +170,13 @@
             $("#event_delete_modal").modal('show');
         }
 
-        const openViewModal = (event, tables, tickets, guestlists, medias) => {
-            event1 = JSON.parse(event);
-            $(".display").remove();
-            const list = $("#event_view_modal").clone().addClass("display");
-            const body = $("body");
-            let html = list.html();
-            html = html.replace('$TITLE', event1.name);
-            html = html.replace('$NAME1', event1.name);
-            html = html.replace('$NAME2', event1.name);
-            html = html.replace('$NAME3', event1.name);
-            html = html.replace('$NAME4', event1.name);
-            html = html.replace('$TICKETS', tickets);
-            html = html.replace('$TABLES', tables);
-            html = html.replace('$GUESTLISTS', guestlists);
-            html = html.replace('$EVENT', event);
-            html = html.replace('$HEADERIMAGE', event1.header_image_path);
-            html = html.replace('$MEDIA', medias);
-            body.append(list.html(html).modal("show"));
-        }
-
         const openTableModal = (event, tables) => {
             tables = JSON.parse(tables);
             
-            const tbody = $("#modal_event_table tbody");
+            $(".display").remove();
+            const body = $("#modal_event_table").clone().addClass("display");
+            const tbody = body.find("tbody");
             const sample = tbody.children('.d-none');
-            tbody.find('.display').remove();
 
             tables.forEach(table => {
                 const clone = sample.clone().removeClass('d-none').addClass('display');
@@ -208,13 +189,15 @@
                 tbody.append(clone.html(html));
             });
 
-            const modal = $('#modal_event_table').html().replace('$TITLE', event);
-            $('#modal_event_table').html(modal);
-            $('#modal_event_table').modal('show');
+            const modal = body.html().replace('$TITLE', event);
+            $("body").append(body.html(modal));
+            body.modal('show');
         }
 
         const openDetailModal = (event) => {
             event = JSON.parse(event);
+            $(".display").remove();
+            const detail = $("#modal_event_detail").clone().addClass("display");
             let html = $("#modal_event_detail").html();
             html = html.replace('$TITLE', event.name);
             html = html.replace('$Description', event.description || '');
@@ -222,14 +205,16 @@
             html = html.replace('$Music_Policy', event.music_policy || '');
             html = html.replace('$Dress_code', event.dress_code || '');
             html = html.replace('$Perks', event.perks || '');
-            $("#modal_event_detail").html(html);
-            $("#modal_event_detail").modal('show');
+            $("body").append(detail.html(html));
+            detail.modal('show');
         }
 
         const openMediaModal = (venue, headerImage, images) => {
             images = JSON.parse(images);
             
-            const list = $('#modal_event_media .carousel-inner');
+            $(".display-modal").remove();
+            const media = $("#modal_event_media").clone().addClass("display-modal");
+            const list = media.find('.carousel-inner');
             const html = list.html().replace('$HEADERIMAGE', headerImage);
             list.html(html);
             const videosample = list.children('.video');
@@ -252,8 +237,9 @@
                     list.append(clone.html(html));
                 }
             });
-            $('.carousel').carousel();
-            $('#modal_event_media').modal('show');
+            media.find('.carousel').carousel();
+            $("body").append(media);
+            media.modal('show');
         }
     </script>
     <script src="{{ asset('js/plugins-init/datatables.init.js') }}"></script>
