@@ -369,10 +369,7 @@ class EventController extends Controller
 
     public function updateDjs($event_id, $djs)
     {
-        $eventdjs = EventDj::where('event_id', $event_id)->get();
-        foreach($eventdjs as $eventdj) {
-            $eventdj->delete();
-        }
+        EventDj::where('event_id', $event_id)->delete();
         foreach($djs as $dj){
             EventDj::create([
                 'event_id' => $event_id,

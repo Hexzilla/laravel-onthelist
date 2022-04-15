@@ -11,7 +11,7 @@ class EventDj extends Model
 
     protected $fillable = [
         'event_id',
-        'user_id'
+        'dj_id'
     ];
 
     protected $hidden = [
