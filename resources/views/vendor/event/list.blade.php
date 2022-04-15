@@ -162,7 +162,7 @@
 
 @section('scripts')
     <script>
-        const openDeleteModal = (event, event_id) => {
+        function openDeleteModal(event, event_id) {
             let url = "{{ route('vendors.event.destroy', 0) }}";
             url = url.substr(0, url.length-1) + event_id;
             let html = $("#event_delete_modal").html().replace("$URL", url);
@@ -170,7 +170,7 @@
             $("#event_delete_modal").modal('show');
         }
 
-        const openTableModal = (event, tables) => {
+        function openTableModal(event, tables) {
             tables = JSON.parse(tables);
             
             $(".display-modal").remove();
@@ -194,7 +194,7 @@
             body.modal('show');
         }
 
-        const openDetailModal = (event) => {
+        function openDetailModal(event) {
             event = JSON.parse(event);
             $(".display-modal").remove();
             const detail = $("#modal_event_detail").clone().addClass("display-modal");
@@ -209,7 +209,7 @@
             detail.modal('show');
         }
 
-        const openMediaModal = (venue, headerImage, images) => {
+        function openMediaModal(venue, headerImage, images) {
             images = JSON.parse(images);
             
             $(".display-modal").remove();

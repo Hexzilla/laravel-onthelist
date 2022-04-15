@@ -195,118 +195,118 @@
 @endsection
 
 @section('scripts')
-    <script>
-        const openDeleteModal = (venue, venue_id) => {
-            let url = "{{ route('vendors.venue.destroy', 0) }}";
-            url = url.substr(0, url.length-1) + venue_id;
+<script>
+    function openDeleteModal(venue, venue_id) {
+        let url = "{{ route('vendors.venue.destroy', 0) }}";
+        url = url.substr(0, url.length-1) + venue_id;
 
-            let html = $("#modal_delete_v2").html().replace('$URL', url);
-            $("#modal_delete_v2").html(html);
+        let html = $("#modal_delete_v2").html().replace('$URL', url);
+        $("#modal_delete_v2").html(html);
 
-            $("#modal_delete_v2").modal('show');
+        $("#modal_delete_v2").modal('show');
+    }
+
+    function titleCase(str) {
+        str = str.toLowerCase().split(' ');
+        for (var i = 0; i < str.length; i++) {
+            str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1); 
         }
+        return str.join(' ');
+    }
 
-        const titleCase = (str) => {
-            str = str.toLowerCase().split(' ');
-            for (var i = 0; i < str.length; i++) {
-                str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1); 
+    function openTimetableModal(venue, timetable) {
+        timetable = JSON.parse(timetable);
+        const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+        const tbody = $('#modal_time_table tbody');
+        const sample = tbody.children('.d-none');
+        tbody.find('.display').remove();
+
+        days.forEach(day => {
+            const clone = sample.clone().removeClass('d-none').addClass('display');
+            let html = clone.html();
+            html = html.replace('$DAY', titleCase(day))
+            html = html.replace('$DAY_OPEN', timetable[day + '_open'])
+            html = html.replace('$DAY_CLOSE', timetable[day + '_close'])
+            tbody.append(clone.html(html));
+        });
+
+        const modal = $('#modal_time_table').html().replace('$TITLE', venue);
+        $('#modal_time_table').html(modal);
+        $('#modal_time_table').modal('show');
+    }
+
+    function openMediaModal(venue, headerImage, images) {
+        images = JSON.parse(images);
+        
+        $(".display-media").remove();
+        const media = $("#modal_venue_media_v2").clone().addClass("display-media");
+        const list = media.find('.carousel-inner');
+        const html = list.html().replace('$HEADERIMAGE', headerImage);
+        list.html(html);
+        const videosample = media.find('.video');
+        const imagesample = media.find('.image');
+
+        images.forEach(image => {
+            if(image.type === 'image')
+            {
+                const clone = imagesample.clone().removeClass('hidden').addClass('display');
+                let html = clone.html();
+                html = html.replace('$PATH', image.path);
+                list.append(clone.html(html)); 
             }
-            return str.join(' ');
-        }
-
-        function openTimetableModal(venue, timetable) {
-            timetable = JSON.parse(timetable);
-            const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-
-            const tbody = $('#modal_time_table tbody');
-            const sample = tbody.children('.d-none');
-            tbody.find('.display').remove();
-
-            days.forEach(day => {
-                const clone = sample.clone().removeClass('d-none').addClass('display');
+            if(image.type === 'video' || image.type === 'link')
+            {
+                const clone = videosample.clone().removeClass('hidden').addClass('display');
                 let html = clone.html();
-                html = html.replace('$DAY', titleCase(day))
-                html = html.replace('$DAY_OPEN', timetable[day + '_open'])
-                html = html.replace('$DAY_CLOSE', timetable[day + '_close'])
-                tbody.append(clone.html(html));
-            });
+                html = html.replace('$PATH', image.path);
+                list.append(clone.html(html));
+            }
+        });
+        media.find('.carousel').carousel();
+        $("body").append(media);
+        media.modal('show');
+    }
 
-            const modal = $('#modal_time_table').html().replace('$TITLE', venue);
-            $('#modal_time_table').html(modal);
-            $('#modal_time_table').modal('show');
-        }
+    function openTableModal(venue, tables) {
+        tables = JSON.parse(tables);
+        
+        $(".display-modal").remove();
+        const body = $("#modal_venue_table").clone().addClass("display-modal");
+        const tbody = body.find("tbody");
+        const sample = tbody.children('.d-none');
 
-        const openMediaModal = (venue, headerImage, images) => {
-            images = JSON.parse(images);
-            
-            $(".display-media").remove();
-            const media = $("#modal_venue_media_v2").clone().addClass("display-media");
-            const list = media.find('.carousel-inner');
-            const html = list.html().replace('$HEADERIMAGE', headerImage);
-            list.html(html);
-            const videosample = media.find('.video');
-            const imagesample = media.find('.image');
+        tables.forEach(table => {
+            const clone = sample.clone().removeClass('d-none').addClass('display');
+            let html = clone.html();
+            html = html.replace('$Type', table.type)
+            html = html.replace('$Description', table.description || '')
+            html = html.replace('$Quantity', table.qty)
+            html = html.replace('$Price', table.price)
+            html = html.replace('$Approval', table.approval)
+            tbody.append(clone.html(html));
+        });
 
-            images.forEach(image => {
-                if(image.type === 'image')
-                {
-                    const clone = imagesample.clone().removeClass('hidden').addClass('display');
-                    let html = clone.html();
-                    html = html.replace('$PATH', image.path);
-                    list.append(clone.html(html)); 
-                }
-                if(image.type === 'video' || image.type === 'link')
-                {
-                    const clone = videosample.clone().removeClass('hidden').addClass('display');
-                    let html = clone.html();
-                    html = html.replace('$PATH', image.path);
-                    list.append(clone.html(html));
-                }
-            });
-            media.find('.carousel').carousel();
-            $("body").append(media);
-            media.modal('show');
-        }
+        const modal = body.html().replace('$TITLE', venue);
+        $("body").append(body.html(modal));
+        body.modal('show');
+    }
 
-        const openTableModal = (venue, tables) => {
-            tables = JSON.parse(tables);
-            
-            $(".display-modal").remove();
-            const body = $("#modal_venue_table").clone().addClass("display-modal");
-            const tbody = body.find("tbody");
-            const sample = tbody.children('.d-none');
+    function openDetailModal(venue) {
+        venue = JSON.parse(venue);
 
-            tables.forEach(table => {
-                const clone = sample.clone().removeClass('d-none').addClass('display');
-                let html = clone.html();
-                html = html.replace('$Type', table.type)
-                html = html.replace('$Description', table.description || '')
-                html = html.replace('$Quantity', table.qty)
-                html = html.replace('$Price', table.price)
-                html = html.replace('$Approval', table.approval)
-                tbody.append(clone.html(html));
-            });
-
-            const modal = body.html().replace('$TITLE', venue);
-            $("body").append(body.html(modal));
-            body.modal('show');
-        }
-
-        const openDetailModal = (venue) => {
-            venue = JSON.parse(venue);
-
-            $(".display-modal").remove();
-            const detail = $("#modal_venue_detail").clone().addClass("display-modal");
-            let html = detail.html();
-            html = html.replace('$TITLE', venue.name);
-            html = html.replace('$Description', venue.description || '');
-            html = html.replace('$Facilities', venue.facilities || '');
-            html = html.replace('$Music_Policy', venue.music_policy || '');
-            html = html.replace('$Dress_code', venue.dress_code || '');
-            html = html.replace('$Perks', venue.perks || '');
-            $("body").append(detail.html(html));
-            detail.modal('show');
-        }
-    </script>
-    <script src="{{ asset('js/plugins-init/datatables.init.js') }}"></script>
+        $(".display-modal").remove();
+        const detail = $("#modal_venue_detail").clone().addClass("display-modal");
+        let html = detail.html();
+        html = html.replace('$TITLE', venue.name);
+        html = html.replace('$Description', venue.description || '');
+        html = html.replace('$Facilities', venue.facilities || '');
+        html = html.replace('$Music_Policy', venue.music_policy || '');
+        html = html.replace('$Dress_code', venue.dress_code || '');
+        html = html.replace('$Perks', venue.perks || '');
+        $("body").append(detail.html(html));
+        detail.modal('show');
+    }
+</script>
+<script src="{{ asset('js/plugins-init/datatables.init.js') }}"></script>
 @endsection

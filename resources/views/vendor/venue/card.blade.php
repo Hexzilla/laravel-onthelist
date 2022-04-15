@@ -1,7 +1,7 @@
 <div class="col-md-6 col-sm-12 col-lg-6 col-xl-4 col-xxl-6">
     <div class="card event-card">
         <div class="event-card-img">
-            <img class="img-fluid h-100" src="../{{ $venue->header_image_path }}" data-toggle="modal" data-target="#event-view" height >
+            <img class="img-fluid h-100 card-header-image" src="../{{ $venue->header_image_path }}" data-toggle="modal" data-target="#event-view" height >
             <h4 class="event-title">{{ $venue->name }}</h4>
         </div>
         <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">...</a>
@@ -61,3 +61,11 @@
         </div>
     </div>
 </div>
+
+<script>
+    window.addEventListener('load', function() {
+        $('.card-header-image').click(function(event) {
+            window.location.href = "{{ route('vendors.dashboard') }}";
+        });
+    });
+</script>
