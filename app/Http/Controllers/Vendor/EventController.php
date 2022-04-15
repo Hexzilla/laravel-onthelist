@@ -211,7 +211,7 @@ class EventController extends Controller
         foreach($djs as $dj){
             EventDj::create([
                 'event_id' => $event_id,
-                'user_id' => $dj
+                'dj_id' => $dj
             ]);
         }
     }
@@ -376,16 +376,14 @@ class EventController extends Controller
         foreach($djs as $dj){
             EventDj::create([
                 'event_id' => $event_id,
-                'user_id' => $dj
+                'dj_id' => $dj
             ]);
         }
     }
 
     public function destroy($id)
     {
-        $user_id = Auth::user()->id;
-        $event = Event::where('user_id', $user_id)->where('id', $id)->get();
-        $event[0] -> delete();
+        Event::where('id', $id)->delete();
         return redirect()->route('vendors.event.index');
     }
 }
