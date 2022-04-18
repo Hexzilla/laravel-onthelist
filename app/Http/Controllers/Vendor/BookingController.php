@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Booking;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB; 
-
+use App\Models\User;
+use Notification;
+use App\Notifications\NewNotification;
 
 class BookingController extends Controller
 {
@@ -28,6 +30,19 @@ class BookingController extends Controller
     public function approve($id)
     {
         $booking = Booking::where('id', $id)->first();
+
+        $user = User::where('id', $booking->user_id)->firstOrFail();
+
+        $details = [
+            'title' => 'Approve Booking '.$booking->id,
+            'description' => 'Vendor approved this booking',
+            'order_id' => $booking->id,
+            'type' => 'booking',
+            'user_id' => $booking->user_id,
+        ];
+
+        Notification::send($user, new NewNotification($details));
+
         $booking->status = "Approved";
         $booking->save();
         return redirect()->route('vendors.booking.index');

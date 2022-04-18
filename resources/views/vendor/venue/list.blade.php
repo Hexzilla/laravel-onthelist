@@ -233,8 +233,8 @@
                 tbody.append(clone.html(html));
             });
 
-            const modal = $('#modal_time_table').html().replace('$TITLE', venue);
-            $('body')append(table.html(modal));
+            const modal = table.html().replace('$TITLE', venue);
+            $("body").append(table.html(modal));
             table.modal('show');
         }
 

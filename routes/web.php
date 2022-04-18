@@ -16,7 +16,9 @@ use App\Http\Controllers\Dj\DashboardController as DjDashboardController;
 use App\Http\Controllers\Dj\ProfileController as DjProfileController;
 use App\Http\Controllers\Dj\EventController as DjEventController;
 
-use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
+use App\Http\Controllers\Customer\EventController as CustomerEventController;
+use App\Http\Controllers\Customer\VenueController as CustomerVenueController;
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDahsboardController;
@@ -111,10 +113,17 @@ Route::name('dj.')->prefix('dj')->as('dj.')->group(function () {
     });
 });
 
-Route::name('user.')->prefix('user')->as('user.')->group(function () {
+Route::name('customer.')->prefix('customer')->as('customer.')->group(function () {
     Route::middleware('auth')->group(function () {
-        Route::get('/', [UserDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/', [CustomerDashboardController::class, 'index'])->name('dashboard');
         
+        Route::controller(CustomerEventController::class)->name('event.')->prefix('event')->as('event.')->group(function () {
+            Route::get('/', 'index')->name('index');
+        });
+
+        Route::controller(CustomerVenueController::class)->name('venue.')->prefix('venue')->as('venue.')->group(function (){
+            Route::get('/', 'index')->name('index');
+        });
     });
 });
 
