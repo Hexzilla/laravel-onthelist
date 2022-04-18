@@ -2,23 +2,24 @@
     <div class="quixnav-scroll">
         <ul class="metismenu" id="menu">
             <li class="nav-label">Navigation</li>
-            <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"><a href="javascript:void()" aria-expanded="false"><i class="mdi mdi-home"></i><span class="nav-text">Dashboard</span></a></li>
+            <li
+            ><a href="javascript:void()" aria-expanded="false"><i class="mdi mdi-home"></i><span class="nav-text">Dashboard</span></a></li>
 
-            <li class="{{ request()->routeIs('customer.event.*') ? 'active' : '' }}"><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-account"></i><span class="nav-text">Events</span></a>
+            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-account"></i><span class="nav-text">Events</span></a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('customer.event.index') }}">All</a></li>
+                    <li><a href="{{ route('customers.events.index') }}">All</a></li>
                     <li><a href="javascript:void()">Favourite</a></li>
                 </ul>
             </li>
 
-            <li class="{{ request()->routeIs('customer.venue.*') ? 'active' : '' }}"><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-home-map-marker"></i><span class="nav-text">Venues</span></a>
+            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-home-map-marker"></i><span class="nav-text">Venues</span></a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('customer.venue.index') }}">All</a></li>
+                    <li><a href="{{ route('customers.venues.index') }}">All</a></li>
                     <li><a href="javascript:void()">Favourite</a></li>
                 </ul>
             </li>
 
-            <li class="{{ request()->routeIs('customer.dj.*') ? 'active' : '' }}"><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-account"></i><span class="nav-text">Djs</span></a>
+            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-account"></i><span class="nav-text">Djs</span></a>
                 <ul aria-expanded="false">
                     <li><a href="javascript:void()">All</a></li>
                     <li><a href="javascript:void()">Favourite</a></li>

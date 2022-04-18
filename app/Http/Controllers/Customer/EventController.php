@@ -11,7 +11,7 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::where('status', 'Approved')->get();
-        return view('customer.event.index', [
+        return view('customer.event.list', [
             'breadcrumb' => 'All',
             'events' => $events
         ]);

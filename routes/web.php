@@ -88,7 +88,7 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
             Route::get('/delete/{id}', 'destroy')->name('destroy');
         });
 
-        Route::controller(VendorEventController::class)->name('event.')->prefix('event')->as('event.')->group(function () {
+        Route::controller(VendorEventController::class)->name('event.')->prefix('events')->as('event.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
@@ -113,15 +113,15 @@ Route::name('dj.')->prefix('dj')->as('dj.')->group(function () {
     });
 });
 
-Route::name('customer.')->prefix('customer')->as('customer.')->group(function () {
+Route::name('customers.')->prefix('customers')->as('customers.')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/', [CustomerDashboardController::class, 'index'])->name('dashboard');
         
-        Route::controller(CustomerEventController::class)->name('event.')->prefix('event')->as('event.')->group(function () {
+        Route::controller(CustomerEventController::class)->name('events.')->prefix('events')->as('events.')->group(function () {
             Route::get('/', 'index')->name('index');
         });
 
-        Route::controller(CustomerVenueController::class)->name('venue.')->prefix('venue')->as('venue.')->group(function (){
+        Route::controller(CustomerVenueController::class)->name('venues.')->prefix('venues')->as('venues.')->group(function () {
             Route::get('/', 'index')->name('index');
         });
     });

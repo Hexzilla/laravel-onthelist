@@ -51,10 +51,6 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <!-- <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('admin.events.edit', $event->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
-                                            @if(!$event->isApproved())
-                                            <button type="button" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$event->id}}')"><i class="fa fa-trash"></i> Delete</button>
-                                            @endif -->
                                             <button title="Approve" class="btn btn-rounded btn-success mb-1" onclick="openApproveModal('{{$event->id}}')">
                                                 <i class="fa fa-check"></i>
                                             </button>

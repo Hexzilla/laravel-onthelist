@@ -343,7 +343,7 @@
             html = html.replace('$Music_Policy', venue.music_policy || '');
             html = html.replace('$Dress_code', venue.dress_code || '');
             html = html.replace('$Perks', venue.perks || '');
-            $("body")append(detail.html(html));
+            $("body").append(detail.html(html));
             detail.modal('show');
         }
     </script>

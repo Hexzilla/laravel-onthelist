@@ -11,7 +11,7 @@ class VenueController extends Controller
     public function index()
     {
         $venues = Venue::where('status', 'Approved')->get();
-        return view('customer.venue.index', [
+        return view('customer.venue.list', [
             'breadcrumb' => 'All',
             'venues' => $venues
         ]);
