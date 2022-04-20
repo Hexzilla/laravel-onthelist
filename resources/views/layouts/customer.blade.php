@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Dashboard - Vendor Panel</title>
+    <title>Dashboard - Customer Panel</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon.ico') }}">
     <link rel="stylesheet" href="{{ asset('vendor/calender/calender.css') }}">
@@ -39,13 +39,11 @@
 
         @include('partials.vendor-header')
 
-        @include('partials.user-sidebar')
+        @include('partials.customer-sidebar')
 
         @yield('content')
 
         @include('partials.vendor-footer')
-
-        @include('partials.vendor-modal')
 
     </div>
 

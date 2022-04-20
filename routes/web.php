@@ -16,7 +16,9 @@ use App\Http\Controllers\Dj\DashboardController as DjDashboardController;
 use App\Http\Controllers\Dj\ProfileController as DjProfileController;
 use App\Http\Controllers\Dj\EventController as DjEventController;
 
-use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
+use App\Http\Controllers\Customer\EventController as CustomerEventController;
+use App\Http\Controllers\Customer\VenueController as CustomerVenueController;
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDahsboardController;
@@ -86,7 +88,7 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
             Route::get('/delete/{id}', 'destroy')->name('destroy');
         });
 
-        Route::controller(VendorEventController::class)->name('event.')->prefix('event')->as('event.')->group(function () {
+        Route::controller(VendorEventController::class)->name('event.')->prefix('events')->as('event.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
@@ -111,10 +113,25 @@ Route::name('dj.')->prefix('dj')->as('dj.')->group(function () {
     });
 });
 
-Route::name('user.')->prefix('user')->as('user.')->group(function () {
+Route::name('customers.')->prefix('customers')->as('customers.')->group(function () {
     Route::middleware('auth')->group(function () {
-        Route::get('/', [UserDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/', [CustomerDashboardController::class, 'index'])->name('dashboard');
         
+        Route::controller(CustomerEventController::class)->name('events.')->prefix('events')->as('events.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/favorite', 'favourite')->name('favorite');
+            Route::get('/favourited/{id}', 'favourited')->name('favourited');
+            Route::get('/unfavourite/{id}', 'unfavourite')->name('unfavourite');
+            Route::get('/booking/{id}', 'booking')->name('booking');
+            Route::post('/create', 'createBooking')->name('createBooking');
+        });
+
+        Route::controller(CustomerVenueController::class)->name('venues.')->prefix('venues')->as('venues.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/favorite', 'favourite')->name('favorite');
+            Route::get('/favourited/{id}', 'favourited')->name('favourited');
+            Route::get('/unfavourite/{id}', 'unfavourite')->name('unfavourite');
+        });
     });
 });
 

@@ -15,6 +15,9 @@ class CreateUserFavoritesTable extends Migration
     {
         Schema::create('user_favorites', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('order_id');
+            $table->enum('type', ['event', 'venue', 'dj']);
             $table->timestamps();
         });
     }

@@ -14,6 +14,8 @@ use App\Models\Venue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Notification;
+use App\Notifications\NewNotification;
 
 class EventController extends Controller
 {
@@ -123,6 +125,18 @@ class EventController extends Controller
         if (is_null($event)) {
             return redirect()->back();
         }
+        $user = User::where('id', $event->user_id)->firstOrFail();
+
+        $details = [
+            'title' => 'Approve Event '.$event->name,
+            'description' => 'Admin approved this event',
+            'order_id' => $event->id,
+            'user_id' => $event->user_id,
+            'type' => 'event',
+        ];
+
+        Notification::send($user, new NewNotification($details));
+
         $event->status = 'Approved';
         $event->save();
         return redirect()->back();

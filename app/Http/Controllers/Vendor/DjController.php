@@ -97,7 +97,9 @@ class DjController extends Controller
         $dj->header_image_path = $header_image_path;
         $dj->mixcloud_link = $request->mixcloud_link;
         $dj->genre = $request->genre;
-        $dj->save();        
+        $dj->save();
+
+        $this->updateMedia($dj, $request);
 
         $this->updateMedia($dj, $request);
 

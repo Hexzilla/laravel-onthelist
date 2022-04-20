@@ -10,6 +10,9 @@ use App\Models\VenueTable;
 use App\Models\VenueTimetable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Notification;
+use App\Notifications\NewNotification;
 
 class VenueController extends Controller
 {
@@ -236,6 +239,19 @@ class VenueController extends Controller
     public function approve($id)
     {
         $venue = Venue::where('id', $id)->first();
+
+        $user = User::where('id', $venue->user_id)->firstOrFail();
+
+        $details = [
+            'title' => 'Approve Venue '.$venue->name,
+            'description' => 'Admin approved this venue',
+            'type' => 'venue',
+            'order_id' => $venue->id,
+            'user_id' => $venue->user_id,
+        ];
+
+        Notification::send($user, new NewNotification($details));
+
         $venue->status = 'Approved';
         $venue->save();
         return redirect()->back();
