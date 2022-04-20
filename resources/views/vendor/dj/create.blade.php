@@ -70,11 +70,11 @@
                                 <span class="invalid-feedback" role="alert">This field is required</span>
                             </div>
                             <div class="form-group">
-                                <label for="generes">Dj Genre *</label>
-                                <select class="form-control multi-select" id="generes" name="genres[]" multiple="multiple" required>
+                                <label for="genres">Dj Genre *</label>
+                                <select class="form-control multi-select" id="genres" name="genres[]" multiple="multiple" required>
                                     @if (isset($dj))
                                         @foreach($dj->genres as $genre)
-                                        <option value="{{$genre->name}}" {{ $genre->selected }}>{{$genre->name}}</option>
+                                        <option value="{{ $genre }}" selected>{{ $genre }}</option>
                                         @endforeach
                                     @endif
                                 </select>

@@ -36,6 +36,8 @@ class DjController extends Controller
             return redirect()->route('vendors.dj.index');
         }
 
+        $dj->genres = explode(',', $dj->genre);
+
         return view('vendor.dj.create', [
             'title' => 'Edit',
             'action' => route('vendors.dj.update', $id),
@@ -48,7 +50,7 @@ class DjController extends Controller
         $user_id = Auth::user()->id;
         $request->validate([
             'name' => 'required',
-            'genre' => 'required',
+            'genres' => 'required',
             'header_image' => 'required|mimes:jpeg,png,jpg,gif',
         ]);
 
@@ -63,7 +65,7 @@ class DjController extends Controller
             'description' => $request->description,
             'header_image_path' => $header_image_path,
             'mixcloud_link' => $request->mixcloud_link,
-            'genre' => $request->genre,
+            'genre' => implode(',', $request->genres),
         ]);
 
         $this->createMedia($dj, $request);
