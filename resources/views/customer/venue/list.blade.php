@@ -53,19 +53,11 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <!-- <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('admin.venues.edit', $venue->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
-                                            @if(!$venue->isApproved())
-                                            <button type="button" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$venue->id}}')"><i class="fa fa-trash"></i> Delete</button>
-                                            @endif -->
-                                            <button title="Approve" class="btn btn-rounded btn-success mb-1" onclick="openApproveModal('{{$venue->id}}')">
-                                                <i class="fa fa-check"></i>
-                                            </button>
-                                            <button title="Reject" class="btn btn-rounded btn-danger mb-1" onclick="openRejectModal('{{$venue->id}}')">
-                                                <i class="fa fa-remove"></i>
-                                            </button>
-                                            <button type="button" title="As Feature" class="btn btn-rounded btn-info mb-1">
-                                                <a href="{{ route('admin.venues.feature', $venue->id) }}"><i class="fa fa-bitcoin"></i></a>
-                                            </button>
+                                            @if($venue->favourite)
+                                            <a href="{{ route('customers.venues.unfavourite', $venue->id) }}" class="text-warning"><i class="fa fa-star" style="font-size: 24px"></i></a>
+                                            @else
+                                            <a href="{{ route('customers.venues.favourited', $venue->id) }}"><i class="fa fa-star" style="font-size: 24px"></i></a>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach

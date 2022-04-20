@@ -51,15 +51,12 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <button title="Approve" class="btn btn-rounded btn-success mb-1" onclick="openApproveModal('{{$event->id}}')">
-                                                <i class="fa fa-check"></i>
-                                            </button>
-                                            <button title="Reject" class="btn btn-rounded btn-danger mb-1" onclick="openRejectModal('{{$event->id}}')">
-                                                <i class="fa fa-remove"></i>
-                                            </button>
-                                            <button type="button" title="As Feature" class="btn btn-rounded btn-info mb-1">
-                                                <a href="{{ route('admin.events.feature', $event->id) }}"><i class="fa fa-bitcoin"></i></a>
-                                            </button>
+                                            @if($event->favourite)
+                                            <a href="{{ route('customers.events.unfavourite', $event->id) }}" class="text-warning"><i class="fa fa-star" style="font-size: 24px"></i></a>
+                                            @else
+                                            <a href="{{ route('customers.events.favourited', $event->id) }}"><i class="fa fa-star" style="font-size: 24px"></i></a>
+                                            @endif
+                                            <a href="{{ route('customers.events.booking', $event->id) }}">Booking</a>
                                         </td>
                                     </tr>
                                     @endforeach

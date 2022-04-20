@@ -119,10 +119,18 @@ Route::name('customers.')->prefix('customers')->as('customers.')->group(function
         
         Route::controller(CustomerEventController::class)->name('events.')->prefix('events')->as('events.')->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::get('/favorite', 'favourite')->name('favorite');
+            Route::get('/favourited/{id}', 'favourited')->name('favourited');
+            Route::get('/unfavourite/{id}', 'unfavourite')->name('unfavourite');
+            Route::get('/booking/{id}', 'booking')->name('booking');
+            Route::post('/create', 'createBooking')->name('createBooking');
         });
 
         Route::controller(CustomerVenueController::class)->name('venues.')->prefix('venues')->as('venues.')->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::get('/favorite', 'favourite')->name('favorite');
+            Route::get('/favourited/{id}', 'favourited')->name('favourited');
+            Route::get('/unfavourite/{id}', 'unfavourite')->name('unfavourite');
         });
     });
 });
