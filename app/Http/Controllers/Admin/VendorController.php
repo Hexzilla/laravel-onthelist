@@ -15,7 +15,9 @@ class VendorController extends Controller
     {
         $users = User::where('role', 'vendor')
             ->whereNull('deleted_at')
-            ->get();
+            ->simplePaginate(10);
+            //->paginate(10);
+
         return view("admin.vendor.list", ['users' => $users, 'role' => 'vendor']);    
     }
 

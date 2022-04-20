@@ -64,6 +64,9 @@
                                     </tr>
                                     @endforeach
                             </table>
+                            <div style="display: flex; justify-content: end; margin-right: 40px;">
+                                {{ $users->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -164,6 +167,13 @@
         $(modal).html(html);
         $(modal).modal('show');
     }
+
+    window.addEventListener('load', (event) => {
+        initDataTable('example', {
+            info: false,
+            paging: false,
+        })
+    });
 </script>
-<script src="{{ asset('js/plugins-init/datatables.init.js') }}"></script>
+<script src="{{ asset('js/datatable.js') }}"></script>
 @endsection

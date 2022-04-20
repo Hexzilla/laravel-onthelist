@@ -30,14 +30,16 @@ class UserSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
 
-        User::create([
-            'name' => "Vendor1",
-            'email' => "vendor1@onthelist.app",
-            'email_verified_at' => date('Y-m-d H:i:s'),
-            'role' => "vendor",
-            'password' => Hash::make('vendor123'),
-            'remember_token' => Str::random(10),
-        ]);
+        for ($i = 1; $i <= 100; $i++) {
+            User::create([
+                'name' => "Vendor" . $i,
+                'email' => "vendor". $i . "@onthelist.app",
+                'email_verified_at' => date('Y-m-d H:i:s'),
+                'role' => "vendor",
+                'password' => Hash::make('vendor123'),
+                'remember_token' => Str::random(10),
+            ]);
+        }
 
         User::create([
             'name' => 'Dj',
