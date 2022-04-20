@@ -313,7 +313,6 @@
                 $('#header_image_error').addClass('custom-validation-error');
                 is_valid = true;
             }
-            
 
             if ($('#event-type').val() === null) {
                 $('#event-type-error').addClass('custom-validation-error');
@@ -372,6 +371,14 @@
             $(this).autocomplete('search', $(this).val())
         });
 
+        // Show remove buttons
+        function showRemoveButtons() {
+            $(".remove-event-guestlist:not(:first)").removeClass('d-none');
+            $(".remove-event-table:not(:first)").removeClass('d-none');
+            $(".remove-event-ticket:not(:first)").removeClass('d-none');
+        }
+        showRemoveButtons();
+
         function removeEventTicket() {
             $('.remove-event-ticket').on('click', function() {
                 if($(".event-ticket").length === 1) {
@@ -394,6 +401,7 @@
             });
             new_ticket.appendTo("div#event-ticket-list");
             removeEventTicket();
+            showRemoveButtons();
         });
 
         function removeEventTable() {
@@ -418,6 +426,7 @@
             });
             new_table.appendTo("div#event-table-list");
             removeEventTable();
+            showRemoveButtons();
         });
     
         // Event guestlist
@@ -442,6 +451,7 @@
             });
             new_guestlist.appendTo("div#event-guestlist-list");
             removeEventGuest();
+            showRemoveButtons();
         });
 
         function formatDate(date) {

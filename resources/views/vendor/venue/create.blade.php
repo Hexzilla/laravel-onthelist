@@ -392,6 +392,13 @@
             $("#step-2").addClass('d-none');
         });
 
+        // Show remove buttons
+        function showRemoveButtons() {
+            $(".remove-venue-offer:not(:first)").removeClass('d-none');
+            $(".remove-venue-table:not(:first)").removeClass('d-none');
+        }
+        showRemoveButtons();
+
         // Venue offer
         function removeVenueOffer() {
             $(".remove-venue-offer").on("click", function(){
@@ -404,10 +411,11 @@
         removeVenueOffer();
 
         $("#add-venue-offer").on('click', function(){
-            var new_offer = $("#venue-offer-default").clone();
+            const new_offer = $("#venue-offer-default").clone();            
             $(new_offer).find("input, textarea").each((index, ele)=> $(ele).val(""));
             new_offer.appendTo("div#venue-offer-list");
             removeVenueOffer();
+            showRemoveButtons();
         });
 
         // Venue table
@@ -422,10 +430,11 @@
         removeVenueTable();
 
         $("#add-venue-table").on('click', function(){
-            var new_table = $("#venue-table-default").clone();
+            const new_table = $("#venue-table-default").clone();
             $(new_table).find("input, textarea").each((index, ele)=> $(ele).val(""));
             new_table.appendTo("div#venue-table-list");
             removeVenueTable();
+            showRemoveButtons();
         });
 
         $("#remove-venue-table").on('click', function(){
