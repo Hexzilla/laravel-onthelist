@@ -4,28 +4,24 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Event;
-use App\Models\EventDj;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class UserController extends Controller
+class VendorController extends Controller
 {
-    public function index($role)
+    public function index()
     {
-        $users = User::where('role', $role)->get();
-        if ($role == 'vendor') {
-            return view("admin.vendor.list", ['users' => $users, 'role' => $role]);    
-        }
-        return view("admin.user.list", ['users' => $users, 'role' => $role]);
+        $users = User::where('role', 'vendor')->get();
+        return view("admin.vendor.list", ['users' => $users, 'role' => 'vendor']);    
     }
 
     public function edit($id)
     {
         $users = User::where('id', $id)->get();
         $user = $users[0];
-        return view("admin.user.edit", ['user' => $user]);
+        return view("admin.vendor.create", ['user' => $user]);
     }
 
     public function update(Request $request, $id)
@@ -55,19 +51,15 @@ class UserController extends Controller
         return view("admin.user.show", ['events' => $events, 'user' => $user]);
     }
 
-    public function approve($id)
+    public function pause($id)
     {
-        $user = User::where('id', $id)->firstOrFail();
-        $user->status = 'Approved';
-        $user->save();
-        return redirect()->back();
+        User::where('id', $id)->delete();
+        return redirect()->route('admin.vendors.index')->with('Success');
     }
 
-    public function reject($id)
+    public function destroy($id)
     {
-        $user = User::where('id', $id)->firstOrFail();
-        $user->status = 'Rejected';
-        $user->save();
-        return redirect()->back();
+        User::where('id', $id)->delete();
+        return redirect()->route('admin.vendors.index')->with('Success');
     }
 }

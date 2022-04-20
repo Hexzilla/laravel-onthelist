@@ -23,6 +23,7 @@ use App\Http\Controllers\Customer\VenueController as CustomerVenueController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDahsboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\VendorController as AdminVendorController;
 use App\Http\Controllers\Admin\VenueController as AdminVenueController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
@@ -160,6 +161,13 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/Djs/{id}', 'show')->name('show');
             Route::get('/approve/{id}', 'approve')->name('approve');
             Route::get('/reject/{id}', 'reject')->name('reject');
+        });
+
+        Route::controller(AdminVendorController::class)->name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::get('/pause/{id}', 'pause')->name('pause');
+            Route::get('/delete/{id}', 'destroy')->name('destroy');
         });
 
         Route::controller(AdminVenueController::class)->name('venues.')->prefix('venues')->as('venues.')->group(function () {
