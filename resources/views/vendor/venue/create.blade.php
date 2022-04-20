@@ -261,28 +261,32 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="facitliies">Facilities *</label>
-                                        <input type="text" class="form-control" placeholder="" name="facilities" value="{{ $venue ? $venue->facilities : old('facilities') }}" required>
+                                        <input type="text" class="form-control" placeholder="" 
+                                            name="facilities" value="{{ $venue ? $venue->facilities : old('facilities') }}" required>
                                         <span class="invalid-feedback" role="alert">This field is required</span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="music_policy">Music Policy *</label>
-                                        <input type="text" class="form-control" placeholder="" id="music_policy" name="music_policy" value="{{ $venue ? $venue->music_policy : old('music_policy') }}" required>
+                                        <input type="text" class="form-control" placeholder="" 
+                                            id="music_policy" name="music_policy" value="{{ $venue ? $venue->music_policy : old('music_policy') }}" required>
                                         <span class="invalid-feedback" role="alert">This field is required</span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="dress_code">Dress Code *</label>
-                                        <input type="text" class="form-control" placeholder="" id="dress_code" name="dress_code" value="{{ $venue ? $venue->dress_code : old('dress_code') }}" required>
+                                        <input type="text" class="form-control" placeholder="" 
+                                            id="dress_code" name="dress_code" value="{{ $venue ? $venue->dress_code : old('dress_code') }}" required>
                                         <span class="invalid-feedback" role="alert">This field is required</span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="EventType">Venue Type *</label>
-                                        <input type="text" class="form-control" placeholder="" id="venue_type" name="venue_type" value="{{ $venue ? $venue->type : old('venue_type') }}" required>
+                                        <input type="text" class="form-control" placeholder="" 
+                                            id="venue_type" name="venue_type" value="{{ $venue ? $venue->type : old('venue_type') }}" required>
                                         <span class="invalid-feedback" role="alert">This field is required</span>
                                     </div>
                                 </div>

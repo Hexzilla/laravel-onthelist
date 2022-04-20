@@ -36,14 +36,10 @@
                                 <span class="invalid-feedback" role="alert">This field is required</span>
                             </div>
                             <div class="form-group">
-                                <label for="description">Dj Details</label>
-                                <textarea class="form-control" rows="5" id="description" name="description">{{ $dj? $dj->description : old('description') }}</textarea>
-                            </div>
-                            <div class="form-group">
                                 <div class="file-field addEventHeader" id="header_image_wrapper">
                                     <div class="addEvent-icon" id="v-header-image-uploader">
                                         <i class="mdi mdi-image-multiple"></i>
-                                        <span>Add Dj Header Image</span>
+                                        <span>Add Dj Profile Image</span>
                                         <span id="v-header-image-file-name">{{ $dj? $dj->header_image_path : old('header_image') }}</span>
                                     </div>
                                     @if (isset($dj))
@@ -58,6 +54,10 @@
                                     </div>
                                 </div>
                                 <span id="header_iamge_error" class="d-none" role="alert">This field is required</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Dj Details</label>
+                                <textarea class="form-control" rows="5" id="description" name="description">{{ $dj? $dj->description : old('description') }}</textarea>
                             </div>
                         </div>
                     </div>	
