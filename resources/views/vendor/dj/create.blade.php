@@ -1,6 +1,7 @@
 @extends('layouts.vendor')
 
 @section('styles')
+    <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
     <link href="{{ asset('css/vendor.css') }}" rel="stylesheet">
 @endsection
 
@@ -69,8 +70,14 @@
                                 <span class="invalid-feedback" role="alert">This field is required</span>
                             </div>
                             <div class="form-group">
-                                <label for="EventName">Dj Genre *</label>
-                                <input type="text" class="form-control" id="genre" name="genre" value="{{ $dj? $dj->genre : old('genre') }}" required />
+                                <label for="generes">Dj Genre *</label>
+                                <select class="form-control multi-select" id="generes" name="genres[]" multiple="multiple" required>
+                                    @if (isset($dj))
+                                        @foreach($dj->genres as $genre)
+                                        <option value="{{$genre->name}}" {{ $genre->selected }}>{{$genre->name}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
                                 <span class="invalid-feedback" role="alert">This field is required</span>
                             </div>
                         </div>
@@ -127,8 +134,14 @@
 @endsection
 
 @section('scripts')
+<script src="{{ asset('vendor/select2/js/select2.full.min.js') }}"></script>
 <script>
     $(document).ready(function(){
+        $('.multi-select').select2({
+            tags: true,
+            tokenSeparators: [',', ' ']
+        });
+
         // Header Image
         $("#v-header-image-uploader").on('click', function(){
             $("#v-header-image").click();

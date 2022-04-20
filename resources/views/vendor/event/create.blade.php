@@ -117,8 +117,8 @@
                                     <input type="text" class="form-control" placeholder="" id="venue_location"/>
                                 </div>
                                 <div class="form-group">
-                                    <label for="facitliies">DJ's *</label>
-                                    <select class="form-control multi-select" name="djs[]" multiple required>
+                                    <label for="djs">DJ's *</label>
+                                    <select class="form-control multi-select" id="djs" name="djs[]" multiple required>
                                         @foreach($djs as $dj)
                                         <option value="{{$dj->id}}" {{ $dj->selected }}>{{$dj->name}}</option>
                                         @endforeach
