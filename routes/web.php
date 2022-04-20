@@ -166,6 +166,7 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
         Route::controller(AdminVendorController::class)->name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::get('/resume/{id}', 'resume')->name('resume');
             Route::get('/pause/{id}', 'pause')->name('pause');
             Route::get('/delete/{id}', 'destroy')->name('destroy');
         });

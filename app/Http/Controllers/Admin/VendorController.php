@@ -13,7 +13,9 @@ class VendorController extends Controller
 {
     public function index()
     {
-        $users = User::where('role', 'vendor')->get();
+        $users = User::where('role', 'vendor')
+            ->whereNull('deleted_at')
+            ->get();
         return view("admin.vendor.list", ['users' => $users, 'role' => 'vendor']);    
     }
 
@@ -53,13 +55,20 @@ class VendorController extends Controller
 
     public function pause($id)
     {
-        User::where('id', $id)->delete();
+        User::where('id', $id)->update(['paused_at' => now()]);
         return redirect()->route('admin.vendors.index')->with('Success');
     }
 
+    public function resume($id)
+    {
+        User::where('id', $id)->update(['paused_at' => NULL]);
+        return redirect()->route('admin.vendors.index')->with('Success');
+    }
+
+
     public function destroy($id)
     {
-        User::where('id', $id)->delete();
+        User::where('id', $id)->update(['deleted_at' => now()]);
         return redirect()->route('admin.vendors.index')->with('Success');
     }
 }
