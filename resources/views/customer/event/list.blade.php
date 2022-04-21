@@ -56,7 +56,7 @@
                                             @else
                                             <a href="{{ route('customers.events.favourited', $event->id) }}"><i class="fa fa-star" style="font-size: 24px"></i></a>
                                             @endif
-                                            <a href="{{ route('customers.events.booking', $event->id) }}">Booking</a>
+                                            <a href="{{ route('customers.events.booking', $event->id) }}" class="btn btn-rounded btn-outline-success mb-1"><i class="fa fa-book text-primary"></i></a>
                                         </td>
                                     </tr>
                                     @endforeach
