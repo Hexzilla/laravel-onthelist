@@ -398,22 +398,22 @@ class EventController extends Controller
     public function getTables($id)
     {
         $tables = DB::table('bookings')
-        ->join('users', 'users.id', '=', 'bookings.user_id')
-        ->where('bookings.event_id', $id)
-        ->where('bookings.booking_type', 'Table Booking')
-        ->select('bookings.*', 'users.name as userName')
-        ->get();
+            ->join('users', 'users.id', '=', 'bookings.user_id')
+            ->where('bookings.event_id', $id)
+            ->where('bookings.booking_type', 'Table Booking')
+            ->select('bookings.*', 'users.name as userName')
+            ->get();
         return json_encode(array('data' => $tables));
     }
 
     public function getGuestlists($id)
     {
         $guestlists = DB::table('bookings')
-        ->join('users', 'users.id', '=', 'bookings.user_id')
-        ->where('bookings.event_id', $id)
-        ->where('bookings.booking_type', 'Guestlist')
-        ->select('bookings.*', 'users.name as userName')
-        ->get();
+            ->join('users', 'users.id', '=', 'bookings.user_id')
+            ->where('bookings.event_id', $id)
+            ->where('bookings.booking_type', 'Guestlist')
+            ->select('bookings.*', 'users.name as userName')
+            ->get();
         return json_encode(array('data' => $guestlists));
     }
 }
