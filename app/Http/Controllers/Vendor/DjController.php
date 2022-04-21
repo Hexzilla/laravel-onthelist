@@ -117,6 +117,7 @@ class DjController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = $request->password;
+        $user->save();
 
         $this->updateMedia($dj, $request);
 

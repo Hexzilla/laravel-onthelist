@@ -15,11 +15,11 @@ class CreateDjsTable extends Migration
     {
         Schema::create('djs', function (Blueprint $table) {
             $table->id();
-            $table->string('vendor_id')->nullable();
             $table->text('description')->nullable();
             $table->string('header_image_path');
             $table->string('mixcloud_link')->nullable();
             $table->string('genre');
+            $table->foreignId('vendor_id');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

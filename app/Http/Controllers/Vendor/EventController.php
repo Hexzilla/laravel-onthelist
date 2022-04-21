@@ -23,8 +23,7 @@ class EventController extends Controller
     {
         $user_id = Auth::user()->id;
         $events = Event::where('user_id', $user_id)->get();
-        foreach($events as $event)
-        {
+        foreach($events as $event) {
             $bookings = Booking::orderBy('created_at', 'DESC')->where('event_id', $event->id)->take(5)->get();
             $event->bookings = $bookings;
         }
@@ -35,7 +34,7 @@ class EventController extends Controller
     {
         $user_id = Auth::user()->id;
         $venues = Venue::where('user_id', $user_id)->get();
-        $djs = Dj::where('user_id', $user_id)->get();
+        $djs = Dj::where('vendor_id', $user_id)->get();
         return view('vendor.event.create', [
             'venues' => $venues, 
             'djs' => $djs,

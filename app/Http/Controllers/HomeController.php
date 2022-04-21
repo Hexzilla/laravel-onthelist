@@ -31,6 +31,8 @@ class HomeController extends Controller
             return redirect('vendors');
         } else if ($role == 'dj') {
             return redirect('dj');
+        } else if ($role == 'customer') {
+            return redirect('customers');
         }
         return view('home');
     }

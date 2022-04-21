@@ -3,7 +3,10 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
+use App\Models\User;
 use App\Models\Dj;
 
 class DjSeeder extends Seeder
@@ -19,31 +22,25 @@ class DjSeeder extends Seeder
         Dj::truncate();
         Schema::enableForeignKeyConstraints();
 
-        Dj::create([
-            'user_id' => 2,
-            'description' => 'Top performance coach',
-            'mixcloud_link' => 'https://maxcloud.com/ronalonia',
-            'header_image_path' => 'images/download_now_bg.jpg',
-            'genre' => 'performance',
-            'vendor_id' => 1,
-        ]);
+        $vendor = User::where('role', 'vendor')->firstOrFail();
 
-        Dj::create([
-            'user_id' => 3,
-            'description' => 'Top 1 Music Player',
-            'mixcloud_link' => 'https://maxcloud.com/john',
-            'header_image_path' => 'images/dj.jpg',
-            'genre' => 'Music',
-            'vendor_id' => 1,
-        ]);
-
-        Dj::create([
-            'user_id' => 4,
-            'description' => 'Web Designer',
-            'mixcloud_link' => 'https://maxcloud.com/tommy',
-            'header_image_path' => 'images/download_now_bg.jpg',
-            'genre' => 'IT',
-            'vendor_id' => 1,
-        ]);
+        for ($i = 1; $i <= 15; $i++) {
+            $user = User::create([
+                'name' => 'jackson' . $i,
+                'email' => 'jackson' . $i . '@onthelist.app',
+                'email_verified_at' => date('Y-m-d H:i:s'),
+                'role' => "dj",
+                'password' => Hash::make('jackson123'),
+                'remember_token' => Str::random(10),
+            ]);
+            Dj::create([
+                'user_id' => $user->id,
+                'description' => 'Top Pianist ' . $i,
+                'mixcloud_link' => 'https://maxcloud.com/ronalonia' . $i,
+                'header_image_path' => 'images/download_now_bg.jpg',
+                'genre' => 'Music,Piano',
+                'vendor_id' => $vendor->id,
+            ]);
+        }
     }
 }
