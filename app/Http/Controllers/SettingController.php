@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Vendor;
 use App\Models\UserProfile;
 use Carbon\Carbon;
 
@@ -58,7 +59,7 @@ class SettingController extends Controller
 
     public function createProfile($user, $request)
     {
-        $profiles = UserProfile::where('user_id', $user->id)->get();
+        $profiles = Vendor::where('user_id', $user->id)->get();
         if(count($profiles) > 0){
             $profile = $profiles[0];
             $profile->phone = $request->phone;
@@ -76,7 +77,7 @@ class SettingController extends Controller
             } else {
                 $path = "";
             }
-            UserProfile::create([
+            Vendor::create([
                 'user_id' => $user->id,
                 'phone' => $request->phone,
                 'address' => $request->phone,

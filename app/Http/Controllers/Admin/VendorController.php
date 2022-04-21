@@ -23,21 +23,49 @@ class VendorController extends Controller
 
     public function edit($id)
     {
-        $users = User::where('id', $id)->get();
-        $user = $users[0];
+        $user = User::where('id', $id)->firstOrFail();
         return view("admin.vendor.create", ['user' => $user]);
     }
 
     public function update(Request $request, $id)
     {
-        $users = User::where('id', $id)->get();
-        $user = $users[0];
+        $user = User::where('id', $id)->firstOrFail();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->role = $request->role;
         $user->save();
-        $users = User::where('role', $user->role)->get();
-        return view("admin.user.list", ['users' => $users, 'role' => $user->role ]);
+
+        $this->createVendor($user, $request);
+
+        return redirect()->route("admin.vendors.index");
+    }
+
+    public function createVendor($user, $request)
+    {
+        $vendor = Vendor::where('user_id', $user->id)->firstOrFail();
+        if ($request->hasFile('profile_image')) {
+            $path = upload_file($request->file('profile_image'), 'user');
+        } else {
+            $path = "";
+        }
+        if (is_null($vendor)) {
+            Vendor::create([
+                'user_id' => $user->id,
+                'phone' => $request->phone,
+                'address' => $request->phone,
+                'image_path' => $path,
+                'gender' => $request->gender,
+                'date_birth' => $request->date_birth,
+            ]);
+        } else {
+            $vendor->phone = $request->phone;
+            $vendor->address = $request->address;
+            $vendor->gender = $request->gender;
+            $vendor->date_birth = $request->date_birth;
+            if ($request->hasFile('profile_image')) {
+                $vendor->image_path = $path;
+            }
+            $vendor->save;
+        }
     }
 
     public function show($id)

@@ -59,9 +59,9 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class);
     }
 
-    public function userProfile()
+    public function vendor()
     {
-        return $this->hasOne(UserProfile::class);
+        return $this->hasOne(Vendor::class);
     }
 
     public function favourite()

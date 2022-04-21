@@ -54,7 +54,6 @@ class VenueController extends Controller
         $user_id = Auth::user()->id;
         $request->validate([
             'name' => 'required',
-            'header_image' => 'required|mimes:jpeg,png,jpg,gif',
             'address' => 'required',
             'city' => 'required',
             'postcode' => 'required',

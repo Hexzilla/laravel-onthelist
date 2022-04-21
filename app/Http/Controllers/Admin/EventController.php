@@ -103,7 +103,7 @@ class EventController extends Controller
     {
         $event = Event::where('id', $id)->firstOrFail();
         $user_id = $event->user_id;
-        $djs = Dj::where('user_id', $user_id)->get();
+        $djs = Dj::where('vendor_id', $user_id)->get();
         $venues = Venue::where('user_id', $user_id)->get();
 
         if (is_null($event)) {
@@ -139,7 +139,6 @@ class EventController extends Controller
         $user_id = Auth::user()->id;
         $request->validate([
             'name' => 'required',
-            'header_image' => 'required|mimes:jpeg,png,jpg,gif',
             'type' => 'required',
             'venue_id' => 'required|numeric',
             'djs' => 'required'
@@ -155,7 +154,6 @@ class EventController extends Controller
         if (!is_null($request->file('header_image'))) {
             $event->header_image_path = upload_file($request->file('header_image'), 'event');
         }
-        $event->header_image_path = upload_file($request->file('header_image'), 'event');
         $event->start = date('Y-m-d H:i', strtotime($request->start_date . ' ' . $request->start_time));
         $event->end = date('Y-m-d H:i', strtotime($request->end_date . ' ' . $request->end_time));
         $event->venue_id = $request->venue_id;

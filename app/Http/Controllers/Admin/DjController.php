@@ -9,6 +9,7 @@ use App\Models\Venue;
 use App\Models\DjMedia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class DjController extends Controller
@@ -69,6 +70,7 @@ class DjController extends Controller
         ]);
 
         $dj = Dj::create([
+            'vendor_id' => 0,
             'user_id' => $user->id,
             'description' => $request->description,
             'header_image_path' => $header_image_path,
@@ -111,7 +113,7 @@ class DjController extends Controller
         $user = User::where('id', $dj->user_id)->firstOrFail();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = $request->password;
+        $user->password = Hash::make($request->password);
 
         $this->updateMedia($dj, $request);
 

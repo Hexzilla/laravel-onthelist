@@ -30,12 +30,13 @@
                             <div class="form-group">
                                 <label for="Name">Name</label>
                                 <input type="text" class="form-control" id="Name" name="name" value="{{ $user->name }}">
+                                <input type="hidden" id="profile_id" name="profile_id" value="{{ !is_null($user->vendor) ? $user->vendor->id : '' }}">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="phone">Phone Number</label>
-                                <input type="text" class="form-control" id="phone" name="phone" value="{{ !is_null($user->userProfile) ? $user->userProfile->phone : '' }}">
+                                <input type="text" class="form-control" id="phone" name="phone" value="{{ !is_null($user->vendor) ? $user->vendor->phone : '' }}">
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -50,7 +51,7 @@
                                     <div class="addEvent-icon" id="header-image-uploader">
                                         <i class="mdi mdi-image-multiple"></i>
                                         <span>Add Profile Image</span>
-                                        <span id="header-image-file-name"></span>
+                                        <span id="header-image-file-name">{{$user->vendor ? $user->vendor->image_path : ''}}</span>
                                     </div>
                                     <div class="d-flex justify-content-center">
                                         <div class="">
@@ -65,7 +66,7 @@
                             <div class="form-group">
                                 <label for="address">Address</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="address" name="address" value="{{ !is_null($user->userProfile) ? $user->userProfile->address : '' }}">
+                                    <input type="text" class="form-control" id="address" name="address" value="{{ !is_null($user->vendor) ? $user->vendor->address : '' }}">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="mdi mdi-map-marker"></i></span>
                                     </div>
@@ -77,7 +78,7 @@
                                 <label for="gender">Gender</label>
                                 <select class="form-control" name="gender">
                                     <option value="Male">Male</option>
-                                    <option value="Female" {{ (!is_null($user->userProfile) && $user->userProfile->gender === "Female") ? 'selected' : ''}}>Female</option>
+                                    <option value="Female" {{ (!is_null($user->vendor) && $user->vendor->gender === "Female") ? 'selected' : ''}}>Female</option>
                                     
                                 </select>
                             </div>
@@ -85,7 +86,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="date_birth">Date of Birth</label>
-                                <input type="date" value="{{ !is_null($user->userProfile) ? $user->userProfile->date_birth : date('Y-m-d') }}" id="date_birth" name="date_birth" class="form-control" />
+                                <input type="date" value="{{ !is_null($user->vendor) ? $user->vendor->date_birth : date('Y-m-d') }}" id="date_birth" name="date_birth" class="form-control" />
                             </div>
                         </div>
                     </div>
