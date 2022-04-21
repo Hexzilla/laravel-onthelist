@@ -18,7 +18,7 @@ class VenueController extends Controller
 {
     public function index()
     {
-        $venues = Venue::get();
+        $venues = Venue::paginate(10);
         return view('admin.venue.list', [
             'breadcrumb' => 'All',
             'venues' => $venues
@@ -27,7 +27,7 @@ class VenueController extends Controller
 
     public function featured()
     {
-        $venues = Venue::where('feature', 'yes')->get();
+        $venues = Venue::where('feature', 'yes')->paginate(10);
         return view('admin.venue.list', [
             'breadcrumb' => 'Featured',
             'venues' => $venues

@@ -70,6 +70,9 @@
                                     </tr>
                                     @endforeach
                             </table>
+                            <div style="display: flex; justify-content: end; margin-right: 40px;">
+                                {{ $venues->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -403,6 +406,12 @@
             $("#modal_venue_detail").html(html);
             $("#modal_venue_detail").modal('show');
         }
+        window.addEventListener('load', (event) => {
+            initDataTable('example', {
+                info: false,
+                paging: false,
+            })
+        });
     </script>
-    <script src="{{ asset('js/plugins-init/datatables.init.js') }}"></script>
+    <script src="{{ asset('js/datatable.js') }}"></script>
 @endsection

@@ -51,8 +51,8 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <!-- <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('admin.events.edit', $event->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
-                                            @if(!$event->isApproved())
+                                            <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('admin.events.edit', $event->id) }}"><i class="fa fa-edit"></i></a></button>
+                                            <!-- @if(!$event->isApproved())
                                             <button type="button" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$event->id}}')"><i class="fa fa-trash"></i> Delete</button>
                                             @endif -->
                                             <button title="Approve" class="btn btn-rounded btn-success mb-1" onclick="openApproveModal('{{$event->id}}')">
@@ -68,6 +68,9 @@
                                     </tr>
                                     @endforeach
                             </table>
+                            <div style="display: flex; justify-content: end; margin-right: 40px;">
+                                {{ $events->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -342,6 +345,12 @@
             $('.carousel').carousel();
             $('#modal_event_media').modal('show');
         }
+        window.addEventListener('load', (event) => {
+            initDataTable('example', {
+                info: false,
+                paging: false,
+            })
+        });
     </script>
-    <script src="{{ asset('js/plugins-init/datatables.init.js') }}"></script>
+    <script src="{{ asset('js/datatable.js') }}"></script>
 @endsection

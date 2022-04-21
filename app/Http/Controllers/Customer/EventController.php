@@ -15,7 +15,7 @@ class EventController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
-        $events = Event::where('status', 'Approved')->get();
+        $events = Event::where('status', 'Approved')->paginate(10);
         foreach($events as $event) {
             $favourite = UserFavorite::where('order_id', $event->id)
                 ->where('user_id', $user_id)->where('type', 'event')->get();
@@ -36,7 +36,7 @@ class EventController extends Controller
         $user_id = Auth::user()->id;
 
         $event_ids = UserFavorite::where('type', 'event')->where('user_id', $user_id)->select('order_id')->get();
-        $events = Event::whereIn('id', $event_ids)->get();
+        $events = Event::whereIn('id', $event_ids)->paginate(10);
         foreach($events as $event) {
             $event->favourite = true;   
         }

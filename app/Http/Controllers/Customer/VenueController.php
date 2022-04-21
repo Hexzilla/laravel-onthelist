@@ -13,7 +13,7 @@ class VenueController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
-        $venues = Venue::where('status', 'Approved')->get();
+        $venues = Venue::where('status', 'Approved')->paginate(10);
         foreach($venues as $venue) {
             $favourite = UserFavorite::where('order_id', $venue->id)
                 ->where('user_id', $user_id)->where('type', 'venue')->get();
@@ -34,7 +34,7 @@ class VenueController extends Controller
         $user_id = Auth::user()->id;
 
         $venue_ids = UserFavorite::where('type', 'venue')->where('user_id', $user_id)->select('order_id')->get();
-        $venues = Venue::whereIn('id', $venue_ids)->get();
+        $venues = Venue::whereIn('id', $venue_ids)->paginate(10);
         foreach($venues as $venue) {
             $venue->favourite = true;   
         }

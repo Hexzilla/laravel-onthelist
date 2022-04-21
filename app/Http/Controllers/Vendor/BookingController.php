@@ -22,7 +22,7 @@ class BookingController extends Controller
             ->join('venues', 'venues.id', '=', 'events.venue_id')
             ->where('events.user_id', $user_id)
             ->select('bookings.*', 'events.name as eventName', 'events.type as eventType', 'users.name as userName', 'venues.name as venueName')
-            ->get();
+            ->paginate(10);
        
         return view('vendor.booking.index', ['bookings' => $bookings]);
     }

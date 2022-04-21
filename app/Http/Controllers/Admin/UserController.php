@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     public function index($role)
     {
-        $users = User::where('role', $role)->get();
+        $users = User::where('role', $role)->paginate(10);
         if ($role == 'vendor') {
             return view("admin.vendor.list", ['users' => $users, 'role' => $role]);    
         }
