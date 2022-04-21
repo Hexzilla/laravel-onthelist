@@ -43,12 +43,12 @@
     </div>
 </div>
 
-<!-- Event Table Modal -->
-<div class="modal fade" id="modal_event_table">
+<!-- Event Ticket Modal -->
+<div class="modal fade" id="modal_event_ticket">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">$TITLE Event</h5>
+                <h5 class="modal-title">$TITLE Event - Ticket Bookings</h5>
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                 </button>
             </div>
@@ -57,20 +57,106 @@
                     <table class="table table-responsive-am">
                         <thead>
                             <tr>
-                                <th>Type</th>
-                                <th>Description</th>
+                                <th>Booking Name</th>
+                                <th>Ticket Type</th>
                                 <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Approval</th>
+                                <th>Ticket Price</th>
+                                <th>Booking No</th>
+                                <th>Scanned</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr class="d-none">
-                                <td>$Type</td>
-                                <td>$Description</td>
-                                <td>$Quantity</td>
-                                <td>$Price</td>
-                                <td>$Approval</td>
+                                <td>$name</td>
+                                <td>$type</td>
+                                <td>$qty</td>
+                                <td>$price</td>
+                                <td>$no</td>
+                                <td><input type="checkbox" value="$id"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Event Table Modal -->
+<div class="modal fade" id="modal_event_table">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">$TITLE Event - Table Bookings</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-responsive-am">
+                        <thead>
+                            <tr>
+                                <th>Booking Name</th>
+                                <th>Table Type</th>
+                                <th>Quantity</th>
+                                <th>Deposit Paid</th>
+                                <th>Booking No</th>
+                                <th>Scanned</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="d-none">
+                                <td>$name</td>
+                                <td>$type</td>
+                                <td>$qty</td>
+                                <td>$price</td>
+                                <td>$no</td>
+                                <td><input type="checkbox" value="$id"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Event Guestlist Modal -->
+<div class="modal fade" id="modal_event_guestlist">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">$TITLE Event - Guestlist Bookings</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-responsive-am">
+                        <thead>
+                            <tr>
+                                <th>Booking Name</th>
+                                <th>Guestlist Type</th>
+                                <th>Quantity</th>
+                                <th>Pay at Door Price</th>
+                                <th>Booking No</th>
+                                <th>Scanned</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="d-none">
+                                <td>$name</td>
+                                <td>$type</td>
+                                <td>$qty</td>
+                                <td>$price</td>
+                                <td>$no</td>
+                                <td><input type="checkbox" value="$id"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -170,28 +256,92 @@
             $("#event_delete_modal").modal('show');
         }
 
-        function openTableModal(event, tables) {
-            tables = JSON.parse(tables);
-            
-            $(".display-modal").remove();
-            const body = $("#modal_event_table").clone().addClass("display-modal");
-            const tbody = body.find("tbody");
-            const sample = tbody.children('.d-none');
+        function openTicketModal(event, event_id){
+            $.ajax({
+                url: '/api/event/ticket/' + event_id,
+                type: "POST",
+                dataType: 'json',
+                success: function(dataResult){
+                    var tickets = dataResult.data;
+                    $(".display-modal").remove();
+                    const body = $("#modal_event_ticket").clone().addClass("display-modal");
+                    const tbody = body.find("tbody");
+                    const sample = tbody.children('.d-none');
 
-            tables.forEach(table => {
-                const clone = sample.clone().removeClass('d-none').addClass('display');
-                let html = clone.html();
-                html = html.replace('$Type', table.type)
-                html = html.replace('$Description', table.description || '')
-                html = html.replace('$Quantity', table.qty)
-                html = html.replace('$Price', table.price)
-                html = html.replace('$Approval', table.approval)
-                tbody.append(clone.html(html));
-            });
+                    $.each(tickets, function(index, row){
+                        const clone = sample.clone().removeClass('d-none').addClass('display');
+                        let html = clone.html();
+                        html = html.replace('$name', row.userName)
+                        html = html.replace('$type', row.type)
+                        html = html.replace('$qty', row.qty || '')
+                        html = html.replace('$price', row.price)
+                        html = html.replace('$no', row.id)
+                        html = html.replace('$id', row.id)
+                        tbody.append(clone.html(html));
+                    })
+                    const modal = body.html().replace('$TITLE', event);
+                    $("body").append(body.html(modal));
+                    body.modal('show');
+            }
+        });
+        }
 
-            const modal = body.html().replace('$TITLE', event);
-            $("body").append(body.html(modal));
-            body.modal('show');
+        function openTableModal(event, event_id){
+            $.ajax({
+                url: '/api/event/table/' + event_id,
+                type: "POST",
+                dataType: 'json',
+                success: function(dataResult){
+                    var tables = dataResult.data;
+                    $(".display-modal").remove();
+                    const body = $("#modal_event_table").clone().addClass("display-modal");
+                    const tbody = body.find("tbody");
+                    const sample = tbody.children('.d-none');
+
+                    $.each(tables, function(index, row){
+                        const clone = sample.clone().removeClass('d-none').addClass('display');
+                        let html = clone.html();
+                        html = html.replace('$name', row.userName)
+                        html = html.replace('$type', row.type)
+                        html = html.replace('$qty', row.qty || '')
+                        html = html.replace('$price', row.price)
+                        html = html.replace('$no', row.id)
+                        tbody.append(clone.html(html));
+                    })
+                    const modal = body.html().replace('$TITLE', event);
+                    $("body").append(body.html(modal));
+                    body.modal('show');
+            }
+        });
+        }
+
+        function openGuestlistModal(event, event_id){
+            $.ajax({
+                url: '/api/event/guestlist/' + event_id,
+                type: "POST",
+                dataType: 'json',
+                success: function(dataResult){
+                    var guestlists = dataResult.data;
+                    $(".display-modal").remove();
+                    const body = $("#modal_event_questlist").clone().addClass("display-modal");
+                    const tbody = body.find("tbody");
+                    const sample = tbody.children('.d-none');
+
+                    $.each(guestlists, function(index, row){
+                        const clone = sample.clone().removeClass('d-none').addClass('display');
+                        let html = clone.html();
+                        html = html.replace('$name', row.userName)
+                        html = html.replace('$type', row.type)
+                        html = html.replace('$qty', row.qty || '')
+                        html = html.replace('$price', row.price)
+                        html = html.replace('$no', row.id)
+                        tbody.append(clone.html(html));
+                    })
+                    const modal = body.html().replace('$TITLE', event);
+                    $("body").append(body.html(modal));
+                    body.modal('show');
+            }
+        });
         }
 
         function openDetailModal(event) {

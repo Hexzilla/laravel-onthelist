@@ -12,11 +12,11 @@
                     <a onclick="openDeleteModal('{{$event->name}}', '{{$event->id}}')"><i class="fa fa-trash"></i> Delete</a>
                 </div class="mb-1">
             @endif
-            <div class="mb-1"><a onclick="openTableModal('{{$event->name}}', '{{$event->tickets}}')">Tickets</a></div>
-            <div class="mb-1"><a onclick="openTableModal('{{$event->name}}', '{{$event->tables}}')">Tables</a></div>
+            <div class="mb-1"><a onclick="openTicketModal('{{$event->name}}', '{{$event->id}}')">Tickets</a></div>
+            <div class="mb-1"><a onclick="openTableModal('{{$event->name}}', '{{$event->id}}')">Tables</a></div>
             <!-- <div><a onclick="openMediaModal('{{$event->name}}', '{{$event->header_image_path}}', '{{$event->media}}')">Media</a></div>
             <div><a onclick="openDetailModal('{{$event}}')">Detail</a></div> -->
-            <div class="mb-1"><a onclick="openTableModal('{{$event->name}}', '{{$event->guestlists}}')">Guestlists</a></div>
+            <div class="mb-1"><a onclick="openGuestlistModal('{{$event->name}}', '{{$event->id}}')">Guestlists</a></div>
             <div class="mb-1"><a onclick="openTableModal('{{$event->name}}', '{{$event->guestlists}}')">Add Repo</a></div>
         </div>
         <div class="card-body p-4">

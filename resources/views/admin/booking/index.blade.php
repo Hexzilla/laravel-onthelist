@@ -41,7 +41,7 @@
                                         <td>{{$booking->event->venue->name}}</td>
                                         <td>{{$booking->event->type}}</td>
                                         <td>{{$booking->booking_type}}</td>
-                                        <td>{{$booking->price}}</td>
+                                        <td>£ {{$booking->price}}</td>
                                         <td>
                                             @if($booking->status == 'Rejected')
                                             <span class="badge badge-danger">Rejected</span>

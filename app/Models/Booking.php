@@ -13,6 +13,7 @@ class Booking extends Model
         'user_id',
         'event_id',
         'booking_type',
+        'qty',
         'type',
         'price',
         'date',
