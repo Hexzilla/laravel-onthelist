@@ -81,8 +81,9 @@ class EventController extends Controller
         $user_id = Auth::user()->id;
         Booking::create([
             'user_id' => $user_id,
-            'event_id' => $request->id,
+            'event_id' => $request->event_id,
             'booking_type' => $request->booking_type,
+            'qty' => $request->qty,
             'type' => $request->type,
             'price' => $request->price,
             'date' => $request->date,

@@ -21,7 +21,7 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Type</th>
+                                        <th>City</th>
                                         <th>Location</th>
                                         <th>Phone</th>
                                         <th>Details</th>
@@ -33,7 +33,7 @@
                                     @foreach($venues as $venue)
                                     <tr>
                                         <td>{{$venue->name}}</td>
-                                        <td>{{$venue->type}}</td>
+                                        <td>{{$venue->city}}</td>
                                         <td>{{$venue->location}}</td>
                                         <td>{{$venue->phone}}</td>
                                         <td>
@@ -53,10 +53,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <!-- <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('admin.venues.edit', $venue->id) }}"><i class="fa fa-edit"></i> Edit</a></button>
-                                            @if(!$venue->isApproved())
-                                            <button type="button" class="btn btn-rounded btn-danger mb-1" onclick="openDeleteModal('{{$venue->id}}')"><i class="fa fa-trash"></i> Delete</button>
-                                            @endif -->
+                                            <button type="button" class="btn btn-rounded btn-primary mb-1"><a href="{{ route('admin.venues.edit', $venue->id) }}"><i class="fa fa-edit"></i></a></button>
                                             <button title="Approve" class="btn btn-rounded btn-success mb-1" onclick="openApproveModal('{{$venue->id}}')">
                                                 <i class="fa fa-check"></i>
                                             </button>

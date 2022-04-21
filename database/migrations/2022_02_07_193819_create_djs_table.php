@@ -15,7 +15,7 @@ class CreateDjsTable extends Migration
     {
         Schema::create('djs', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('vendor_id')->nullable();
             $table->text('description')->nullable();
             $table->string('header_image_path');
             $table->string('mixcloud_link')->nullable();

@@ -35,7 +35,7 @@
                                         <td>{{$user->name}}</td>
                                         <td>{{$user->email}}</td>
                                         <td>{{$user->role}}</td>
-                                        <td>{{$user->role}}</td>
+                                        <td>{{$user->userProfile ? $user->userProfile->phone : ''}}</td>
                                         <td>
                                             @if(isset($user->paused_at))
                                             <span class="badge badge-warning">Paused</span>

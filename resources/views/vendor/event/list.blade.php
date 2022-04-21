@@ -306,6 +306,7 @@
                         html = html.replace('$qty', row.qty || '')
                         html = html.replace('$price', row.price)
                         html = html.replace('$no', row.id)
+                        html = html.replace('$id', row.id)
                         tbody.append(clone.html(html));
                     })
                     const modal = body.html().replace('$TITLE', event);
@@ -335,6 +336,7 @@
                         html = html.replace('$qty', row.qty || '')
                         html = html.replace('$price', row.price)
                         html = html.replace('$no', row.id)
+                        html = html.replace('$id', row.id)
                         tbody.append(clone.html(html));
                     })
                     const modal = body.html().replace('$TITLE', event);

@@ -13,8 +13,8 @@
             </div>
             @endif
             <div class="mb-1"><a onclick="openTimetableModal('{{$venue->name}}', '{{$venue->timetable}}')">TimeTables</a></div>
-            <div class="mb-1"><a onclick="openTableModal('{{$venue->name}}', '{{$venue->tables}}')">Tables</a></div>
-            <div class="mb-1"><a onclick="openTableModal('{{$venue->name}}', '{{$venue->offers}}')">Offers</a></div>
+            <div class="mb-1"><a onclick="openTableModal('{{$venue->name}}', '{{$venue->id}}')">Tables</a></div>
+            <div class="mb-1"><a onclick="openOfferModal('{{$venue->name}}', '{{$venue->id}}')">Offers</a></div>
             <!-- <div class="mb-1"><a onclick="openMediaModal('{{$venue->name}}', '{{$venue->header_image_path}}', '{{$venue->media}}')">Media</a></div>
             <div class="mb-1"><a onclick="openDetailModal('{{$venue}}')">Detail</a></div> -->
         </div>

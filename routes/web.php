@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\VendorController as AdminVendorController;
 use App\Http\Controllers\Admin\VenueController as AdminVenueController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
+use App\Http\Controllers\Admin\DjController as AdminDjController;
 
 /*
 |--------------------------------------------------------------------------
@@ -132,6 +133,8 @@ Route::name('customers.')->prefix('customers')->as('customers.')->group(function
             Route::get('/favorite', 'favourite')->name('favorite');
             Route::get('/favourited/{id}', 'favourited')->name('favourited');
             Route::get('/unfavourite/{id}', 'unfavourite')->name('unfavourite');
+            Route::get('/booking/{id}', 'booking')->name('booking');
+            Route::post('/create', 'createBooking')->name('createBooking');
         });
     });
 });
@@ -166,9 +169,21 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
         Route::controller(AdminVendorController::class)->name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::put('/update/{id}', 'update')->name('update');
             Route::get('/resume/{id}', 'resume')->name('resume');
             Route::get('/pause/{id}', 'pause')->name('pause');
             Route::get('/delete/{id}', 'destroy')->name('destroy');
+        });
+
+        Route::controller(AdminDjController::class)->name('djs.')->prefix('djs')->as('djs.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::put('/update/{id}', 'update')->name('update');
+            Route::get('/delete/{id}', 'destroy')->name('destroy');
+            Route::get('/approve/{id}', 'approve')->name('approve');
+            Route::get('/reject/{id}', 'reject')->name('reject');
         });
 
         Route::controller(AdminVenueController::class)->name('venues.')->prefix('venues')->as('venues.')->group(function () {

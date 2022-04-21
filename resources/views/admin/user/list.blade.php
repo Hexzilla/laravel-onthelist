@@ -22,7 +22,7 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Role</th>
+                                        <th>Phone</th>
                                         <th>Status</th>
                                         <th>Created At</th>
                                         <th>Actions</th>
@@ -33,7 +33,7 @@
                                     <tr>
                                         <td>{{$user->name}}</td>
                                         <td>{{$user->email}}</td>
-                                        <td>{{$user->role}}</td>
+                                        <td>{{$user->userProfile ? $user->userProfile->phone : ''}}</td>
                                         <td>
                                             @if($user->status == 'Rejected')
                                             <span class="badge badge-danger">Rejected</span>

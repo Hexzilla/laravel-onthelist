@@ -27,7 +27,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">$TITLE Venue</h5>
+                <h5 class="modal-title">$TITLE - Table Bookings</h5>
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                 </button>
             </div>
@@ -36,20 +36,63 @@
                     <table class="table table-responsive-am">
                         <thead>
                             <tr>
-                                <th>Type</th>
-                                <th>Description</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Approval</th>
+                                <th>Booking Name</th>
+                                <th>Offer Type</th>
+                                <th>Purchase Date</th>
+                                <th>Price Paid</th>
+                                <th>Order No</th>
+                                <th>Scanned</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr class="d-none">
-                                <td>$Type</td>
-                                <td>$Description</td>
-                                <td>$Quantity</td>
-                                <td>$Price</td>
-                                <td>$Approval</td>
+                                <td>$name</td>
+                                <td>$type</td>
+                                <td>$date</td>
+                                <td>$price</td>
+                                <td>$no</td>
+                                <td>$id</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Venue Offer Modal -->
+<div class="modal fade" id="modal_venue_offer">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">$TITLE - Table Bookings</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-responsive-am">
+                        <thead>
+                            <tr>
+                                <th>Booking Name</th>
+                                <th>Table Type</th>
+                                <th>Booking Time</th>
+                                <th>Deposit Paid</th>
+                                <th>Booking No</th>
+                                <th>Scanned</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="d-none">
+                                <td>$name</td>
+                                <td>$type</td>
+                                <td>$time</td>
+                                <td>$price</td>
+                                <td>$no</td>
+                                <td>$id</td>
                             </tr>
                         </tbody>
                     </table>
@@ -85,7 +128,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">$TITLE Timetable</h5>
+                <h5 class="modal-title">$TITLE Opening Time</h5>
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                 </button>
             </div>
@@ -268,28 +311,91 @@
         media.modal('show');
     }
 
-    function openTableModal(venue, tables) {
-        tables = JSON.parse(tables);
-        
-        $(".display-modal").remove();
-        const body = $("#modal_venue_table").clone().addClass("display-modal");
-        const tbody = body.find("tbody");
-        const sample = tbody.children('.d-none');
+    function openTableModal(venue, venue_id){
+        $.ajax({
+            url: '/api/venue/table/' + venue_id,
+            type: "POST",
+            dataType: 'json',
+            success: function(dataResult){
+                var tables = dataResult.data;
+                $(".display-modal").remove();
+                const body = $("#modal_venue_table").clone().addClass("display-modal");
+                const tbody = body.find("tbody");
+                const sample = tbody.children('.d-none');
 
-        tables.forEach(table => {
-            const clone = sample.clone().removeClass('d-none').addClass('display');
-            let html = clone.html();
-            html = html.replace('$Type', table.type)
-            html = html.replace('$Description', table.description || '')
-            html = html.replace('$Quantity', table.qty)
-            html = html.replace('$Price', table.price)
-            html = html.replace('$Approval', table.approval)
-            tbody.append(clone.html(html));
+                $.each(tables, function(index, row){
+                    const clone = sample.clone().removeClass('d-none').addClass('display');
+                    let html = clone.html();
+                    html = html.replace('$name', row.userName)
+                    html = html.replace('$type', row.type)
+                    html = html.replace('$time', row.time || '')
+                    html = html.replace('$price', row.price)
+                    html = html.replace('$no', row.id)
+                    tbody.append(clone.html(html));
+                })
+                const modal = body.html().replace('$TITLE', venue);
+                $("body").append(body.html(modal));
+                body.modal('show');
+            }
         });
+    }
 
-        const modal = body.html().replace('$TITLE', venue);
-        $("body").append(body.html(modal));
-        body.modal('show');
+    function openOfferModal(venue, venue_id){
+        $.ajax({
+            url: '/api/venue/offer/' + venue_id,
+            type: "POST",
+            dataType: 'json',
+            success: function(dataResult){
+                var offers = dataResult.data;
+                $(".display-modal").remove();
+                const body = $("#modal_venue_offer").clone().addClass("display-modal");
+                const tbody = body.find("tbody");
+                const sample = tbody.children('.d-none');
+
+                $.each(offers, function(index, row){
+                    const clone = sample.clone().removeClass('d-none').addClass('display');
+                    let html = clone.html();
+                    html = html.replace('$name', row.userName)
+                    html = html.replace('$type', row.type)
+                    html = html.replace('$date', row.date)
+                    html = html.replace('$price', row.price)
+                    html = html.replace('$no', row.id)
+                    tbody.append(clone.html(html));
+                })
+                const modal = body.html().replace('$TITLE', venue);
+                $("body").append(body.html(modal));
+                body.modal('show');
+            }
+        });
+    }
+
+    function openTableModal(venue, venue_id){
+        $.ajax({
+            url: '/api/venue/table/' + venue_id,
+            type: "POST",
+            dataType: 'json',
+            success: function(dataResult){
+                var tables = dataResult.data;
+                $(".display-modal").remove();
+                const body = $("#modal_venue_table").clone().addClass("display-modal");
+                const tbody = body.find("tbody");
+                const sample = tbody.children('.d-none');
+
+                $.each(tables, function(index, row){
+                    const clone = sample.clone().removeClass('d-none').addClass('display');
+                    let html = clone.html();
+                    html = html.replace('$name', row.userName)
+                    html = html.replace('$type', row.type)
+                    html = html.replace('$qty', row.qty || '')
+                    html = html.replace('$price', row.price)
+                    html = html.replace('$no', row.id)
+                    tbody.append(clone.html(html));
+                })
+                const modal = body.html().replace('$TITLE', venue);
+                $("body").append(body.html(modal));
+                body.modal('show');
+            }
+        });
     }
 
     function openDetailModal(venue) {

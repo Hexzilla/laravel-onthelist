@@ -33,7 +33,7 @@
                                 <tbody>
                                     @foreach($djs as $dj)
                                     <tr>
-                                        <td>{{$dj->name}}</td>
+                                        <td>{{$dj->user->name}}</td>
                                         <td>{{$dj->genre}}</td>
                                         <td><a href="{{$dj->mixcloud_link}}">{{$dj->mixcloud_link}}</a></td>
                                         <td>
@@ -59,6 +59,9 @@
                                     </tr>
                                     @endforeach
                             </table>
+                            <div style="display: flex; justify-content: end; margin-right: 40px;">
+                                {{ $djs->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>         
@@ -303,6 +306,12 @@
             $("body").append(description.html(html));
             description.modal('show');
         }
+        window.addEventListener('load', (event) => {
+            initDataTable('example', {
+                info: false,
+                paging: false,
+            })
+        });
     </script>
-    <script src="{{ asset('js/plugins-init/datatables.init.js') }}"></script>
+    <script src="{{ asset('js/datatable.js') }}"></script>
 @endsection

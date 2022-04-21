@@ -416,5 +416,4 @@ class EventController extends Controller
         ->get();
         return json_encode(array('data' => $guestlists));
     }
-
 }

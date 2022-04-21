@@ -10,6 +10,7 @@ use App\Models\VenueTable;
 use App\Models\VenueTimetable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class VenueController extends Controller
@@ -346,5 +347,27 @@ class VenueController extends Controller
     {
         Venue::where('id', $id)->delete();
         return redirect()->route('vendors.venue.index')->with('Success');
+    }
+
+    public function getTables($id)
+    {
+        $tables = DB::table('venue_bookings')
+        ->join('users', 'users.id', '=', 'venue_bookings.user_id')
+        ->where('venue_bookings.venue_id', $id)
+        ->where('venue_bookings.booking_type', 'Table')
+        ->select('venue_bookings.*', 'users.name as userName')
+        ->get();
+        return json_encode(array('data' => $tables));
+    }
+
+    public function getOffers($id)
+    {
+        $offers = DB::table('venue_bookings')
+        ->join('users', 'users.id', '=', 'venue_bookings.user_id')
+        ->where('venue_bookings.venue_id', $id)
+        ->where('venue_bookings.booking_type', 'Offer')
+        ->select('venue_bookings.*', 'users.name as userName')
+        ->get();
+        return json_encode(array('data' => $offers));
     }
 }

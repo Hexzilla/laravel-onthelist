@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dj;
+use App\Models\User;
 use App\Models\Venue;
 use App\Models\DjMedia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class DjController extends Controller
@@ -15,7 +18,7 @@ class DjController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
-        $djs = Dj::where('user_id', $user_id)->get();
+        $djs = Dj::where('vendor_id', $user_id)->paginate(10);
         return view('vendor.dj.list', ['djs' => $djs]);
     }
 
@@ -31,7 +34,6 @@ class DjController extends Controller
     public function edit($id)
     {
         $dj = Dj::where('id', $id)->firstOrFail();
-
         if (is_null($dj)) {
             return redirect()->route('vendors.dj.index');
         }
@@ -50,6 +52,8 @@ class DjController extends Controller
         $user_id = Auth::user()->id;
         $request->validate([
             'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
             'genres' => 'required',
             'header_image' => 'required|mimes:jpeg,png,jpg,gif',
         ]);
@@ -59,9 +63,16 @@ class DjController extends Controller
             $header_image_path = upload_file($request->file('header_image'), 'venue');
         }
 
-        $dj = Dj::create([
-            'user_id' => $user_id,
+        $user = User::create([
             'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'dj',
+        ]);
+
+        $dj = Dj::create([
+            'vendor_id' => $user_id,
+            'user_id' => $user->id,
             'description' => $request->description,
             'header_image_path' => $header_image_path,
             'mixcloud_link' => $request->mixcloud_link,
@@ -75,10 +86,12 @@ class DjController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user_id = Auth::user()->id;
+        $vendor_id = Auth::user()->id;
         $request->validate([
             'name' => 'required',
-            'genre' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+            'genres' => 'required',
         ]);
 
         $dj = Dj::find($id);
@@ -93,13 +106,17 @@ class DjController extends Controller
             return redirect()->back()->with(['errors' => 'Invalid header image']);
         }
 
-        $dj->user_id = $user_id;
-        $dj->name = $request->name;
+        $dj->vendor_id = $vendor_id;
         $dj->description = $request->description;
         $dj->header_image_path = $header_image_path;
         $dj->mixcloud_link = $request->mixcloud_link;
-        $dj->genre = $request->genre;
-        $dj->save();        
+        $dj->genre = implode(',', $request->genres);
+        $dj->save();
+
+        $user = User::where('id', $dj->user_id)->firstOrFail();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $request->password;
 
         $this->updateMedia($dj, $request);
 

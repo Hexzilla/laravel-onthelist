@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Vendor\EventController as VendorEventController;
-
+use App\Http\Controllers\Vendor\VenueController as VendorVenueController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,6 +21,10 @@ Route::controller(VendorEventController::class)->name('event.')->prefix('event')
     Route::post('/guestlist/{id}', 'getGuestlists');
 });
 
+Route::controller(VendorVenueController::class)->name('venue.')->prefix('venue')->as('venue.')->group(function(){
+    Route::post('/table/{id}', 'getTables');
+    Route::post('/offer/{id}', 'getOffers');
+});
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

@@ -11,7 +11,7 @@ class Dj extends Model
     use HasFactory;
 
     protected $fillable = [
-        "name",
+        "vendor_id",
         "description",
         "mixcloud_link",
         "header_image_path",
@@ -22,5 +22,10 @@ class Dj extends Model
     public function media()
     {
         return $this->hasMany(DjMedia::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

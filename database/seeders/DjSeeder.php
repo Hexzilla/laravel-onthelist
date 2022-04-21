@@ -20,30 +20,30 @@ class DjSeeder extends Seeder
         Schema::enableForeignKeyConstraints();
 
         Dj::create([
-            'name' => 'Ronalonia',
+            'user_id' => 2,
             'description' => 'Top performance coach',
             'mixcloud_link' => 'https://maxcloud.com/ronalonia',
             'header_image_path' => 'images/download_now_bg.jpg',
             'genre' => 'performance',
-            'user_id' => 1,
+            'vendor_id' => 1,
         ]);
 
         Dj::create([
-            'name' => 'John James',
+            'user_id' => 3,
             'description' => 'Top 1 Music Player',
             'mixcloud_link' => 'https://maxcloud.com/john',
             'header_image_path' => 'images/dj.jpg',
             'genre' => 'Music',
-            'user_id' => 1,
+            'vendor_id' => 1,
         ]);
 
         Dj::create([
-            'name' => 'Tommy Jackson',
+            'user_id' => 4,
             'description' => 'Web Designer',
             'mixcloud_link' => 'https://maxcloud.com/tommy',
             'header_image_path' => 'images/download_now_bg.jpg',
             'genre' => 'IT',
-            'user_id' => 1,
+            'vendor_id' => 1,
         ]);
     }
 }

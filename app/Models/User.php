@@ -44,9 +44,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function profile()
+    public function dj()
     {
-        return $this->hasMany(DjProfile::class);
+        return $this->hasMany(Dj::class);
     }
 
     public function media()

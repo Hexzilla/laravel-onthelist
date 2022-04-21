@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Venue;
 use App\Models\UserFavorite;
+use App\Models\VenueBooking;
 
 class VenueController extends Controller
 {
@@ -64,5 +65,28 @@ class VenueController extends Controller
             ->where('type', 'venue')
             ->delete();
         return redirect()->back();
+    }
+
+    public function booking($id)
+    {
+        $event = Venue::where('id', $id)->firstOrFail();
+        return view('customer.venue.booking', [
+            'venue' => $event
+        ]);
+    }
+
+    public function createBooking(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        VenueBooking::create([
+            'user_id' => $user_id,
+            'venue_id' => $request->venue_id,
+            'booking_type' => $request->booking_type,
+            'type' => $request->type,
+            'price' => $request->price,
+            'date' => $request->date,
+            'time' => $request->time,
+        ]);
+        return redirect()->route('customers.venues.index');
     }
 }

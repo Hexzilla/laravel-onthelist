@@ -36,9 +36,17 @@ class VenueController extends Controller
 
     public function edit($id)
     {
-        $user_id = Auth::user()->id;
-        $venue = Venue::where('id', $id)->get();
-        return view('admin.venue.edit', ['venue' => $venue[0]]);
+        $venue = Venue::where('id', $id)->firstOrFail();
+
+        if (is_null($venue)) {
+            return redirect()->route('admin.venues.index');
+        }
+
+        return view('vendor.venue.create', [
+            'title' => 'Edit',
+            'action' => route('admin.venues.update', $id),
+            'venue' => $venue,
+        ]);
     }
 
     public function update(Request $request, $id)
@@ -55,22 +63,31 @@ class VenueController extends Controller
 
         $venues = Venue::where('id', $id)->get();
         $venue = $venues[0];
+        $venue->user_id = $user_id;
         $venue->name = $request->name;
-        if(!is_null($request->details))
+        $venue->type = $request->venue_type;
+        if (!is_null($request->details)) {
             $venue->description = $request->details;
-        $venue->header_image_path = upload_file($request->file('header_image'), 'venue');
+        }
+        if (!is_null($request->file('header_image'))) {
+            $venue->header_image_path = upload_file($request->file('header_image'), 'venue');
+        }
         $venue->address = $request->address;
         $venue->city = $request->city;
         $venue->postcode = $request->postcode;
         $venue->phone = $request->phone;
-        if(!is_null($request->facilities))
+        if (!is_null($request->facilities)) {
             $venue->facilities = $request->facilities;
-        if(!is_null($request->music_policy))
+        }
+        if (!is_null($request->music_policy)) {
             $venue->music_policy = $request->music_policy;
-        if(!is_null($request->dress_code))
+        }
+        if (!is_null($request->dress_code)) {
             $venue->dress_code = $request->dress_code;
-        if(!is_null($request->perks))
+        }
+        if (!is_null($request->perks)) {
             $venue->perks = $request->perks;
+        }
         $venue->save();
 
         $this->updateTimetable($venue, $request);
@@ -104,118 +121,96 @@ class VenueController extends Controller
 
     public function updateMedia($venue, $request)
     {
-        $medias = VenueMedia::where('venue_id', $venue->id)->get();
-        $size = count($medias);
         if($request->hasFile('gallery_image'))
         {
             $path = upload_file($request->file('gallery_image'), 'venue');
-            if ($size > 0) {
-                $media = $medias[0];
-                $media->type = 'image';
-                $media->path = $path;
-                $media->save();
-            } else {
-                VenueMedia::create([
-                    'venue_id' => $venue->id,
-                    'type' => 'image',
-                    'path' => $path
-                ]);
-            }
+            VenueMedia::create([
+                'venue_id' => $venue->id,
+                'type' => 'image',
+                'path' => $path
+            ]);
         }
 
         // update media record if the video exists
-        if($request->hasFile('gallery_video'))
+        if ($request->hasFile('gallery_video'))
         {
             $path = upload_file($request->file('gallery_video'), 'venue');
-            if ($size > 0) {
-                $media = $medias[0];
-                $media->type = 'video';
-                $media->path = $path;
-                $media->save();
-            } else {
-                VenueMedia::create([
-                    'venue_id' => $venue->id,
-                    'type' => 'video',
-                    'path' => $path
-                ]);
-            }
+            VenueMedia::create([
+                'venue_id' => $venue->id,
+                'type' => 'video',
+                'path' => $path
+            ]);
         }
 
-        if(!is_null($request->video_link))
+        if (!is_null($request->video_link))
         {
-            $medias = VenueMedia::where('venue_id', $venue->id)->get();
-            if ($size > 0) {
-                $media = $medias[0];
-                $media->type = 'link';
-                $media->path = $request->video_link;
-                $media->save();
-            } else {
-                VenueMedia::create([
-                    'venue_id' => $venue->id,
-                    'type' => 'link',
-                    'path' => $request->video_link
-                ]);
-            }
+            VenueMedia::create([
+                'venue_id' => $venue->id,
+                'type' => 'link',
+                'path' => $request->video_link
+            ]);
         }
     }
 
     public function updateOffer($venue, $request)
     {
-        if($request->has('offer_type'))
+        if ($request->has('offer_type'))
         {
-            $offerSize = sizeof($request->get('offer_type'));
-            $offers = VenueOffer::where('venue_id', $venue->id)->get();
-            $size = count($offers);
-            for($i = 0; $i < $offerSize; $i++){
-                if ($size > $i) {
-                    $offer = $offers[$i];
-                    $offer->type = $request->offer_type[$i];
-                    $offer->qty = $request->offer_qty[$i];
-                    $offer->price = $request->offer_price[$i];
-                    $offer->approval = $request->offer_approval[$i];
-                    $offer->description = $request->offer_description[$i];
-                    $offer->save();
-                } else {
-                    VenueOffer::create([
-                        'venue_id' => $venue->id,
-                        'type' => $request->offer_type[$i],
-                        'qty' => $request->offer_qty[$i],
-                        'price' => $request->offer_price[$i],
-                        'approval' => $request->offer_approval[$i],
-                        'description' => $request->offer_description[$i]
-                    ]);
-                } 
+            $offerIds = $request->get('offer_id');
+            $offerIds = array_filter($offerIds, function($id) {
+                return isset($id);
+            });
+            if (count($offerIds) > 0) {
+                VenueOffer::where('venue_id', $venue->id)->whereNotIn('id', $offerIds)->delete();
+            } else {
+                VenueOffer::where('venue_id', $venue->id)->delete();
             }
+
+            $offerSize = sizeof($request->get('offer_type'));
+            $offers = array();
+            for ($i = 0; $i < $offerSize; $i++){
+                array_push($offers, [
+                    'id' => $request->offer_id[$i],
+                    'venue_id' => $venue->id,
+                    'type' => $request->offer_type[$i],
+                    'qty' => $request->offer_qty[$i],
+                    'price' => $request->offer_price[$i],
+                    'approval' => $request->offer_approval[$i],
+                    'description' => $request->offer_description[$i]
+                ]);
+            }
+            VenueOffer::upsert($offers, ['id'], ['type', 'qty', 'price', 'approval', 'description']);
         }
     }
 
     public function updateTable($venue, $request)
     {
-        if($request->has('table_type'))
+        if ($request->has('table_type'))
         {
-            $tableSize = sizeof($request->get('table_type'));
-            $tables = VenueTable::where('venue_id', $venue->id)->get();
-            $size = count($tables);
-            for($i = 0; $i < $tableSize; $i++){
-                if ($size > $i) {
-                    $table = $tables[$i];
-                    $table->type = $request->table_type[$i];
-                    $table->qty = $request->table_qty[$i];
-                    $table->price = $request->table_price[$i];
-                    $table->approval = $request->table_booking_approval[$i];
-                    $table->description = $request->table_description[$i];
-                    $table->save();
-                } else {
-                    VenueTable::create([
-                        'venue_id' => $venue->id,
-                        'type' => $request->table_type[$i],
-                        'qty' => $request->table_qty[$i],
-                        'price' => $request->table_price[$i],
-                        'approval' => $request->table_booking_approval[$i],
-                        'description' => $request->table_description[$i]
-                    ]);
-                }  
+            $tableIds = $request->get('table_id');
+            $tableIds = array_filter($tableIds, function($id) {
+                return isset($id);
+            });
+            if (count($tableIds) > 0) {
+                VenueTable::where('venue_id', $venue->id)->whereNotIn('id', $tableIds)->delete();
+            } else {
+                VenueTable::where('venue_id', $venue->id)->delete();
             }
+
+            $tableSize = sizeof($request->get('table_type'));
+            $tables = array();
+            for ($i = 0; $i < $tableSize; $i++) {
+                array_push($tables, [
+                    'id' =>  $request->table_id[$i],
+                    'venue_id' => $venue->id,
+                    'type' =>  $request->table_type[$i] ?? 'Standard',
+                    'qty' =>  $request->table_qty[$i] ?? 0,
+                    'price' =>  $request->table_price[$i] ?? 0,
+                    'approval' =>  $request->table_booking_approval[$i] ?? 'No',
+                    'description' =>  $request->table_description[$i],
+                ]);
+            }
+            VenueTable::upsert($tables, ['id'], ['type', 'qty', 'price', 'approval', 'description']);
         }
     }
 
@@ -223,7 +218,6 @@ class VenueController extends Controller
     {
         $venues = Venue::where('id', $id)->get();
         $venues[0]->delete();
-        $venues = Venue::get();
         return redirect()->route('admin.venues.index')->with('Success');
     }
 
