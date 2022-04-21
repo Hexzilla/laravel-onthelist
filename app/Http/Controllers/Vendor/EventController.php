@@ -49,16 +49,14 @@ class EventController extends Controller
     public function edit($id)
     {
         $user_id = Auth::user()->id;
-        $djs = Dj::where('user_id', $user_id)->get();
+        
         $venues = Venue::where('user_id', $user_id)->get();
         $event = Event::where('user_id', $user_id)->where('id', $id)->firstOrFail();
         if (is_null($event)) {
             return redirect()->back();
         }
-        $starts = explode(' ', $event->start);
-        $ends = explode(' ', $event->start);
-
-        foreach($djs as $dj) {
+        $djs = Dj::where('vendor_id', $user_id)->get();
+        foreach ($djs as $dj) {
             $selected = '';
             foreach($event->djs as $event_dj) {
                 if ($event_dj->dj_id == $dj->id) {
@@ -69,6 +67,8 @@ class EventController extends Controller
             $dj->selected = $selected;
         }
 
+        $starts = explode(' ', $event->start);
+        $ends = explode(' ', $event->start);
         return view('vendor.event.create', [
             'event' => $event, 
             'venues' => $venues, 

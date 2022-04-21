@@ -113,7 +113,7 @@
                                     <label for="djs">DJ's *</label>
                                     <select class="form-control multi-select" id="djs" name="djs[]" multiple required>
                                         @foreach($djs as $dj)
-                                        <option value="{{$dj->id}}" {{ $dj->selected }}>{{$dj->name}}</option>
+                                        <option value="{{$dj->id}}" {{ $dj->selected }}>{{$dj->user->name}}</option>
                                         @endforeach
                                     </select>
                                     <span class="invalid-feedback" role="alert">This field is required</span>
