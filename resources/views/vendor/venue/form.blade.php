@@ -392,8 +392,17 @@
 
         // Show remove buttons
         function showRemoveButtons() {
-            $(".remove-venue-offer:not(:first)").removeClass('d-none');
-            $(".remove-venue-table:not(:first)").removeClass('d-none');
+            if ($(".venue-offer").length > 1) {
+                $(".remove-venue-offer").removeClass('d-none');
+            } else {
+                $(".remove-venue-offer").addClass('d-none');
+            }
+            
+            if ($(".venue-table").length > 1) {
+                $(".remove-venue-table").removeClass('d-none');
+            } else {
+                $(".remove-venue-table").addClass('d-none');
+            }
         }
         showRemoveButtons();
 
@@ -404,6 +413,7 @@
                     return;
                 }
                 $(this).parent().parent().remove();
+                showRemoveButtons();
             })
         }
         removeVenueOffer();
@@ -423,6 +433,7 @@
                     return;
                 }
                 $(this).parent().parent().remove();
+                showRemoveButtons();
             })
         }
         removeVenueTable();
@@ -434,14 +445,6 @@
             removeVenueTable();
             showRemoveButtons();
         });
-
-        $("#remove-venue-table").on('click', function(){
-            var tableSize = $(".venue-table").length;
-            $(".venue-table:last").remove();
-            if(tableSize == 2) {
-                $("#remove-venue-table").addClass("d-none");
-            }
-        })
 
         const music_policies = ['Afro Beats', 'Commercial', 'Dance', 'Deep House', 'Dnb', 'Electronic', 'Hip-hop', 'House', 'Indie', 'Jazz', 'Pop', 'Reggae', 'Rnb', 'Rock', 'Tech-House', 'Techno', 'UK Garage']
         $("#music_policy").autocomplete({
