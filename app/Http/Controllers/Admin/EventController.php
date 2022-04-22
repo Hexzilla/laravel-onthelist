@@ -68,6 +68,16 @@ class EventController extends Controller
         return redirect()->route('admin.events.index');
     }
 
+    public function unfeature($id)
+    {
+        $user_id = Auth::user()->id;
+        $events  = Event::where('id', $id)->get();
+        $event = $events[0];
+        $event->feature = "no";
+        $event->save();
+        return redirect()->route('admin.events.index');
+    }
+
     public function approve($id)
     {
         $event = Event::where('id', $id)->firstOrFail();

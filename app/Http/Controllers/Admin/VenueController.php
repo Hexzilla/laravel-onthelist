@@ -229,6 +229,15 @@ class VenueController extends Controller
         return redirect()->route('admin.venues.index')->with('Success');
     }
 
+    public function unfeature($id)
+    {
+        $venues = Venue::where('id', $id)->get();
+        $venue = $venues[0];
+        $venue->feature = 'no';
+        $venue->save();
+        return redirect()->route('admin.venues.index')->with('Success');
+    }
+
     public function approve($id)
     {
         $venue = Venue::where('id', $id)->first();

@@ -193,6 +193,7 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/delete/{id}', 'destroy')->name('destroy');
             Route::put('/update/{id}', 'update')->name('update');
             Route::get('/feature/{id}', 'feature')->name('feature');
+            Route::get('/unfeature/{id}', 'unfeature')->name('unfeature');
             Route::get('/approve/{id}', 'approve')->name('approve');
             Route::get('/reject/{id}', 'reject')->name('reject');
         });
@@ -206,6 +207,7 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/delete/{id}', 'destroy')->name('destroy');
             Route::put('/update/{id}', 'update')->name('update');
             Route::get('/feature/{id}', 'feature')->name('feature');
+            Route::get('/unfeature/{id}', 'unfeature')->name('unfeature');
             Route::get('/approve/{id}', 'approve')->name('approve');
             Route::get('/reject/{id}', 'reject')->name('reject');
         });

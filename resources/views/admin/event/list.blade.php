@@ -61,9 +61,15 @@
                                             <button title="Reject" class="btn btn-rounded btn-danger mb-1" onclick="openRejectModal('{{$event->id}}')">
                                                 <i class="fa fa-remove"></i>
                                             </button>
-                                            <button type="button" title="As Feature" class="btn btn-rounded btn-info mb-1">
+                                            @if($event->feature === "yes")
+                                            <button type="button" title="Cancel Feature" class="btn btn-rounded btn-info mb-1">
+                                                <a href="{{ route('admin.events.unfeature', $event->id) }}"><i class="fa fa-bitcoin"></i></a>
+                                            </button>
+                                            @else
+                                            <button type="button" title="As Feature" class="btn btn-rounded btn-outline-info mb-1">
                                                 <a href="{{ route('admin.events.feature', $event->id) }}"><i class="fa fa-bitcoin"></i></a>
                                             </button>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach
