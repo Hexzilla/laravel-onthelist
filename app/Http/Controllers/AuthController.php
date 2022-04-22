@@ -2,54 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Session;
-use Carbon\Carbon;
+use App\Traits\ApiResponser;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
-    }
+    use ApiResponser;
 
-    public function index()
+    public function register(Request $request)
     {
-        return view('auth.login');
+        $attr = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:users,email',
+            'password' => 'required|string|min:6|confirmed'
+        ]);
+
+        $user = User::create([
+            'name' => $attr['name'],
+            'password' => bcrypt($attr['password']),
+            'email' => $attr['email']
+        ]);
+
+        return $this->success([
+            'token' => $user->createToken('API Token')->plainTextToken
+        ]);
     }
 
     public function login(Request $request)
     {
-        $this->validate($request, [
-            'email' => 'required|email',
-            'password' => 'required|min:6'
+        $attr = $request->validate([
+            'email' => 'required|string|email|',
+            'password' => 'required|string|min:6'
         ]);
-        $user = User::where('email', $request->email)->first();
 
-        $credentials = $request->only('email', 'password');
-        if($user->status === 'Approved' && is_null($user->deleted_at)) {
-            if(Auth::attempt($credentials, $request->get('remember'))) {
-                if($user->role === 'vendor'){
-                    return redirect()->intended('/vendors');
-                }elseif($user->role === 'dj'){
-                    return redirect()->intended('/dj');
-                }else{
-                    return redirect('/login');
-                }
-            }
-            return back()->withInput($request->only('email', 'remember'));
+        if (!Auth::attempt($attr)) {
+            return $this->error('Credentials not match', 401);
         }
-        return redirect('home');
+
+        return $this->success([
+            'token' => auth()->user()->createToken('API Token')->plainTextToken
+        ]);
     }
 
-    public function logout() {
-        $this->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+    public function logout()
+    {
+        auth()->user()->tokens()->delete();
 
-        return redirect('home');
+        return [
+            'message' => 'Tokens Revoked'
+        ];
     }
 }
