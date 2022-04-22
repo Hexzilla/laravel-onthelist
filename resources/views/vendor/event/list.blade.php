@@ -259,7 +259,7 @@
         function openTicketModal(event, event_id){
             $.ajax({
                 url: '/api/event/ticket/' + event_id,
-                type: "POST",
+                type: "GET",
                 dataType: 'json',
                 success: function(dataResult){
                     var tickets = dataResult.data;
@@ -289,7 +289,7 @@
         function openTableModal(event, event_id){
             $.ajax({
                 url: '/api/event/table/' + event_id,
-                type: "POST",
+                type: "GET",
                 dataType: 'json',
                 success: function(dataResult){
                     var tables = dataResult.data;
@@ -319,7 +319,7 @@
         function openGuestlistModal(event, event_id){
             $.ajax({
                 url: '/api/event/guestlist/' + event_id,
-                type: "POST",
+                type: "GET",
                 dataType: 'json',
                 success: function(dataResult){
                     var guestlists = dataResult.data;
