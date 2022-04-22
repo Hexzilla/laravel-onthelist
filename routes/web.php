@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SettingController as SettingController;
 
 use App\Http\Controllers\Vendor\DashboardController as VendorDahsboardController;
@@ -47,10 +46,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 /***********************************************************************
  *************************** Vendor Panel *******************************
  **********************************************************************/
-// Route::get('/login', [AuthController::class, 'index'])->name('login');
-// Route::post('login', [AuthController::class, 'login'])->name('login');
-// Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-
 Route::controller(SettingController::class)->name('setting.')->prefix('setting')->as('setting.')->group(function () {
     Route::get('/', 'index')->name('index');
     Route::post('/password', 'changePassword')->name('password');
