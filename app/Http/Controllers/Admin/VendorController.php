@@ -41,22 +41,23 @@ class VendorController extends Controller
 
     public function createVendor($user, $request)
     {
-        $vendor = Vendor::where('user_id', $user->id)->firstOrFail();
+        $vendors = Vendor::where('user_id', $user->id)->get();
         if ($request->hasFile('profile_image')) {
             $path = upload_file($request->file('profile_image'), 'user');
         } else {
             $path = "";
         }
-        if (is_null($vendor)) {
+        if (count($vendors) == 0) {
             Vendor::create([
                 'user_id' => $user->id,
                 'phone' => $request->phone,
-                'address' => $request->phone,
+                'address' => $request->address,
                 'image_path' => $path,
                 'gender' => $request->gender,
                 'date_birth' => $request->date_birth,
             ]);
         } else {
+            $vendor = $vendors[0];
             $vendor->phone = $request->phone;
             $vendor->address = $request->address;
             $vendor->gender = $request->gender;
