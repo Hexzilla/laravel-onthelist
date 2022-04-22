@@ -42,7 +42,7 @@ class VenueController extends Controller
             return redirect()->route('admin.venues.index');
         }
 
-        return view('vendor.venue.create', [
+        return view('admin.venue.edit', [
             'title' => 'Edit',
             'action' => route('admin.venues.update', $id),
             'venue' => $venue,

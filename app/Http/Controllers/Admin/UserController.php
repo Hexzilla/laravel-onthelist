@@ -12,13 +12,10 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    public function index($role)
+    public function index()
     {
-        $users = User::where('role', $role)->paginate(10);
-        if ($role == 'vendor') {
-            return view("admin.vendor.list", ['users' => $users, 'role' => $role]);    
-        }
-        return view("admin.user.list", ['users' => $users, 'role' => $role]);
+        $users = User::where('role', 'customer')->paginate(10);
+        return view("admin.user.list", ['users' => $users, 'role' => 'customer']);
     }
 
     public function edit($id)

@@ -46,7 +46,12 @@ class User extends Authenticatable
 
     public function dj()
     {
-        return $this->hasMany(Dj::class);
+        return $this->hasOne(Dj::class);
+    }
+
+    public function profile()
+    {
+        return $this->hasMany(DjProfile::class);
     }
 
     public function media()
