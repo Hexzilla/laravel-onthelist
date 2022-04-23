@@ -51,7 +51,8 @@ class DjController extends Controller
 
         $header_image_path = null;
         if (!is_null($request->file('header_image'))) {
-            $header_image_path = upload_file($request->file('header_image'), 'venue');
+            $file = $request->file('header_image');
+            $header_image_path = $file->store('public/uploads/user');
         }
 
         $user = User::create([
@@ -90,15 +91,6 @@ class DjController extends Controller
 
         $dj = Dj::find($id);
 
-        $header_image_path = null;
-        if (!is_null($request->file('header_image'))) {
-            $header_image_path = upload_file($request->file('header_image'), 'venue');
-        } else {
-            $header_image_path = $request->header_image_path;
-        }
-        if (is_null($header_image_path)) {
-            return json_encode(array('success' => false, 'errors' => 'Invalid header image'));
-        }
         $user = User::where('id', $dj->user_id)->first();
         if(is_null($user)) {
             return json_encode(array('success' => false, 'error' => 'Failed to update user'));
@@ -110,7 +102,10 @@ class DjController extends Controller
 
         $dj->vendor_id = $vendor_id;
         $dj->description = $request->description;
-        $dj->header_image_path = $header_image_path;
+        if (!is_null($request->file('header_image'))) {
+            $file = $request->file('header_image');
+            $dj->header_image_path = $file->store('public/uploads/user');
+        }
         $dj->mixcloud_link = $request->mixcloud_link;
         $dj->genre = implode(',', $request->genres);
         $dj->save();

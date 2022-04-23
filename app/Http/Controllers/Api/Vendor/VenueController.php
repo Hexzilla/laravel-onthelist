@@ -45,6 +45,20 @@ class VenueController extends Controller
             'postcode' => 'required',
             'phone' => 'required|digits:11',
             'venue_type' => 'required',
+            'mon_open' => 'required',
+            'mon_close' => 'required',
+            'tue_open' => 'required',
+            'tue_close' => 'required',
+            'wed_open' => 'required',
+            'wed_close' => 'required',
+            'thu_open' => 'required',
+            'thu_close' => 'required',
+            'fri_open' => 'required',
+            'fri_close' => 'required',
+            'sat_open' => 'required',
+            'sat_close' => 'required',
+            'sun_open' => 'required',
+            'sun_close' => 'required',
         ]);
         if ($validator->fails()) {
             return json_encode(array('success' => false, 'error' => $validator->errors()));
@@ -56,7 +70,8 @@ class VenueController extends Controller
         $venue->type = $request->venue_type;
         if (!is_null($request->details))
             $venue->description = $request->details;
-        $venue->header_image_path = upload_file($request->file('header_image'), 'venue');
+        $file = $request->file('header_image');
+        $venue->header_image_path = $file->store('public/uploads/venue');
         $venue->address = $request->address;
         $venue->city = $request->city;
         $venue->postcode = $request->postcode;
@@ -178,7 +193,21 @@ class VenueController extends Controller
             'city' => 'required',
             'postcode' => 'required',
             'phone' => 'required|digits:11',
-            'venue_type' => 'required'
+            'venue_type' => 'required',
+            'mon_open' => 'required',
+            'mon_close' => 'required',
+            'tue_open' => 'required',
+            'tue_close' => 'required',
+            'wed_open' => 'required',
+            'wed_close' => 'required',
+            'thu_open' => 'required',
+            'thu_close' => 'required',
+            'fri_open' => 'required',
+            'fri_close' => 'required',
+            'sat_open' => 'required',
+            'sat_close' => 'required',
+            'sun_open' => 'required',
+            'sun_close' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -194,7 +223,8 @@ class VenueController extends Controller
             $venue->description = $request->details;
         }
         if (!is_null($request->file('header_image'))) {
-            $venue->header_image_path = upload_file($request->file('header_image'), 'venue');
+            $file = $request->file('header_image');
+            $venue->header_image_path = $file->store('public/uploads/venue');
         }
         $venue->address = $request->address;
         $venue->city = $request->city;

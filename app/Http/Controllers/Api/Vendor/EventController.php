@@ -76,7 +76,7 @@ class EventController extends Controller
             'header_image' => 'required|mimes:jpeg,png,jpg,gif',
             'type' => 'required',
             'venue_id' => 'required|numeric',
-            'djs' => 'required'
+            'djs' => 'required|array'
         ]);
         if ($validator->fails()) {
             return json_encode(array('success' => false, 'error' => $validator->errors()));
@@ -88,7 +88,8 @@ class EventController extends Controller
         if (!is_null($request->details)) {
             $event->description = $request->details;
         }
-        $event->header_image_path = upload_file($request->file('header_image'), 'event');
+        $file = $request->file('header_image');
+        $event->header_image_path = $file->store('public/uploads/event');
         $event->start = date('Y-m-d H:i', strtotime($request->start_date . ' ' . $request->start_time));
         $event->end = date('Y-m-d H:i', strtotime($request->end_date . ' ' . $request->end_time));
         $event->venue_id = $request->venue_id;
@@ -97,12 +98,23 @@ class EventController extends Controller
             $event->is_weekly_event = 1;
         }
         $event->save();
+        $djs = $request->djs;
+
+        foreach($djs as $dj){
+            $user = Dj::where('id', $dj)->first();
+            if (is_null($user)) {
+                return json_encode(array('success' => false, 'error' => 'The dj '.$dj.' does not exist.'));
+            }
+            EventDj::create([
+                'event_id' => $event->id,
+                'dj_id' => $dj
+            ]);
+        }
 
         $this->createMedia($event, $request);
         $this->createTicket($event, $request);
         $this->createTable($event, $request);
         $this->createGuestlist($event, $request);
-        $this->createDjs($event->id, $request->djs);
 
         return json_encode(array('success' => true));
     }
@@ -194,16 +206,6 @@ class EventController extends Controller
         }
     }
 
-    public function createDjs($event_id, $djs)
-    {
-        foreach($djs as $dj){
-            EventDj::create([
-                'event_id' => $event_id,
-                'dj_id' => $dj
-            ]);
-        }
-    }
-
     public function update(Request $request, $id)
     {
         $user_id = Auth::user()->id;
@@ -225,7 +227,8 @@ class EventController extends Controller
             $event->description = $request->details;
         }
         if (!is_null($request->file('header_image'))) {
-            $event->header_image_path = upload_file($request->file('header_image'), 'event');
+            $file = $request->file('header_image');
+            $event->header_image_path = $file->store('public/uploads/event');
         }
         $event->start = date('Y-m-d H:i', strtotime($request->start_date . ' ' . $request->start_time));
         $event->end = date('Y-m-d H:i', strtotime($request->end_date . ' ' . $request->end_time));
@@ -233,12 +236,24 @@ class EventController extends Controller
         if ($request->is_weekly_event == 'on')
             $event->is_weekly_event = 1;
         $event->save();
+        $djs = $request->djs;
+
+        foreach($djs as $dj){
+            $user = Dj::where('id', $dj)->first();
+            if (is_null($user)) {
+                return json_encode(array('success' => false, 'error' => 'The dj '.$dj.' does not exist.'));
+            }
+            EventDj::where('event_id', $event->id)->delete();
+            EventDj::create([
+                'event_id' => $event->id,
+                'dj_id' => $dj
+            ]);
+        }
 
         $this->updateMedia($event, $request);
         $this->updateTicket($event, $request);
         $this->updateTable($event, $request);
         $this->updateGuestlist($event, $request);
-        $this->updateDjs($event->id, $request->djs);
 
         return json_encode(array('success' => true));
     }

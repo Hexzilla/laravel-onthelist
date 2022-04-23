@@ -49,6 +49,8 @@ class SettingController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required',
+            'gender' => 'required',
+            'date_birth' => 'required',
         ]);
         if ($validator->fails()) {
             return json_encode(array('success' => false, 'error' => $validator->errors()));
@@ -69,13 +71,21 @@ class SettingController extends Controller
         $profiles = Vendor::where('user_id', $user->id)->get();
         if(count($profiles) > 0){
             $profile = $profiles[0];
-            $profile->phone = $request->phone;
-            $profile->address = $request->address;
+            if(!is_null($request->phone)) {
+                $profile->phone = $request->phone;
+            }
+            if(!is_null($request->address)) {
+                $profile->address = $request->address;
+            }
+            
             if($request->hasFile('profile_image')){
                 $path = upload_file($request->file('profile_image'), 'user');
                 $profile->image_path = $path;
             }
-            $profile->gender = $request->gender;
+            if(!is_null($request->gender)){
+                $profile->gender = $request->gender;
+            }
+            
             $profile->date_birth = $request->date_birth;
             $profile->save();
         } else {
@@ -87,7 +97,7 @@ class SettingController extends Controller
             Vendor::create([
                 'user_id' => $user->id,
                 'phone' => $request->phone,
-                'address' => $request->phone,
+                'address' => $request->address,
                 'image_path' => $path,
                 'gender' => $request->gender,
                 'date_birth' => $request->date_birth,

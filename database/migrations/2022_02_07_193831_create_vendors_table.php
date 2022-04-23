@@ -18,7 +18,7 @@ class CreateVendorsTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('image_path')->nullable();
             $table->enum('gender', ['Male', 'Female']);
-            $table->date('date_birth');
+            $table->date('date_birth')->nullable();
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
             $table->timestamps();
