@@ -36,12 +36,11 @@ class VenueController extends Controller
             return json_encode(array('success' => false, 'error' => 'Failed to get venue'));
         }
 
-        return json_encode(array('success' => true, 'venues' => $venues));
+        return json_encode(array('success' => true, 'venue' => $venue));
     }
 
     public function update(Request $request, $id)
     {
-        $user_id = Auth::user()->id;
         $request->validate([
             'name' => 'required',
             'address' => 'required',
@@ -52,7 +51,6 @@ class VenueController extends Controller
 
         $venues = Venue::where('id', $id)->get();
         $venue = $venues[0];
-        $venue->user_id = $user_id;
         $venue->name = $request->name;
         $venue->type = $request->venue_type;
         if (!is_null($request->details)) {

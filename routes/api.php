@@ -176,7 +176,7 @@ Route::prefix('admin')->group(function(){
         Route::get('/', 'index');
         Route::get('/featured', 'featured');
         Route::get('/edit/{id}', 'edit');
-        Route::get('/delete/{id}', 'destroy');
+        Route::delete('/delete/{id}', 'destroy');
         Route::put('/update/{id}', 'update');
         Route::get('/feature/{id}', 'feature');
         Route::get('/unfeature/{id}', 'unfeature');
