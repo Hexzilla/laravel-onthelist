@@ -16,7 +16,6 @@ class DjController extends Controller
 {
     public function index()
     {
-        $user_id = Auth::user()->id;
         $djs = Dj::paginate(10);
         return json_encode(array('success' => true, 'djs' => $djs));
     }

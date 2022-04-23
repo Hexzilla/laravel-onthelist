@@ -60,7 +60,6 @@ class EventController extends Controller
 
     public function feature($id)
     {
-        $user_id = Auth::user()->id;
         $events  = Event::where('id', $id)->get();
         $event = $events[0];
         $event->feature = "yes";
@@ -70,7 +69,6 @@ class EventController extends Controller
 
     public function unfeature($id)
     {
-        $user_id = Auth::user()->id;
         $events  = Event::where('id', $id)->get();
         $event = $events[0];
         $event->feature = "no";
