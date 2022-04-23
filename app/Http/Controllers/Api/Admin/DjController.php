@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class DjController extends Controller
 {
@@ -35,13 +36,17 @@ class DjController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|min:8',
             'genres' => 'required',
             'header_image' => 'required|mimes:jpeg,png,jpg,gif',
         ]);
+
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
 
         $header_image_path = null;
         if (!is_null($request->file('header_image'))) {
@@ -71,12 +76,16 @@ class DjController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required|string|min:8',
             'genres' => 'required',
         ]);
+
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
 
         $dj = Dj::find($id);
 

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Venue;
 use App\Models\UserFavorite;
 use App\Models\VenueBooking;
+use Illuminate\Support\Facades\Validator;
 
 class VenueController extends Controller
 {
@@ -63,13 +64,29 @@ class VenueController extends Controller
 
     public function booking($id)
     {
-        $venue = Venue::where('id', $id)->firstOrFail();
+        $venue = Venue::where('id', $id)->first();
+        if (is_null($venue)) {
+            return json_encode(array('success' => false, 'venue' => $venue));
+        }
         return json_encode(array('success' => true, 'venue' => $venue));
     }
 
     public function createBooking(Request $request)
     {
         $user_id = Auth::user()->id;
+        $validator = Validator::make($request->all(), [
+            'venue_id' => 'required',
+            'booking_type' => 'required',
+            'type' => 'required',
+            'price' => 'required',
+            'date' => 'required',
+            'time' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
+
         VenueBooking::create([
             'user_id' => $user_id,
             'venue_id' => $request->venue_id,
@@ -79,6 +96,7 @@ class VenueController extends Controller
             'date' => $request->date,
             'time' => $request->time,
         ]);
+
         return json_encode(array('success' => true));
     }
 }

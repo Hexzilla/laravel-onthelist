@@ -9,6 +9,7 @@ use App\Models\Booking;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserFavorite;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
 {
@@ -39,10 +40,6 @@ class EventController extends Controller
             $event->favourite = true;   
         }
 
-        return view('customer.event.list', [
-            'breadcrumb' => 'Favourite',
-            'events' => $events
-        ]);
         return json_encode(array('success' => true, 'events' => $events));
     }
 
@@ -76,6 +73,19 @@ class EventController extends Controller
     public function createBooking(Request $request)
     {
         $user_id = Auth::user()->id;
+        $validator = Validator::make($request->all(), [
+            'event_id' => 'required',
+            'booking_type' => 'required',
+            'qty' => 'required',
+            'type' => 'required',
+            'price' => 'required',
+            'date' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
+
         Booking::create([
             'user_id' => $user_id,
             'event_id' => $request->event_id,

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Vendor\EventController;
 use App\Http\Controllers\Vendor\VenueController;
 
-use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\Api\Vendor\EventController as VendorEventController;
 use App\Http\Controllers\Api\Vendor\VenueController as VendorVenueController;
@@ -61,8 +61,8 @@ Route::prefix('v1')->group(function() {
         Route::prefix('vendor')->group(function(){
             Route::controller(VendorBookingController::class)->prefix('booking')->group(function () {
                 Route::get('/', 'index');
-                Route::get('/approved/{id}', 'approve');
-                Route::get('/rejected/{id}', 'reject');
+                Route::get('/approve/{id}', 'approve');
+                Route::get('/reject/{id}', 'reject');
             });
         
             Route::controller(VendorDjController::class)->prefix('dj')->group(function () {
@@ -70,7 +70,7 @@ Route::prefix('v1')->group(function() {
                 Route::post('/store', 'store');
                 Route::get('/edit/{id}', 'edit');
                 Route::put('/update/{id}', 'update');
-                Route::get('/delete/{id}', 'destroy');
+                Route::delete('/delete/{id}', 'destroy');
             });
         
             Route::controller(VendorVenueController::class)->prefix('venue')->group(function () {
@@ -78,7 +78,7 @@ Route::prefix('v1')->group(function() {
                 Route::post('/store', 'store');
                 Route::get('/edit/{id}', 'edit');
                 Route::put('/update/{id}', 'update');
-                Route::get('/delete/{id}', 'destroy');
+                Route::delete('/delete/{id}', 'destroy');
                 Route::get('/table/{id}', 'getTables');
                 Route::get('/offer/{id}', 'getOffers');
             });
@@ -89,7 +89,7 @@ Route::prefix('v1')->group(function() {
                 Route::post('/store', 'store');
                 Route::get('/edit/{id}', 'edit');
                 Route::put('/update/{id}', 'update');
-                Route::get('/delete/{id}', 'destroy');
+                Route::delete('/delete/{id}', 'destroy');
                 Route::get('/ticket/{id}', 'getTickets');
                 Route::get('/table/{id}', 'getTables');
                 Route::get('/guestlist/{id}', 'getGuestlists');
@@ -97,7 +97,7 @@ Route::prefix('v1')->group(function() {
         
             Route::controller(VendorSettingController::class)->prefix('setting')->group(function () {
                 Route::get('/', 'index');
-                Route::post('/password', 'changePassword');
+                Route::put('/password', 'changePassword');
                 Route::post('/contact', 'contact');
                 Route::get('/close', 'closeAccount');
             });
@@ -109,8 +109,8 @@ Route::prefix('v1')->group(function() {
             Route::controller(DjProfileController::class)->name('profile.')->prefix('profile')->as('profile.')->group(function () {
                 Route::get('/', 'index');
                 Route::get('/edit', 'edit');
-                Route::put('/store', 'store');
-                Route::get('/delete/media/{id}', 'deleteMedia');
+                Route::put('/update', 'store');
+                Route::delete('/delete/media/{id}', 'deleteMedia');
             });
         });
         
@@ -118,7 +118,7 @@ Route::prefix('v1')->group(function() {
             Route::controller(CustomerEventController::class)->prefix('events')->group(function () {
                 Route::get('/', 'index');
                 Route::get('/favorite', 'favourite');
-                Route::get('/favourited/{id}', 'favourited');
+                Route::get('/favourite/{id}', 'favourited');
                 Route::get('/unfavourite/{id}', 'unfavourite');
                 Route::get('/booking/{id}', 'booking');
                 Route::post('/create', 'createBooking');
@@ -127,7 +127,7 @@ Route::prefix('v1')->group(function() {
             Route::controller(CustomerVenueController::class)->prefix('venues')->group(function () {
                 Route::get('/', 'index');
                 Route::get('/favorite', 'favourite');
-                Route::get('/favourited/{id}', 'favourited');
+                Route::get('/favourite/{id}', 'favourited');
                 Route::get('/unfavourite/{id}', 'unfavourite');
                 Route::get('/booking/{id}', 'booking');
                 Route::post('/create', 'createBooking');

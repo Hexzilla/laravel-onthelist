@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Notification;
 use App\Notifications\NewNotification;
+use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
 {
@@ -131,12 +132,15 @@ class EventController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'type' => 'required',
             'venue_id' => 'required|numeric',
             'djs' => 'required'
         ]);
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
 
         $events = Event::where('id', $id)->get();
         $event = $events[0];

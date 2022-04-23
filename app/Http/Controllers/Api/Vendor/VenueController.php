@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class VenueController extends Controller
 {
@@ -36,7 +37,7 @@ class VenueController extends Controller
     public function store(Request $request)
     {
         $user_id = Auth::user()->id;
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'header_image' => 'required|mimes:jpeg,png,jpg,gif',
             'address' => 'required',
@@ -45,6 +46,9 @@ class VenueController extends Controller
             'phone' => 'required|digits:11',
             'venue_type' => 'required',
         ]);
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
 
         $venue = new Venue();
         $venue->user_id = $user_id;
@@ -168,7 +172,7 @@ class VenueController extends Controller
     public function update(Request $request, $id)
     {
         $user_id = Auth::user()->id;
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'address' => 'required',
             'city' => 'required',
@@ -176,6 +180,10 @@ class VenueController extends Controller
             'phone' => 'required|digits:11',
             'venue_type' => 'required'
         ]);
+
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
 
         $venues = Venue::where('user_id', $user_id)->where('id', $id)->get();
         $venue = $venues[0];

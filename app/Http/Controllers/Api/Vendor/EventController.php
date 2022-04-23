@@ -16,6 +16,7 @@ use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
 {
@@ -44,7 +45,7 @@ class EventController extends Controller
         $user_id = Auth::user()->id;
         
         $venues = Venue::where('user_id', $user_id)->get();
-        $event = Event::where('user_id', $user_id)->where('id', $id)->firstOrFail();
+        $event = Event::where('user_id', $user_id)->where('id', $id)->first();
         if (is_null($event)) {
             return json_encode(array('success' => false, 'error' => 'Failed to get event'));
         }
@@ -70,14 +71,16 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $user_id = Auth::user()->id;
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'header_image' => 'required|mimes:jpeg,png,jpg,gif',
             'type' => 'required',
             'venue_id' => 'required|numeric',
             'djs' => 'required'
         ]);
-
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
         $event = new event();
         $event->user_id = $user_id;
         $event->name = $request->name;
@@ -204,12 +207,15 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         $user_id = Auth::user()->id;
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'type' => 'required',
             'venue_id' => 'required|numeric',
             'djs' => 'required'
         ]);
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
 
         $events = Event::where('user_id', $user_id)->where('id', $id)->get();
         $event = $events[0];

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Notification;
 use App\Notifications\NewNotification;
+use Illuminate\Support\Facades\Validator;
 
 class VenueController extends Controller
 {
@@ -41,13 +42,16 @@ class VenueController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'address' => 'required',
             'city' => 'required',
             'postcode' => 'required',
             'phone' => 'required',
         ]);
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
 
         $venues = Venue::where('id', $id)->get();
         $venue = $venues[0];

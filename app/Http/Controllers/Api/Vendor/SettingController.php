@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Vendor;
+namespace App\Http\Controllers\Api\Vendor;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Vendor;
 use App\Models\UserProfile;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class SettingController extends Controller
 {
@@ -24,11 +25,14 @@ class SettingController extends Controller
     {
         $user = Auth::user();
 
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'old_password' => 'required',
             'password' => 'required|min:6',
             'password_confirmation' => 'required|same:password',
         ]);
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
 
         if (!(Hash::check($request->old_password, Auth::user()->password))) {
             return redirect()->back()->withInput($request->only('old_password'));
@@ -42,10 +46,13 @@ class SettingController extends Controller
     public function contact(Request $request)
     {
         $user_id = Auth::user()->id;
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required',
         ]);
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
         
         $user = User::where('id', $user_id)->first();
         $user->name = $request->name;

@@ -8,6 +8,7 @@ use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class VendorController extends Controller
 {
@@ -29,6 +30,14 @@ class VendorController extends Controller
 
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            "name" => 'required',
+            "email" => 'required|email',
+        ]);
+
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
         $user = User::where('id', $id)->firstOrFail();
         $user->name = $request->name;
         $user->email = $request->email;

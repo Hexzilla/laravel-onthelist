@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\EventDj;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -30,12 +31,20 @@ class UserController extends Controller
     {
         $users = User::where('id', $id)->get();
         $user = $users[0];
+        $validator = Validator::make($request->all(), [
+            "name" => 'required',
+            "email" => 'required|email',
+            "role" => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
         $user->name = $request->name;
         $user->email = $request->email;
         $user->role = $request->role;
         $user->save();
-        $users = User::where('role', $user->role)->get();
-        return json_encode(array('success' => true, 'users' => $users));
+        return json_encode(array('success' => true));
     }
 
     public function show($id)

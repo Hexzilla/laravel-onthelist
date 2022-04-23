@@ -31,7 +31,7 @@ class DjController extends Controller
 
     public function edit($id)
     {
-        $dj = Dj::where('id', $id)->firstOrFail();
+        $dj = Dj::where('id', $id)->first();
 
         if (is_null($dj)) {
             return redirect()->route('admin.djs.index');
@@ -193,7 +193,10 @@ class DjController extends Controller
 
     public function approve($id)
     {
-        $user = User::where('id', $id)->firstOrFail();
+        $user = User::where('id', $id)->first();
+        if(is_null($user)) {
+            return redirect()->back();
+        }
         $user->status = 'Approved';
         $user->save();
         return redirect()->back();
@@ -201,7 +204,10 @@ class DjController extends Controller
 
     public function reject($id)
     {
-        $user = User::where('id', $id)->firstOrFail();
+        $user = User::where('id', $id)->first();
+        if(is_null($user)) {
+            return redirect()->back();
+        }
         $user->status = 'Rejected';
         $user->save();
         return redirect()->back();

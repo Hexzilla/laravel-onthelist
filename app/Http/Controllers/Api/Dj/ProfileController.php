@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\DjProfile;
 use App\Models\DjMedia;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
 {
@@ -29,12 +29,16 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         $user_id = Auth::user()->id;
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required',
             'genres' => 'required',
             'age' => 'required',
         ]);
+
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
 
         $user = User::where('id', $user_id)->firstOrFail();
         $user->name = $request->name;
@@ -89,7 +93,10 @@ class ProfileController extends Controller
 
     public function deleteMedia($id)
     {
-        $media = DjMedia::where('id', $id)->firstOrFail();
+        $media = DjMedia::where('id', $id)->first();
+        if(is_null($media)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to remove media'));
+        }
         $media->delete();
         return json_encode(array('success' => true));
     }

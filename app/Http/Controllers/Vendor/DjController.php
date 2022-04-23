@@ -33,7 +33,7 @@ class DjController extends Controller
 
     public function edit($id)
     {
-        $dj = Dj::where('id', $id)->firstOrFail();
+        $dj = Dj::where('id', $id)->first();
         if (is_null($dj)) {
             return redirect()->route('vendors.dj.index');
         }
