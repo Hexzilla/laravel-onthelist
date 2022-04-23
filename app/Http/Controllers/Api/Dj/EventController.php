@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Dj;
+namespace App\Http\Controllers\Api\Dj;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -29,6 +29,6 @@ class EventController extends Controller
             $events = array();
         }
         
-        return view('dj.event', ['events' => $events]);
+        return json_encode(array('success' => true, 'events' => $events));
     }
 }

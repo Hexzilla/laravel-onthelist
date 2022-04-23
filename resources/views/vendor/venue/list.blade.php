@@ -314,7 +314,7 @@
     function openTableModal(venue, venue_id){
         $.ajax({
             url: '/api/venue/table/' + venue_id,
-            type: "POST",
+            type: "GET",
             dataType: 'json',
             success: function(dataResult){
                 var tables = dataResult.data;
@@ -343,7 +343,7 @@
     function openOfferModal(venue, venue_id){
         $.ajax({
             url: '/api/venue/offer/' + venue_id,
-            type: "POST",
+            type: "GET",
             dataType: 'json',
             success: function(dataResult){
                 var offers = dataResult.data;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Venue;
@@ -19,19 +19,13 @@ class VenueController extends Controller
     public function index()
     {
         $venues = Venue::paginate(10);
-        return view('admin.venue.list', [
-            'breadcrumb' => 'All',
-            'venues' => $venues
-        ]);
+        return json_encode(array('success' => true, 'venues' => $venues));
     }
 
     public function featured()
     {
         $venues = Venue::where('feature', 'yes')->paginate(10);
-        return view('admin.venue.list', [
-            'breadcrumb' => 'Featured',
-            'venues' => $venues
-        ]);
+        return json_encode(array('success' => true, 'venues' => $venues));
     }
 
     public function edit($id)
@@ -39,19 +33,14 @@ class VenueController extends Controller
         $venue = Venue::where('id', $id)->firstOrFail();
 
         if (is_null($venue)) {
-            return redirect()->route('admin.venues.index');
+            return json_encode(array('success' => false, 'error' => 'Failed to get venue'));
         }
 
-        return view('admin.venue.edit', [
-            'title' => 'Edit',
-            'action' => route('admin.venues.update', $id),
-            'venue' => $venue,
-        ]);
+        return json_encode(array('success' => true, 'venue' => $venue));
     }
 
     public function update(Request $request, $id)
     {
-        $user_id = Auth::user()->id;
         $request->validate([
             'name' => 'required',
             'address' => 'required',
@@ -62,7 +51,6 @@ class VenueController extends Controller
 
         $venues = Venue::where('id', $id)->get();
         $venue = $venues[0];
-        $venue->user_id = $user_id;
         $venue->name = $request->name;
         $venue->type = $request->venue_type;
         if (!is_null($request->details)) {
@@ -94,7 +82,7 @@ class VenueController extends Controller
         $this->updateOffer($venue, $request);
         $this->updateTable($venue, $request);
 
-        return redirect()->route('admin.venues.index')->with('Success');
+        return json_encode(array('success' => true));
     }
 
     public function updateTimetable($venue, $request)
@@ -217,7 +205,7 @@ class VenueController extends Controller
     {
         $venues = Venue::where('id', $id)->get();
         $venues[0]->delete();
-        return redirect()->route('admin.venues.index')->with('Success');
+        return json_encode(array('success' => true));
     }
 
     public function feature($id)
@@ -226,7 +214,7 @@ class VenueController extends Controller
         $venue = $venues[0];
         $venue->feature = 'yes';
         $venue->save();
-        return redirect()->route('admin.venues.index')->with('Success');
+        return json_encode(array('success' => true));
     }
 
     public function unfeature($id)
@@ -235,7 +223,7 @@ class VenueController extends Controller
         $venue = $venues[0];
         $venue->feature = 'no';
         $venue->save();
-        return redirect()->route('admin.venues.index')->with('Success');
+        return json_encode(array('success' => true));
     }
 
     public function approve($id)
@@ -256,7 +244,7 @@ class VenueController extends Controller
 
         $venue->status = 'Approved';
         $venue->save();
-        return redirect()->back();
+        return json_encode(array('success' => true));
     }
 
     public function reject($id)
@@ -264,6 +252,6 @@ class VenueController extends Controller
         $venue = Venue::where('id', $id)->first();
         $venue->status = 'Rejected';
         $venue->save();
-        return redirect()->back();
+        return json_encode(array('success' => true));
     }
 }

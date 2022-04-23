@@ -69,18 +69,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($user->media as $media)
-                                    <tr>
-                                        <td>{{$media->id}}</td>
-                                        <td>{{$media->type}}</td>
-                                        <td>
-                                            <button type="button" class="btn btn-rounded btn-outline-warning mb-1" onclick="openMediaModal('{{$user->name}}', '{{$media}}')">Show Media</button>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-rounded btn-danger mb-1"><a href="{{ route('dj.profile.deletemedia', $media->id) }}"><i class="fa fa-trash"></i> Delete</a></button>
-                                        </td>
-                                    </tr>
-                                    @endforeach
+                                    @isset($user->dj->media)
+                                        @foreach($user->dj->media as $media)
+                                        <tr>
+                                            <td>{{$media->id}}</td>
+                                            <td>{{$media->type}}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-rounded btn-outline-warning mb-1" onclick="openMediaModal('{{$user->name}}', '{{$media}}')">Show Media</button>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-rounded btn-danger mb-1"><a href="{{ route('dj.profile.deletemedia', $media->id) }}"><i class="fa fa-trash"></i> Delete</a></button>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    @endisset
                                 </tbody>
                             </table>
                         </div>

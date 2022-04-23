@@ -10,6 +10,7 @@ use App\Http\Controllers\Vendor\VenueController as VendorVenueController;
 use App\Http\Controllers\Vendor\EventController as VendorEventController;
 use App\Http\Controllers\Vendor\BookingController as VendorBookingController;
 use App\Http\Controllers\Vendor\PaymentController as VendorPaymentController;
+use App\Http\Controllers\Vendor\SettingController as VendorSettingController;
 
 use App\Http\Controllers\Dj\DashboardController as DjDashboardController;
 use App\Http\Controllers\Dj\ProfileController as DjProfileController;
@@ -46,13 +47,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 /***********************************************************************
  *************************** Vendor Panel *******************************
  **********************************************************************/
-Route::controller(SettingController::class)->name('setting.')->prefix('setting')->as('setting.')->group(function () {
-    Route::get('/', 'index')->name('index');
-    Route::post('/password', 'changePassword')->name('password');
-    Route::post('/contact', 'contact')->name('contact');
-    Route::get('/close', 'closeAccount')->name('close');
-});
-
 Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/', [VendorDahsboardController::class, 'index'])->name('dashboard');
@@ -92,6 +86,13 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
             Route::get('/edit/{id}', 'edit')->name('edit');
             Route::put('/update/{id}', 'update')->name('update');
             Route::get('/delete/{id}', 'destroy')->name('destroy');
+        });
+
+        Route::controller(VendorSettingController::class)->name('setting.')->prefix('setting')->as('setting.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/password', 'changePassword')->name('password');
+            Route::post('/contact', 'contact')->name('contact');
+            Route::get('/close', 'closeAccount')->name('close');
         });
     });
 });
@@ -188,6 +189,7 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/delete/{id}', 'destroy')->name('destroy');
             Route::put('/update/{id}', 'update')->name('update');
             Route::get('/feature/{id}', 'feature')->name('feature');
+            Route::get('/unfeature/{id}', 'unfeature')->name('unfeature');
             Route::get('/approve/{id}', 'approve')->name('approve');
             Route::get('/reject/{id}', 'reject')->name('reject');
         });
@@ -201,6 +203,7 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/delete/{id}', 'destroy')->name('destroy');
             Route::put('/update/{id}', 'update')->name('update');
             Route::get('/feature/{id}', 'feature')->name('feature');
+            Route::get('/unfeature/{id}', 'unfeature')->name('unfeature');
             Route::get('/approve/{id}', 'approve')->name('approve');
             Route::get('/reject/{id}', 'reject')->name('reject');
         });

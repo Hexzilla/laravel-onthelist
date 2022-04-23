@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -18,13 +18,13 @@ class VendorController extends Controller
             //->simplePaginate(10);
             ->paginate(10);
 
-        return view("admin.vendor.list", ['users' => $users, 'role' => 'vendor']);    
+        return json_encode(array('success' => true, 'users' => $users));   
     }
 
     public function edit($id)
     {
         $user = User::where('id', $id)->firstOrFail();
-        return view("admin.vendor.create", ['user' => $user]);
+        return json_encode(array('success' => true, 'user' => $user));
     }
 
     public function update(Request $request, $id)
@@ -36,7 +36,7 @@ class VendorController extends Controller
 
         $this->createVendor($user, $request);
 
-        return redirect()->route("admin.vendors.index");
+        return json_encode(array('success' => true));
     }
 
     public function createVendor($user, $request)
@@ -81,25 +81,25 @@ class VendorController extends Controller
             ->select('events.*')
             ->get();
         
-        return view("admin.user.show", ['events' => $events, 'user' => $user]);
+        return json_encode(array('success' => true, 'events' => $events, 'user' => $user));
     }
 
     public function pause($id)
     {
         User::where('id', $id)->update(['paused_at' => now()]);
-        return redirect()->route('admin.vendors.index')->with('Success');
+        return json_encode(array('success' => true));
     }
 
     public function resume($id)
     {
         User::where('id', $id)->update(['paused_at' => NULL]);
-        return redirect()->route('admin.vendors.index')->with('Success');
+        return json_encode(array('success' => true));
     }
 
 
     public function destroy($id)
     {
         User::where('id', $id)->update(['deleted_at' => now()]);
-        return redirect()->route('admin.vendors.index')->with('Success');
+        return json_encode(array('success' => true));
     }
 }

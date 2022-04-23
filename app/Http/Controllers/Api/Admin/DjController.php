@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dj;
@@ -17,16 +17,7 @@ class DjController extends Controller
     public function index()
     {
         $djs = Dj::paginate(10);
-        return view('admin.dj.list', ['djs' => $djs]);
-    }
-
-    public function create()
-    {
-        return view('admin.dj.create', [
-            'title' => 'Create',
-            'action' => route('admin.djs.store'),
-            'dj' => NULL,
-        ]);
+        return json_encode(array('success' => true, 'djs' => $djs));
     }
 
     public function edit($id)
@@ -34,16 +25,12 @@ class DjController extends Controller
         $dj = Dj::where('id', $id)->firstOrFail();
 
         if (is_null($dj)) {
-            return redirect()->route('admin.djs.index');
+            return json_encode(array('success' => false, 'error' => 'Failed to get data'));
         }
 
         $dj->genres = explode(',', $dj->genre);
 
-        return view('admin.dj.create', [
-            'title' => 'Edit',
-            'action' => route('admin.djs.update', $id),
-            'dj' => $dj,
-        ]);
+        return json_encode(array('success' => true, 'dj' => $dj));
     }
 
     public function store(Request $request)
@@ -79,7 +66,7 @@ class DjController extends Controller
 
         $this->createMedia($dj, $request);
 
-        return redirect()->route('admin.djs.index');
+        return json_encode(array('success' => true));
     }
 
     public function update(Request $request, $id)
@@ -100,7 +87,7 @@ class DjController extends Controller
             $header_image_path = $request->header_image_path;
         }
         if (is_null($header_image_path)) {
-            return redirect()->back()->with(['errors' => 'Invalid header image']);
+            return json_encode(array('success' => false, 'errors' => 'Invalid header image'));
         }
 
         $dj->description = $request->description;
@@ -116,7 +103,7 @@ class DjController extends Controller
 
         $this->updateMedia($dj, $request);
 
-        return redirect()->route('admin.djs.index');
+        return json_encode(array('success' => true));
     }
 
     public function createMedia($dj, $request)
@@ -188,7 +175,7 @@ class DjController extends Controller
     public function destroy($id)
     {
         Dj::where('id', $id)->delete();
-        return redirect()->route('admin.djs.index')->with('Success');
+        return json_encode(array('success' => true));
     }
 
     public function approve($id)
@@ -196,7 +183,7 @@ class DjController extends Controller
         $user = User::where('id', $id)->firstOrFail();
         $user->status = 'Approved';
         $user->save();
-        return redirect()->back();
+        return json_encode(array('success' => true));
     }
 
     public function reject($id)
@@ -204,6 +191,6 @@ class DjController extends Controller
         $user = User::where('id', $id)->firstOrFail();
         $user->status = 'Rejected';
         $user->save();
-        return redirect()->back();
+        return json_encode(array('success' => true));
     }
 }

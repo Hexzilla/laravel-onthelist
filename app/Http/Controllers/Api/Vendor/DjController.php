@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Api\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dj;
@@ -10,48 +10,37 @@ use App\Models\DjMedia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class DjController extends Controller
 {
     public function index()
     {
-        $djs = Dj::paginate(10);
-        return view('admin.dj.list', ['djs' => $djs]);
-    }
-
-    public function create()
-    {
-        return view('admin.dj.create', [
-            'title' => 'Create',
-            'action' => route('admin.djs.store'),
-            'dj' => NULL,
-        ]);
+        $user_id = Auth::user()->id;
+        $djs = Dj::where('vendor_id', $user_id)->paginate(10);
+        return json_encode(array('success' => true, 'djs' => $djs));
     }
 
     public function edit($id)
     {
         $dj = Dj::where('id', $id)->firstOrFail();
-
         if (is_null($dj)) {
-            return redirect()->route('admin.djs.index');
+            return json_encode(array('success' => false, 'error' => 'Failed to get data'));
         }
 
         $dj->genres = explode(',', $dj->genre);
 
-        return view('admin.dj.create', [
-            'title' => 'Edit',
-            'action' => route('admin.djs.update', $id),
-            'dj' => $dj,
-        ]);
+        return json_encode(array('success' => true, 'dj' => $dj));
     }
 
     public function store(Request $request)
     {
+        $user_id = Auth::user()->id;
         $request->validate([
             'name' => 'required',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:8',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
             'genres' => 'required',
             'header_image' => 'required|mimes:jpeg,png,jpg,gif',
         ]);
@@ -69,7 +58,7 @@ class DjController extends Controller
         ]);
 
         $dj = Dj::create([
-            'vendor_id' => 0,
+            'vendor_id' => $user_id,
             'user_id' => $user->id,
             'description' => $request->description,
             'header_image_path' => $header_image_path,
@@ -79,15 +68,16 @@ class DjController extends Controller
 
         $this->createMedia($dj, $request);
 
-        return redirect()->route('admin.djs.index');
+        return json_encode(array('success' => true));
     }
 
     public function update(Request $request, $id)
     {
+        $vendor_id = Auth::user()->id;
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'password' => 'required|string|min:8',
+            'password' => 'required|min:8',
             'genres' => 'required',
         ]);
 
@@ -103,6 +93,7 @@ class DjController extends Controller
             return redirect()->back()->with(['errors' => 'Invalid header image']);
         }
 
+        $dj->vendor_id = $vendor_id;
         $dj->description = $request->description;
         $dj->header_image_path = $header_image_path;
         $dj->mixcloud_link = $request->mixcloud_link;
@@ -112,11 +103,12 @@ class DjController extends Controller
         $user = User::where('id', $dj->user_id)->firstOrFail();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = Hash::make($request->password);
+        $user->password = $request->password;
+        $user->save();
 
         $this->updateMedia($dj, $request);
 
-        return redirect()->route('admin.djs.index');
+        return json_encode(array('success' => true));
     }
 
     public function createMedia($dj, $request)
@@ -188,22 +180,6 @@ class DjController extends Controller
     public function destroy($id)
     {
         Dj::where('id', $id)->delete();
-        return redirect()->route('admin.djs.index')->with('Success');
-    }
-
-    public function approve($id)
-    {
-        $user = User::where('id', $id)->firstOrFail();
-        $user->status = 'Approved';
-        $user->save();
-        return redirect()->back();
-    }
-
-    public function reject($id)
-    {
-        $user = User::where('id', $id)->firstOrFail();
-        $user->status = 'Rejected';
-        $user->save();
-        return redirect()->back();
+        return json_encode(array('success' => true));
     }
 }

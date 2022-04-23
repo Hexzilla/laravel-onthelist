@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
@@ -23,39 +23,27 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::paginate(10);
-        return view('admin.event.list', [
-            'breadcrumb' => 'All',
-            'events' => $events
-        ]);
+        return json_encode(array('success' => true, 'events' => $events));
     }
 
     public function upcoming()
     {
         $current = Carbon::now();
         $events = Event::where('start', '>', $current)->paginate(10);
-        return view('admin.event.list', [
-            'breadcrumb' => 'Upcoming',
-            'events' => $events
-        ]);
+        return json_encode(array('success' => true, 'events' => $events));
     }
 
     public function featured()
     {
         $events = Event::where('feature', 'yes')->paginate(10);
-        return view('admin.event.list', [
-            'breadcrumb' => 'Featured',
-            'events' => $events
-        ]);
+        return json_encode(array('success' => true, 'events' => $events));
     }
 
     public function complete()
     {
         $current = Carbon::now();
         $events = Event::where('end', '<', $current)->paginate(10);
-        return view('admin.event.list', [
-            'breadcrumb' => 'Complete',
-            'events' => $events
-        ]);
+        return json_encode(array('success' => true, 'events' => $events));
     }
 
     public function feature($id)
@@ -64,7 +52,7 @@ class EventController extends Controller
         $event = $events[0];
         $event->feature = "yes";
         $event->save();
-        return redirect()->route('admin.events.index');
+        return json_encode(array('success' => true));
     }
 
     public function unfeature($id)
@@ -73,14 +61,14 @@ class EventController extends Controller
         $event = $events[0];
         $event->feature = "no";
         $event->save();
-        return redirect()->route('admin.events.index');
+        return json_encode(array('success' => true));
     }
 
     public function approve($id)
     {
         $event = Event::where('id', $id)->firstOrFail();
         if (is_null($event)) {
-            return redirect()->back();
+            return json_encode(array('success' => false, 'error' => 'Failed to approve event'));
         }
         $user = User::where('id', $event->user_id)->firstOrFail();
 
@@ -96,7 +84,7 @@ class EventController extends Controller
 
         $event->status = 'Approved';
         $event->save();
-        return redirect()->back();
+        return json_encode(array('success' => true));
     }
 
     public function reject($id)
@@ -104,7 +92,7 @@ class EventController extends Controller
         $event = Event::where('id', $id)->firstOrFail();
         $event->status = 'Rejected';
         $event->save();
-        return redirect()->back();
+        return json_encode(array('success' => true));
     }
 
     public function edit($id)
@@ -115,7 +103,7 @@ class EventController extends Controller
         $venues = Venue::where('user_id', $user_id)->get();
 
         if (is_null($event)) {
-            return redirect()->back();
+            return json_encode(array('success' => false, 'error' => 'Failed to get event'));
         }
         $starts = explode(' ', $event->start);
         $ends = explode(' ', $event->start);
@@ -131,20 +119,18 @@ class EventController extends Controller
             $dj->selected = $selected;
         }
 
-        return view('admin.event.create', [
-            'event' => $event, 
-            'venues' => $venues, 
+        return json_encode(array(
+            'success' => true,
+            'event' => $event,
+            'venues' => $venues,
             'djs' => $djs,
-            'title' => 'Edit Event',
-            'action' => route('admin.events.update', $id),
             'starts' => $starts,
             'ends' => $ends,
-        ]);
+        ));
     }
 
     public function update(Request $request, $id)
     {
-        $user_id = Auth::user()->id;
         $request->validate([
             'name' => 'required',
             'type' => 'required',
@@ -175,7 +161,7 @@ class EventController extends Controller
         $this->updateGuestlist($event, $request);
         $this->updateDjs($event->id, $request->djs);
 
-        return redirect()->route('admin.events.index');
+        return json_encode(array('success' => true));
     }
 
     public function updateMedia($event, $request)
@@ -307,6 +293,6 @@ class EventController extends Controller
     public function destroy($id)
     {
         Event::where('id', $id)->delete();
-        return redirect()->route('admin.events.index');
+        return json_encode(array('success' => true));
     }
 }

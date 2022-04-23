@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class SettingController extends Controller
     {
         $user_id = Auth::user()->id;
         $user = User::where('id', $user_id)->first();
-        return view('setting.index', ['user' => $user]);
+        return json_encode(array('success' => true, 'user' => $user));
     }
 
     public function changePassword(Request $request)
@@ -36,7 +36,7 @@ class SettingController extends Controller
 
         $user->password = bcrypt($request->get('password'));
         $user->save();
-        return redirect()->route('/vendors')->with("success","Password successfully changed!");
+        return json_encode(array('success' => true));
     }
 
     public function contact(Request $request)
@@ -54,7 +54,7 @@ class SettingController extends Controller
 
         $this->createProfile($user, $request);
         
-        return redirect('/vendors')->with("success","Profile successfully changed!");
+        return json_encode(array('success' => true));
     }
 
     public function createProfile($user, $request)
@@ -97,6 +97,6 @@ class SettingController extends Controller
         $user->save();
         
         Auth::logout();
-        return Redirect('home');
+        return json_encode(array('success' => true));
     }
 }

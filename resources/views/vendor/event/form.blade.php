@@ -366,9 +366,23 @@
 
         // Show remove buttons
         function showRemoveButtons() {
-            $(".remove-event-guestlist:not(:first)").removeClass('d-none');
-            $(".remove-event-table:not(:first)").removeClass('d-none');
-            $(".remove-event-ticket:not(:first)").removeClass('d-none');
+            if ($('.event-guestlist').length > 1) {
+                $(".remove-event-guestlist").removeClass('d-none');
+            } else {
+                $(".remove-event-guestlist").addClass('d-none');
+            }
+
+            if ($('.event-ticket').length > 1) {
+                $(".remove-event-ticket").removeClass('d-none');
+            } else {
+                $(".remove-event-ticket").addClass('d-none');
+            }
+            
+            if ($('.event-table').length > 1) {
+                $(".remove-event-table").removeClass('d-none');
+            } else {
+                $(".remove-event-table").addClass('d-none');
+            }
         }
         showRemoveButtons();
 
@@ -378,6 +392,7 @@
                     return;
                 }
                 $(this).parent().parent().remove();
+                showRemoveButtons();
             });
         }
         removeEventTicket();
@@ -403,6 +418,7 @@
                     return;
                 }
                 $(this).parent().parent().remove();
+                showRemoveButtons();
             });
         }
         removeEventTable();
@@ -429,6 +445,7 @@
                     return;
                 }
                 $(this).parent().parent().remove();
+                showRemoveButtons();
             });
         }
         removeEventGuest();
