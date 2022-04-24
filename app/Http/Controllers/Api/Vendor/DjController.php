@@ -198,7 +198,7 @@ class DjController extends Controller
 
     public function destroy($id)
     {
-        Dj::where('id', $id)->first();
+        $dj = Dj::where('id', $id)->first();
         if (is_null($dj)) {
             return json_encode(array('success' => false, 'error' => 'The dj does not exist'));
         }

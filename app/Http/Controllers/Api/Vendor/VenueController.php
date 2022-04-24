@@ -401,6 +401,7 @@ class VenueController extends Controller
         if (is_null($venue)) {
             return json_encode(array('success' => false, 'error' => 'The venue does not exist'));
         }
+        $venue->delete();
         return json_encode(array('success' => true));
     }
 
