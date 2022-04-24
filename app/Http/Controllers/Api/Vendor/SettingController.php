@@ -61,6 +61,9 @@ class SettingController extends Controller
         }
         
         $user = User::where('id', $user_id)->first();
+        if (is_null($user)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get user data'));
+        }
         if ($user->email !== $request->email) {
             $validator = Validator::make($request->all(), [
                 'email' => 'required|email|unique:users',
@@ -122,6 +125,9 @@ class SettingController extends Controller
         $user_id = Auth::user()->id;
         $current = Carbon::now();
         $user = User::where('id', $user_id)->first();
+        if (is_null($user)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get user data'));
+        }
         $user->deleted_at = $current;
         $user->save();
         

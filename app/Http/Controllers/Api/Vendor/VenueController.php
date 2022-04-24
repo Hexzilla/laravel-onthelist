@@ -241,7 +241,7 @@ class VenueController extends Controller
 
         $venue = Venue::where('user_id', $user_id)->where('id', $id)->first();
         if (is_null($venue)) {
-            return json_encode(array('success' => false, 'error' => 'Failed to get venue'));
+            return json_encode(array('success' => false, 'error' => 'The venue does not exist'));
         }
         $venue->user_id = $user_id;
         $venue->name = $request->name;
@@ -397,12 +397,19 @@ class VenueController extends Controller
 
     public function destroy($id)
     {
-        Venue::where('id', $id)->delete();
+        $venue = Venue::where('id', $id)->first();
+        if (is_null($venue)) {
+            return json_encode(array('success' => false, 'error' => 'The venue does not exist'));
+        }
         return json_encode(array('success' => true));
     }
 
     public function getTables($id)
     {
+        $venue = Venue::where('id', $id)->first();
+        if (is_null($venue)) {
+            return json_encode(array('success' => false, 'error' => 'The venue does not exist'));
+        }
         $tables = DB::table('venue_bookings')
         ->join('users', 'users.id', '=', 'venue_bookings.user_id')
         ->where('venue_bookings.venue_id', $id)
@@ -414,6 +421,10 @@ class VenueController extends Controller
 
     public function getOffers($id)
     {
+        $venue = Venue::where('id', $id)->first();
+        if (is_null($venue)) {
+            return json_encode(array('success' => false, 'error' => 'The venue does not exist'));
+        }
         $offers = DB::table('venue_bookings')
         ->join('users', 'users.id', '=', 'venue_bookings.user_id')
         ->where('venue_bookings.venue_id', $id)

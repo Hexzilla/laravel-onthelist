@@ -45,6 +45,10 @@ class VenueController extends Controller
     public function favourited($id)
     {
         $user_id = Auth::user()->id;
+        $venue = Venue::where('id', $id)->first();
+        if (is_null($venue)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get venue'));
+        }
         UserFavorite::create([
             'user_id' => $user_id,
             'order_id' => $id,
@@ -56,10 +60,17 @@ class VenueController extends Controller
     public function unfavourite($id)
     {
         $user_id = Auth::user()->id;
-        UserFavorite::where('user_id', $user_id)
+        $venue = Venue::where('id', $id)->first();
+        if (is_null($venue)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get venue'));
+        }
+        $favourite = UserFavorite::where('user_id', $user_id)
             ->where('order_id', $id)
             ->where('type', 'venue')
-            ->delete();
+            ->first();
+        if (is_null($favourite)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get favourite venue'));
+        }
         return json_encode(array('success' => true));
     }
 
@@ -67,7 +78,7 @@ class VenueController extends Controller
     {
         $venue = Venue::where('id', $id)->first();
         if (is_null($venue)) {
-            return json_encode(array('success' => false, 'venue' => $venue));
+            return json_encode(array('success' => false, 'venue' => 'Failed to get venue'));
         }
         return json_encode(array('success' => true, 'venue' => $venue));
     }

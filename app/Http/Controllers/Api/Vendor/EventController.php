@@ -267,8 +267,10 @@ class EventController extends Controller
             return json_encode(array('success' => false, 'error' => $validator->errors()));
         }
 
-        $events = Event::where('user_id', $user_id)->where('id', $id)->get();
-        $event = $events[0];
+        $event = Event::where('user_id', $user_id)->where('id', $id)->first();
+        if (is_null($event)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get event.'));
+        }
         $event->name = $request->name;
         $event->type = $request->type;
         if (!is_null($request->details)) {
@@ -435,12 +437,20 @@ class EventController extends Controller
 
     public function destroy($id)
     {
-        Event::where('id', $id)->delete();
+        $event = Event::where('id', $id)->first();
+        if (is_null($event)) {
+            return json_encode(array('success' => false, 'error' => 'The event does not exist'));
+        }
+        $event->delete();
         return json_encode(array('success' => true));
     }
 
     public function getTickets($id)
     {
+        $event = Event::where('id', $id)->first();
+        if (is_null($event)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get event'));
+        }
         $tickets = DB::table('bookings')
             ->join('users', 'users.id', '=', 'bookings.user_id')
             ->where('bookings.event_id', $id)
@@ -452,6 +462,10 @@ class EventController extends Controller
 
     public function getTables($id)
     {
+        $event = Event::where('id', $id)->first();
+        if (is_null($event)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get event'));
+        }
         $tables = DB::table('bookings')
             ->join('users', 'users.id', '=', 'bookings.user_id')
             ->where('bookings.event_id', $id)
@@ -463,6 +477,10 @@ class EventController extends Controller
 
     public function getGuestlists($id)
     {
+        $event = Event::where('id', $id)->first();
+        if (is_null($event)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get event'));
+        }
         $guestlists = DB::table('bookings')
             ->join('users', 'users.id', '=', 'bookings.user_id')
             ->where('bookings.event_id', $id)

@@ -119,6 +119,4 @@ class ProfileController extends Controller
         $media->delete();
         return json_encode(array('success' => true));
     }
-
-    
 }

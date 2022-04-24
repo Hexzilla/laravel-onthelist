@@ -27,7 +27,7 @@ class DjController extends Controller
     {
         $dj = Dj::where('id', $id)->first();
         if (is_null($dj)) {
-            return json_encode(array('success' => false, 'error' => 'Failed to get data'));
+            return json_encode(array('success' => false, 'error' => 'Failed to get dj'));
         }
 
         $dj->genres = explode(',', $dj->genre);
@@ -198,7 +198,11 @@ class DjController extends Controller
 
     public function destroy($id)
     {
-        Dj::where('id', $id)->delete();
+        Dj::where('id', $id)->first();
+        if (is_null($dj)) {
+            return json_encode(array('success' => false, 'error' => 'The dj does not exist'));
+        }
+        $dj->delete();
         return json_encode(array('success' => true));
     }
 }

@@ -47,6 +47,10 @@ class EventController extends Controller
     public function favourited($id)
     {
         $user_id = Auth::user()->id;
+        $event = Event::where('id', $id)->first();
+        if (is_null($event)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get event'));
+        }
         UserFavorite::create([
             'user_id' => $user_id,
             'order_id' => $id,
@@ -58,11 +62,15 @@ class EventController extends Controller
     public function unfavourite($id)
     {
         $user_id = Auth::user()->id;
+        $event = Event::where('id', $id)->first();
+        if (is_null($event)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get event'));
+        }
         $favourite = UserFavorite::where('user_id', $user_id)
             ->where('order_id', $id)
             ->where('type', 'event')->first();
         if(is_null($favourite)) {
-            return json_encode(array('success' => false, 'error' => 'Failed to get event'));
+            return json_encode(array('success' => false, 'error' => 'Failed to get favourite event'));
         }
         $favourite->delete();
         return json_encode(array('success' => true));

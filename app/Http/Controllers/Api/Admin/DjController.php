@@ -26,7 +26,7 @@ class DjController extends Controller
         $dj = Dj::where('id', $id)->firstOrFail();
 
         if (is_null($dj)) {
-            return json_encode(array('success' => false, 'error' => 'Failed to get data'));
+            return json_encode(array('success' => false, 'error' => 'The dj does not exist'));
         }
 
         $dj->genres = explode(',', $dj->genre);
@@ -87,7 +87,10 @@ class DjController extends Controller
             return json_encode(array('success' => false, 'error' => $validator->errors()));
         }
 
-        $dj = Dj::find($id);
+        $dj = Dj::where('id', $id)->first();
+        if (is_null($dj)) {
+            return json_encode(array('success' => false, 'error' => 'The dj does not exist'));
+        }
 
         $header_image_path = null;
         if (!is_null($request->file('header_image'))) {
