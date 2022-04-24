@@ -119,21 +119,11 @@ class VenueController extends Controller
     {
         if ($request->hasFile('gallery_image'))
         {
-            $path = upload_file($request->file('gallery_image'), 'venue');
+            $file = $request->file('gallery_image');
+            $path = $file->store('public/uploads/venue');
             VenueMedia::create([
                 'venue_id' => $venue->id,
                 'type' => 'image',
-                'path' => $path
-            ]);
-        }
-
-        // create media record if the video exists
-        if ($request->hasFile('gallery_video'))
-        {
-            $path = upload_file($request->file('gallery_video'), 'venue');
-            VenueMedia::create([
-                'venue_id' => $venue->id,
-                'type' => 'video',
                 'path' => $path
             ]);
         }
@@ -277,21 +267,11 @@ class VenueController extends Controller
     {
         if ($request->hasFile('gallery_image'))
         {
-            $path = upload_file($request->file('gallery_image'), 'venue');
+            $file = $request->file('gallery_image');
+            $path = $file->store('public/uploads/venue');
             VenueMedia::create([
                 'venue_id' => $venue->id,
                 'type' => 'image',
-                'path' => $path
-            ]);
-        }
-
-        // update media record if the video exists
-        if ($request->hasFile('gallery_video'))
-        {
-            $path = upload_file($request->file('gallery_video'), 'venue');
-            VenueMedia::create([
-                'venue_id' => $venue->id,
-                'type' => 'video',
                 'path' => $path
             ]);
         }
