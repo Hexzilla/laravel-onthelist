@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\UserFavorite;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class EventController extends Controller
 {
@@ -75,9 +76,9 @@ class EventController extends Controller
         $user_id = Auth::user()->id;
         $validator = Validator::make($request->all(), [
             'event_id' => 'required',
-            'booking_type' => 'required',
+            'booking_type' => ['required', Rule::in(['Ticket', 'Table Booking', 'Guestlist'])],
             'qty' => 'required',
-            'type' => 'required',
+            'type' => ['required', Rule::in(['Standard', 'EarlyBird', 'VIP'])],
             'price' => 'required',
             'date' => 'required',
         ]);

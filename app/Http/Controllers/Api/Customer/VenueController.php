@@ -9,6 +9,7 @@ use App\Models\Venue;
 use App\Models\UserFavorite;
 use App\Models\VenueBooking;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class VenueController extends Controller
 {

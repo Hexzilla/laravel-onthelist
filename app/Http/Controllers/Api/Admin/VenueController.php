@@ -14,6 +14,9 @@ use App\Models\User;
 use Notification;
 use App\Notifications\NewNotification;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use App\Rules\VenueTableRule;
+use App\Rules\VenueOfferRule;
 
 class VenueController extends Controller
 {
@@ -48,6 +51,32 @@ class VenueController extends Controller
             'city' => 'required',
             'postcode' => 'required',
             'phone' => 'required',
+            'mon_open' => 'required',
+            'mon_close' => 'required',
+            'tue_open' => 'required',
+            'tue_close' => 'required',
+            'wed_open' => 'required',
+            'wed_close' => 'required',
+            'thu_open' => 'required',
+            'thu_close' => 'required',
+            'fri_open' => 'required',
+            'fri_close' => 'required',
+            'sat_open' => 'required',
+            'sat_close' => 'required',
+            'sun_open' => 'required',
+            'sun_close' => 'required',
+            'table_type' => ['required', 'array', Rule::in(['Type 1', 'Type 2', 'Type 3']), new VenueTableRule],
+            'table_id' => 'required',
+            'table_qty' => 'required|array',
+            'table_price' => 'required|array',
+            'table_approval' => ['required', 'array', Rule::in(['Yes', 'No'])],
+            'table_description' => 'required|array',
+            'offer_type' => ['required', 'array', Rule::in(['Discount', 'Type 2', 'Type 3']), new VenueOfferRule],
+            'offer_id' => 'required|array',
+            'offer_qty' => 'required|array',
+            'offer_price' => 'required|array',
+            'offer_approval' => ['required', 'array', Rule::in(['Yes', 'No'])],
+            'offer_description' => 'required|array',
         ]);
         if ($validator->fails()) {
             return json_encode(array('success' => false, 'error' => $validator->errors()));

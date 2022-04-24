@@ -11,6 +11,7 @@ use App\Models\Vendor;
 use App\Models\UserProfile;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class SettingController extends Controller
 {
@@ -49,8 +50,8 @@ class SettingController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email',
-            'gender' => 'required',
-            'date_birth' => 'required',
+            'gender' => ['required', Rule::in(['Male', 'Female'])],
+            'date_birth' => ['required', 'date_format:Y-m-d'],
         ]);
         if ($validator->fails()) {
             return json_encode(array('success' => false, 'error' => $validator->errors()));

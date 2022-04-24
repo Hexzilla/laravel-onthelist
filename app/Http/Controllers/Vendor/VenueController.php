@@ -12,6 +12,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
+use App\Rules\VenueTableRule;
+use App\Rules\VenueOfferRule;
 
 class VenueController extends Controller
 {
@@ -57,6 +60,16 @@ class VenueController extends Controller
             'postcode' => 'required',
             'phone' => 'required|digits:11',
             'venue_type' => 'required',
+            'table_type' => ['required', 'array', Rule::in(['Type 1', 'Type 2', 'Type 3']), new VenueTableRule],
+            'table_qty' => 'required|array',
+            'table_price' => 'required|array',
+            'table_approval' => ['required', 'array',  Rule::in(['Yes', 'No'])],
+            'table_description' => 'required|array',
+            'offer_type' => ['required', 'array', Rule::in(['Discount', 'Type 2', 'Type 3']), new VenueOfferRule],
+            'offer_qty' => 'required|array',
+            'offer_price' => 'required|array',
+            'offer_approval' => ['required', 'array', Rule::in(['Yes', 'No'])],
+            'offer_description' => 'required|array',
         ]);
 
         $venue = new Venue();
@@ -187,7 +200,19 @@ class VenueController extends Controller
             'city' => 'required',
             'postcode' => 'required',
             'phone' => 'required|digits:11',
-            'venue_type' => 'required'
+            'venue_type' => 'required',
+            'table_type' => ['required', 'array', Rule::in(['Type 1', 'Type 2', 'Type 3']), new VenueTableRule],
+            'table_id' => 'required',
+            'table_qty' => 'required|array',
+            'table_price' => 'required|array',
+            'table_approval' => ['required', 'array', Rule::in(['Yes', 'No'])],
+            'table_description' => 'required|array',
+            'offer_type' => ['required', 'array', Rule::in(['Discount', 'Type 2', 'Type 3']), new VenueOfferRule],
+            'offer_id' => 'required|array',
+            'offer_qty' => 'required|array',
+            'offer_price' => 'required|array',
+            'offer_approval' => ['required', 'array', Rule::in(['Yes', 'No'])],
+            'offer_description' => 'required|array',
         ]);
 
         $venues = Venue::where('user_id', $user_id)->where('id', $id)->get();
