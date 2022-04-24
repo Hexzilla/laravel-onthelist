@@ -192,17 +192,17 @@ class DjController extends Controller
 
     public function approve($id)
     {
-        $user = User::where('id', $id)->firstOrFail();
-        $user->status = 'Approved';
-        $user->save();
+        $dj = Dj::where('id', $id)->firstOrFail();
+        $dj->status = 'Approved';
+        $dj->save();
         return json_encode(array('success' => true));
     }
 
     public function reject($id)
     {
-        $user = User::where('id', $id)->firstOrFail();
-        $user->status = 'Rejected';
-        $user->save();
+        $dj = Dj::where('id', $id)->firstOrFail();
+        $dj->status = 'Rejected';
+        $dj->save();
         return json_encode(array('success' => true));
     }
 }

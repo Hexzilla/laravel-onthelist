@@ -193,23 +193,23 @@ class DjController extends Controller
 
     public function approve($id)
     {
-        $user = User::where('id', $id)->first();
-        if(is_null($user)) {
+        $dj = Dj::where('id', $id)->first();
+        if(is_null($dj)) {
             return redirect()->back();
         }
-        $user->status = 'Approved';
-        $user->save();
+        $dj->status = 'Approved';
+        $dj->save();
         return redirect()->back();
     }
 
     public function reject($id)
     {
-        $user = User::where('id', $id)->first();
-        if(is_null($user)) {
+        $dj = Dj::where('id', $id)->first();
+        if(is_null($dj)) {
             return redirect()->back();
         }
-        $user->status = 'Rejected';
-        $user->save();
+        $dj->status = 'Rejected';
+        $dj->save();
         return redirect()->back();
     }
 }

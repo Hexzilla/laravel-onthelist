@@ -19,6 +19,7 @@ use App\Http\Controllers\Dj\EventController as DjEventController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\Customer\EventController as CustomerEventController;
 use App\Http\Controllers\Customer\VenueController as CustomerVenueController;
+use App\Http\Controllers\Customer\DjController as CustomerDjController;
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDahsboardController;
@@ -131,6 +132,13 @@ Route::name('customers.')->prefix('customers')->as('customers.')->group(function
             Route::get('/unfavourite/{id}', 'unfavourite')->name('unfavourite');
             Route::get('/booking/{id}', 'booking')->name('booking');
             Route::post('/create', 'createBooking')->name('createBooking');
+        });
+
+        Route::controller(CustomerDjController::class)->name('djs.')->prefix('djs')->as('djs.')->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::get('/favourite', 'favourited')->name('favourited');
+            Route::get('/favorite/{id}', 'favourite')->name('favorite');
+            Route::get('/unfavorite/{id}', 'unfavourite')->name('unfavorite');
         });
     });
 });

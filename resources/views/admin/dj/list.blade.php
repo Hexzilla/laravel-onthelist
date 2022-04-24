@@ -53,8 +53,8 @@
                                             <button type="button" class="btn btn-rounded btn-primary">
                                                 <a href="{{ route('admin.djs.edit', $dj->id) }}" title="Edit"><i class="fa fa-edit"></i></a>
                                             </button>
-                                            <button title="Approve" class="btn btn-rounded btn-success mb-1" onclick="openApproveModal('{{$dj->user->id}}')"><i class="fa fa-check"></i></button>
-                                            <button title="Reject" class="btn btn-rounded btn-danger mb-1" onclick="openRejectModal('{{$dj->user->id}}')"><i class="fa fa-remove"></i></button>
+                                            <button title="Approve" class="btn btn-rounded btn-success mb-1" onclick="openApproveModal('{{$dj->id}}')"><i class="fa fa-check"></i></button>
+                                            <button title="Reject" class="btn btn-rounded btn-danger mb-1" onclick="openRejectModal('{{$dj->id}}')"><i class="fa fa-remove"></i></button>
                                             <!-- <button type="button" class="btn btn-rounded btn-danger">
                                                 <a onclick="openDeleteModal('{{$dj->name}}', '{{$dj->id}}')" title="Delete"><i class="fa fa-trash"></i></a>
                                             </button> -->

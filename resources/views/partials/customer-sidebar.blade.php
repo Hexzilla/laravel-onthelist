@@ -23,8 +23,8 @@
 
             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-account"></i><span class="nav-text">Djs</span></a>
                 <ul aria-expanded="false">
-                    <li><a href="javascript:void()">All</a></li>
-                    <li><a href="javascript:void()">Favourite</a></li>
+                    <li><a href="{{ route('customers.djs.index') }}">All</a></li>
+                    <li><a href="{{ route('customers.djs.favourited') }}">Favourite</a></li>
                 </ul>
             </li>
             
