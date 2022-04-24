@@ -90,6 +90,9 @@ class DjController extends Controller
         }
 
         $dj = Dj::find($id);
+        if (is_null($dj)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get dj'));
+        }
 
         $user = User::where('id', $dj->user_id)->first();
         if ($user->email !== $request->email) {

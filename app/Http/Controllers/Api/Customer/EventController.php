@@ -58,16 +58,22 @@ class EventController extends Controller
     public function unfavourite($id)
     {
         $user_id = Auth::user()->id;
-        UserFavorite::where('user_id', $user_id)
+        $favourite = UserFavorite::where('user_id', $user_id)
             ->where('order_id', $id)
-            ->where('type', 'event')
-            ->delete();
+            ->where('type', 'event')->first();
+        if(is_null($favourite)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get event'));
+        }
+        $favourite->delete();
         return json_encode(array('success' => true));
     }
 
     public function booking($id)
     {
-        $event = Event::where('id', $id)->firstOrFail();
+        $event = Event::where('id', $id)->first();
+        if (is_null($event)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get event'));
+        }
         return json_encode(array('success' => true, 'event' => $event));
     }
 
@@ -80,11 +86,16 @@ class EventController extends Controller
             'qty' => 'required',
             'type' => ['required', Rule::in(['Standard', 'EarlyBird', 'VIP'])],
             'price' => 'required',
-            'date' => 'required',
+            'date' => ['required', 'date_format:Y-m-d'],
         ]);
 
         if ($validator->fails()) {
             return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
+
+        $event = Event::where('id', $request->event_id)->first();
+        if (is_null($event)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to create booking'));
         }
 
         Booking::create([

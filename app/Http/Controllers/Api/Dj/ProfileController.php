@@ -15,14 +15,20 @@ class ProfileController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
-        $user = User::where('id', $user_id)->firstOrFail();
+        $user = User::where('id', $user_id)->first();
+        if (is_null($user)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get user'));
+        }
         return json_encode(array('success' => true, 'user' => $user));
     }
 
     public function edit()
     {
         $user_id = Auth::user()->id;
-        $user = User::where('id', $user_id)->firstOrFail();
+        $user = User::where('id', $user_id)->first();
+        if (is_null($user)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get user'));
+        }
         return json_encode(array('success' => true, 'user' => $user));
     }
 

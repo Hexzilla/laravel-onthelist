@@ -77,15 +77,20 @@ class VenueController extends Controller
         $user_id = Auth::user()->id;
         $validator = Validator::make($request->all(), [
             'venue_id' => 'required',
-            'booking_type' => 'required',
+            'booking_type' => ['required', Rule::in(['Table', 'Offer'])],
             'type' => 'required',
             'price' => 'required',
-            'date' => 'required',
-            'time' => 'required',
+            'date' => ['required', 'date_format:Y-m-d'],
+            'time' => ['required', 'date_format:H:i'],
         ]);
 
         if ($validator->fails()) {
             return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
+
+        $venue = Venue::where('id', $request->venue_id)->first();
+        if (is_null($venue)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to create booking'));
         }
 
         VenueBooking::create([

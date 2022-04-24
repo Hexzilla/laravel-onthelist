@@ -16,7 +16,10 @@ class EventController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
-        $user = User::where('id', $user_id)->firstOrFail();
+        $user = User::where('id', $user_id)->first();
+        if (is_null($user)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get event'));
+        }
         $current = Carbon::now();
         if ($user->dj) {
             $events = DB::table('event_djs')

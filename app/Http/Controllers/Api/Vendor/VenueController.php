@@ -28,7 +28,7 @@ class VenueController extends Controller
 
     public function edit($id)
     {
-        $venue = Venue::where('id', $id)->firstOrFail();
+        $venue = Venue::where('id', $id)->first();
 
         if (is_null($venue)) {
             return json_encode(array('success' => false, 'error' => 'Failed to get venue'));
@@ -239,8 +239,10 @@ class VenueController extends Controller
             return json_encode(array('success' => false, 'error' => $validator->errors()));
         }
 
-        $venues = Venue::where('user_id', $user_id)->where('id', $id)->get();
-        $venue = $venues[0];
+        $venue = Venue::where('user_id', $user_id)->where('id', $id)->first();
+        if (is_null($venue)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get venue'));
+        }
         $venue->user_id = $user_id;
         $venue->name = $request->name;
         $venue->type = $request->venue_type;
