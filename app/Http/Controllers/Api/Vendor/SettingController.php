@@ -35,7 +35,7 @@ class SettingController extends Controller
         }
 
         if (!(Hash::check($request->old_password, Auth::user()->password))) {
-            return redirect()->back()->withInput($request->only('old_password'));
+            return json_encode(array('success' => false, 'error' => 'The old password and current password must match.'));
         }   
 
         $user->password = bcrypt($request->get('password'));
@@ -48,7 +48,7 @@ class SettingController extends Controller
         $user_id = Auth::user()->id;
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
             'gender' => 'required',
             'date_birth' => 'required',
         ]);
@@ -57,6 +57,14 @@ class SettingController extends Controller
         }
         
         $user = User::where('id', $user_id)->first();
+        if ($user->email !== $request->email) {
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email|unique:users',
+            ]);
+            if ($validator->fails()) {
+                return json_encode(array('success' => false, 'error' => $validator->errors()));
+            } 
+        }
         $user->name = $request->name;
         $user->email = $request->email;
         $user->save();

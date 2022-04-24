@@ -92,6 +92,14 @@ class DjController extends Controller
         $dj = Dj::find($id);
 
         $user = User::where('id', $dj->user_id)->first();
+        if ($user->email !== $request->email) {
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email|unique:users',
+            ]);
+            if ($validator->fails()) {
+                return json_encode(array('success' => false, 'error' => $validator->errors()));
+            } 
+        }
         if(is_null($user)) {
             return json_encode(array('success' => false, 'error' => 'Failed to update user'));
         }
@@ -119,7 +127,8 @@ class DjController extends Controller
     {
         if ($request->hasFile('gallery_image'))
         {
-            $path = upload_file($request->file('gallery_image'), 'dj');
+            $file = $request->file('gallery_image');
+            $path = $file->store('public/uploads/dj');
             DjMedia::create([
                 'dj_id' => $dj->id,
                 'type' => 'image',
@@ -130,7 +139,8 @@ class DjController extends Controller
         // create media record if the video exists
         if ($request->hasFile('gallery_video'))
         {
-            $path = upload_file($request->file('gallery_video'), 'dj');
+            $file = $request->file('gallery_video');
+            $path = $file->store('public/uploads/dj');
             DjMedia::create([
                 'dj_id' => $dj->id,
                 'type' => 'video',
@@ -152,7 +162,8 @@ class DjController extends Controller
     {
         if ($request->hasFile('gallery_image'))
         {
-            $path = upload_file($request->file('gallery_image'), 'dj');
+            $file = $request->file('gallery_image');
+            $path = $file->store('public/uploads/dj');
             DjMedia::create([
                 'dj_id' => $dj->id,
                 'type' => 'image',
@@ -163,7 +174,8 @@ class DjController extends Controller
         // create media record if the video exists
         if ($request->hasFile('gallery_video'))
         {
-            $path = upload_file($request->file('gallery_video'), 'dj');
+            $file = $request->file('gallery_video');
+            $path = $file->store('public/uploads/dj');
             DjMedia::create([
                 'dj_id' => $dj->id,
                 'type' => 'video',

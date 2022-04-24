@@ -123,7 +123,8 @@ class EventController extends Controller
     {
         if ($request->hasFile('gallery_image'))
         {
-            $path = upload_file($request->file('gallery_image'), 'event');
+            $file = $request->file('header_image');
+            $event->header_image_path = $file->store('public/uploads/event');
             EventMedia::create([
                 'event_id' => $event->id,
                 'type' => 'image',
@@ -134,7 +135,8 @@ class EventController extends Controller
         // create media record if the video exists
         if ($request->hasFile('gallery_video'))
         {
-            $path = upload_file($request->file('gallery_video'), 'event');
+            $file = $request->file('header_image');
+            $event->header_image_path = $file->store('public/uploads/event');
             EventMedia::create([
                 'event_id' => $event->id,
                 'type' => 'video',
@@ -262,7 +264,8 @@ class EventController extends Controller
     {
         if ($request->hasFile('gallery_image'))
         {
-            $path = upload_file($request->file('gallery_image'), 'event');
+            $file = $request->file('header_image');
+            $event->header_image_path = $file->store('public/uploads/event');
             EventMedia::create([
                 'event_id' => $event->id,
                 'type' => 'image',

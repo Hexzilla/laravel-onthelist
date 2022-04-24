@@ -30,8 +30,14 @@ class BookingController extends Controller
     public function approve($id)
     {
         $booking = Booking::where('id', $id)->first();
+        if (is_null($booking)) {
+            return json_encode(array('success' => false, 'error' => 'The booking does not exist.'));
+        }
 
-        $user = User::where('id', $booking->user_id)->firstOrFail();
+        $user = User::where('id', $booking->user_id)->first();
+        if (is_null($user)) {
+            return json_encode(array('success' => false, 'error' => 'The user does not exist.'));
+        }
 
         $details = [
             'title' => 'Approve Booking '.$booking->id,
@@ -51,6 +57,24 @@ class BookingController extends Controller
     public function reject($id)
     {
         $booking = Booking::where('id', $id)->first();
+        if (is_null($booking)) {
+            return json_encode(array('success' => false, 'error' => 'The booking does not exist.'));
+        }
+
+        $user = User::where('id', $booking->user_id)->first();
+        if (is_null($user)) {
+            return json_encode(array('success' => false, 'error' => 'The user does not exist.'));
+        }
+
+        $details = [
+            'title' => 'Approve Booking '.$booking->id,
+            'description' => 'Vendor rejected this booking',
+            'order_id' => $booking->id,
+            'type' => 'booking',
+            'user_id' => $booking->user_id,
+        ];
+
+        Notification::send($user, new NewNotification($details));
         $booking->status = "Rejected";
         $booking->save();
         return json_encode(array('success' => true));

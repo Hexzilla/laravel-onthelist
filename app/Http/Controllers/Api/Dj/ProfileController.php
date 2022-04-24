@@ -31,7 +31,7 @@ class ProfileController extends Controller
         $user_id = Auth::user()->id;
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
             'genres' => 'required',
             'age' => 'required',
         ]);
@@ -40,7 +40,18 @@ class ProfileController extends Controller
             return json_encode(array('success' => false, 'error' => $validator->errors()));
         }
 
-        $user = User::where('id', $user_id)->firstOrFail();
+        $user = User::where('id', $user_id)->first();
+        if (is_null($user)) {
+            return json_encode(array('success' => false, 'error' => 'The user does not exist.'));
+        }
+        if ($user->email !== $request->email) {
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email|unique:users',
+            ]);
+            if ($validator->fails()) {
+                return json_encode(array('success' => false, 'error' => $validator->errors()));
+            } 
+        }
         $user->name = $request->name;
         $user->email = $request->email;
         $user->save();
@@ -72,7 +83,8 @@ class ProfileController extends Controller
     {
         if($request->hasFile('gallery_image'))
         {
-            $path = upload_file($request->file('gallery_image'), 'dj');
+            $file = $request->file('gallery_image');
+            $path = $file->store('public/uploads/dj');
             DjMedia::create([
                 'user_id' => $user->id,
                 'type' => 'image',
@@ -82,7 +94,8 @@ class ProfileController extends Controller
 
         if($request->hasFile('gallery_video'))
         {
-            $path = upload_file($request->file('gallery_video'), 'dj');
+            $file = $request->file('gallery_video');
+            $path = $file->store('public/uploads/dj');
             DjMedia::create([
                 'user_id' => $user->id,
                 'type' => 'video',
