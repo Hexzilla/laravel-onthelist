@@ -16,6 +16,10 @@ use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+use App\Rules\EventTicketRule;
+use App\Rules\EventTableRule;
+use App\Rules\EventGuestRule;
 
 class EventController extends Controller
 {
@@ -87,9 +91,24 @@ class EventController extends Controller
         $request->validate([
             'name' => 'required',
             'header_image' => 'required|mimes:jpeg,png,jpg,gif',
-            'type' => 'required',
+            'type' => ['required', Rule::in(['Public', 'Private'])],
             'venue_id' => 'required|numeric',
-            'djs' => 'required'
+            'djs' => 'required',
+            'ticket_type' => ['required', 'array', Rule::in(['Standard', 'EarlyBird', 'VIP']), new EventTicketRule],
+            'ticket_qty' => 'required|array',
+            'ticket_price' => 'required|array',
+            'ticket_approval' => ['required', 'array', Rule::in(['Yes', 'No'])],
+            'ticket_description' => 'required|array',
+            'table_type' => ['required', 'array', Rule::in(['Standard', 'EarlyBird', 'VIP']), new EventTableRule],
+            'table_qty' => 'required|array',
+            'table_price' => 'required|array',
+            'table_approval' => ['required', 'array', Rule::in(['Yes', 'No'])],
+            'table_description' => 'required|array',
+            'guestlist_type' => ['required', 'array', Rule::in(['Standard', 'EarlyBird', 'VIP']), new EventGuestRule],
+            'guestlist_qty' => 'required|array',
+            'guestlist_price' => 'required|array',
+            'guestlist_approval' => ['required', 'array', Rule::in(['Yes', 'No'])],
+            'guestlist_description' => 'required|array',
         ]);
 
         $event = new event();
@@ -180,7 +199,7 @@ class EventController extends Controller
                     'type' => $request->table_type[$i] ?? 'Standard',
                     'qty' => $request->table_qty[$i] ?? 0,
                     'price' => $request->table_price[$i] ?? 0,
-                    'approval' => $request->table_booking_approval[$i] ?? 'No',
+                    'approval' => $request->table_approval[$i] ?? 'No',
                     'description' => $request->table_description[$i]
                 ]);
             }
@@ -198,7 +217,7 @@ class EventController extends Controller
                     'type' => $request->guestlist_type[$i] ?? 'Standard',
                     'qty' => $request->guestlist_qty[$i] ?? 0,
                     'price' => $request->guestlist_price[$i] ?? 0,
-                    'approval' => $request->guestlist_booking_approval[$i] ?? 'No',
+                    'approval' => $request->guestlist_approval[$i] ?? 'No',
                     'description' => $request->guestlist_description[$i]
                 ]);
             }
@@ -220,9 +239,27 @@ class EventController extends Controller
         $user_id = Auth::user()->id;
         $request->validate([
             'name' => 'required',
-            'type' => 'required',
+            'type' => ['required', Rule::in(['Public', 'Private'])],
             'venue_id' => 'required|numeric',
-            'djs' => 'required'
+            'djs' => 'required',
+            'ticket_type' => ['required', 'array', Rule::in(['Standard', 'EarlyBird', 'VIP']), new EventTicketRule],
+            'ticket_id' => 'required|array',
+            'ticket_qty' => 'required|array',
+            'ticket_price' => 'required|array',
+            'ticket_approval' => ['required', 'array', Rule::in(['Yes', 'No'])],
+            'ticket_description' => 'required|array',
+            'table_type' => ['required', 'array', Rule::in(['Standard', 'EarlyBird', 'VIP']), new EventTableRule],
+            'table_id' => 'required|array',
+            'table_qty' => 'required|array',
+            'table_price' => 'required|array',
+            'table_approval' => ['required', 'array', Rule::in(['Yes', 'No'])],
+            'table_description' => 'required|array',
+            'guestlist_type' => ['required', 'array', Rule::in(['Standard', 'EarlyBird', 'VIP']), new EventGuestRule],
+            'guestlist_id' => 'required|array',
+            'guestlist_qty' => 'required|array',
+            'guestlist_price' => 'required|array',
+            'guestlist_approval' => ['required', 'array', Rule::in(['Yes', 'No'])],
+            'guestlist_description' => 'required|array',
         ]);
 
         $events = Event::where('user_id', $user_id)->where('id', $id)->get();
@@ -327,7 +364,7 @@ class EventController extends Controller
                     'type' =>  $request->table_type[$i] ?? 'Standard',
                     'qty' =>  $request->table_qty[$i] ?? 0,
                     'price' =>  $request->table_price[$i] ?? 0,
-                    'approval' =>  $request->table_booking_approval[$i] ?? 'No',
+                    'approval' =>  $request->table_approval[$i] ?? 'No',
                     'description' =>  $request->table_description[$i],
                 ]);
             }
@@ -358,7 +395,7 @@ class EventController extends Controller
                     'type' =>  $request->guestlist_type[$i] ?? 'Standard',
                     'qty' =>  $request->guestlist_qty[$i] ?? 0,
                     'price' =>  $request->guestlist_price[$i] ?? 0,
-                    'approval' =>  $request->guestlist_booking_approval[$i] ?? 'No',
+                    'approval' =>  $request->guestlist_approval[$i] ?? 'No',
                     'description' =>  $request->guestlist_description[$i],
                 ]);
             }

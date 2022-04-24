@@ -24,7 +24,7 @@
     <div class="col-md-6">
         <div class="form-group">
             <label for="tableApproval">Booking Approval</label>
-            <select class="form-control approval" name="table_booking_approval[]">
+            <select class="form-control approval" name="table_approval[]">
                 <option value="Yes" {{ ($table && $table->approval !== 'Yes') ? '' : 'selected' }}>Yes</option>
                 <option value="No" {{ ($table && $table->approval === 'No') ? 'selected' : '' }}>No</option>
             </select>

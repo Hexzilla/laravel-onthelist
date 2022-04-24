@@ -177,7 +177,7 @@ class VenueController extends Controller
                     'type' => $request->table_type[$i],
                     'qty' => $request->table_qty[$i] || 0,
                     'price' => $request->table_price[$i] || 0,
-                    'approval' => $request->table_booking_approval[$i],
+                    'approval' => $request->table_approval[$i],
                     'description' => $request->table_description[$i]
                 ]);
             }
@@ -360,7 +360,7 @@ class VenueController extends Controller
                     'type' =>  $request->table_type[$i] ?? 'Standard',
                     'qty' =>  $request->table_qty[$i] ?? 0,
                     'price' =>  $request->table_price[$i] ?? 0,
-                    'approval' =>  $request->table_booking_approval[$i] ?? 'No',
+                    'approval' =>  $request->table_approval[$i] ?? 'No',
                     'description' =>  $request->table_description[$i],
                 ]);
             }
