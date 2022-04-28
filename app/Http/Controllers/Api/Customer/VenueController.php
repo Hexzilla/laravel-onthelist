@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Venue;
 use App\Models\UserFavorite;
 use App\Models\VenueBooking;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -16,61 +17,63 @@ class VenueController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
-        $venues = Venue::where('status', 'Approved')->paginate(10);
-        foreach($venues as $venue) {
-            $favourite = UserFavorite::where('order_id', $venue->id)
-                ->where('user_id', $user_id)->where('type', 'venue')->get();
-            if (count($favourite) > 0) {
-                $venue->favourite = true;
-            } else {
-                $venue->favourite = false;
-            }
-        }
-        return json_encode(array('success' => true, 'venues' => $venues));
-    }
 
-    public function favourite()
-    {
-        $user_id = Auth::user()->id;
-
-        $venue_ids = UserFavorite::where('type', 'venue')->where('user_id', $user_id)->select('order_id')->get();
-        $venues = Venue::whereIn('id', $venue_ids)->paginate(10);
-        foreach($venues as $venue) {
-            $venue->favourite = true;   
-        }
+        $venues = DB::table('venues')
+            ->select('venues.*', 'user_favorites.id as favourite')
+            ->leftJoin('user_favorites', function ($join) use ($user_id) {
+                $join->on('user_favorites.order_id', '=', 'venues.id')
+                    ->where('user_favorites.user_id', '=', $user_id)
+                    ->where('user_favorites.type', '=', 'venue');
+            })
+            ->where('status', 'Approved')
+            ->paginate(10);
 
         return json_encode(array('success' => true, 'venues' => $venues));
     }
 
-    public function favourited($id)
+    public function favorites()
     {
         $user_id = Auth::user()->id;
-        $venue = Venue::where('id', $id)->first();
+
+        $venues = DB::table('venues')
+            ->select('venues.*', 'user_favorites.id as favourite')
+            ->join('user_favorites', function ($join) {
+                $join->on('user_favorites.order_id', '=', 'venues.id')
+                    ->where('user_favorites.type', '=', 'venue');
+            })
+            ->where('user_favorites.user_id', $user_id)
+            ->paginate(10);
+        
+        return json_encode(array('success' => true, 'venues' => $venues));
+    }
+
+    public function add_favorite($venue_id)
+    {
+        $user_id = Auth::user()->id;
+        $venue = Venue::where('id', $venue_id)->first();
         if (is_null($venue)) {
             return json_encode(array('success' => false, 'error' => 'Failed to get venue'));
         }
-        UserFavorite::create([
+        $favorite = array([
             'user_id' => $user_id,
-            'order_id' => $id,
+            'order_id' => $venue_id,
             'type' => 'venue'
         ]);
+        UserFavorite::upsert($favorite, ['user_id', 'order_id'], ['user_id', 'order_id', 'type']);
         return json_encode(array('success' => true));
     }
 
-    public function unfavourite($id)
+    public function remove_favorite($venue_id)
     {
         $user_id = Auth::user()->id;
-        $venue = Venue::where('id', $id)->first();
+        $venue = Venue::where('id', $venue_id)->first();
         if (is_null($venue)) {
             return json_encode(array('success' => false, 'error' => 'Failed to get venue'));
         }
-        $favourite = UserFavorite::where('user_id', $user_id)
-            ->where('order_id', $id)
+        UserFavorite::where('user_id', $user_id)
+            ->where('order_id', $venue_id)
             ->where('type', 'venue')
-            ->first();
-        if (is_null($favourite)) {
-            return json_encode(array('success' => false, 'error' => 'Failed to get favourite venue'));
-        }
+            ->delete();
         return json_encode(array('success' => true));
     }
 

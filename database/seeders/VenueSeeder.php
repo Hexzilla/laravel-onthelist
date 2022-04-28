@@ -28,6 +28,19 @@ class VenueSeeder extends Seeder
             'city' => 'London',
             'postcode' => '123456',
             'phone' => '1234567890',
+            'status' => 'Approved',
+        ]);
+
+        Venue::create([
+            'user_id' => 1,
+            'name' => 'Laravel Hall',
+            'header_image_path' => 'images/event.jpg',
+            'type' => 'Type 1',
+            'address' => '456',
+            'city' => 'London',
+            'postcode' => '123456',
+            'phone' => '1234567890',
+            'status' => 'Approved',
         ]);
     }
 }

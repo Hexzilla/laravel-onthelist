@@ -117,9 +117,9 @@ Route::prefix('v1')->group(function() {
         Route::prefix('customer')->group(function(){
             Route::controller(CustomerEventController::class)->prefix('events')->group(function () {
                 Route::get('/', 'index');
-                Route::get('/favorite', 'favourite');
-                Route::get('/favourite/{id}', 'favourited');
-                Route::get('/unfavourite/{id}', 'unfavourite');
+                Route::get('/favorite', 'favorites');
+                Route::get('/favorite/add/{id}', 'add_favorite');
+                Route::get('/favorite/remove/{id}', 'remove_favorite');
                 Route::get('/booking/{id}', 'booking');
                 Route::post('/create', 'createBooking');
             });

@@ -17,12 +17,12 @@ class EventController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
-        $events = Event::where('status', 'Approved')->paginate(10);
+
         $events = DB::table('events')
             ->select('events.*', 'user_favorites.id as favourite')
-            ->leftJoin('user_favorites', function ($join) {
+            ->leftJoin('user_favorites', function ($join) use ($user_id) {
                 $join->on('user_favorites.order_id', '=', 'events.id')
-                    ->on('user_favorites.user_id', '=', 'events.user_id')
+                    ->where('user_favorites.user_id', '=', $user_id)
                     ->where('user_favorites.type', '=', 'event');
             })
             ->where('status', 'Approved')
@@ -31,48 +31,49 @@ class EventController extends Controller
         return json_encode(array('success' => true, 'events' => $events));
     }
 
-    public function favourite()
+    public function favorites()
     {
         $user_id = Auth::user()->id;
 
-        $event_ids = UserFavorite::where('type', 'event')->where('user_id', $user_id)->select('order_id')->get();
-        $events = Event::whereIn('id', $event_ids)->paginate(10);
-        foreach($events as $event) {
-            $event->favourite = true;   
-        }
-
+        $events = DB::table('events')
+            ->select('events.*', 'user_favorites.id as favourite')
+            ->join('user_favorites', function ($join) {
+                $join->on('user_favorites.order_id', '=', 'events.id')
+                    ->where('user_favorites.type', '=', 'event');
+            })
+            ->where('user_favorites.user_id', $user_id)
+            ->paginate(10);
+        
         return json_encode(array('success' => true, 'events' => $events));
     }
 
-    public function favourited($id)
+    public function add_favorite($event_id)
     {
         $user_id = Auth::user()->id;
-        $event = Event::where('id', $id)->first();
+        $event = Event::where('id', $event_id)->first();
         if (is_null($event)) {
             return json_encode(array('success' => false, 'error' => 'Failed to get event'));
         }
-        UserFavorite::create([
+        $favorite = array([
             'user_id' => $user_id,
-            'order_id' => $id,
+            'order_id' => $event_id,
             'type' => 'event'
         ]);
+        UserFavorite::upsert($favorite, ['user_id', 'order_id'], ['user_id', 'order_id', 'type']);
         return json_encode(array('success' => true));
     }
 
-    public function unfavourite($id)
+    public function remove_favorite($event_id)
     {
         $user_id = Auth::user()->id;
-        $event = Event::where('id', $id)->first();
+        $event = Event::where('id', $event_id)->first();
         if (is_null($event)) {
             return json_encode(array('success' => false, 'error' => 'Failed to get event'));
         }
-        $favourite = UserFavorite::where('user_id', $user_id)
-            ->where('order_id', $id)
-            ->where('type', 'event')->first();
-        if(is_null($favourite)) {
-            return json_encode(array('success' => false, 'error' => 'Failed to get favourite event'));
-        }
-        $favourite->delete();
+        UserFavorite::where('user_id', $user_id)
+            ->where('order_id', $event_id)
+            ->where('type', 'event')
+            ->delete();
         return json_encode(array('success' => true));
     }
 

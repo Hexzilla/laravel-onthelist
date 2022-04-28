@@ -19,6 +19,7 @@ class CreateUserFavoritesTable extends Migration
             $table->string('order_id');
             $table->enum('type', ['event', 'venue', 'dj']);
             $table->timestamps();
+            $table->unique(["user_id", "order_id"], 'user_order_unique');
         });
     }
 
