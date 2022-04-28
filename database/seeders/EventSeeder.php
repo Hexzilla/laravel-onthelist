@@ -27,6 +27,7 @@ class EventSeeder extends Seeder
             'type' => 'Private',
             'start' => '2022-04-07',
             'end' => '2022-05-07',
+            'status' => 'Approved',
             'is_weekly_event' => true,
         ]);
 
@@ -38,6 +39,7 @@ class EventSeeder extends Seeder
             'type' => 'Private',
             'start' => '2022-04-07',
             'end' => '2022-05-07',
+            'status' => 'Approved',
             'is_weekly_event' => true,
         ]);
 

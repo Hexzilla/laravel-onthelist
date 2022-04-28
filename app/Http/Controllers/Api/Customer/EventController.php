@@ -18,16 +18,16 @@ class EventController extends Controller
     {
         $user_id = Auth::user()->id;
         $events = Event::where('status', 'Approved')->paginate(10);
-        foreach($events as $event) {
-            $favourite = UserFavorite::where('order_id', $event->id)
-                ->where('user_id', $user_id)->where('type', 'event')->get();
-            if (count($favourite) > 0) {
-                $event->favourite = true;
-            } else {
-                $event->favourite = false;
-            }
-        }
-        
+        $events = DB::table('events')
+            ->select('events.*', 'user_favorites.id as favourite')
+            ->leftJoin('user_favorites', function ($join) {
+                $join->on('user_favorites.order_id', '=', 'events.id')
+                    ->on('user_favorites.user_id', '=', 'events.user_id')
+                    ->where('user_favorites.type', '=', 'event');
+            })
+            ->where('status', 'Approved')
+            ->paginate(10);
+
         return json_encode(array('success' => true, 'events' => $events));
     }
 
