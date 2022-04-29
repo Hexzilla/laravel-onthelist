@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Vendor;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Booking;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB; 
+use App\Http\Controllers\Controller;
+use App\Models\Booking;
+use App\Notifications\Approved;
 use App\Models\User;
 use Notification;
-use App\Notifications\NewNotification;
 
 class BookingController extends Controller
 {
@@ -34,14 +34,13 @@ class BookingController extends Controller
         $user = User::where('id', $booking->user_id)->firstOrFail();
 
         $details = [
-            'title' => 'Approve Booking '.$booking->id,
-            'description' => 'Vendor approved this booking',
-            'order_id' => $booking->id,
+            'title' => 'Booking Approved',
+            'description' => 'Vendor approved your booking ' . $booking->id,
             'type' => 'booking',
             'user_id' => $booking->user_id,
+            'item_id' => $booking->id,
         ];
-
-        Notification::send($user, new NewNotification($details));
+        Notification::send($user, new Approved($details));
 
         $booking->status = "Approved";
         $booking->save();

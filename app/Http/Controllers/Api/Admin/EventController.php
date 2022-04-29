@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Notification;
-use App\Notifications\NewNotification;
+use App\Notifications\Approved;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Rules\EventTicketRule;
@@ -78,14 +78,13 @@ class EventController extends Controller
         $user = User::where('id', $event->user_id)->firstOrFail();
 
         $details = [
-            'title' => 'Approve Event '.$event->name,
-            'description' => 'Admin approved this event',
-            'order_id' => $event->id,
-            'user_id' => $event->user_id,
+            'title' => 'Event Approved ',
+            'description' => 'Admin approved your event ' . $event->name,
             'type' => 'event',
+            'user_id' => $event->user_id,
+            'item_id' => $event->id,
         ];
-
-        Notification::send($user, new NewNotification($details));
+        Notification::send($user, new Approved($details));
 
         $event->status = 'Approved';
         $event->save();

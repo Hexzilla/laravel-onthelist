@@ -3,11 +3,9 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewNotification extends Notification
+class Rejected extends Notification
 {
     use Queueable;
 
@@ -47,7 +45,7 @@ class NewNotification extends Notification
             'description' => $this->details['description'],
             'user_id' => $this->details['user_id'],
             'type' => $this->details['type'],
-            'order_id' => $this->details['order_id'],
+            'item_id' => $this->details['item_id'],
         ];
     }
 }

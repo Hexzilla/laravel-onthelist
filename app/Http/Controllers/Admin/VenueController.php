@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Notification;
-use App\Notifications\NewNotification;
+use App\Notifications\Approved;
 use Illuminate\Validation\Rule;
 use App\Rules\VenueTableRule;
 use App\Rules\VenueOfferRule;
@@ -260,14 +260,13 @@ class VenueController extends Controller
         $user = User::where('id', $venue->user_id)->firstOrFail();
 
         $details = [
-            'title' => 'Approve Venue '.$venue->name,
-            'description' => 'Admin approved this venue',
+            'title' => 'Venue Approved',
+            'description' => 'Admin approved your venue ' . $venue->name,
             'type' => 'venue',
-            'order_id' => $venue->id,
             'user_id' => $venue->user_id,
+            'item_id' => $venue->id,
         ];
-
-        Notification::send($user, new NewNotification($details));
+        Notification::send($user, new Approved($details));
 
         $venue->status = 'Approved';
         $venue->save();

@@ -9,6 +9,7 @@ use App\Http\Controllers\Vendor\VenueController;
 use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\Api\SettingController as SettingController;
+use App\Http\Controllers\Api\NotificationController as NotificationController;
 
 use App\Http\Controllers\Api\Vendor\EventController as VendorEventController;
 use App\Http\Controllers\Api\Vendor\VenueController as VendorVenueController;
@@ -63,6 +64,12 @@ Route::prefix('v1')->group(function() {
         Route::prefix('settings')->group(function() {
             Route::post('/account/change_password', [SettingController::class, 'changePassword']);
             Route::post('/account/close', [SettingController::class, 'closeAccount']);
+        });
+
+        Route::prefix('notifications')->group(function() {
+            Route::get('/', [NotificationController::class, 'index']);
+            Route::get('/unread', [NotificationController::class, 'unread']);
+            Route::get('/read/{id}', [NotificationController::class, 'markAsRead']);
         });
 
         Route::prefix('vendor')->group(function(){

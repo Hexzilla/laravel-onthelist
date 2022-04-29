@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Api\Vendor;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Booking;
+use App\Notifications\Approved;
+use App\Notifications\Rejected;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB; 
 use App\Models\User;
 use Notification;
-use App\Notifications\NewNotification;
 
 class BookingController extends Controller
 {
@@ -40,14 +41,13 @@ class BookingController extends Controller
         }
 
         $details = [
-            'title' => 'Approve Booking '.$booking->id,
-            'description' => 'Vendor approved this booking',
-            'order_id' => $booking->id,
+            'title' => 'Booking Approved',
+            'description' => 'Vendor approved your booking ' . $booking->id,
             'type' => 'booking',
             'user_id' => $booking->user_id,
+            'item_id' => $booking->id,
         ];
-
-        Notification::send($user, new NewNotification($details));
+        Notification::send($user, new Approved($details));
 
         $booking->status = "Approved";
         $booking->save();
@@ -67,14 +67,14 @@ class BookingController extends Controller
         }
 
         $details = [
-            'title' => 'Approve Booking '.$booking->id,
-            'description' => 'Vendor rejected this booking',
-            'order_id' => $booking->id,
+            'title' => 'Booking Rejected',
+            'description' => 'Vendor rejected your booking ' . $booking->id,
             'type' => 'booking',
             'user_id' => $booking->user_id,
+            'item_id' => $booking->id,
         ];
+        Notification::send($user, new Rejected($details));
 
-        Notification::send($user, new NewNotification($details));
         $booking->status = "Rejected";
         $booking->save();
         return json_encode(array('success' => true));
