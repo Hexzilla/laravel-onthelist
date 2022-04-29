@@ -10,6 +10,7 @@ use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\Api\SettingController as SettingController;
 use App\Http\Controllers\Api\NotificationController as NotificationController;
+use App\Http\Controllers\Api\FollowingController as FollowingController;
 
 use App\Http\Controllers\Api\Vendor\EventController as VendorEventController;
 use App\Http\Controllers\Api\Vendor\VenueController as VendorVenueController;
@@ -70,6 +71,12 @@ Route::prefix('v1')->group(function() {
             Route::get('/', [NotificationController::class, 'index']);
             Route::get('/unread', [NotificationController::class, 'unread']);
             Route::get('/read/{id}', [NotificationController::class, 'markAsRead']);
+        });
+
+        Route::prefix('following')->group(function() {
+            Route::get('/', [FollowingController::class, 'index']);
+            Route::post('/add/{following_user_id}', [FollowingController::class, 'add_following']);
+            Route::delete('/remove/{following_user_id}', [FollowingController::class, 'remove_following']);
         });
 
         Route::prefix('vendor')->group(function(){
