@@ -22,9 +22,9 @@ class CreateUsersTable extends Migration
             $table->enum('role', ['dj', 'vendor', 'customer'])->default('customer');
             $table->enum('status', ['Approved', 'Pending', 'Rejected'])->default('Pending');
             $table->datetime('paused_at')->nullable();
-            $table->datetime('deleted_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

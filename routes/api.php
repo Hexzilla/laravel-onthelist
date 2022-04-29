@@ -8,6 +8,8 @@ use App\Http\Controllers\Vendor\VenueController;
 
 use App\Http\Controllers\AuthController;
 
+use App\Http\Controllers\Api\SettingController as SettingController;
+
 use App\Http\Controllers\Api\Vendor\EventController as VendorEventController;
 use App\Http\Controllers\Api\Vendor\VenueController as VendorVenueController;
 use App\Http\Controllers\Api\Vendor\DjController as VendorDjController;
@@ -57,6 +59,11 @@ Route::prefix('v1')->group(function() {
         });
     
         Route::post('/auth/logout', [AuthController::class, 'logout']);
+
+        Route::prefix('settings')->group(function() {
+            Route::post('/account/change_password', [SettingController::class, 'changePassword']);
+            Route::post('/account/close', [SettingController::class, 'closeAccount']);
+        });
 
         Route::prefix('vendor')->group(function(){
             Route::controller(VendorBookingController::class)->prefix('booking')->group(function () {
