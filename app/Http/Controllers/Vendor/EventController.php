@@ -464,19 +464,21 @@ class EventController extends Controller
         return view('vendor.reps.create', ['id' => $id]);
     }
 
-    public function storeReps(Request $request)
+    public function createReps(Request $request)
     {
         $request->validate([
             'event_id' => 'required',
-            'code_affiliate' => 'required|string',
+            'affiliate_code' => 'required|string',
             'referral_fee' => 'required|numeric|min: 0|max: 99.99',
         ]);
 
         VendorAffiliate::create([
             'event_id' => $request->event_id,
-            'code_affiliate' => $request->code_affiliate,
+            'affiliate_code' => $request->affiliate_code,
             'referral_fee' => $request->referral_fee,
-            'additional_code' => $request->additional_code
+            'additional_notes' => $request->additional_notes
         ]);
+
+        return redirect()->route('vendors.event.index');
     }
 }

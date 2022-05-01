@@ -20,4 +20,9 @@ class VendorAffiliate extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
+    }
 }

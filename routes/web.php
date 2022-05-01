@@ -11,6 +11,7 @@ use App\Http\Controllers\Vendor\EventController as VendorEventController;
 use App\Http\Controllers\Vendor\BookingController as VendorBookingController;
 use App\Http\Controllers\Vendor\PaymentController as VendorPaymentController;
 use App\Http\Controllers\Vendor\SettingController as VendorSettingController;
+use App\Http\Controllers\vendor\RepController as VendorRepController;
 
 use App\Http\Controllers\Dj\DashboardController as DjDashboardController;
 use App\Http\Controllers\Dj\ProfileController as DjProfileController;
@@ -88,7 +89,7 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
             Route::put('/update/{id}', 'update')->name('update');
             Route::get('/delete/{id}', 'destroy')->name('destroy');
             Route::get('/reps/{id}', 'addReps')->name('add_rep');
-            Route::get('/reps/create', 'createReps')->name('create_rep');
+            Route::post('/reps/create', 'createReps')->name('create_rep');
         });
 
         Route::controller(VendorSettingController::class)->name('setting.')->prefix('setting')->as('setting.')->group(function () {
@@ -96,6 +97,10 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
             Route::post('/password', 'changePassword')->name('password');
             Route::post('/contact', 'contact')->name('contact');
             Route::get('/close', 'closeAccount')->name('close');
+        });
+
+        Route::controller(VendorRepController::class)->name('rep.')->prefix('rep')->as('rep.')->group(function () {
+            Route::get('/', 'index')->name('index');
         });
     });
 });
