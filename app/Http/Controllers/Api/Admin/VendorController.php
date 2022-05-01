@@ -52,7 +52,8 @@ class VendorController extends Controller
     {
         $vendors = Vendor::where('user_id', $user->id)->get();
         if ($request->hasFile('profile_image')) {
-            $path = upload_file($request->file('profile_image'), 'user');
+            $file = $request->file('profile_image');
+            $path = $file->store('uploads/user', 'public');
         } else {
             $path = "";
         }

@@ -58,7 +58,8 @@ class DjController extends Controller
 
         $header_image_path = null;
         if (!is_null($request->file('header_image'))) {
-            $header_image_path = upload_file($request->file('header_image'), 'venue');
+            $file = $request->file('header_image');
+            $header_image_path = $file->store('uploads/dj', 'public');
         }
 
         $user = User::create([
@@ -95,7 +96,8 @@ class DjController extends Controller
 
         $header_image_path = null;
         if (!is_null($request->file('header_image'))) {
-            $header_image_path = upload_file($request->file('header_image'), 'venue');
+            $file = $request->file('header_image');
+            $header_image_path = $file->store('uploads/dj', 'public');
         } else {
             $header_image_path = $request->header_image_path;
         }
@@ -123,21 +125,11 @@ class DjController extends Controller
     {
         if ($request->hasFile('gallery_image'))
         {
-            $path = upload_file($request->file('gallery_image'), 'dj');
+            $file = $request->file('gallery_image');
+            $path = $file->store('uploads/dj', 'public');
             DjMedia::create([
                 'dj_id' => $dj->id,
                 'type' => 'image',
-                'path' => $path
-            ]);
-        }
-
-        // create media record if the video exists
-        if ($request->hasFile('gallery_video'))
-        {
-            $path = upload_file($request->file('gallery_video'), 'dj');
-            DjMedia::create([
-                'dj_id' => $dj->id,
-                'type' => 'video',
                 'path' => $path
             ]);
         }
@@ -156,21 +148,11 @@ class DjController extends Controller
     {
         if ($request->hasFile('gallery_image'))
         {
-            $path = upload_file($request->file('gallery_image'), 'dj');
+            $file = $request->file('gallery_image');
+            $path = $file->store('uploads/dj', 'public');
             DjMedia::create([
                 'dj_id' => $dj->id,
                 'type' => 'image',
-                'path' => $path
-            ]);
-        }
-
-        // create media record if the video exists
-        if ($request->hasFile('gallery_video'))
-        {
-            $path = upload_file($request->file('gallery_video'), 'dj');
-            DjMedia::create([
-                'dj_id' => $dj->id,
-                'type' => 'video',
                 'path' => $path
             ]);
         }

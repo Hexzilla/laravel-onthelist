@@ -113,7 +113,7 @@ class EventController extends Controller
             $event->description = $request->details;
         }
         $file = $request->file('header_image');
-        $event->header_image_path = $file->store('public/uploads/event');
+        $event->header_image_path = $file->store('uploads/event', 'public');
         $event->start = date('Y-m-d H:i', strtotime($request->start_date . ' ' . $request->start_time));
         $event->end = date('Y-m-d H:i', strtotime($request->end_date . ' ' . $request->end_time));
         $event->venue_id = $request->venue_id;
@@ -147,23 +147,11 @@ class EventController extends Controller
     {
         if ($request->hasFile('gallery_image'))
         {
-            $file = $request->file('header_image');
-            $event->header_image_path = $file->store('public/uploads/event');
+            $file = $request->file('gallery_image');
+            $path = $file->store('uploads/event', 'public');
             EventMedia::create([
                 'event_id' => $event->id,
                 'type' => 'image',
-                'path' => $path
-            ]);
-        }
-
-        // create media record if the video exists
-        if ($request->hasFile('gallery_video'))
-        {
-            $file = $request->file('header_image');
-            $event->header_image_path = $file->store('public/uploads/event');
-            EventMedia::create([
-                'event_id' => $event->id,
-                'type' => 'video',
                 'path' => $path
             ]);
         }
@@ -278,7 +266,7 @@ class EventController extends Controller
         }
         if (!is_null($request->file('header_image'))) {
             $file = $request->file('header_image');
-            $event->header_image_path = $file->store('public/uploads/event');
+            $event->header_image_path = $file->store('uploads/event', 'public');
         }
         $event->start = date('Y-m-d H:i', strtotime($request->start_date . ' ' . $request->start_time));
         $event->end = date('Y-m-d H:i', strtotime($request->end_date . ' ' . $request->end_time));
@@ -312,8 +300,8 @@ class EventController extends Controller
     {
         if ($request->hasFile('gallery_image'))
         {
-            $file = $request->file('header_image');
-            $event->header_image_path = $file->store('public/uploads/event');
+            $file = $request->file('gallery_image');
+            $path = $file->store('uploads/event', 'public');
             EventMedia::create([
                 'event_id' => $event->id,
                 'type' => 'image',

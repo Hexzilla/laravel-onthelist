@@ -94,8 +94,8 @@ class SettingController extends Controller
             }
             
             if($request->hasFile('profile_image')){
-                $path = upload_file($request->file('profile_image'), 'user');
-                $profile->image_path = $path;
+                $file = $request->file('profile_image');
+                $profile->image_path = $file->store('uploads/user', 'public');
             }
             if(!is_null($request->gender)){
                 $profile->gender = $request->gender;
@@ -105,7 +105,8 @@ class SettingController extends Controller
             $profile->save();
         } else {
             if($request->hasFile('profile_image')){
-                $path = upload_file($request->file('profile_image'), 'user');
+                $file = $request->file('profile_image');
+                $path = $file->store('uploads/user', 'public');
             } else {
                 $path = "";
             }

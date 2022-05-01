@@ -52,7 +52,7 @@ class DjController extends Controller
         $header_image_path = null;
         if (!is_null($request->file('header_image'))) {
             $file = $request->file('header_image');
-            $header_image_path = $file->store('public/uploads/user');
+            $header_image_path = $file->store('uploads/user', 'public');
         }
 
         $user = User::create([
@@ -115,7 +115,7 @@ class DjController extends Controller
         $dj->description = $request->description;
         if (!is_null($request->file('header_image'))) {
             $file = $request->file('header_image');
-            $dj->header_image_path = $file->store('public/uploads/user');
+            $dj->header_image_path = $file->store('uploads/user', 'public');
         }
         $dj->mixcloud_link = $request->mixcloud_link;
         $dj->genre = implode(',', $request->genres);
@@ -131,7 +131,7 @@ class DjController extends Controller
         if ($request->hasFile('gallery_image'))
         {
             $file = $request->file('gallery_image');
-            $path = $file->store('public/uploads/dj');
+            $path = $file->store('uploads/dj', 'public');
             DjMedia::create([
                 'dj_id' => $dj->id,
                 'type' => 'image',
@@ -143,7 +143,7 @@ class DjController extends Controller
         if ($request->hasFile('gallery_video'))
         {
             $file = $request->file('gallery_video');
-            $path = $file->store('public/uploads/dj');
+            $path = $file->store('uploads/dj', 'public');
             DjMedia::create([
                 'dj_id' => $dj->id,
                 'type' => 'video',
@@ -166,7 +166,7 @@ class DjController extends Controller
         if ($request->hasFile('gallery_image'))
         {
             $file = $request->file('gallery_image');
-            $path = $file->store('public/uploads/dj');
+            $path = $file->store('uploads/dj', 'public');
             DjMedia::create([
                 'dj_id' => $dj->id,
                 'type' => 'image',
@@ -178,7 +178,7 @@ class DjController extends Controller
         if ($request->hasFile('gallery_video'))
         {
             $file = $request->file('gallery_video');
-            $path = $file->store('public/uploads/dj');
+            $path = $file->store('uploads/dj', 'public');
             DjMedia::create([
                 'dj_id' => $dj->id,
                 'type' => 'video',

@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Venue;
 use App\Models\Dj;
 use App\Models\Booking;
+use App\Models\VendorAffiliate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -118,7 +119,8 @@ class EventController extends Controller
         if (!is_null($request->details)) {
             $event->description = $request->details;
         }
-        $event->header_image_path = upload_file($request->file('header_image'), 'event');
+        $file = $request->file('header_image');
+        $event->header_image_path = $file->store('uploads/event', 'public');
         $event->start = date('Y-m-d H:i', strtotime($request->start_date . ' ' . $request->start_time));
         $event->end = date('Y-m-d H:i', strtotime($request->end_date . ' ' . $request->end_time));
         $event->venue_id = $request->venue_id;
@@ -141,7 +143,8 @@ class EventController extends Controller
     {
         if ($request->hasFile('gallery_image'))
         {
-            $path = upload_file($request->file('gallery_image'), 'event');
+            $file = $request->file('gallery_image');
+            $path = $file->store('uploads/event', 'public');
             EventMedia::create([
                 'event_id' => $event->id,
                 'type' => 'image',
@@ -152,7 +155,8 @@ class EventController extends Controller
         // create media record if the video exists
         if ($request->hasFile('gallery_video'))
         {
-            $path = upload_file($request->file('gallery_video'), 'event');
+            $file = $request->file('gallery_video');
+            $path = $file->store('uploads/event', 'public');
             EventMedia::create([
                 'event_id' => $event->id,
                 'type' => 'video',
@@ -270,7 +274,8 @@ class EventController extends Controller
             $event->description = $request->details;
         }
         if (!is_null($request->file('header_image'))) {
-            $event->header_image_path = upload_file($request->file('header_image'), 'event');
+            $file = $request->file('header_image');
+            $event->header_image_path = $file->store('uploads/event', 'public');
         }
         $event->start = date('Y-m-d H:i', strtotime($request->start_date . ' ' . $request->start_time));
         $event->end = date('Y-m-d H:i', strtotime($request->end_date . ' ' . $request->end_time));
@@ -292,7 +297,8 @@ class EventController extends Controller
     {
         if ($request->hasFile('gallery_image'))
         {
-            $path = upload_file($request->file('gallery_image'), 'event');
+            $file = $request->file('gallery_image');
+            $path = $file->store('uploads/event', 'public');
             EventMedia::create([
                 'event_id' => $event->id,
                 'type' => 'image',
@@ -451,5 +457,26 @@ class EventController extends Controller
             ->select('bookings.*', 'users.name as userName')
             ->get();
         return json_encode(array('data' => $guestlists));
+    }
+
+    public function addReps($id)
+    {
+        return view('vendor.reps.create', ['id' => $id]);
+    }
+
+    public function storeReps(Request $request)
+    {
+        $request->validate([
+            'event_id' => 'required',
+            'code_affiliate' => 'required|string',
+            'referral_fee' => 'required|numeric|min: 0|max: 99.99',
+        ]);
+
+        VendorAffiliate::create([
+            'event_id' => $request->event_id,
+            'code_affiliate' => $request->code_affiliate,
+            'referral_fee' => $request->referral_fee,
+            'additional_code' => $request->additional_code
+        ]);
     }
 }

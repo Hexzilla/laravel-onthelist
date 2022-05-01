@@ -76,9 +76,11 @@ class VenueController extends Controller
         $venue->user_id = $user_id;
         $venue->name = $request->name;
         $venue->type = $request->venue_type;
-        if (!is_null($request->details))
+        if (!is_null($request->details)) {
             $venue->description = $request->details;
-        $venue->header_image_path = upload_file($request->file('header_image'), 'venue');
+        }
+        $file = $request->file('header_image');
+        $venue->header_image_path = $file->store('uploads/venue', 'public');
         $venue->address = $request->address;
         $venue->city = $request->city;
         $venue->postcode = $request->postcode;
@@ -126,21 +128,11 @@ class VenueController extends Controller
     {
         if ($request->hasFile('gallery_image'))
         {
-            $path = upload_file($request->file('gallery_image'), 'venue');
+            $file = $request->file('gallery_image');
+            $path = $file->store('uploads/venue', 'public');
             VenueMedia::create([
                 'venue_id' => $venue->id,
                 'type' => 'image',
-                'path' => $path
-            ]);
-        }
-
-        // create media record if the video exists
-        if ($request->hasFile('gallery_video'))
-        {
-            $path = upload_file($request->file('gallery_video'), 'venue');
-            VenueMedia::create([
-                'venue_id' => $venue->id,
-                'type' => 'video',
                 'path' => $path
             ]);
         }
@@ -224,7 +216,8 @@ class VenueController extends Controller
             $venue->description = $request->details;
         }
         if (!is_null($request->file('header_image'))) {
-            $venue->header_image_path = upload_file($request->file('header_image'), 'venue');
+            $file = $request->file('header_image');
+            $venue->header_image_path = $file->store('uploads/venue', 'public');
         }
         $venue->address = $request->address;
         $venue->city = $request->city;
@@ -277,21 +270,11 @@ class VenueController extends Controller
     {
         if ($request->hasFile('gallery_image'))
         {
-            $path = upload_file($request->file('gallery_image'), 'venue');
+            $file = $request->file('gallery_image');
+            $path = $file->store('uploads/venue', 'public');
             VenueMedia::create([
                 'venue_id' => $venue->id,
                 'type' => 'image',
-                'path' => $path
-            ]);
-        }
-
-        // update media record if the video exists
-        if ($request->hasFile('gallery_video'))
-        {
-            $path = upload_file($request->file('gallery_video'), 'venue');
-            VenueMedia::create([
-                'venue_id' => $venue->id,
-                'type' => 'video',
                 'path' => $path
             ]);
         }

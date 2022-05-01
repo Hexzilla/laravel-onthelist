@@ -90,7 +90,7 @@ class ProfileController extends Controller
         if($request->hasFile('gallery_image'))
         {
             $file = $request->file('gallery_image');
-            $path = $file->store('public/uploads/dj');
+            $path = $file->store('uploads/dj', 'public');
             DjMedia::create([
                 'user_id' => $user->id,
                 'type' => 'image',
@@ -101,7 +101,7 @@ class ProfileController extends Controller
         if($request->hasFile('gallery_video'))
         {
             $file = $request->file('gallery_video');
-            $path = $file->store('public/uploads/dj');
+            $path = $file->store('uploads/dj', 'public');
             DjMedia::create([
                 'user_id' => $user->id,
                 'type' => 'video',

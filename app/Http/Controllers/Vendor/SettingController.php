@@ -65,7 +65,8 @@ class SettingController extends Controller
             $profile->phone = $request->phone;
             $profile->address = $request->address;
             if($request->hasFile('profile_image')){
-                $path = upload_file($request->file('profile_image'), 'user');
+                $file = $request->file('profile_image');
+                $path = $file->store('uploads/user', 'public');
                 $profile->image_path = $path;
             }
             $profile->gender = $request->gender;
@@ -73,7 +74,8 @@ class SettingController extends Controller
             $profile->save();
         } else {
             if($request->hasFile('profile_image')){
-                $path = upload_file($request->file('profile_image'), 'user');
+                $file = $request->file('profile_image');
+                $path = $file->store('uploads/user', 'public');
             } else {
                 $path = "";
             }
