@@ -18,7 +18,6 @@ class SubscriptionController extends Controller
     public function purchase(Request $request)
     {
         $user = $request->user();
-        $paymentMethod = $request->paymentMethod;
 
         try {
             /*if (!$user->hasDefaultPaymentMethod()) {

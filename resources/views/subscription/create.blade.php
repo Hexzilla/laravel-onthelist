@@ -19,7 +19,7 @@
                 <!-- Stripe Elements Placeholder -->
                 <div id="card-element"></div>
 
-                <button id="card-button">
+                <button id="card-button" class="mb-4">
                     Process Payment
                 </button>
                 
@@ -61,22 +61,6 @@
 
         const cardHolderName = document.getElementById('card-holder-name');
         const cardButton = document.getElementById('card-button');
-
-        /*$('#purchase-form').submit(async (e) => {
-            const { paymentMethod, error } = await stripe.createPaymentMethod(
-                'card', cardElement, {
-                    billing_details: { name: cardHolderName.value }
-                }
-            );
-            
-            console.log('paymentMethod', paymentMethod);
-            if (error) {
-                // Display "error.message" to the user...
-                return false;
-            }
-            $("#paymentMethodId").val(paymentMethod.id);
-            return true;
-        });*/
         
         cardButton.addEventListener('click', async (e) => {
             const { paymentMethod, error } = await stripe.createPaymentMethod(
@@ -94,35 +78,5 @@
             $("#paymentMethodId").val(paymentMethod.id);
         });
     });
-
-    // Stripe.setPublishableKey("<?php echo env('STRIPE_PUBLISHABLE_SECRET') ?>");
-    // jQuery(function($) {
-    //     $('#payment-form').submit(function(event) {
-    //         var $form = $(this);
-    //         /*$form.parsley().subscribe('parsley:form:validate', function(formInstance) {
-    //             formInstance.submitEvent.preventDefault();
-    //             return false;
-    //         });*/
-    //         $form.find('#submitBtn').prop('disabled', true);
-    //         Stripe.card.createToken($form, stripeResponseHandler);
-    //         return false;
-    //     });
-    // });
-
-    // function stripeResponseHandler(status, response) {
-    //     console.log('response', response)
-    //     alert(response.id)
-    //     var $form = $('#payment-form');
-    //     if (response.error) {
-    //         $form.find('.payment-errors').text(response.error.message);
-    //         $form.find('.payment-errors').addClass('alert alert-danger');
-    //         $form.find('#submitBtn').prop('disabled', false);
-    //         $('#submitBtn').button('reset');
-    //     } else {
-    //         var token = response.id;
-    //         $("#stripeToken").val(token);
-    //         $form.get(0).submit();
-    //     }
-    // };
 </script>
 @endsection

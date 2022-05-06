@@ -6,62 +6,31 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 Use App\Models\User;
-use Stripe;
 use Exception;
 
 class SubscriptionController extends Controller
 {
     public function purchase(Request $request)
     {
-        $user = $request->user();
-        $paymentMethod = $request->paymentMethod;
-
-        try {
-            if (!$user->hasDefaultPaymentMethod()) {
-                $user->updateDefaultPaymentMethod($paymentMethod);
-            }
-
-            $stripeCharge = $user->charge(
-                100, $request->paymentMethodId
-            );
-
-            return json_encode(array('success' => true, 'charge' => $stripeCharge));
-        }
-        catch (Exception $e) {
-            return json_encode(array('success' => false, 'error' => $e->getMessage()));
-        }
-        
-        /*$validator = Validator::make($request->all(), [
-            'paymentMethod' => 'required',
-            'plan' => 'required'
+        $validator = Validator::make($request->all(), [
+            'paymentMethodId' => 'required',
+            'plan_id' => 'required|numeric',
         ]);
         if ($validator->fails()) {
             return json_encode(array('success' => false, 'error' => $validator->errors()));
         }
 
-        $token =  $request->stripeToken;
-        $paymentMethod = $request->paymentMethod;
-        $plan = $request->plan;
-
         try {
+            $user = $request->user();
 
-            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-            
-            if (is_null($user->stripe_id)) {
-                $stripeCustomer = $user->createAsStripeCustomer();
-            }
-
-            \Stripe\Customer::createSource(
-                $user->stripe_id,
-                ['source' => $token]
+            $stripeCharge = $user->charge(
+                100, $request->paymentMethodId
             );
 
-            $user->newSubscription('default', $plan)
-                ->create($paymentMethod, ['email' => $user->email]);
-
             return json_encode(array('success' => true));
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             return json_encode(array('success' => false, 'error' => $e->getMessage()));
-        }*/
+        }
     }
 }
