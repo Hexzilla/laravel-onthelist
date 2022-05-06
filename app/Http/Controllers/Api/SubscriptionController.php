@@ -24,7 +24,8 @@ class SubscriptionController extends Controller
             $user = $request->user();
 
             $stripeCharge = $user->charge(
-                100, $request->paymentMethodId
+                $plan->price * 100,
+                $request->paymentMethodId
             );
 
             return json_encode(array('success' => true));
