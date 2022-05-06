@@ -9,6 +9,7 @@ use App\Http\Controllers\Vendor\VenueController;
 use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\Api\SettingController as SettingController;
+use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\NotificationController as NotificationController;
 use App\Http\Controllers\Api\FollowingController as FollowingController;
 
@@ -61,6 +62,10 @@ Route::prefix('v1')->group(function() {
         });
     
         Route::post('/auth/logout', [AuthController::class, 'logout']);
+
+        Route::prefix('subscription')->group(function() {
+            Route::post('/purchase', [SubscriptionController::class, 'purchase']);
+        });
 
         Route::prefix('settings')->group(function() {
             Route::post('/account/change_password', [SettingController::class, 'changePassword']);

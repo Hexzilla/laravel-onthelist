@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\SettingController as SettingController;
+use App\Http\Controllers\SubscriptionController;
 
 use App\Http\Controllers\Vendor\DashboardController as VendorDahsboardController;
 use App\Http\Controllers\Vendor\DjController as VendorDjController;
@@ -44,6 +45,14 @@ Auth::routes();
 Route::get('/', function () { return view('home');});
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
+/***********************************************************************/
+Route::name('subscription.')->prefix('subscription')->as('subscription.')->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/create', [SubscriptionController::class, 'index'])->name('create');
+        Route::post('/purchase', [SubscriptionController::class, 'purchase'])->name('purchase');
+    });
+});
 /***********************************************************************
  *************************** Vendor Panel *******************************
  **********************************************************************/
