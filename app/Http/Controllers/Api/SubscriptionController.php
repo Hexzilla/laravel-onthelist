@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 Use App\Models\User;
 use App\Models\Plan;
+use App\Models\TransactionsHistory;
 use Exception;
 
 class SubscriptionController extends Controller
@@ -32,6 +33,12 @@ class SubscriptionController extends Controller
                 $plan->price * 100,
                 $request->paymentMethodId
             );
+
+            TransactionsHistory::create([
+                'user_id' => $user->id,
+                'plan_id' => $plan->id,
+                'price' => $plan->price,
+            ]);
 
             return json_encode(array('success' => true));
         }
