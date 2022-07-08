@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Booking;
+use App\Models\EventMessage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserFavorite;
 use Illuminate\Support\Facades\DB;
@@ -25,8 +26,7 @@ class EventController extends Controller
                     ->where('user_favorites.user_id', '=', $user_id)
                     ->where('user_favorites.type', '=', 'event');
             })
-            ->where('status', 'Approved')
-            ->paginate(10);
+            ->where('status', 'Approved')->get();
 
         return json_encode(array('success' => true, 'events' => $events));
     }
@@ -42,7 +42,7 @@ class EventController extends Controller
                     ->where('user_favorites.type', '=', 'event');
             })
             ->where('user_favorites.user_id', $user_id)
-            ->paginate(10);
+            ->get();
         
         return json_encode(array('success' => true, 'events' => $events));
     }
@@ -77,13 +77,31 @@ class EventController extends Controller
         return json_encode(array('success' => true));
     }
 
-    public function booking($id)
+    public function event($id)
     {
         $event = Event::where('id', $id)->first();
         if (is_null($event)) {
             return json_encode(array('success' => false, 'error' => 'Failed to get event'));
         }
         return json_encode(array('success' => true, 'event' => $event));
+    }
+
+    public function booking($id)
+    {
+        $user_id = Auth::user()->id;
+        $intent = Auth::user()->createSetupIntent();
+
+        $booking = DB::table('bookings')
+            ->join('events', 'events.id', '=', 'bookings.event_id')
+            ->join('users', 'users.id', '=', 'bookings.user_id')
+            ->leftJoin('user_profiles', 'user_profiles.user_id', '=', 'bookings.user_id')
+            ->where('bookings.id', $id)
+            ->select('bookings.*', 'user_profiles.address as address', 'users.name as username', 'events.name as eventname')
+            ->first();
+        if (is_null($booking)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get event'));
+        } 
+        return json_encode(array('success' => true, 'booking' => $booking, 'intent' => $intent));
     }
 
     public function createBooking(Request $request)
@@ -107,7 +125,7 @@ class EventController extends Controller
             return json_encode(array('success' => false, 'error' => 'Failed to create booking'));
         }
 
-        Booking::create([
+        $booking = Booking::create([
             'user_id' => $user_id,
             'event_id' => $request->event_id,
             'booking_type' => $request->booking_type,
@@ -116,6 +134,50 @@ class EventController extends Controller
             'price' => $request->price,
             'date' => $request->date,
         ]);
-        return json_encode(array('success' => true));
+        return json_encode(array('success' => true, 'booking' => $booking));
+    }
+
+    public function filter_date(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'date' => ['required', 'date']
+        ]);
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
+        $date = Date($request->date);
+
+        $events = Event::where('end', '>', $date)
+            ->whereDate('start', '<', $date)
+            ->orWhereDate('start', '=', $date)
+            ->where('status', 'Approved')->get();
+        
+        return json_encode(array('success' => true, 'events' => $events));
+    }
+
+    public function message(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $validator = Validator::make($request->all(), [
+            'event_id' => 'required',
+            'message' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
+
+        $event = Event::where('id', $request->event_id)->first();
+        if (is_null($event)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get event'));
+        }
+
+        $message = EventMessage::create([
+            'user_id' => $user_id,
+            'event_id' => $request->event_id,
+            'message' => $request->message,
+        ]);
+
+        return json_encode(array('success' => true, 'message' => $message));
     }
 }

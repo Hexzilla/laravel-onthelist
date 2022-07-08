@@ -15,7 +15,7 @@ class SubscriptionController extends Controller
     public function purchase(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'payment_method_id' => 'required',
+            'paymentMethodId' => 'required',
             'plan_id' => 'required|numeric',
         ]);
         if ($validator->fails()) {
@@ -31,7 +31,7 @@ class SubscriptionController extends Controller
 
             $stripeCharge = $user->charge(
                 $plan->price * 100,
-                $request->payment_method_id
+                $request->paymentMethodId
             );
 
             TransactionsHistory::create([

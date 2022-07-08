@@ -7,6 +7,8 @@ use App\Http\Controllers\Vendor\EventController;
 use App\Http\Controllers\Vendor\VenueController;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Api\Auth\GoogleLoginController;
+use App\Http\Controllers\Api\Auth\AppleLoginController;
 
 use App\Http\Controllers\Api\SettingController as SettingController;
 use App\Http\Controllers\Api\SubscriptionController;
@@ -26,12 +28,14 @@ use App\Http\Controllers\Api\Admin\VenueController as AdminVenueController;
 use App\Http\Controllers\Api\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Api\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Api\Admin\DjController as AdminDjController;
+use App\Http\Controllers\Api\Admin\PushNotificationController as PushNotificationController;
 
 use App\Http\Controllers\Api\Dj\ProfileController as DjProfileController;
 use App\Http\Controllers\Api\Dj\EventController as DjEventController;
 
 use App\Http\Controllers\Api\Customer\EventController as CustomerEventController;
 use App\Http\Controllers\Api\Customer\VenueController as CustomerVenueController;
+use App\Http\Controllers\Api\Customer\DjController as CustomerDjController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -56,6 +60,11 @@ Route::controller(VenueController::class)->prefix('venue')->group(function(){
 Route::prefix('v1')->group(function() {
     Route::post('/auth/register', [AuthController::class, 'register']);
     Route::post('/auth/login', [AuthController::class, 'login']);
+
+    Route::get('/auth/google', [GoogleLoginController::class, 'redirectToGoogle']);
+    Route::get('/auth/google/callback', [GoogleLoginController::class, 'handleGoogleCallback']);
+
+    Route::post('/auth/apple', [AppleLoginController::class, 'appleLogin']);
 
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/me', function(Request $request) {
@@ -144,6 +153,7 @@ Route::prefix('v1')->group(function() {
                 Route::get('/edit', 'edit');
                 Route::put('/update', 'store');
                 Route::delete('/delete/media/{id}', 'deleteMedia');
+                Route::get('/message', 'message');
             });
         });
         
@@ -151,19 +161,33 @@ Route::prefix('v1')->group(function() {
             Route::controller(CustomerEventController::class)->prefix('events')->group(function () {
                 Route::get('/', 'index');
                 Route::get('/favorite', 'favorites');
-                Route::get('/favorite/add/{id}', 'add_favorite');
-                Route::get('/favorite/remove/{id}', 'remove_favorite');
-                Route::get('/booking/{id}', 'booking');
+                Route::get('/like/{id}', 'add_favorite');
+                Route::get('/unlike/{id}', 'remove_favorite');
+                Route::get('/{id}', 'event');
                 Route::post('/create', 'createBooking');
+                Route::get('/booking/{id}', 'booking');
+                Route::get('/listByDate', 'filter_date');
+                Route::post('/message', 'message');
             });
         
             Route::controller(CustomerVenueController::class)->prefix('venues')->group(function () {
                 Route::get('/', 'index');
                 Route::get('/favorite', 'favorites');
-                Route::get('/favorite/add/{id}', 'add_favorite');
-                Route::get('/favorite/remove/{id}', 'remove_favorite');
+                Route::get('/like/{id}', 'add_favorite');
+                Route::get('/unlike/{id}', 'remove_favorite');
+                Route::get('/{id}', 'venue');
                 Route::get('/booking/{id}', 'booking');
                 Route::post('/create', 'createBooking');
+                Route::post('/message', 'message');
+            });
+
+            Route::controller(CustomerDjController::class)->prefix('djs')->group(function () {
+                Route::get('/', 'index');
+                Route::get('/{id}', 'get');
+                Route::get('/favorite', 'favourites');
+                Route::get('/like/{id}', 'add_favorite');
+                Route::get('/unlike/{id}', 'remove_favorite');
+                Route::post('/message', 'message');
             });
         });
     });
@@ -230,6 +254,11 @@ Route::prefix('admin')->group(function(){
         Route::get('/unfeature/{id}', 'unfeature');
         Route::get('/approve/{id}', 'approve');
         Route::get('/reject/{id}', 'reject');
+    });
+
+    Route::controller(PushNotificationController::class)->prefix('notification')->group(function () {
+        Route::get('/link', 'getLink');
+        Route::post('/notify', 'pushNotification');
     });
 });
 

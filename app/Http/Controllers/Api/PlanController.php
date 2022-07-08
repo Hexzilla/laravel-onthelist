@@ -12,6 +12,11 @@ class PlanController extends Controller
     public function index()
     {
         $plans = Plan::get();
+
+        if(count($plans) == 0) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get plan'));
+        }
+
         return json_encode(array('success' => true, 'plans' => $plans));
     }
 

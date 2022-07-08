@@ -30,6 +30,9 @@ use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\DjController as AdminDjController;
 
+use App\Http\Controllers\Auth\GoogleLoginController;
+use App\Http\Controllers\Auth\AppleLoginController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,7 +47,9 @@ use App\Http\Controllers\Admin\DjController as AdminDjController;
 Auth::routes();
 Route::get('/', function () { return view('home');});
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Route::get('/auth/google', [GoogleLoginController::class, 'redirectToGoogle']);
+Route::get('/auth/google/callback', [GoogleLoginController::class, 'handleGoogleCallback']);
+Route::post('/auth/apple', [AppleLoginController::class, 'appleLogin']);
 
 /***********************************************************************/
 Route::name('subscription.')->prefix('subscription')->as('subscription.')->group(function () {

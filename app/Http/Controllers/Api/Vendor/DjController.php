@@ -19,7 +19,7 @@ class DjController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
-        $djs = Dj::where('vendor_id', $user_id)->paginate(10);
+        $djs = Dj::where('vendor_id', $user_id);
         return json_encode(array('success' => true, 'djs' => $djs));
     }
 

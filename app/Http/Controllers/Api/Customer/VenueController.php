@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Venue;
 use App\Models\UserFavorite;
 use App\Models\VenueBooking;
+use App\Models\VenueMessage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -26,7 +27,7 @@ class VenueController extends Controller
                     ->where('user_favorites.type', '=', 'venue');
             })
             ->where('status', 'Approved')
-            ->paginate(10);
+            ->get();
 
         return json_encode(array('success' => true, 'venues' => $venues));
     }
@@ -42,7 +43,7 @@ class VenueController extends Controller
                     ->where('user_favorites.type', '=', 'venue');
             })
             ->where('user_favorites.user_id', $user_id)
-            ->paginate(10);
+            ->get();
         
         return json_encode(array('success' => true, 'venues' => $venues));
     }
@@ -77,7 +78,7 @@ class VenueController extends Controller
         return json_encode(array('success' => true));
     }
 
-    public function booking($id)
+    public function venue($id)
     {
         $venue = Venue::where('id', $id)->first();
         if (is_null($venue)) {
@@ -85,6 +86,25 @@ class VenueController extends Controller
         }
         return json_encode(array('success' => true, 'venue' => $venue));
     }
+
+   public function booking($id)
+   {
+        $user_id = Auth::user()->id;
+        $intent = Auth::user()->createSetupIntent();
+
+        $booking = DB::table('venue_bookings')
+            ->join('venues', 'venues.id', '=', 'venue_bookings.venue_id')
+            ->join('users', 'users.id', '=', 'venue_bookings.user_id')
+            ->leftjoin('user_profiles', 'user_profiles.user_id', '=', 'users.id')
+            ->where('venue_bookings.id', $id)
+            ->select('venue_bookings.*', 'user_profiles.address as address', 'users.name as username', 'venues.name as venuename')
+            ->first();
+
+        if (is_null($booking)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get event'));
+        } 
+        return json_encode(array('success' => true, 'booking' => $booking, 'intent' => $intent));
+   } 
 
     public function createBooking(Request $request)
     {
@@ -95,7 +115,7 @@ class VenueController extends Controller
             'type' => 'required',
             'price' => 'required',
             'date' => ['required', 'date_format:Y-m-d'],
-            'time' => ['required', 'date_format:H:i'],
+            'time' => ['required', 'date_format:H:i:s'],
         ]);
 
         if ($validator->fails()) {
@@ -107,7 +127,7 @@ class VenueController extends Controller
             return json_encode(array('success' => false, 'error' => 'Failed to create booking'));
         }
 
-        VenueBooking::create([
+        $booking = VenueBooking::create([
             'user_id' => $user_id,
             'venue_id' => $request->venue_id,
             'booking_type' => $request->booking_type,
@@ -117,6 +137,32 @@ class VenueController extends Controller
             'time' => $request->time,
         ]);
 
-        return json_encode(array('success' => true));
+        return json_encode(array('success' => true, 'booking' => $booking));
+    }
+
+    public function message(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $validator = Validator::make($request->all(), [
+            'venue_id' => 'required',
+            'message' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
+
+        $venue = Venue::where('id', $request->venue_id)->first();
+        if (is_null($venue)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get venue'));
+        }
+
+        $message = VenueMessage::create([
+            'user_id' => $user_id,
+            'venue_id' => $request->venue_id,
+            'message' => $request->message,
+        ]);
+
+        return json_encode(array('success' => true, 'message' => $message));
     }
 }

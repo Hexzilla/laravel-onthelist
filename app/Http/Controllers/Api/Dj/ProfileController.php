@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\DjProfile;
 use App\Models\DjMedia;
+use App\Models\DjMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -118,5 +119,15 @@ class ProfileController extends Controller
         }
         $media->delete();
         return json_encode(array('success' => true));
+    }
+
+    public function message()
+    {
+        $dj_id = Auth::user()->id;
+        $messages = DjMessage::where('dj_id', $dj_id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return json_encode(array('success' => true, 'messages' => $messages));
     }
 }
