@@ -8,7 +8,7 @@
     <title>Login - OnTheList</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="favicon.ico">
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('css/style.css') }}" rel="stylesheet">
 
 </head>
 
