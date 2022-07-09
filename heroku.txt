@@ -1,0 +1,42 @@
+heroku config:add APP_NAME=onthelist
+heroku config:add APP_ENV=production
+heroku config:add APP_KEY=base64:hQ/RC3rDix8GB4VaoVj61gkfO7KFg7vAlqoph+l6lec=
+heroku config:add APP_URL=https://onthelist.herokuapp.com/
+
+heroku config:add LOG_CHANNEL=stack
+heroku config:add LOG_DEPRECATIONS_CHANNEL=null
+heroku config:add LOG_LEVEL=debug
+
+heroku config:add BROADCAST_DRIVER=log
+heroku config:add CACHE_DRIVER=file
+heroku config:add FILESYSTEM_DRIVER=local
+heroku config:add QUEUE_CONNECTION=sync
+heroku config:add SESSION_DRIVER=file
+heroku config:add SESSION_LIFETIME=120
+
+
+heroku config:add GOOGLE_API_KEY=AIzaSyD52GFw5RbMM8BiLjnuKBsRCLpv8h7d_AA
+heroku config:add GOOGLE_CLIENT_ID=886123856285-u5mblh0md83evo5pcd5o0fmuhilm3bm1.apps.googleusercontent.com
+heroku config:add GOOGLE_CLIENT_SECRET=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
+heroku config:add GOOGLE_REDIRECT_URI=https://onthelist.herokuapp.com/auth/google/callback
+
+heroku config:add STRIPE_KEY=pk_test_51L2LLyA5FiB8t4xfQVYNDt1E9SKvmcHI0w3Wvp4IMiB1aLg8Cj0ns4PTKAUBHYzPKOVtgUAW8OkSj981XQgD5wxh006WGilbVO
+heroku config:add STRIPE_SECRET=sk_test_51L2LLyA5FiB8t4xfr953P8tz7dpAgMVqgQXWw59qlKYDah3JjwjDWGDSrewirJFLMA9x8R5kf7rxhG9e1JvmE8Qj00NkkAdrrG
+heroku config:add CASHIER_CURRENCY=usd
+heroku config:add STRIPE_WEBHOOK_SECRET=whsec_PIz9NBOiv6kRR9YtDDsQwJ16dY8v3bFU
+heroku config:add CASHIER_MODEL=App\Models\User
+heroku config:add CASHIER_LOGGER=stack
+
+
+heroku config:add DB_CONNECTION=pgsql
+heroku config:add DB_HOST=ec2-3-217-14-181.compute-1.amazonaws.com
+heroku config:add DB_PORT=5432
+heroku config:add DB_DATABASE=d7vd04di4gi4v6
+heroku config:add DB_USERNAME=ufmgzbfakltefy
+heroku config:add DB_PASSWORD=b5696ee33cd5ed7a5dd977aa2ba7426deaf55de91f98394751f3cf98f72c7124
+
+
+dbname=d7vd04di4gi4v6 host=ec2-3-217-14-181.compute-1.amazonaws.com port=5432 user=ufmgzbfakltefy password=b5696ee33cd5ed7a5dd977aa2ba7426deaf55de91f98394751f3cf98f72c7124 sslmode=require
+
+
+heroku run php artisan migrate --seed
