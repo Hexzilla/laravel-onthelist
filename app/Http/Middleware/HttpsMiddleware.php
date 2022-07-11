@@ -17,11 +17,11 @@ class HttpsMiddleware
     public function handle(Request $request, Closure $next)
     {
         // check if environment is production
-        if (env('APP_ENV') === "production") {
+        /*if (env('APP_ENV') === "production") {
             if (!$request->secure()) {
                 return redirect()->secure($request->getRequestUri());
             }
-        }
+        }*/
         return $next($request);
     }
 }
