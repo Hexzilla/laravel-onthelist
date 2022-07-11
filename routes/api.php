@@ -159,7 +159,7 @@ Route::prefix('v1')->group(function() {
                 Route::get('/edit', 'edit');
                 Route::put('/update', 'store');
                 Route::delete('/delete/media/{id}', 'deleteMedia');
-                Route::get('/message', 'showMessage');
+                Route::get('/message/{id}', 'showMessage');
                 Route::get('/mark/{id}', 'markAsRead');
             });
         });
