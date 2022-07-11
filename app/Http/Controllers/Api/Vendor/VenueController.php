@@ -8,6 +8,8 @@ use App\Models\VenueMedia;
 use App\Models\VenueOffer;
 use App\Models\VenueTable;
 use App\Models\VenueTimetable;
+use App\Models\VenueMessage;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -433,5 +435,27 @@ class VenueController extends Controller
         ->select('venue_bookings.*', 'users.name as userName')
         ->get();
         return json_encode(array('success' => true, 'offers' => $offers));
+    }
+
+    public function showMessage($id)
+    {
+        $messages = VenueMesssage::where('venue_id', $id)->orderBy('created_at', 'desc')->get();
+
+        return json_encode(array('success' => true, 'messages' => $messages));
+    }
+
+    public function markAsRead($id)
+    {
+        $message = VenueMessage::where('id', $id)->first();
+
+        if (is_null($message)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get message'));
+        }
+
+        $current = Carbon::now();
+        $message->read_at = $current;
+        $message->save();
+
+        return json_encode(array('success' => true, 'message' => $message));
     }
 }

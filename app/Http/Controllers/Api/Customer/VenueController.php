@@ -140,7 +140,7 @@ class VenueController extends Controller
         return json_encode(array('success' => true, 'booking' => $booking));
     }
 
-    public function message(Request $request)
+    public function createMessage(Request $request)
     {
         $user_id = Auth::user()->id;
         $validator = Validator::make($request->all(), [

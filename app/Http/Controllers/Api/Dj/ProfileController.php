@@ -121,13 +121,28 @@ class ProfileController extends Controller
         return json_encode(array('success' => true));
     }
 
-    public function message()
+    public function showMessage($id)
     {
         $dj_id = Auth::user()->id;
-        $messages = DjMessage::where('dj_id', $dj_id)
+        $messages = DjMessage::where('dj_id', $id)
             ->orderBy('created_at', 'desc')
             ->get();
 
         return json_encode(array('success' => true, 'messages' => $messages));
+    }
+
+    public function markAsRead($id)
+    {
+        $message = DjMessage::where('id', $id)->first();
+
+        if (is_null($message)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get message'));
+        }
+
+        $current = Carbon::now();
+        $message->read_at = $current;
+        $message->save();
+
+        return json_encode(array('success' => true, 'message' => $message));
     }
 }

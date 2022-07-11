@@ -18,6 +18,7 @@ class CreateEventMessagesTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('event_id')->constrained()->onDelete('cascade');
             $table->string('message')->nullable();
+            $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
     }

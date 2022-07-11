@@ -113,6 +113,8 @@ Route::prefix('v1')->group(function() {
                 Route::get('/edit/{id}', 'edit');
                 Route::put('/update/{id}', 'update');
                 Route::delete('/delete/{id}', 'destroy');
+                Route::get('/message/{id}', 'showMessage');
+                Route::get('/mark/{id}', 'markAsRead');
             });
         
             Route::controller(VendorVenueController::class)->prefix('venue')->group(function () {
@@ -123,6 +125,8 @@ Route::prefix('v1')->group(function() {
                 Route::delete('/delete/{id}', 'destroy');
                 Route::get('/table/{id}', 'getTables');
                 Route::get('/offer/{id}', 'getOffers');
+                Route::get('/message/{id}', 'showMessage');
+                Route::get('/mark/{id}', 'markAsRead');
             });
         
             Route::controller(VendorEventController::class)->prefix('event')->group(function () {
@@ -135,6 +139,8 @@ Route::prefix('v1')->group(function() {
                 Route::get('/ticket/{id}', 'getTickets');
                 Route::get('/table/{id}', 'getTables');
                 Route::get('/guestlist/{id}', 'getGuestlists');
+                Route::get('/message/{id}', 'showMessage');
+                Route::get('/mark/{id}', 'markAsRead');
             });
         
             Route::controller(VendorSettingController::class)->prefix('setting')->group(function () {
@@ -153,7 +159,8 @@ Route::prefix('v1')->group(function() {
                 Route::get('/edit', 'edit');
                 Route::put('/update', 'store');
                 Route::delete('/delete/media/{id}', 'deleteMedia');
-                Route::get('/message', 'message');
+                Route::get('/message', 'showMessage');
+                Route::get('/mark/{id}', 'markAsRead');
             });
         });
         
@@ -167,7 +174,7 @@ Route::prefix('v1')->group(function() {
                 Route::post('/create', 'createBooking');
                 Route::get('/booking/{id}', 'booking');
                 Route::get('/listByDate', 'filter_date');
-                Route::post('/message', 'message');
+                Route::post('/message', 'createMessage');
             });
         
             Route::controller(CustomerVenueController::class)->prefix('venues')->group(function () {
@@ -178,7 +185,7 @@ Route::prefix('v1')->group(function() {
                 Route::get('/{id}', 'venue');
                 Route::get('/booking/{id}', 'booking');
                 Route::post('/create', 'createBooking');
-                Route::post('/message', 'message');
+                Route::post('/message', 'createMessage');
             });
 
             Route::controller(CustomerDjController::class)->prefix('djs')->group(function () {
@@ -187,7 +194,7 @@ Route::prefix('v1')->group(function() {
                 Route::get('/favorite', 'favourites');
                 Route::get('/like/{id}', 'add_favorite');
                 Route::get('/unlike/{id}', 'remove_favorite');
-                Route::post('/message', 'message');
+                Route::post('/message', 'createMessage');
             });
         });
     });

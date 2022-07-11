@@ -21,6 +21,8 @@ use Illuminate\Validation\Rule;
 use App\Rules\EventTicketRule;
 use App\Rules\EventTableRule;
 use App\Rules\EventGuestRule;
+use App\Models\EventMessage;
+use Carbon\Carbon;
 
 class EventController extends Controller
 {
@@ -488,5 +490,27 @@ class EventController extends Controller
             ->select('bookings.*', 'users.name as userName')
             ->get();
         return json_encode(array('success' => true, 'tables' => $guestlists));
+    }
+
+    public function showMessage($id)
+    {
+        $messages = EventMesssage::where('event_id', $id)->orderBy('created_at', 'desc')->get();
+
+        return json_encode(array('success' => true, 'messages' => $messages));
+    }
+
+    public function markAsRead($id)
+    {
+        $message = EventMessage::where('id', $id)->first();
+
+        if (is_null($message)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get message'));
+        }
+
+        $current = Carbon::now();
+        $message->read_at = $current;
+        $message->save();
+
+        return json_encode(array('success' => true, 'message' => $message));
     }
 }

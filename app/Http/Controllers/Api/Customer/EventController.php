@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Customer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Models\Event;
 use App\Models\Booking;
 use App\Models\EventMessage;
@@ -155,7 +156,7 @@ class EventController extends Controller
         return json_encode(array('success' => true, 'events' => $events));
     }
 
-    public function message(Request $request)
+    public function createMessage(Request $request)
     {
         $user_id = Auth::user()->id;
         $validator = Validator::make($request->all(), [
