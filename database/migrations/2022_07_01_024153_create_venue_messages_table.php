@@ -18,6 +18,7 @@ class CreateVenueMessagesTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('venue_id')->constrained()->onDelete('cascade');
             $table->string('message')->nullable();
+            $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
     }

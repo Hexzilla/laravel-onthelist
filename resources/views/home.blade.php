@@ -11,13 +11,13 @@
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
     <!-- Font Awesome Icon -->
-    <link rel="stylesheet" href="{{ secure_asset('css/all.min.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('css/all.min.css') }}" type="text/css" />
     <!-- Bootstrap-4 Minified CSS -->
-    <link rel="stylesheet" href="{{ secure_asset('css/bootstrap.min.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css" />
     <!-- Style CSS -->
-    <link rel="stylesheet" href="{{ secure_asset('css/frontend.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('css/frontend.css') }}" type="text/css" />
     <!-- Media CSS -->
-    <link rel="stylesheet" href="{{ secure_asset('css/media.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('css/media.css') }}" type="text/css" />
 </head>
 
 <body>

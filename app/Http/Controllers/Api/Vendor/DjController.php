@@ -210,7 +210,7 @@ class DjController extends Controller
     
     public function showMessage($id)
     {
-        $messages = DjMesssage::where('dj_id', $id)->orderBy('created_at', 'desc')->get();
+        $messages = DjMessage::where('dj_id', $id)->orderBy('created_at', 'desc')->get();
 
         return json_encode(array('success' => true, 'messages' => $messages));
     }

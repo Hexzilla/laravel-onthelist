@@ -439,7 +439,7 @@ class VenueController extends Controller
 
     public function showMessage($id)
     {
-        $messages = VenueMesssage::where('venue_id', $id)->orderBy('created_at', 'desc')->get();
+        $messages = VenueMessage::where('venue_id', $id)->orderBy('created_at', 'desc')->get();
 
         return json_encode(array('success' => true, 'messages' => $messages));
     }

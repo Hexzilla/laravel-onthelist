@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\DjProfile;
 use App\Models\DjMedia;
 use App\Models\DjMessage;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -123,7 +124,6 @@ class ProfileController extends Controller
 
     public function showMessage($id)
     {
-        $dj_id = Auth::user()->id;
         $messages = DjMessage::where('dj_id', $id)
             ->orderBy('created_at', 'desc')
             ->get();

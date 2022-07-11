@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ asset('vendor/toastr/css/toastr.min.css') }}">
     <link href="{{ asset('vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('vendor/toastr/css/toastr.min.css') }}">
-    <link href="{{ secure_asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <!-- Inline styles -->
     @yield('styles')

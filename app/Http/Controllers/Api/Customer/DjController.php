@@ -10,6 +10,7 @@ use App\Models\Dj;
 use App\Models\DjMedia;
 use App\Models\DjMessage;
 use App\Models\UserFavorite;
+use Illuminate\Support\Facades\Validator;
 
 class DjController extends Controller
 {

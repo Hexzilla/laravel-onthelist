@@ -494,7 +494,7 @@ class EventController extends Controller
 
     public function showMessage($id)
     {
-        $messages = EventMesssage::where('event_id', $id)->orderBy('created_at', 'desc')->get();
+        $messages = EventMessage::where('event_id', $id)->orderBy('created_at', 'desc')->get();
 
         return json_encode(array('success' => true, 'messages' => $messages));
     }
