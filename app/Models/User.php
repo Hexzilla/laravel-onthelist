@@ -78,4 +78,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserFavourite::class);
     }
+
+    public function localPaymentMethod() {
+        return $this->hasMany(PaymentMethod::class);
+    }
+
+    public function stripeOption(array $options = [])
+    {
+        $stripeAccount = $this->vendor()->stripeAccount;
+
+        if ($stripeAccount->secret) {
+            $options['api_key'] = $stripeAccount->secret;
+        }
+
+        return Cashier::stripe($options);
+    }
 }
