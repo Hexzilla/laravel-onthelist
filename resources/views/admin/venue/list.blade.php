@@ -145,7 +145,10 @@
             <div class="modal-body">
                 <div id="carouselControls" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
+                        
+                    </div>
+                    <div class="carousel-items">
+                        <div class="carousel-item header-image d-none">
                             <img class="d-block w-100" src="../$HEADERIMAGE" alt="Header Image">
                             <div class="carousel-caption d-none d-md-block"><h5>Header Image</h5></div>
                         </div>
@@ -349,23 +352,27 @@
             images = JSON.parse(images);
             
             const list = $('#modal_venue_media_v2 .carousel-inner');
-            const html = list.html().replace('$HEADERIMAGE', headerImage);
-            list.html(html);
-            const videosample = list.children('.video');
-            const imagesample = list.children('.image');
+            const items = $('#modal_venue_media_v2 .carousel-items');
+            const headersample = items.children('.header-image');
+            const videosample = items.children('.video');
+            const imagesample = items.children('.image');
             list.find('.display').remove();
+            const clone = headersample.clone().removeClass('d-none').addClass('display').addClass('active');
+            let html = clone.html();
+            html = html.replace('$HEADERIMAGE', headerImage);
+            list.append(clone.html(html));
 
             images.forEach(image => {
                 if(image.type === 'image')
                 {
-                    const clone = imagesample.clone().removeClass('hidden').addClass('display');
+                    const clone = imagesample.clone().removeClass('d-none').addClass('display');
                     let html = clone.html();
                     html = html.replace('$PATH', image.path);
                     list.append(clone.html(html)); 
                 }
                 if(image.type === 'video' || image.type === 'link')
                 {
-                    const clone = videosample.clone().removeClass('hidden').addClass('display');
+                    const clone = videosample.clone().removeClass('d-none').addClass('display');
                     let html = clone.html();
                     html = html.replace('$PATH', image.path);
                     list.append(clone.html(html));

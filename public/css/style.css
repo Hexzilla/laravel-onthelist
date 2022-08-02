@@ -15794,7 +15794,7 @@ button:focus {
     height: 100%;
     left: 0;
     top: 0;
-    background: #9E6DE0;
+    /* background: #9E6DE0; */
     z-index: 9999999999999999999999999;
     overflow: hidden;
 }

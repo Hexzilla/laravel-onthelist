@@ -176,7 +176,10 @@
             <div class="modal-body">
                 <div id="carouselControls" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
+                        
+                    </div>
+                    <div class="carousel-items">
+                        <div class="carousel-item header-image d-none">
                             <img class="d-block w-100" src="../$HEADERIMAGE" alt="Header Image">
                             <div class="carousel-caption d-none d-md-block"><h5>Header Image</h5></div>
                         </div>
@@ -364,14 +367,16 @@
         function openMediaModal(venue, headerImage, images) {
             images = JSON.parse(images);
             
-            $(".display-modal").remove();
-            const media = $("#modal_event_media").clone().addClass("display-modal");
-            const list = media.find('.carousel-inner');
-            const html = list.html().replace('$HEADERIMAGE', headerImage);
-            list.html(html);
-            const videosample = list.children('.video');
-            const imagesample = list.children('.image');
+            const list = $('#modal_event_media .carousel-inner');
+            const items = $('#modal_event_media .carousel-items');
+            const headersample = items.children('.header-image');
+            const videosample = items.children('.video');
+            const imagesample = items.children('.image');
             list.find('.display').remove();
+            const clone = headersample.clone().removeClass('d-none').addClass('display').addClass('active');
+            let html = clone.html();
+            html = html.replace('$HEADERIMAGE', headerImage);
+            list.append(clone.html(html));
 
             images.forEach(image => {
                 if(image.type === 'image')

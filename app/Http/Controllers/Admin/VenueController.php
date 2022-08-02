@@ -114,8 +114,7 @@ class VenueController extends Controller
 
     public function updateTimetable($venue, $request)
     {
-        $timetables = VenueTimetable::where('venue_id', $venue->id)->get();
-        $timetable = $timetables[0];
+        $timetable = VenueTimetable::where('venue_id', $venue->id)->firstOrFail();
         $timetable->mon_open = $request->mon_open;
         $timetable->mon_close = $request->mon_close;
         $timetable->tue_open = $request->tue_open;

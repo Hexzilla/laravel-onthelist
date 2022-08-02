@@ -173,8 +173,7 @@ class EventController extends Controller
             'guestlist_description' => 'required|array',
         ]);
 
-        $events = Event::where('id', $id)->get();
-        $event = $events[0];
+        $event = Event::find($id);
         $event->name = $request->name;
         $event->type = $request->type;
         if (!is_null($request->details)) {

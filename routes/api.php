@@ -31,6 +31,7 @@ use App\Http\Controllers\Api\Dj\EventController as DjEventController;
 
 use App\Http\Controllers\Api\Customer\EventController as CustomerEventController;
 use App\Http\Controllers\Api\Customer\VenueController as CustomerVenueController;
+use App\Http\Controllers\Api\Customer\CardController as CustomerCardController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -148,6 +149,7 @@ Route::prefix('v1')->group(function() {
                 Route::get('/favorite/remove/{id}', 'remove_favorite');
                 Route::get('/booking/{id}', 'booking');
                 Route::post('/create', 'createBooking');
+                Route::post('/purchase', 'purchase');
             });
         
             Route::controller(CustomerVenueController::class)->prefix('venues')->group(function () {
@@ -157,6 +159,13 @@ Route::prefix('v1')->group(function() {
                 Route::get('/favorite/remove/{id}', 'remove_favorite');
                 Route::get('/booking/{id}', 'booking');
                 Route::post('/create', 'createBooking');
+                Route::post('/purchase', 'purchase');
+            });
+
+            Route::controller(CustomerCardController::class)->prefix('cards')->group(function () {
+                Route::get('/card', 'showCard');
+                Route::get('/{id}', 'showAccount');
+                Route::post('/add', 'addCard');
             });
         });
     });

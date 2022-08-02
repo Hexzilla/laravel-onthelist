@@ -166,11 +166,6 @@
             <div class="modal-body">
                 <div id="carouselControls" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img class="d-block w-100" src="../$HEADERIMAGE" alt="Header Image">
-                            <div class="carousel-caption d-none d-md-block"><h5>Header Image</h5></div>
-                        </div>
-                        
                     </div>
                     <a class="carousel-control-prev" href="#carouselControls" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -180,16 +175,23 @@
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
                     </a>
-                    <div class="carousel-item image d-none">
-                        <img class="d-block w-100" src="../$PATH" alt="Gallery Image">
-                        <div class="carousel-caption d-none d-md-block"><h5>Gallery Image</h5></div>
+                    <div class="carousel-items">
+                        <div class="carousel-item header-image d-none">
+                            <img class="d-block w-100" src="../$HEADERIMAGE" alt="Header Image">
+                            <div class="carousel-caption d-none d-md-block"><h5>Header Image</h5></div>
+                        </div>
+                        <div class="carousel-item image d-none">
+                            <img class="d-block w-100" src="../$PATH" alt="Gallery Image">
+                            <div class="carousel-caption d-none d-md-block"><h5>Gallery Image</h5></div>
+                        </div>
+                        <div class="carousel-item video d-none">
+                            <video controls autoplay>
+                                <source src="$PATH" type="video/mp4">
+                            </video>
+                            <div class="carousel-caption d-none d-md-block"><h5>Video</h5></div>
+                        </div>
                     </div>
-                    <div class="carousel-item video d-none">
-                        <video controls autoplay>
-                            <source src="$PATH" type="video/mp4">
-                        </video>
-                        <div class="carousel-caption d-none d-md-block"><h5>Video</h5></div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -282,30 +284,34 @@
     function openMediaModal(venue, headerImage, images) {
         images = JSON.parse(images);
         
-        $(".display-media").remove();
-        const media = $("#modal_venue_media_v2").clone().addClass("display-media");
-        const list = media.find('.carousel-inner');
-        const html = list.html().replace('$HEADERIMAGE', headerImage);
-        list.html(html);
-        const videosample = media.find('.video');
-        const imagesample = media.find('.image');
+        const list = $('#modal_venue_media_v2 .carousel-inner');
+        const items = $('#modal_venue_media_v2 .carousel-items');
+        const headersample = items.children('.header-image');
+        const videosample = items.children('.video');
+        const imagesample = items.children('.image');
+        list.find('.display').remove();
+        const clone = headersample.clone().removeClass('d-none').addClass('display').addClass('active');
+        let html = clone.html();
+        html = html.replace('$HEADERIMAGE', headerImage);
+        list.append(clone.html(html));
 
         images.forEach(image => {
             if(image.type === 'image')
             {
-                const clone = imagesample.clone().removeClass('hidden').addClass('display');
+                const clone = imagesample.clone().removeClass('d-none').addClass('display');
                 let html = clone.html();
                 html = html.replace('$PATH', image.path);
                 list.append(clone.html(html)); 
             }
             if(image.type === 'video' || image.type === 'link')
             {
-                const clone = videosample.clone().removeClass('hidden').addClass('display');
+                const clone = videosample.clone().removeClass('d-none').addClass('display');
                 let html = clone.html();
                 html = html.replace('$PATH', image.path);
                 list.append(clone.html(html));
             }
         });
+        $(".d-none").remove();
         media.find('.carousel').carousel();
         $("body").append(media);
         media.modal('show');

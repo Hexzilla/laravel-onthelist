@@ -11,6 +11,7 @@ use App\Models\VenueBooking;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Laravel\Cashier\Stripe;
 
 class VenueController extends Controller
 {
@@ -118,5 +119,35 @@ class VenueController extends Controller
         ]);
 
         return json_encode(array('success' => true));
+    }
+
+    public function purchase(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'paymentMethodId' => 'required',
+            'price' => 'required|numeric',
+            'vendor_id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        }
+        try {
+            $user = Auth::user();
+            $stripeAccount = StripeAccount::where('user_id', $request->vendor_id)->first();
+            if (is_null($stripeAccount)) {
+                return json_encode(array('success' => false, 'error' => 'Failed to get stripe account.'));
+            }
+            Stripe::setApiKey($stripeAccount->key);
+
+            $stripeCharge = $user->charge(
+                $request->price * 100,
+                $request->paymentMethodId
+            );
+
+            return json_encode(array('success' => true));
+        }
+        catch (Exception $e) {
+            return json_encode(array('success' => false, 'error' => $e->getMessage()));
+        }
     }
 }
