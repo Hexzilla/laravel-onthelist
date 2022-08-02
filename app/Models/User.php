@@ -79,18 +79,24 @@ class User extends Authenticatable
         return $this->hasMany(UserFavourite::class);
     }
 
-    public function localPaymentMethod() {
-        return $this->hasMany(PaymentMethod::class);
+    public function payment_cards()
+    {
+        return $this->hasMany(PaymentCard::class);
     }
 
-    public function stripeOption(array $options = [])
+    public function stripeAccount()
     {
-        $stripeAccount = $this->vendor()->stripeAccount;
+        return $this->hasOne(StripeAccount::class);
+    }
+
+    public function stripeOptions(array $options = [])
+    {
+        $stripeAccount = $this->stripeAccount()->stripeAccount;
 
         if ($stripeAccount->secret) {
             $options['api_key'] = $stripeAccount->secret;
         }
 
-        return Cashier::stripe($options);
+        return Cashier::stripeOptions($options);
     }
 }

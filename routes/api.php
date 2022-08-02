@@ -175,6 +175,7 @@ Route::prefix('v1')->group(function() {
                 Route::get('/booking/{id}', 'booking');
                 Route::get('/listByDate', 'filter_date');
                 Route::post('/message', 'createMessage');
+                Route::post('/purchase', 'purchase');
             });
         
             Route::controller(CustomerVenueController::class)->prefix('venues')->group(function () {
@@ -186,6 +187,13 @@ Route::prefix('v1')->group(function() {
                 Route::get('/booking/{id}', 'booking');
                 Route::post('/create', 'createBooking');
                 Route::post('/message', 'createMessage');
+                Route::post('/purchase', 'purchase');
+            });
+
+            Route::controller(CustomerCardController::class)->prefix('cards')->group(function () {
+                Route::get('/card', 'showCard');
+                Route::get('/{id}', 'showAccount');
+                Route::post('/add', 'addCard');
             });
 
             Route::controller(CustomerDjController::class)->prefix('djs')->group(function () {

@@ -221,5 +221,11 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/approve/{id}', 'approve')->name('approve');
             Route::get('/reject/{id}', 'reject')->name('reject');
         });
+
+        Route::prefix('notifications')->group(function() {
+            Route::get('/', [NotificationController::class, 'index'])->name('index');
+            Route::get('/unread', [NotificationController::class, 'unread'])->name('unread');
+            Route::get('/read/{id}', [NotificationController::class, 'markAsRead'])->name('markAsRead');
+        });
     });
 });
