@@ -59,6 +59,11 @@ class User extends Authenticatable
         return $this->hasMany(DjProfile::class);
     }
 
+    public function userProfile()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
+
     public function media()
     {
         return $this->hasMany(DjMedia::class);

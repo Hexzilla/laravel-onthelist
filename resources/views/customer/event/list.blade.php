@@ -317,6 +317,7 @@
                     list.append(clone.html(html));
                 }
             });
+            media.find('.d-none').remove();
             media.find('.carousel').carousel();
             $("body").append(media);
             media.modal('show');

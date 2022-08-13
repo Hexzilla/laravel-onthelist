@@ -15794,7 +15794,7 @@ button:focus {
     height: 100%;
     left: 0;
     top: 0;
-    background: #9E6DE0;
+    /* background: #9E6DE0; */
     z-index: 9999999999999999999999999;
     overflow: hidden;
 }
@@ -20156,4 +20156,24 @@ li.mm-active {
     background-color: #f6f7fa;
     border-color: #dddee3;
     color: #444;
+}
+
+.breadcrumb-item a {
+    color: #777;
+}
+
+.badge-primary {
+    background-color: #BEA467;
+}
+
+.quixnav .metismenu>li:hover>a, [data-sibebarbg="color_2"] .quixnav .metismenu>li:focus>a {
+    background-color: #ac945d!important;
+}
+
+.quixnav .metismenu>li.mm-active>a {
+    background-color: #9d8959!important;
+}
+
+.quixnav .metismenu>li.mm-active>a.has-arrow {
+    background-color: #434341!important;
 }

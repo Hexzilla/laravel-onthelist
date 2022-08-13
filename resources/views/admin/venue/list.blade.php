@@ -345,15 +345,16 @@
             $('#modal_time_table').modal('show');
         }
 
-        const openMediaModal = (venue, headerImage, images) => {
+        function openMediaModal(venue, headerImage, images) {
             images = JSON.parse(images);
             
-            const list = $('#modal_venue_media_v2 .carousel-inner');
+            $(".display-media").remove();
+            const media = $("#modal_venue_media_v2").clone().addClass("display-media");
+            const list = media.find('.carousel-inner');
             const html = list.html().replace('$HEADERIMAGE', headerImage);
             list.html(html);
-            const videosample = list.children('.video');
-            const imagesample = list.children('.image');
-            list.find('.display').remove();
+            const videosample = media.find('.video');
+            const imagesample = media.find('.image');
 
             images.forEach(image => {
                 if(image.type === 'image')
@@ -371,8 +372,10 @@
                     list.append(clone.html(html));
                 }
             });
-            $('.carousel').carousel();
-            $("#modal_venue_media_v2").modal('show');
+            media.find('.d-none').remove();
+            media.find('.carousel').carousel();
+            $("body").append(media);
+            media.modal('show');
         }
 
         const openTableModal = (venue, tables) => {

@@ -3,7 +3,7 @@
         <ul class="metismenu" id="menu">
             <li class="nav-label">Navigation</li>
             <li
-            ><a href="javascript:void()" aria-expanded="false"><i class="mdi mdi-home"></i><span class="nav-text">Dashboard</span></a></li>
+            ><a href="{{ route('customer.dashboard') )}}" aria-expanded="false"><i class="mdi mdi-home"></i><span class="nav-text">Dashboard</span></a></li>
 
             <li>
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-account"></i><span class="nav-text">Events</span></a>

@@ -77,10 +77,6 @@
                                 <i class="mdi mdi-ticket"></i>
                                 <span>Create Ticket</span>
                             </a>
-                            <a href="app-calender.html" class="dropdown-item">
-                                <i class="mdi mdi-calendar-check"></i>
-                                <span>Calendar</span>
-                            </a>
                             <a href="email-inbox.html" class="dropdown-item">
                                 <i class="mdi mdi-email"></i>
                                 <span>Inbox</span>

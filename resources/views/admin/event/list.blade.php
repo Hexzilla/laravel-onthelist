@@ -325,7 +325,9 @@
         const openMediaModal = (venue, headerImage, images) => {
             images = JSON.parse(images);
             
-            const list = $('#modal_event_media .carousel-inner');
+            $(".display-modal").remove();
+            const media = $("#modal_event_media").clone().addClass("display-modal");
+            const list = media.find('.carousel-inner');
             const html = list.html().replace('$HEADERIMAGE', headerImage);
             list.html(html);
             const videosample = list.children('.video');
@@ -335,21 +337,23 @@
             images.forEach(image => {
                 if(image.type === 'image')
                 {
-                    const clone = imagesample.clone().removeClass('hidden').addClass('display');
+                    const clone = imagesample.clone().removeClass('d-none').addClass('display');
                     let html = clone.html();
                     html = html.replace('$PATH', image.path);
-                    list.append(clone.html(html)); 
+                    list.append(clone.html(html));
                 }
                 if(image.type === 'video' || image.type === 'link')
                 {
-                    const clone = videosample.clone().removeClass('hidden').addClass('display');
+                    const clone = videosample.clone().removeClass('d-none').addClass('display');
                     let html = clone.html();
                     html = html.replace('$PATH', image.path);
                     list.append(clone.html(html));
                 }
             });
-            $('.carousel').carousel();
-            $('#modal_event_media').modal('show');
+            media.find('.d-none').remove();
+            media.find('.carousel').carousel();
+            $("body").append(media);
+            media.modal('show');
         }
         window.addEventListener('load', (event) => {
             initDataTable('example', {
