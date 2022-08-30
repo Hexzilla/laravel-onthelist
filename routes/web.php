@@ -209,6 +209,8 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/unfeature/{id}', 'unfeature')->name('unfeature');
             Route::get('/approve/{id}', 'approve')->name('approve');
             Route::get('/reject/{id}', 'reject')->name('reject');
+            Route::get('/city', 'addCity')->name('city');
+            Route::post('/city', 'storeCity')->name('store');
         });
 
         Route::controller(AdminEventController::class)->name('events.')->prefix('events')->as('events.')->group(function () {
@@ -229,6 +231,8 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/unread', 'unread')->name('unread');
             Route::get('/read/{id}', 'markAsRead')->name('markAsRead');
+            Route::get('/push', 'getLink')->name('create');
+            Route::post('/push', 'pushNotification')->name('push');
         });
     });
 });

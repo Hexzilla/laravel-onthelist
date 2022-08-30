@@ -17,6 +17,11 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
+                            <div class="float-right">
+                                <button type='button' class="btn btn-rounded btn-outline-success mb-1">
+                                    <a href="{{ route('admin.venues.city' )}}">Add City</a>
+                                </button>
+                            </div>
                             <table id="example" class="display" style="min-width: 845px">
                                 <thead>
                                     <tr>

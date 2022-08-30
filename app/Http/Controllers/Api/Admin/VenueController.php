@@ -286,4 +286,37 @@ class VenueController extends Controller
         $venue->save();
         return json_encode(array('success' => true));
     }
+
+    public function storeCity(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => 'Failed to add city'));
+        }
+
+        $city = VenueCity::create([
+            'name' => $request->name
+        ]);
+
+        if (!is_null($request->file('header_image'))) {
+            $venue->header_image_path = upload_file($request->file('header_image'), 'venue');
+        }
+    }
+
+    public function filterCity(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'city' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get venue'));
+        }
+
+        $venues = Venue::where('city', $request->city);
+        return json_encode(array('success' => true, 'venues' => $venues));
+    }
 }
