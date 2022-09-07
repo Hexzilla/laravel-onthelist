@@ -20177,3 +20177,11 @@ li.mm-active {
 .quixnav .metismenu>li.mm-active>a.has-arrow {
     background-color: #434341!important;
 }
+
+.notification_dropdown .dropdown-menu-right .dropdown-header::after {
+    background-color: #BEA467!important;
+}
+
+.auth-form {
+    color: #9d8959;
+}

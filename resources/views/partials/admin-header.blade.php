@@ -69,7 +69,7 @@
                                 <img src="{{ asset("images/user/no-avatar.png") }}" alt="">
                                 <span class="avatar-name ml-2">John Doe</span>
                             </div>
-                            <a href="app-profile.html" class="dropdown-item">
+                            <a href="{{ route('admin.setting.profile') }}" class="dropdown-item">
                                 <i class="mdi mdi-account"></i>
                                 <span>Profile</span>
                             </a>
@@ -77,7 +77,7 @@
                                 <i class="mdi mdi-ticket"></i>
                                 <span>Create Ticket</span>
                             </a>
-                            <a href="email-inbox.html" class="dropdown-item">
+                            <a href="{{ route('admin.inbox')}}" class="dropdown-item">
                                 <i class="mdi mdi-email"></i>
                                 <span>Inbox</span>
                             </a>

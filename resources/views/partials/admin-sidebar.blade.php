@@ -44,7 +44,7 @@
             </li>
             <li><a href="{{ route('admin.notifications.create') }}" aria-expanded="false"><i class="mdi mdi-bell-ring"></i><span class="nav-text">Notifications</span></a></li>
             <li><a href="javascript:void()" aria-expanded="false"><i class="mdi mdi-content-save-settings"></i><span class="nav-text">Logs</span></a></li>
-            <li><a href="javascript:void()" aria-expanded="false"><i class="mdi mdi-crosshairs-gps"></i><span class="nav-text">Settings</span></a></li>
+            <li><a href="{{ route('admin.setting.index') }}" aria-expanded="false"><i class="mdi mdi-crosshairs-gps"></i><span class="nav-text">Settings</span></a></li>
 
         </ul>
     </div>

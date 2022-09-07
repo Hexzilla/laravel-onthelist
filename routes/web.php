@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\DjController as AdminDjController;
 use App\Http\Controllers\Admin\NotificationController as AdminNotificationController;
+use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 
 use App\Http\Controllers\Auth\GoogleLoginController;
 use App\Http\Controllers\Auth\AppleLoginController;
@@ -162,6 +163,7 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
     });
     Route::middleware('auth:admin')->group(function () {
         Route::get('/', [AdminDahsboardController::class, 'index'])->name('dashboard');
+        Route::get('/inbox', [AdminDahsboardController::class, 'inbox'])->name('inbox');
         
         Route::controller(AdminBookingController::class)->name('booking.')->prefix('booking')->as('booking.')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -233,6 +235,12 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/read/{id}', 'markAsRead')->name('markAsRead');
             Route::get('/push', 'getLink')->name('create');
             Route::post('/push', 'pushNotification')->name('push');
+        });
+
+        Route::controller(AdminSettingController::class)->name('setting.')->prefix('setting')->as('setting.')->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::post('/change', 'change')->name('password');
+            Route::get('/profile', 'profile')->name('profile');
         });
     });
 });
