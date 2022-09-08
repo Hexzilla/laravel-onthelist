@@ -17,7 +17,7 @@
             <!-- <div><a onclick="openMediaModal('{{$event->name}}', '{{$event->header_image_path}}', '{{$event->media}}')">Media</a></div>
             <div><a onclick="openDetailModal('{{$event}}')">Detail</a></div> -->
             <div class="mb-1"><a onclick="openGuestlistModal('{{$event->name}}', '{{$event->id}}')">Guestlists</a></div>
-            <div class="mb-1"><a onclick="openTableModal('{{$event->name}}', '{{$event->guestlists}}')">Add Repo</a></div>
+            <div class="mb-1"><a href="{{ route('vendors.event.createRep', $event->id) }}">Add Repo</a></div>
         </div>
         <div class="card-body p-4">
             <div class="row">

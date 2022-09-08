@@ -139,6 +139,8 @@ Route::name('customers.')->prefix('customers')->as('customers.')->group(function
             Route::get('/unfavourite/{id}', 'unfavourite')->name('unfavourite');
             Route::get('/booking/{id}', 'booking')->name('booking');
             Route::post('/create', 'createBooking')->name('createBooking');
+            Route::get('/addrep/{id}', 'createRep')->name('createRep');
+            Route::post('/storerep', 'storeRep')->name('storeRep');
         });
 
         Route::controller(CustomerVenueController::class)->name('venues.')->prefix('venues')->as('venues.')->group(function () {

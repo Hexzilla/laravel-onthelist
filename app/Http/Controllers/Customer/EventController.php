@@ -9,6 +9,9 @@ use App\Models\Booking;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserFavorite;
 use Illuminate\Support\Facades\DB;
+use App\Models\ReferralProgram;
+use App\Models\ReferralLink;
+use App\Models\ReferralRelationship;
 
 class EventController extends Controller
 {
@@ -89,5 +92,48 @@ class EventController extends Controller
             'date' => $request->date,
         ]);
         return redirect()->route('customers.events.index');
+    }
+
+    public function createRep($id)
+    {
+        return view('customer.event.affiliate', [
+            'id' => $id,
+            'title' => 'Create Affiliate',
+            'action' => route('customers.event.storeRep')
+        ]);
+    }
+
+    public function storeRep(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $request->validate([
+            'code' => 'required',
+            'referral_fee' => 'required',
+            'event_id' => 'required',
+        ]);
+
+        $event = Event::where('id', $request->event_id)->firstOrFail();
+        $program = ReferralProgram::create([
+            'name' => $event->name,
+            'uri' => $request->uri
+        ]);
+
+        $link = ReferralLink::create([
+            'referral_program_id' => $program->id,
+            'user_id' => $user_id,
+            'code' => $request->code,
+            'referral_fee' => $request->referral_fee,
+        ]);
+
+        if(!is_null($request->additional_notes)) {
+            $link->additional_notes = $request->additional_notes;
+        }
+        $link->save();
+        ReferralRelationship::create([
+            'user_id' => $user_id,
+            'referral_link_id' => $link->id,
+        ]);
+
+        return redirect()->route('customers.event.index')->with('success', 'Event Affiliate created successfully!');
     }
 }

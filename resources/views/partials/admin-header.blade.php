@@ -73,10 +73,6 @@
                                 <i class="mdi mdi-account"></i>
                                 <span>Profile</span>
                             </a>
-                            <a href="home-create-ticket.html" class="dropdown-item">
-                                <i class="mdi mdi-ticket"></i>
-                                <span>Create Ticket</span>
-                            </a>
                             <a href="{{ route('admin.inbox')}}" class="dropdown-item">
                                 <i class="mdi mdi-email"></i>
                                 <span>Inbox</span>
