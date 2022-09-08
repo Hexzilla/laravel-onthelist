@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Venue;
 use App\Models\Dj;
 use App\Models\Booking;
+use App\Models\Affiliate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
