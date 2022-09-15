@@ -89,4 +89,22 @@ class VenueController extends Controller
         ]);
         return redirect()->route('customers.venues.index');
     }
+
+    public function filterCity(Request $request)
+    {
+        $request->validate([
+            'city' => 'required',
+        ]);
+
+        $events = DB::table('events')
+            ->join('venues', 'venues.id', '=', 'events.venue_id')
+            ->where('venues.city', $request->city)
+            ->select('events.*')
+            ->get();
+            
+        return view('admin.venue.list', [
+            'breadcrumb' => $request->city,
+            'events' => $events
+        ]);
+    }
 }

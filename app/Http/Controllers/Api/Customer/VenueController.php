@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Venue;
+use App\Models\Event;
 use App\Models\UserFavorite;
 use App\Models\VenueBooking;
 use App\Models\VenueMessage;
@@ -81,10 +82,11 @@ class VenueController extends Controller
     public function venue($id)
     {
         $venue = Venue::where('id', $id)->first();
+        $events = Event::where('venue_id', $id)->get();
         if (is_null($venue)) {
             return json_encode(array('success' => false, 'venue' => 'Failed to get venue'));
         }
-        return json_encode(array('success' => true, 'venue' => $venue));
+        return json_encode(array('success' => true, 'venue' => $venue, 'events' => $events));
     }
 
    public function booking($id)
@@ -194,5 +196,21 @@ class VenueController extends Controller
         ]);
 
         return json_encode(array('success' => true, 'message' => $message));
+    }
+
+    public function filterCity($id)
+    {
+        $city = VenueCity::where('id', $id)->first();
+        if (is_null($city)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get venues'));
+        }
+        $venues = DB::table('venues')
+            ->join('venue_cities', 'venue_cities.name', '=', 'venues.city')
+            ->where('venue_cities.id', $id)
+            ->where('venues.status', 'Approved')
+            ->select('venues.*')
+            ->get();
+
+        return json_encode(array('success' => true, 'venues' => $venues));
     }
 }

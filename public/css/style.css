@@ -19912,6 +19912,10 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="overlay"] .content-body {
 .auth-form .form-row .btn {
 	position: relative;
 	top: -8px;
+}
+.auth-form .btn-dark {
+    background-color: #0e0e0e;
+    border-color: #0e0e0e;
 } 
 .main-title{
 	margin-bottom: 0px;
@@ -20184,4 +20188,12 @@ li.mm-active {
 
 .auth-form {
     color: #9d8959;
+}
+
+.mdi-bell {
+    color: #fff;
+}
+
+[data-theme-version="dark"] a:hover {
+    color: #777;
 }

@@ -9,11 +9,13 @@ use App\Models\EventGuestlist;
 use App\Models\EventMedia;
 use App\Models\EventTable;
 use App\Models\EventTicket;
+use App\Models\VenueCity;
 use App\Models\User;
 use App\Models\Dj;
 use App\Models\Venue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB; 
 use Carbon\Carbon;
 use Notification;
 use App\Notifications\Approved;
@@ -328,5 +330,21 @@ class EventController extends Controller
     {
         Event::where('id', $id)->delete();
         return redirect()->route('admin.events.index');
+    }
+
+    public function filterCity($id)
+    {
+        $city = VenueCity::where('id', $id)->first();
+        $events = DB::table('events')
+            ->join('venues', 'venues.id', '=', 'events.venue_id')
+            ->join('venue_cities', 'venue_cities.name', '=', 'venues.city')
+            ->where('venue_cities.id', $id)
+            ->select('events.*')
+            ->get();
+            
+        return view('admin.venue.list', [
+            'breadcrumb' => $city->name,
+            'events' => $events
+        ]);
     }
 }

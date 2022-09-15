@@ -136,4 +136,22 @@ class EventController extends Controller
 
         return redirect()->route('customers.event.index')->with('success', 'Event Affiliate created successfully!');
     }
+
+    public function filterCity(Request $request)
+    {
+        $request->validate([
+            'city' => 'required',
+        ]);
+
+        $events = DB::table('events')
+            ->join('venues', 'venues.id', '=', 'events.venue_id')
+            ->where('venues.city', $request->city)
+            ->select('events.*')
+            ->get();
+            
+        return view('admin.venue.list', [
+            'breadcrumb' => $request->city,
+            'events' => $events
+        ]);
+    }
 }

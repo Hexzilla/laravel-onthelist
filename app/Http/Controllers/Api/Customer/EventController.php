@@ -211,4 +211,22 @@ class EventController extends Controller
 
         return json_encode(array('success' => true, 'message' => $message));
     }
+
+    public function filterCity($id)
+    {
+        $city = VenueCity::where('id', $id)->first();
+        if (is_null($city)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get events'));
+        }
+
+        $events = DB::table('events')
+            ->join('venues', 'venues.id', '=', 'events.venue_id')
+            ->join('venue_cities', 'venue_cities.name', '=', 'venues.city')
+            ->where('venue_cities.id', $id)
+            ->where('events.status', 'Approved')
+            ->select('events.*')
+            ->get();
+
+        return json_encode(array('success' => true, 'events' => $events));
+    }
 }

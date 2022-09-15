@@ -513,4 +513,19 @@ class EventController extends Controller
 
         return json_encode(array('success' => true, 'message' => $message));
     }
+
+    public function filterCity($id)
+    {
+        $user_id = Auth::user()->id;
+        $city = VenueCity::where('id', $id)->first();
+        $events = DB::table('events')
+            ->join('venues', 'venues.id', '=', 'events.venue_id')
+            ->join('venue_cities', 'venue_cities.name', '=', 'venues.city')
+            ->where('venue_cities.id', $id)
+            ->where('events.user_id', $user_id)
+            ->select('events.*')
+            ->get();
+            
+        return json_encode(array('success' => true, 'events' => $events));
+    }
 }

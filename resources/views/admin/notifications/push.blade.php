@@ -62,6 +62,23 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="city">Location/City</label>
+                                <select class="form-control" id="city" name="city">
+                                    <option>All</option>
+                                    @foreach($cities as $city)
+                                        <option value="{{ $city->name }}">{{ $city->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="radius">Radius</label>
+                                <input class="form-control" type="number" name="radius" id="radius" min="0"/>
+                            </div>
+                        </div>
                     </div>
                     <div class="row my-5">
                         <div class="col-md-6">

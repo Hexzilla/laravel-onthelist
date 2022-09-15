@@ -9,7 +9,7 @@
             <select class="form-control" name="table_type[]">
                 <option value="Type 1" {{ ($table && $table->type !== 'Type 1') ? '' : 'selected' }}>Type 1</option>
                 <option value="Type 2" {{ ($table && $table->type === 'Type 2') ? 'selected' : '' }}>Type 2</option>
-                <option value="Type 3" {{ ($table && $table->type === 'Type 2') ? 'selected' : '' }}>Type 3</option>
+                <option value="Type 3" {{ ($table && $table->type === 'Type 3') ? 'selected' : '' }}>Type 3</option>
             </select>
         </div>
     </div>

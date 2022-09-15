@@ -64,8 +64,9 @@
                                             <button type="submit" class="btn btn-primary btn-block">Sign in</button>
                                         </div>
                                         <div class="flex items-center justify-end mt-4">
-                                            <a href="{{ url('auth/google') }}" class="btn btn-block btn-primary">
-                                                <img src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png" style="margin-top: -4.5px">
+                                            <a href="{{ url('auth/google') }}" class="btn btn-block btn-dark">
+                                                <img src="{{ asset('images/logo-google-icon.png')}}" style="height: 24px; margin: 8px; padding-right: 12px">
+                                                Sign in with Google
                                             </a>
                                         </div>
                                     </form>

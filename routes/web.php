@@ -93,6 +93,7 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
             Route::get('/edit/{id}', 'edit')->name('edit');
             Route::put('/update/{id}', 'update')->name('update');
             Route::get('/delete/{id}', 'destroy')->name('destroy');
+            Route::get('/{id}', 'filterCity')->name('filter');
         });
 
         Route::controller(VendorEventController::class)->name('event.')->prefix('events')->as('event.')->group(function () {
@@ -102,6 +103,7 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
             Route::get('/edit/{id}', 'edit')->name('edit');
             Route::put('/update/{id}', 'update')->name('update');
             Route::get('/delete/{id}', 'destroy')->name('destroy');
+            Route::get('/{id}', 'filterCity')->name('filter');
         });
 
         Route::controller(VendorSettingController::class)->name('setting.')->prefix('setting')->as('setting.')->group(function () {
@@ -215,6 +217,7 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/reject/{id}', 'reject')->name('reject');
             Route::get('/city', 'addCity')->name('city');
             Route::post('/city', 'storeCity')->name('store');
+            Route::get('/{id}', 'filterCity')->name('filter');
         });
 
         Route::controller(AdminEventController::class)->name('events.')->prefix('events')->as('events.')->group(function () {
@@ -229,6 +232,7 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/unfeature/{id}', 'unfeature')->name('unfeature');
             Route::get('/approve/{id}', 'approve')->name('approve');
             Route::get('/reject/{id}', 'reject')->name('reject');
+            Route::get('/{id}', 'filterCity')->name('filter');
         });
 
         Route::controller(AdminNotificationController::class)->name('notifications.')->prefix('notifications')->as('notifications.')->group(function() {

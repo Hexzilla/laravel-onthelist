@@ -10,6 +10,7 @@ use App\Models\VenueTable;
 use App\Models\VenueTimetable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Notification;
 use App\Notifications\Approved;
@@ -40,6 +41,7 @@ class VenueController extends Controller
 
     public function edit($id)
     {
+        $cities = DB::table('venue_cities')->get();
         $venue = Venue::where('id', $id)->firstOrFail();
 
         if (is_null($venue)) {
@@ -49,6 +51,7 @@ class VenueController extends Controller
         return view('admin.venue.edit', [
             'title' => 'Edit',
             'action' => route('admin.venues.update', $id),
+            'cities' => $cities,
             'venue' => $venue,
         ]);
     }
@@ -309,15 +312,17 @@ class VenueController extends Controller
         return redirect()->route('admin.venues.index')->with('Success');
     }
 
-    public function filterCity(Request $request)
+    public function filterCity($id)
     {
-        $request->validate([
-            'city' => 'required',
-        ]);
+        $city = VenueCity::where('id', $id)->first();
+        $venues = DB::table('venues')
+            ->join('venue_cities', 'venue_cities.name', '=', 'venues.city')
+            ->where('venue_cities.id', $id)
+            ->select('venues.*')
+            ->get();
 
-        $venues = Venue::where('city', $request->city);
         return view('admin.venue.list', [
-            'breadcrumb' => $request->city,
+            'breadcrumb' => $city->name,
             'venues' => $venues
         ]);
     }
