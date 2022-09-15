@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Venue;
 use App\Models\UserFavorite;
 use App\Models\VenueBooking;
+use App\Models\VenueCity;
 
 class VenueController extends Controller
 {
@@ -90,20 +91,19 @@ class VenueController extends Controller
         return redirect()->route('customers.venues.index');
     }
 
-    public function filterCity(Request $request)
+    public function filterCity($id)
     {
-        $request->validate([
-            'city' => 'required',
-        ]);
+        $city = VenueCity::where('id', $id)->first();
 
         $events = DB::table('events')
             ->join('venues', 'venues.id', '=', 'events.venue_id')
-            ->where('venues.city', $request->city)
+            ->join('venue_cities', 'venue_cities.name', '=', 'venues.city')
+            ->where('venue_cities.id', $id)
             ->select('events.*')
             ->get();
             
         return view('admin.venue.list', [
-            'breadcrumb' => $request->city,
+            'breadcrumb' => $city->name,
             'events' => $events
         ]);
     }

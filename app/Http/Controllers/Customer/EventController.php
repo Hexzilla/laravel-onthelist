@@ -94,63 +94,18 @@ class EventController extends Controller
         return redirect()->route('customers.events.index');
     }
 
-    public function createRep($id)
+    public function filterCity($id)
     {
-        return view('customer.event.affiliate', [
-            'id' => $id,
-            'title' => 'Create Affiliate',
-            'action' => route('customers.event.storeRep')
-        ]);
-    }
-
-    public function storeRep(Request $request)
-    {
-        $user_id = Auth::user()->id;
-        $request->validate([
-            'code' => 'required',
-            'referral_fee' => 'required',
-            'event_id' => 'required',
-        ]);
-
-        $event = Event::where('id', $request->event_id)->firstOrFail();
-        $program = ReferralProgram::create([
-            'name' => $event->name,
-            'uri' => $request->uri
-        ]);
-
-        $link = ReferralLink::create([
-            'referral_program_id' => $program->id,
-            'user_id' => $user_id,
-            'code' => $request->code,
-            'referral_fee' => $request->referral_fee,
-        ]);
-
-        if(!is_null($request->additional_notes)) {
-            $link->additional_notes = $request->additional_notes;
-        }
-        $link->save();
-        ReferralRelationship::create([
-            'user_id' => $user_id,
-            'referral_link_id' => $link->id,
-        ]);
-
-        return redirect()->route('customers.event.index')->with('success', 'Event Affiliate created successfully!');
-    }
-
-    public function filterCity(Request $request)
-    {
-        $request->validate([
-            'city' => 'required',
-        ]);
-
+        $city = VenueCity::where('id', $id)->first();
         $events = DB::table('events')
             ->join('venues', 'venues.id', '=', 'events.venue_id')
-            ->where('venues.city', $request->city)
+            ->join('venue_cities', 'venue_cities.name', '=', 'venues.city')
+            ->where('venue_cities.id', $id)
             ->select('events.*')
             ->get();
             
         return view('admin.venue.list', [
-            'breadcrumb' => $request->city,
+            'breadcrumb' => $city->name,
             'events' => $events
         ]);
     }

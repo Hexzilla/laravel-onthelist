@@ -17,7 +17,7 @@
             </div> 
         </div>
         <div class="row mt-4">
-            <div class="col-md-12 col-sm-12 col-lg-12">
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 col-xxl-8">
                 <form method="POST" action="{{ route('admin.setting.password') }}" class="EventForm needs-validation" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
@@ -61,6 +61,8 @@
                 </form>
             </div>
         </div>
+    </div>
+</div>
 @endsection
 
 @section('scripts')

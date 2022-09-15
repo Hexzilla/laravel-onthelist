@@ -104,6 +104,8 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
             Route::put('/update/{id}', 'update')->name('update');
             Route::get('/delete/{id}', 'destroy')->name('destroy');
             Route::get('/{id}', 'filterCity')->name('filter');
+            Route::get('/addrep/{id}', 'createRep')->name('createRep');
+            Route::post('/storerep', 'storeRep')->name('storeRep');
         });
 
         Route::controller(VendorSettingController::class)->name('setting.')->prefix('setting')->as('setting.')->group(function () {
