@@ -135,7 +135,7 @@ Route::name('customers.')->prefix('customers')->as('customers.')->group(function
         Route::get('/', [CustomerDashboardController::class, 'index'])->name('dashboard');
         
         Route::controller(CustomerEventController::class)->name('events.')->prefix('events')->as('events.')->group(function () {
-            Route::get('/', 'index')->name('index');
+            Route::get('/all', 'index')->name('index');
             Route::get('/favorite', 'favourite')->name('favorite');
             Route::get('/favourited/{id}', 'favourited')->name('favourited');
             Route::get('/unfavourite/{id}', 'unfavourite')->name('unfavourite');
@@ -146,7 +146,7 @@ Route::name('customers.')->prefix('customers')->as('customers.')->group(function
         });
 
         Route::controller(CustomerVenueController::class)->name('venues.')->prefix('venues')->as('venues.')->group(function () {
-            Route::get('/', 'index')->name('index');
+            Route::get('/all', 'index')->name('index');
             Route::get('/favorite', 'favourite')->name('favorite');
             Route::get('/favourited/{id}', 'favourited')->name('favourited');
             Route::get('/unfavourite/{id}', 'unfavourite')->name('unfavourite');
@@ -206,7 +206,7 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
         });
 
         Route::controller(AdminVenueController::class)->name('venues.')->prefix('venues')->as('venues.')->group(function () {
-            Route::get('/', 'index')->name('index');
+            Route::get('/all', 'index')->name('index');
             Route::get('/featured', 'featured')->name('featured');
             Route::get('/edit/{id}', 'edit')->name('edit');
             Route::get('/delete/{id}', 'destroy')->name('destroy');
@@ -221,7 +221,7 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
         });
 
         Route::controller(AdminEventController::class)->name('events.')->prefix('events')->as('events.')->group(function () {
-            Route::get('/', 'index')->name('index');
+            Route::get('/all', 'index')->name('index');
             Route::get('/upcoming', 'upcoming')->name('upcoming');
             Route::get('/featured', 'featured')->name('featured');
             Route::get('/complete', 'complete')->name('complete');

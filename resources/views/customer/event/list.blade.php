@@ -140,16 +140,16 @@
                 <div id="carouselControls" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img class="d-block w-100" src="../$HEADERIMAGE" alt="Header Image">
+                            <img class="d-block w-100" src="../../$HEADERIMAGE" alt="Header Image">
                             <div class="carousel-caption d-none d-md-block"><h5>Header Image</h5></div>
                         </div>
                         <div class="carousel-item image d-none">
-                            <img class="d-block w-100" src="../$PATH" alt="Gallery Image">
+                            <img class="d-block w-100" src="../../$PATH" alt="Gallery Image">
                             <div class="carousel-caption d-none d-md-block"><h5>Gallery Image</h5></div>
                         </div>
                         <div class="carousel-item video d-none">
                             <video controls autoplay>
-                                <source src="$PATH" type="video/mp4">
+                                <source src="../../$PATH" type="video/mp4">
                             </video>
                             <div class="carousel-caption d-none d-md-block"><h5>Video</h5></div>
                         </div>
