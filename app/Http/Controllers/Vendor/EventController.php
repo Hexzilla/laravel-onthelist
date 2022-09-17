@@ -15,6 +15,7 @@ use App\Models\Venue;
 use App\Models\Dj;
 use App\Models\Booking;
 use App\Models\Affiliate;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -476,29 +477,35 @@ class EventController extends Controller
             'event_id' => 'required',
         ]);
 
-        $event = Event::where('id', $request->event_id)->firstOrFail();
-        $program = ReferralProgram::create([
-            'name' => $event->name,
-            'uri' => $request->uri
-        ]);
+        try {
+            DB::beginTransaction();
+            
+            $event = Event::where('id', $request->event_id)->firstOrFail();
+            $program = ReferralProgram::create([
+                'name' => $event->name,
+                'uri' => $request->uri
+            ]);
 
-        $link = ReferralLink::create([
-            'referral_program_id' => $program->id,
-            'user_id' => $user_id,
-            'code' => $request->code,
-            'referral_fee' => $request->referral_fee,
-        ]);
+            $link = ReferralLink::create([
+                'referral_program_id' => $program->id,
+                'user_id' => $user_id,
+                'code' => $request->code,
+                'referral_fee' => $request->referral_fee,
+                'additional_notes' => $request->additional_notes,
+            ]);
 
-        if(!is_null($request->additional_notes)) {
-            $link->additional_notes = $request->additional_notes;
+            ReferralRelationship::create([
+                'user_id' => $user_id,
+                'referral_link_id' => $link->id,
+            ]);
+
+            DB::commit();
+            return redirect()->route('vendors.event.index')->with('success', 'Event Affiliate created successfully!');
+        
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with(['errors' => 'Something went wrong']);
         }
-        $link->save();
-        ReferralRelationship::create([
-            'user_id' => $user_id,
-            'referral_link_id' => $link->id,
-        ]);
-
-        return redirect()->route('vendors.event.index')->with('success', 'Event Affiliate created successfully!');
     }
 
     public function filterCity($id)

@@ -9,7 +9,7 @@ class ReferralLink extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['referral_program_id', 'user_id'];
+    protected $fillable = ['referral_program_id', 'user_id', 'code', 'referral_fee', 'additional_notes'];
 
     public function getLinkAttribute()
     {

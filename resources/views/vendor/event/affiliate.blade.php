@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-<div class="content-body">
+<div class="content-body">    
     <div class="container-fluid">
         <div class="row page-titles mx-0">
             <div class="col-sm-12 p-md-0 justify-content-sm-start mt-2 mt-sm-0 d-flex">
