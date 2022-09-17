@@ -2132,7 +2132,8 @@ pre code {
 .form-control:focus {
     color: #495057;
     background-color: #fff;
-    border-color: #e4d6f6;
+    /* border-color: #e4d6f6; */
+    border-color: #b1b0b0;
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(158, 109, 224, 0.25);
 }
@@ -20195,6 +20196,10 @@ li.mm-active {
 
 .mdi-bell {
     color: #fff;
+}
+
+.sign-text {
+    color: #949494
 }
 
 [data-theme-version="dark"] a:hover {
