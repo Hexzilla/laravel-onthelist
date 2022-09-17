@@ -18,7 +18,7 @@
                 </ul>
             </li>
 
-            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-home-map-marker"></i><span class="nav-text">Venues</span></a>
+            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-map-marker"></i><span class="nav-text">Venues</span></a>
                 <ul aria-expanded="false">
                     <li><a href="{{ route('admin.venues.index') }}">All</a></li>
                     <li><a href="{{ route('admin.venues.featured') }}">Featured</a></li>
@@ -44,7 +44,7 @@
             </li>
             <li><a href="{{ route('admin.notifications.create') }}" aria-expanded="false"><i class="mdi mdi-bell-ring"></i><span class="nav-text">Notifications</span></a></li>
             <li><a href="javascript:void()" aria-expanded="false"><i class="mdi mdi-content-save-settings"></i><span class="nav-text">Logs</span></a></li>
-            <li><a href="{{ route('admin.setting.index') }}" aria-expanded="false"><i class="mdi mdi-crosshairs-gps"></i><span class="nav-text">Settings</span></a></li>
+            <li><a href="{{ route('admin.setting.index') }}" aria-expanded="false"><i class="mdi mdi-account-settings-variant"></i><span class="nav-text">Settings</span></a></li>
 
         </ul>
     </div>
