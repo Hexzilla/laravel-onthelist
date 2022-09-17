@@ -20038,6 +20038,9 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="overlay"] .content-body {
 	color:#000;
 	border-radius: 0.25rem;
 }
+.addEvent-icon {
+    cursor: pointer;
+}
 .addEvent-icon i {
 	font-size: 24px;
 }

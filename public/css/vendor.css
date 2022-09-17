@@ -59,4 +59,6 @@
   overflow: hidden;
 }
 
-
+.add-dj-button {
+  min-width: 120px;
+}
