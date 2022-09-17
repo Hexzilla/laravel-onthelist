@@ -4,7 +4,7 @@
             <li class="nav-label">Navigation</li>
             <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"><a href="{{ route('vendors.dashboard')    }}" aria-expanded="false"><i class="mdi mdi-home"></i><span class="nav-text">Dashboard</span></a></li>
 
-            <li class="{{ request()->routeIs('vendors.event.*') ? 'active' : '' }}"><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-account"></i><span class="nav-text">Events</span></a>
+            <li class="{{ request()->routeIs('vendors.event.*') ? 'active' : '' }}"><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-ticket"></i><span class="nav-text">Events</span></a>
                 <ul aria-expanded="false">
                     <li><a href="{{ route('vendors.event.create') }}">Create event</a></li>
                     <li><a href="{{ route('vendors.event.index') }}">My events</a></li>

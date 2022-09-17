@@ -7,7 +7,7 @@
             </li>
 
             <li>
-                <a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-account"></i><span class="nav-text">Events</span></a>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-ticket"></i><span class="nav-text">Events</span></a>
                 <ul aria-expanded="false">
                     <li><a href="{{ route('customers.events.index') }}">All</a></li>
                     <li><a href="{{ route('customers.events.favorite') }}">Favourite</a></li>
