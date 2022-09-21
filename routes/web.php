@@ -30,6 +30,11 @@ use App\Http\Controllers\Admin\VenueController as AdminVenueController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\DjController as AdminDjController;
+use App\Http\Controllers\Admin\NotificationController as AdminNotificationController;
+use App\Http\Controllers\Admin\SettingController as AdminSettingController;
+
+use App\Http\Controllers\Auth\GoogleLoginController;
+use App\Http\Controllers\Auth\AppleLoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +50,9 @@ use App\Http\Controllers\Admin\DjController as AdminDjController;
 Auth::routes();
 Route::get('/', function () { return view('home');});
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Route::get('/auth/google', [GoogleLoginController::class, 'redirectToGoogle']);
+Route::get('/auth/google/callback', [GoogleLoginController::class, 'handleGoogleCallback']);
+Route::post('/auth/apple', [AppleLoginController::class, 'appleLogin']);
 
 /***********************************************************************/
 Route::name('subscription.')->prefix('subscription')->as('subscription.')->group(function () {
@@ -100,6 +107,7 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
 
         Route::controller(VendorSettingController::class)->name('setting.')->prefix('setting')->as('setting.')->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::get('/profile', 'profile')->name('profile');
             Route::post('/password', 'changePassword')->name('password');
             Route::post('/contact', 'contact')->name('contact');
             Route::get('/close', 'closeAccount')->name('close');
@@ -156,6 +164,7 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
     });
     Route::middleware('auth:admin')->group(function () {
         Route::get('/', [AdminDahsboardController::class, 'index'])->name('dashboard');
+        Route::get('/inbox', [AdminDahsboardController::class, 'inbox'])->name('inbox');
         
         Route::controller(AdminBookingController::class)->name('booking.')->prefix('booking')->as('booking.')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -170,6 +179,7 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/Djs/{id}', 'show')->name('show');
             Route::get('/approve/{id}', 'approve')->name('approve');
             Route::get('/reject/{id}', 'reject')->name('reject');
+            Route::get('/delete/{id}', 'destroy')->name('destroy');
         });
 
         Route::controller(AdminVendorController::class)->name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
@@ -202,6 +212,8 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/unfeature/{id}', 'unfeature')->name('unfeature');
             Route::get('/approve/{id}', 'approve')->name('approve');
             Route::get('/reject/{id}', 'reject')->name('reject');
+            Route::get('/city', 'addCity')->name('city');
+            Route::post('/city', 'storeCity')->name('store');
         });
 
         Route::controller(AdminEventController::class)->name('events.')->prefix('events')->as('events.')->group(function () {
@@ -218,10 +230,18 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/reject/{id}', 'reject')->name('reject');
         });
 
-        Route::prefix('notifications')->group(function() {
-            Route::get('/', [NotificationController::class, 'index'])->name('index');
-            Route::get('/unread', [NotificationController::class, 'unread'])->name('unread');
-            Route::get('/read/{id}', [NotificationController::class, 'markAsRead'])->name('markAsRead');
+        Route::controller(AdminNotificationController::class)->name('notifications.')->prefix('notifications')->as('notifications.')->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::get('/unread', 'unread')->name('unread');
+            Route::get('/read/{id}', 'markAsRead')->name('markAsRead');
+            Route::get('/push', 'getLink')->name('create');
+            Route::post('/push', 'pushNotification')->name('push');
+        });
+
+        Route::controller(AdminSettingController::class)->name('setting.')->prefix('setting')->as('setting.')->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::post('/change', 'change')->name('password');
+            Route::get('/profile', 'profile')->name('profile');
         });
     });
 });

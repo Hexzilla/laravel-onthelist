@@ -60,4 +60,9 @@ class Event extends Model
     {
         return $this->status == "Approved" ? true : false;
     }
+
+    public function messages()
+    {
+        return $this->hasMany(EventMessage::class);
+    }
 }

@@ -69,17 +69,13 @@
                                 <img src="{{ asset("images/user/no-avatar.png") }}" alt="">
                                 <span class="avatar-name ml-2">John Doe</span>
                             </div>
-                            <a href="app-profile.html" class="dropdown-item">
+                            <a href="{{ route('vendors.setting.profile')}}" class="dropdown-item">
                                 <i class="mdi mdi-account"></i>
                                 <span>Profile</span>
                             </a>
-                            <a href="home-create-ticket.html" class="dropdown-item">
+                            <a href="{{ route('vendors.event.create') }}" class="dropdown-item">
                                 <i class="mdi mdi-ticket"></i>
-                                <span>Create Ticket</span>
-                            </a>
-                            <a href="app-calender.html" class="dropdown-item">
-                                <i class="mdi mdi-calendar-check"></i>
-                                <span>Calendar</span>
+                                <span>Create Event</span>
                             </a>
                             <a href="email-inbox.html" class="dropdown-item">
                                 <i class="mdi mdi-email"></i>

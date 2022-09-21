@@ -63,8 +63,13 @@
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-primary btn-block">Sign in</button>
                                         </div>
+                                        <div class="flex items-center justify-end mt-4">
+                                            <a href="{{ url('auth/google') }}" class="btn btn-block btn-primary">
+                                                <img src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png" style="margin-top: -4.5px">
+                                            </a>
+                                        </div>
                                     </form>
-                                    <div class="new-account mt-3">
+                                    <div class="new-account mt-3 text-center">
                                         <p>Don't have an account? <a class="text-primary" href="{{ route('register') }}">Sign up</a></p>
                                     </div>
                                 </div>

@@ -18,7 +18,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 col-xxl-8">
-                <form method="POST" action="{{ route('setting.contact') }}" class="EventForm" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('vendors.setting.contact') }}" class="EventForm" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-12">
@@ -99,7 +99,7 @@
                     </div>
                 </form>
                 
-                <form method="POST" action="{{ route('setting.password') }}" class="EventForm needs-validation" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('vendors.setting.password') }}" class="EventForm needs-validation" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-12">
@@ -230,7 +230,7 @@
             });
         });
         openCloseModal = () => {
-            let url = "{{ route('setting.close') }}";
+            let url = "{{ route('vendors.setting.close') }}";
             let html = $("#modal_close").html().replace('$URL', url);
             $("#modal_close").html(html);
             $("#modal_close").modal("show");

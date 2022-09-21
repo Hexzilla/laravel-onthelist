@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        Cashier::ignoreMigrations();
     }
 
     /**
@@ -30,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
         Paginator::defaultView('pagination');
         Paginator::defaultSimpleView('simple-pagination');
         Cashier::calculateTaxes();
+        Cashier::useCustomerModel(User::class); 
     }
 }

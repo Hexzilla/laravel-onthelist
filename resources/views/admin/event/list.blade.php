@@ -328,11 +328,13 @@
         const openMediaModal = (venue, headerImage, images) => {
             images = JSON.parse(images);
             
-            const list = $('#modal_event_media .carousel-inner');
-            const items = $('#modal_event_media .carousel-items');
-            const headersample = items.children('.header-image');
-            const videosample = items.children('.video');
-            const imagesample = items.children('.image');
+            $(".display-modal").remove();
+            const media = $("#modal_event_media").clone().addClass("display-modal");
+            const list = media.find('.carousel-inner');
+            const html = list.html().replace('$HEADERIMAGE', headerImage);
+            list.html(html);
+            const videosample = list.children('.video');
+            const imagesample = list.children('.image');
             list.find('.display').remove();
             const clone = headersample.clone().removeClass('d-none').addClass('display').addClass('active');
             let html = clone.html();
@@ -345,7 +347,7 @@
                     const clone = imagesample.clone().removeClass('d-none').addClass('display');
                     let html = clone.html();
                     html = html.replace('$PATH', image.path);
-                    list.append(clone.html(html)); 
+                    list.append(clone.html(html));
                 }
                 if(image.type === 'video' || image.type === 'link')
                 {
@@ -355,9 +357,10 @@
                     list.append(clone.html(html));
                 }
             });
-            list.find('.d-none').remove();
-            $('.carousel').carousel();
-            $('#modal_event_media').modal('show');
+            media.find('.d-none').remove();
+            media.find('.carousel').carousel();
+            $("body").append(media);
+            media.modal('show');
         }
         window.addEventListener('load', (event) => {
             initDataTable('example', {

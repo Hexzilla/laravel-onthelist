@@ -18,7 +18,12 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="example" class="display" style="min-width: 845px">
-                            <thead></thead>
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
                             <tbody>
                                 @foreach($notifications as $notification)
                                 <tr>
@@ -34,3 +39,16 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    <script>
+        window.addEventListener('load', (event) => {
+            initDataTable('example', {
+                info: false,
+                paging: false,
+            })
+        });
+    </script>
+    <script src="{{ asset('js/datatable.js') }}"></script>
+@endsection

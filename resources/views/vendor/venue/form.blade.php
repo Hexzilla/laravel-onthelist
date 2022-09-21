@@ -97,12 +97,12 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="monday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue->timetable ? $venue->timetable->mon_open : old('mon_open') ?? '00:00' }}" 
+                                    <input type="time" value="{{ $venue && $venue->timetable ? $venue->timetable->mon_open : old('mon_open') ?? '00:00' }}" 
                                         step="60" id="monday-opening-time" name="mon_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="monday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue->timetable ? $venue->timetable->mon_close : old('mon_close') ?? '00:00' }}" 
+                                    <input type="time" value="{{ $venue && $venue->timetable ? $venue->timetable->mon_close : old('mon_close') ?? '00:00' }}" 
                                         step="60" id="monday-closing-time" name="mon_close" class="form-control text-center" />
                                 </div>
                             </div>
@@ -115,12 +115,12 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="tuesday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue->timetable ? $venue->timetable->tue_open : old('tue_open') ?? '00:00' }}" 
+                                    <input type="time" value="{{ $venue && $venue->timetable ? $venue->timetable->tue_open : old('tue_open') ?? '00:00' }}" 
                                         step="60" id="tuesday-opening-time" name="tue_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="tuesday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue->timetable ? $venue->timetable->tue_close : old('tue_close') ?? '00:00' }}" 
+                                    <input type="time" value="{{ $venue && $venue->timetable ? $venue->timetable->tue_close : old('tue_close') ?? '00:00' }}" 
                                         step="60" id="tuesday-closing-time" name="tue_close" class="form-control text-center" />
                                 </div>
                             </div>
@@ -133,12 +133,12 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="wednesday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue->timetable ? $venue->timetable->wed_open : old('wed_open') ?? '00:00' }}" 
+                                    <input type="time" value="{{ $venue && $venue->timetable ? $venue->timetable->wed_open : old('wed_open') ?? '00:00' }}" 
                                         step="60" id="wednesday-opening-time" name="wed_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="wednesday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue->timetable ? $venue->timetable->wed_close : old('wed_close') ?? '00:00' }}" 
+                                    <input type="time" value="{{ $venue && $venue->timetable ? $venue->timetable->wed_close : old('wed_close') ?? '00:00' }}" 
                                         step="60" id="wednesday-closing-time" name="wed_close" class="form-control text-center" />
                                 </div>
                             </div>
@@ -151,12 +151,12 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="thursday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue->timetable ? $venue->timetable->thu_open : old('thu_open') ?? '00:00' }}" 
+                                    <input type="time" value="{{ $venue && $venue->timetable ? $venue->timetable->thu_open : old('thu_open') ?? '00:00' }}" 
                                         step="60" id="thursday-opening-time" name="thu_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="thursday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue->timetable ? $venue->timetable->thu_close : old('thu_close') ?? '00:00' }}" 
+                                    <input type="time" value="{{ $venue && $venue->timetable ? $venue->timetable->thu_close : old('thu_close') ?? '00:00' }}" 
                                         step="60" id="thursday-closing-time" name="thu_close" class="form-control text-center" />
                                 </div>
                             </div>
@@ -169,12 +169,12 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="friday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue->timetable ? $venue->timetable->fri_open : old('fri_open') ?? '00:00' }}" 
+                                    <input type="time" value="{{ $venue && $venue->timetable ? $venue->timetable->fri_open : old('fri_open') ?? '00:00' }}" 
                                         step="60" id="friday-opening-time" name="fri_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="friday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue->timetable ? $venue->timetable->fri_close : old('fri_close') ?? '00:00' }}" 
+                                    <input type="time" value="{{ $venue && $venue->timetable ? $venue->timetable->fri_close : old('fri_close') ?? '00:00' }}" 
                                         step="60" id="friday-closing-time" name="fri_close" class="form-control text-center" />
                                 </div>
                             </div>
@@ -187,12 +187,12 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="saturday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue->timetable ? $venue->timetable->sat_open : old('sat_open') ?? '00:00' }}" 
+                                    <input type="time" value="{{ $venue && $venue->timetable ? $venue->timetable->sat_open : old('sat_open') ?? '00:00' }}" 
                                         step="60" id="saturday-opening-time" name="sat_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="saturday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue->timetable ? $venue->timetable->sat_close : old('sat_close') ?? '00:00' }}" 
+                                    <input type="time" value="{{ $venue && $venue->timetable ? $venue->timetable->sat_close : old('sat_close') ?? '00:00' }}" 
                                         step="60" id="saturday-closing-time" name="sat_close" class="form-control text-center" />
                                 </div>
                             </div>
@@ -205,12 +205,12 @@
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="sunday-opening-time">Opening Time</label>
-                                    <input type="time" value="{{ $venue->timetable ? $venue->timetable->sun_open : old('sun_open') ?? '00:00' }}" 
+                                    <input type="time" value="{{ $venue && $venue->timetable ? $venue->timetable->sun_open : old('sun_open') ?? '00:00' }}" 
                                         step="60" id="sunday-opening-time" name="sun_open" class="form-control text-center" />
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="sunday-closing-time">Closing Time</label>
-                                    <input type="time" value="{{ $venue->timetable ? $venue->timetable->sun_close : old('sun_close') ?? '00:00' }}" 
+                                    <input type="time" value="{{ $venue && $venue->timetable ? $venue->timetable->sun_close : old('sun_close') ?? '00:00' }}" 
                                         step="60" id="sunday-closing-time" name="sun_close" class="form-control text-center" />
                                 </div>
                             </div>

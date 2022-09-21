@@ -16,6 +16,7 @@ use App\Notifications\Approved;
 use Illuminate\Validation\Rule;
 use App\Rules\VenueTableRule;
 use App\Rules\VenueOfferRule;
+use App\Models\VenueCity;
 
 class VenueController extends Controller
 {
@@ -278,5 +279,46 @@ class VenueController extends Controller
         $venue->status = 'Rejected';
         $venue->save();
         return redirect()->back();
+    }
+
+    public function addCity()
+    {
+        return view('admin.venue.city', [
+            'action' => route('admin.venues.city')
+        ]);
+    }
+
+    public function storeCity(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $city = VenueCity::where('name', $request->name)->first();
+        if (is_null($city)) {
+            $city = VenueCity::create([
+                'name' => $request->name
+            ]);
+        }
+        
+        if (!is_null($request->file('header_image'))) {
+            $city->image = upload_file($request->file('header_image'), 'venue');
+        }
+        $city->save();
+
+        return redirect()->route('admin.venues.index')->with('Success');
+    }
+
+    public function filterCity(Request $request)
+    {
+        $request->validate([
+            'city' => 'required',
+        ]);
+
+        $venues = Venue::where('city', $request->city);
+        return view('admin.venue.list', [
+            'breadcrumb' => $request->city,
+            'venues' => $venues
+        ]);
     }
 }

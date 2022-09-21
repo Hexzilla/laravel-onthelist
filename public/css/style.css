@@ -20157,3 +20157,31 @@ li.mm-active {
     border-color: #dddee3;
     color: #444;
 }
+
+.breadcrumb-item a {
+    color: #777;
+}
+
+.badge-primary {
+    background-color: #BEA467;
+}
+
+.quixnav .metismenu>li:hover>a, [data-sibebarbg="color_2"] .quixnav .metismenu>li:focus>a {
+    background-color: #ac945d!important;
+}
+
+.quixnav .metismenu>li.mm-active>a {
+    background-color: #9d8959!important;
+}
+
+.quixnav .metismenu>li.mm-active>a.has-arrow {
+    background-color: #434341!important;
+}
+
+.notification_dropdown .dropdown-menu-right .dropdown-header::after {
+    background-color: #BEA467!important;
+}
+
+.auth-form {
+    color: #9d8959;
+}

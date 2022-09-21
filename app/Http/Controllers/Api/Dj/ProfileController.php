@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\DjProfile;
 use App\Models\DjMedia;
+use App\Models\DjMessage;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -118,5 +120,29 @@ class ProfileController extends Controller
         }
         $media->delete();
         return json_encode(array('success' => true));
+    }
+
+    public function showMessage($id)
+    {
+        $messages = DjMessage::where('dj_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return json_encode(array('success' => true, 'messages' => $messages));
+    }
+
+    public function markAsRead($id)
+    {
+        $message = DjMessage::where('id', $id)->first();
+
+        if (is_null($message)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get message'));
+        }
+
+        $current = Carbon::now();
+        $message->read_at = $current;
+        $message->save();
+
+        return json_encode(array('success' => true, 'message' => $message));
     }
 }

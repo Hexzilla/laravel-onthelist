@@ -20,6 +20,13 @@ class SettingController extends Controller
         return view('vendor.setting.index', ['user' => $user]);
     }
 
+    public function profile()
+    {
+        $user_id = Auth::user()->id;
+        $user = User::where('id', $user_id)->first();
+        return view('vendor.setting.profile', ['user' => $user]);
+    }
+
     public function changePassword(Request $request)
     {
         $user = Auth::user();

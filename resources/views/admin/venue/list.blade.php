@@ -17,6 +17,11 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
+                            <div class="float-right">
+                                <button type='button' class="btn btn-rounded btn-outline-success mb-1">
+                                    <a href="{{ route('admin.venues.city' )}}">Add City</a>
+                                </button>
+                            </div>
                             <table id="example" class="display" style="min-width: 845px">
                                 <thead>
                                     <tr>
@@ -348,19 +353,16 @@
             $('#modal_time_table').modal('show');
         }
 
-        const openMediaModal = (venue, headerImage, images) => {
+        function openMediaModal(venue, headerImage, images) {
             images = JSON.parse(images);
             
-            const list = $('#modal_venue_media_v2 .carousel-inner');
-            const items = $('#modal_venue_media_v2 .carousel-items');
-            const headersample = items.children('.header-image');
-            const videosample = items.children('.video');
-            const imagesample = items.children('.image');
-            list.find('.display').remove();
-            const clone = headersample.clone().removeClass('d-none').addClass('display').addClass('active');
-            let html = clone.html();
-            html = html.replace('$HEADERIMAGE', headerImage);
-            list.append(clone.html(html));
+            $(".display-media").remove();
+            const media = $("#modal_venue_media_v2").clone().addClass("display-media");
+            const list = media.find('.carousel-inner');
+            const html = list.html().replace('$HEADERIMAGE', headerImage);
+            list.html(html);
+            const videosample = media.find('.video');
+            const imagesample = media.find('.image');
 
             images.forEach(image => {
                 if(image.type === 'image')
@@ -378,8 +380,10 @@
                     list.append(clone.html(html));
                 }
             });
-            $('.carousel').carousel();
-            $("#modal_venue_media_v2").modal('show');
+            media.find('.d-none').remove();
+            media.find('.carousel').carousel();
+            $("body").append(media);
+            media.modal('show');
         }
 
         const openTableModal = (venue, tables) => {

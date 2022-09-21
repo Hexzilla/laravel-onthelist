@@ -71,4 +71,11 @@ class UserController extends Controller
         $user->save();
         return redirect()->back();
     }
+
+    public function destroy($id)
+    {
+        $user = User::where('id', $id)->firstOrFail();
+        $user->delete();
+        return redirect()->back();
+    }
 }

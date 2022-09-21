@@ -57,20 +57,6 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-group">
-                                <label for='email'>Dj Email</label>
-                                <input type="email" class="form-control" placeholder="dj@onthelist.app" id="email" name="email" value="{{ $dj? $dj->user->email : '' }}" required>
-                                <span class="invalid-feedback" role="alert">This field is required</span>
-                            </div>
-                            <div class="form-group">
-                                <label for='password'>Dj Password</label>
-                                <input type="password" class="form-control" placeholder="" id="password" name="password" value="{{ $dj? $dj->user->password : '' }}" required>
-                                <span class="invalid-feedback" role="alert">This field is required</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
                             <div class="form-group border-input">
                                 <label for="mixcloud_link">Dj Mixcloud link:</label>
                                 <input type="text" class="form-control" placeholder="https://www.mixcloud.com" id="mixcloud_link" name="mixcloud_link" value="{{ $dj? $dj->mixcloud_link : old('mixcloud_link') }}">

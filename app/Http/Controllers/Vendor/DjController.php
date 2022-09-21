@@ -52,8 +52,6 @@ class DjController extends Controller
         $user_id = Auth::user()->id;
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8',
             'genres' => 'required',
             'header_image' => 'required|mimes:jpeg,png,jpg,gif',
         ]);
@@ -65,8 +63,6 @@ class DjController extends Controller
 
         $user = User::create([
             'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
             'role' => 'dj',
         ]);
 
@@ -89,8 +85,6 @@ class DjController extends Controller
         $vendor_id = Auth::user()->id;
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:8',
             'genres' => 'required',
         ]);
 
