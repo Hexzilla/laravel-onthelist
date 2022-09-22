@@ -9,7 +9,7 @@ use App\Models\Booking;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserFavorite;
 use Illuminate\Support\Facades\DB;
-use App\Models\ReferralProgram;
+use App\Models\AffiliateProgram;
 use App\Models\ReferralLink;
 use App\Models\ReferralRelationship;
 
@@ -108,5 +108,43 @@ class EventController extends Controller
             'breadcrumb' => $city->name,
             'events' => $events
         ]);
+    }
+
+    public function rep()
+    {
+        $user_id = Auth::user()->id;
+        $rep = AffiliateProgram::where('user_id', $user_id)->first();
+        return view('customer.rep', [
+            'rep' => $rep,
+            'title' => 'Create Affiliate Program',
+            'action' => route('customers.events.storeRep')
+        ]);
+    }
+
+    public function storeRep()
+    {
+        $user_id = Auth::user()->id;
+        $rep = AffiliateProgram::where('user_id', $user_id)->first();
+        $request->validate([
+            'code' => 'required|unique',
+            'referral_fee' => 'required'
+        ]);
+        if (!is_null($rep)) {
+            $rep->code = $request->code;
+            $rep->referral_fee = $request->referral_fee;
+        } else {
+            $rep = AffiliateProgram::create([
+                'user_id' => $user_id,
+                'code' => $request->code,
+                'referral_fee' => $request->referral_fee
+            ]);
+        }
+
+        if (!is_null($request->additional_note)) {
+            $rep->additional_note = $request->additional_note;
+        }
+        $rep->save();
+
+        return redirect()->route('customer.dashboard');
     }
 }
