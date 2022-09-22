@@ -13,6 +13,7 @@ use App\Models\UserFavorite;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
@@ -135,7 +136,34 @@ class EventController extends Controller
             'price' => $request->price,
             'date' => $request->date,
         ]);
-        return json_encode(array('success' => true, 'booking' => $booking));
+
+        $random = Str::random(30);
+        $image = QrCode::format('png')
+            ->size(300)->errorCorrection('H')
+            ->generate($random);
+        $file_name = Carbon::now().'.png';
+        $output_file = '/public/qrcode_img/'. $file_name;
+        Storage::disk('local')->put($output_file, $image);
+        $ticket = new Ticket;
+        $ticket->member_id = $booking->id;
+        $ticket->type = 'event';
+        $ticket->ticket_code = $random;
+        $ticket->ticket_img_url = url('/').'/storage/qrcode_img'.$filename;
+        $ticket->save();
+
+        return json_encode(array('success' => true, 'booking' => $booking, 'ticket' => $ticket));
+    }
+
+    public function ticket(Request $request)
+    {
+        $ticket = $request->ticket;
+        $result = Ticket::where('ticket_code', $ticket)->where('is_chacked', 0)->count();
+        if ($result == 0) {
+            return json_encode(array('result' => 'reject'));
+        } else {
+            DB::table('tickets')->where('ticket_code', $ticket)->update(['is_chacked' => 1]);
+            return json_encode(array('result' => 'approved'));
+        }
     }
 
     public function purchase(Request $request)
