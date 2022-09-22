@@ -326,4 +326,31 @@ class VenueController extends Controller
             'venues' => $venues
         ]);
     }
+
+    public function upload($id)
+    {
+        $venue = Venue::where('id', $id)->first();
+        if (is_null($venue)) {
+            return redirect()->back();
+        }
+
+        return view('admin.venue.upload', [
+            'venue' => $venue
+        ]);
+    }
+
+    public function uploadImage(Request $request, $id)
+    {
+        $venue = Venue::where('id', $id)->first();
+        
+        if (is_null($venue)) {
+            return redirect()->back();
+        }
+
+        if (!is_null($request->file('feature_image'))) {
+            $venue->feature_image_path = upload_file($request->file('feature_image'));
+            $venue->save();
+        }
+        return redirect()->route('admin.venues.index');
+    }
 }

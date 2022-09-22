@@ -347,4 +347,29 @@ class EventController extends Controller
             'events' => $events
         ]);
     }
+
+    public function upload($id)
+    {
+        $event = Event::where('id', $id)->first();
+        if (is_null($event)) {
+            return redirect()->back();
+        }
+
+        return view('admin.event.upload', [
+            'event' => $event
+        ]);
+    }
+
+    public function uploadImage(Request $request, $id)
+    {
+        $event = Event::where('id', $id)->first();
+        if (is_null($event)) {
+            return redirect()->back();
+        }
+        if (!is_null($request->file('feature_image'))) {
+            $event->feature_image_path = upload_file($request->file('feature_image'));
+            $event->save();
+        }
+        return redirect()->route('admin.events.index');
+    }
 }
