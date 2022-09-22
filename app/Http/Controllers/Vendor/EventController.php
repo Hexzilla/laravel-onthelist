@@ -15,7 +15,6 @@ use App\Models\Venue;
 use App\Models\Dj;
 use App\Models\Booking;
 use App\Models\Affiliate;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -23,9 +22,8 @@ use Illuminate\Validation\Rule;
 use App\Rules\EventTicketRule;
 use App\Rules\EventTableRule;
 use App\Rules\EventGuestRule;
-use App\Models\ReferralProgram;
-use App\Models\ReferralLink;
-use App\Models\ReferralRelationship;
+use App\Models\AffiliateProgram;
+use App\Models\AffiliateLink;
 
 class EventController extends Controller
 {
@@ -461,51 +459,35 @@ class EventController extends Controller
 
     public function createRep($id)
     {
+        $programs = AffiliateProgram::get();
         return view('vendor.event.affiliate', [
-            'id' => $id,
+            'programs' => $programs,
             'title' => 'Create Affiliate',
-            'action' => route('vendors.event.storeRep')
+            'action' => route('vendors.event.storeRep', $id)
         ]);
     }
 
-    public function storeRep(Request $request)
+    public function storeRep(Request $request, $id)
     {
         $user_id = Auth::user()->id;
         $request->validate([
-            'code' => 'required',
-            'referral_fee' => 'required',
-            'event_id' => 'required',
+            'program_id' => 'required',
+            'name' => 'required',
         ]);
 
-        try {
-            DB::beginTransaction();
-            
-            $event = Event::where('id', $request->event_id)->firstOrFail();
-            $program = ReferralProgram::create([
-                'name' => $event->name,
-                'uri' => $request->uri
-            ]);
+        $program = AffiliateProgram::where('id', $request->program_id)->first();
+        $code = $program->code;
+        $url = route('customers.events.booking', $id);
+        $uri = $url.'?'.$code;
 
-            $link = ReferralLink::create([
-                'referral_program_id' => $program->id,
-                'user_id' => $user_id,
-                'code' => $request->code,
-                'referral_fee' => $request->referral_fee,
-                'additional_notes' => $request->additional_notes,
-            ]);
+        AffiliateLink::create([
+            'event_id' => $id,
+            'program_id' => $request->program_id,
+            'name' => $request->name,
+            'uri' => $uri,
+        ]);
 
-            ReferralRelationship::create([
-                'user_id' => $user_id,
-                'referral_link_id' => $link->id,
-            ]);
-
-            DB::commit();
-            return redirect()->route('vendors.event.index')->with('success', 'Event Affiliate created successfully!');
-        
-        } catch (Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with(['errors' => 'Something went wrong']);
-        }
+        return redirect()->route('vendors.event.index')->with('success', 'Event Affiliate created successfully!');
     }
 
     public function filterCity($id)
@@ -523,6 +505,19 @@ class EventController extends Controller
         return view('admin.venue.list', [
             'breadcrumb' => $city->name,
             'events' => $events
+        ]);
+    }
+
+    public function reps()
+    {
+        $reps = DB::table('reps_stats')
+            ->join('affiliate_links', 'affiliate_links.id', '=', 'reps_stats.affiliate_link_id')
+            ->join('affiliate_programs', 'affiliate_programs.id', '=', 'affiliate_links.affiliate_program_id')
+            ->select('affiliate_programs.referral_fee as fee', 'affiliate_links.name as name', 'reps_stats.qty as qty', 'reps_stats.price as price')
+            ->get();
+        
+        return view('vendor.event.reps', [
+            'reps' => $reps,
         ]);
     }
 }
