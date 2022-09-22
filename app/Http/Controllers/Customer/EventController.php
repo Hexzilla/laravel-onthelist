@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Booking;
+use App\Models\VenueCity;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserFavorite;
 use Illuminate\Support\Facades\DB;
@@ -121,7 +122,7 @@ class EventController extends Controller
         ]);
     }
 
-    public function storeRep()
+    public function storeRep(Request $request)
     {
         $user_id = Auth::user()->id;
         $rep = AffiliateProgram::where('user_id', $user_id)->first();
