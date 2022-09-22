@@ -26,7 +26,7 @@
             <li><a href="{{ route('vendors.booking.index') }}"><i class="mdi mdi-table-large"></i><span class="nav-text">Bookings</span></a></li>
             <li><a href="javascript:void()" aria-expanded="false"><i class="mdi mdi-restore-clock"></i><span class="nav-text">Orders</span></a></li>
             <li><a href="{{ route('vendors.payment.index') }}" aria-expanded="false"><i class="mdi mdi-file-document"></i><span class="nav-text">Payments</span></a></li>
-            <li><a href="javascript:void()" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span class="nav-text">Reps</span></a></li>
+            <li><a href="{{ route('vendors.reps')}}" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span class="nav-text">Reps</span></a></li>
             <li><a href="{{ route('vendors.setting.index') }}" aria-expanded="false"><i class="mdi mdi-account-settings-variant"></i><span class="nav-text">Settings</span></a></li>
         </ul>
     </div>
