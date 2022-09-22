@@ -70,6 +70,11 @@
                                                 <a href="{{ route('admin.events.feature', $event->id) }}"><i class="fa fa-bitcoin"></i></a>
                                             </button>
                                             @endif
+                                            @if($breadcrumb == "Featured")
+                                            <button type="button" title="Upload Image" class="btn btn-rounded btn-warning mb-1">
+                                                <a href="{{ route('admin.events.upload', $event->id) }}"><i class="mdi mdi-image-multiple"></i>
+                                            </button>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach

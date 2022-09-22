@@ -179,6 +179,7 @@ Route::prefix('v1')->group(function() {
                 Route::post('/message', 'createMessage');
                 Route::post('/purchase', 'purchase');
                 Route::get('/city/{id}', 'filterCity');
+                Route::post('/check', 'ticket');
             });
         
             Route::controller(CustomerVenueController::class)->prefix('venues')->group(function () {
@@ -188,6 +189,7 @@ Route::prefix('v1')->group(function() {
                 Route::get('/unlike/{id}', 'remove_favorite');
                 Route::get('/{id}', 'venue');
                 Route::get('/booking/{id}', 'booking');
+                Route::post('/check', 'ticket');
                 Route::post('/create', 'createBooking');
                 Route::post('/message', 'createMessage');
                 Route::post('/purchase', 'purchase');

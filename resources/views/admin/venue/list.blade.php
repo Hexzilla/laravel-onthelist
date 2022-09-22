@@ -74,6 +74,11 @@
                                                 <a href="{{ route('admin.venues.unfeature', $venue->id) }}"><i class="fa fa-bitcoin"></i></a>
                                             </button>
                                             @endif
+                                            @if($breadcrumb == 'Featured')
+                                            <button type="button" title="Upload Image" class="btn btn-rounded btn-warning mb-1">
+                                                <a href="{{ route('admin.venues.upload', $venue->id) }}"><i class="mdi mdi-image-multiple"></i>
+                                            </button>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach

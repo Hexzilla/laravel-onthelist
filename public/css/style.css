@@ -20205,3 +20205,12 @@ li.mm-active {
 [data-theme-version="dark"] a:hover {
     color: #777;
 }
+
+[data-theme-version="dark"] .notification_dropdown .dropdown-menu-right .all-notification {
+    background-color: #000;
+    color: #fff;
+}
+
+[data-theme-version="dark"] .dropdown-menu {
+    background-color: #000;
+}

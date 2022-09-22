@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReferralRelationshipsTable extends Migration
+class CreateAffiliateProgramsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateReferralRelationshipsTable extends Migration
      */
     public function up()
     {
-        Schema::create('referral_relationships', function (Blueprint $table) {
+        Schema::create('affiliate_programs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('referral_link_id')->constrained()->onDelete('cascade');
+            $table->string('code')->unique();
+            $table->float('referral_fee', 10, 2);
+            $table->string('additional_note')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateReferralRelationshipsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('referral_relationships');
+        Schema::dropIfExists('affiliate_programs');
     }
 }

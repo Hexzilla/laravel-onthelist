@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReferralProgramsTable extends Migration
+class AddColumnToEventsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateReferralProgramsTable extends Migration
      */
     public function up()
     {
-        Schema::create('referral_programs', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('uri');
-            $table->timestamps();
+        Schema::table('events', function (Blueprint $table) {
+            $table->string('feature_image_path')->nullable();
         });
     }
 
@@ -28,6 +25,8 @@ class CreateReferralProgramsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('referral_programs');
+        Schema::table('events', function (Blueprint $table) {
+            //
+        });
     }
 }

@@ -66,6 +66,7 @@ Route::name('subscription.')->prefix('subscription')->as('subscription.')->group
 Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/', [VendorDahsboardController::class, 'index'])->name('dashboard');
+        Route::get('/reps', [VendorEventController::class, 'reps'])->name('reps');
 
         Route::controller(VendorBookingController::class)->name('booking.')->prefix('booking')->as('booking.')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -143,7 +144,7 @@ Route::name('customers.')->prefix('customers')->as('customers.')->group(function
             Route::get('/unfavourite/{id}', 'unfavourite')->name('unfavourite');
             Route::get('/booking/{id}', 'booking')->name('booking');
             Route::post('/create', 'createBooking')->name('createBooking');
-            Route::get('/addrep/{id}', 'createRep')->name('createRep');
+            Route::get('/rep', 'rep')->name('createRep');
             Route::post('/storerep', 'storeRep')->name('storeRep');
         });
 
@@ -220,6 +221,8 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/city', 'addCity')->name('city');
             Route::post('/city', 'storeCity')->name('store');
             Route::get('/{id}', 'filterCity')->name('filter');
+            Route::get('/upload/{id}','upload')->name('upload');
+            Route::post('/upload/{id}', 'uploadImage')->name('uploadImage');
         });
 
         Route::controller(AdminEventController::class)->name('events.')->prefix('events')->as('events.')->group(function () {
@@ -235,6 +238,8 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/approve/{id}', 'approve')->name('approve');
             Route::get('/reject/{id}', 'reject')->name('reject');
             Route::get('/{id}', 'filterCity')->name('filter');
+            Route::get('/upload/{id}','upload')->name('upload');
+            Route::post('/upload/{id}', 'uploadImage')->name('uploadImage');
         });
 
         Route::controller(AdminNotificationController::class)->name('notifications.')->prefix('notifications')->as('notifications.')->group(function() {

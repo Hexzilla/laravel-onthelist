@@ -1,4 +1,4 @@
-@extends('layouts.vendor')
+@extends('layouts.customer')
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
@@ -28,24 +28,24 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="code">Name</label>
-                                <input type="text" class="form-control" id="name" name="name" required/>
+                                <label for="code">Code of Your Affiliate Program</label>
+                                <input type="text" class="form-control" id="code" name="code" value="{{ $rep ? $rep->code : old('code') }}" required/>
                                 <span class="invalid-feedback" role="alert">This field is required</span>
                             </div>
                             <div class="form-group">
-                                <label for="program_id">Affiliate Program</label>
-                                <select class="form-control" name="program_id">
-                                    @foreach($programs as $program)
-                                        <option value="{{$program->id}}">{{$program->code}}</option>
-                                    @endforeach
-                                </select>
+                                <label for="referral_fee">Referral Fee</label>
+                                <input type="number" class="form-control" id="referral_fee" min="0" max="100" name="referral_fee" value="{{ $rep ? $rep->referral_fee : old('referral_fee')}}" required/>
                                 <span class="invalid-feedback" role="alert">This field is required</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="additional_notes">Additional Notes</label>
+                                <textarea class="form-control" rows="5" id="additional_notes" name="additional_note" value="{{ $rep ? $rep->additional_note : old('additional_note') }}"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row my-5">
                         <div class="col-md-6">
-                            <button id="submit-button" type="submit" class="btn btn-primary">Create Affiliate Link</button>
+                            <button id="submit-button" type="submit" class="btn btn-primary">Create Affiliate Program</button>
                         </div>
                     </div>
                 </form>
