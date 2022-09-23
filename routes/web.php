@@ -78,6 +78,8 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
         Route::controller(VendorPaymentController::class)->name('payment.')->prefix('payment')->as('payment.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
+            Route::get('/venue/{id}', 'venue')->name('venue');
+            Route::post('/vstore/{id}', 'storeVenue')->name('storevenue');
         });
 
         Route::controller(VendorDjController::class)->name('dj.')->prefix('dj')->as('dj.')->group(function () {

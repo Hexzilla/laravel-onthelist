@@ -11,7 +11,6 @@
             <div class="col-sm-12 p-md-0 justify-content-sm-start mt-2 mt-sm-0 d-flex">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Events</a></li>
                     <li class="breadcrumb-item active"><a href="javascript:void(0)">Payments</a></li>
                 </ol>
             </div> 
@@ -34,14 +33,14 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="FirstName">First Name</label>
-                                <input type="text" class="form-control" id="FirstName" name="firstname" value="{{ $account ? $account->firstname : old('firstname') }}" required/>
+                                <input type="text" class="form-control" id="FirstName" name="firstname" value="{{ old('firstname') }}" required/>
                                 <span class="invalid-feedback" role="alert">This field is required</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="LastName">Last Name</label>
-                                <input type="text" class="form-control" id="LastName" name="lastname" value="{{ $account ? $account->lastname : old('lastname') }}" required/>
+                                <input type="text" class="form-control" id="LastName" name="lastname" value="{{ old('lastname') }}" required/>
                                 <span class="invalid-feedback" role="alert">This field is required</span>
                             </div>
                         </div>
@@ -56,7 +55,7 @@
                             <div class="form-group">
                                 <label for="Address">Address</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="Address" name="address" value="{{ $account ? $account->address : old('address') }}" >
+                                    <input type="text" class="form-control" id="Address" name="address" value="{{ old('address') }}" >
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="mdi mdi-map-marker"></i></span>
                                     </div>
@@ -64,15 +63,15 @@
                             </div>
                             <div class="form-group border-input">
                                 <label for="City">Town/City</label>
-                                <input type="text" class="form-control" placeholder="" id="City" name="city" value="{{ $account ? $account->city : old('city') }}">
+                                <input type="text" class="form-control" placeholder="" id="City" name="city" value="{{ old('city') }}">
                             </div>
                             <div class="form-group border-input">
                                 <label for="Postcode">Postcode</label>
-                                <input type="text" class="form-control" placeholder="" id="Postcode" name="postcode" value="{{ $account ? $account->postcode : old('postcode') }}">
+                                <input type="text" class="form-control" placeholder="" id="Postcode" name="postcode" value="{{ old('postcode') }}">
                             </div>
                             <div class="form-group border-input">
                                 <label for="Phone">Phone Number</label>
-                                <input type="text" class="form-control" placeholder="" id="Phone" name="phone" value="{{ $account ? $account->phone : old('phone') }}">
+                                <input type="text" class="form-control" placeholder="" id="Phone" name="phone" value="{{ old('phone') }}">
                             </div>
                         </div>
                     </div>
@@ -150,7 +149,7 @@
 
             const account = $("#account").val();
             const recount = $("#reaccount").val();
-            if (account !== reaccount) {
+            if (account !== recount) {
                 $("#confirm_number").removeClass("d-none");
                 $("#confirm_number").addClass("custom-validation-error");
                 is_valid = true;

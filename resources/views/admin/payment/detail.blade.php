@@ -30,7 +30,7 @@
                                 <tbody>
                                     @foreach($accounts as $account)
                                     <tr>
-                                        <td></td>
+                                        <td>{{$account->venuename}}</td>
                                         <td>{{$account->name}}</td>
                                         <td>{{$account->sort_code}}</td>
                                         <td>{{$account->account_number}}</td>
