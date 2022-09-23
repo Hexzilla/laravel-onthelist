@@ -127,7 +127,7 @@ class EventController extends Controller
         $user_id = Auth::user()->id;
         $rep = AffiliateProgram::where('user_id', $user_id)->first();
         $request->validate([
-            'code' => 'required|unique',
+            'code' => 'required|unique:affiliate_programs',
             'referral_fee' => 'required'
         ]);
         if (!is_null($rep)) {
@@ -146,6 +146,6 @@ class EventController extends Controller
         }
         $rep->save();
 
-        return redirect()->route('customer.dashboard');
+        return redirect()->route('customers.dashboard');
     }
 }

@@ -34,7 +34,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="referral_fee">Referral Fee</label>
-                                <input type="number" class="form-control" id="referral_fee" min="0" max="100" name="referral_fee" value="{{ $rep ? $rep->referral_fee : old('referral_fee')}}" required/>
+                                <input type="number" class="form-control" id="referral_fee" min="0" max="100" step="any" name="referral_fee" value="{{ $rep ? $rep->referral_fee : old('referral_fee')}}" required/>
                                 <span class="invalid-feedback" role="alert">This field is required</span>
                             </div>
                             <div class="form-group">

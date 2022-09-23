@@ -37,9 +37,10 @@
             <li><a href="{{ route('admin.booking.index') }}" aria-expanded="false"><i class="mdi mdi-table-large"></i><span class="nav-text">Bookings</span></a></li>
             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-file-document"></i><span class="nav-text">Payments</span></a>
                 <ul aria-expanded="false">
-                    <li><a href="#">Orders</a></li>
+                    <li><a href="{{ route('admin.payments.vendor' )}}">Details</a></li>
+                    <!-- <li><a href="#">Orders</a></li>
                     <li><a href="#">Invoices</a></li>
-                    <li><a href="#">Transactions</a></li>
+                    <li><a href="#">Transactions</a></li> -->
                 </ul>
             </li>
             <li><a href="{{ route('admin.notifications.create') }}" aria-expanded="false"><i class="mdi mdi-bell-ring"></i><span class="nav-text">Notifications</span></a></li>

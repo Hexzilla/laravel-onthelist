@@ -65,7 +65,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="price">Price *</label>
-                                <input type="number" class="form-control" placeholder="£0" id="price" name="price" required/>
+                                <input type="number" class="form-control" placeholder="£0" id="price" name="price" step="any" required/>
                                 <span class="invalid-feedback" role="alert">This field is required</span>
                             </div>
                         </div>

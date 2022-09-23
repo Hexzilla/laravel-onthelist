@@ -20214,3 +20214,7 @@ li.mm-active {
 [data-theme-version="dark"] .dropdown-menu {
     background-color: #000;
 }
+
+[data-theme-version="dark"] button i {
+    color: #fff;
+}

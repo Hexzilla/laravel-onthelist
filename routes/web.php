@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\DjController as AdminDjController;
 use App\Http\Controllers\Admin\NotificationController as AdminNotificationController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
+use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 
 use App\Http\Controllers\Auth\GoogleLoginController;
 use App\Http\Controllers\Auth\AppleLoginController;
@@ -76,6 +77,7 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
 
         Route::controller(VendorPaymentController::class)->name('payment.')->prefix('payment')->as('payment.')->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::post('/store', 'store')->name('store');
         });
 
         Route::controller(VendorDjController::class)->name('dj.')->prefix('dj')->as('dj.')->group(function () {
@@ -240,6 +242,10 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/{id}', 'filterCity')->name('filter');
             Route::get('/upload/{id}','upload')->name('upload');
             Route::post('/upload/{id}', 'uploadImage')->name('uploadImage');
+        });
+
+        Route::controller(AdminPaymentController::class)->name('payments.')->prefix('payments')->as('payments.')->group(function() {
+            Route::get('/details', 'vendor')->name('vendor');
         });
 
         Route::controller(AdminNotificationController::class)->name('notifications.')->prefix('notifications')->as('notifications.')->group(function() {
