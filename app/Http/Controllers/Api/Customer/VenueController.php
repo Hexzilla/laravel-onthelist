@@ -13,7 +13,6 @@ use App\Models\VenueMessage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Laravel\Cashier\Stripe;
 
 class VenueController extends Controller
 {

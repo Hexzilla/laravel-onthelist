@@ -369,14 +369,14 @@
             images.forEach(image => {
                 if(image.type === 'image')
                 {
-                    const clone = imagesample.clone().removeClass('d-none').addClass('display');
+                    const clone = imagesample.clone().removeClass('hidden').addClass('display');
                     let html = clone.html();
                     html = html.replace('$PATH', image.path);
                     list.append(clone.html(html)); 
                 }
                 if(image.type === 'video' || image.type === 'link')
                 {
-                    const clone = videosample.clone().removeClass('d-none').addClass('display');
+                    const clone = videosample.clone().removeClass('hidden').addClass('display');
                     let html = clone.html();
                     html = html.replace('$PATH', image.path);
                     list.append(clone.html(html));

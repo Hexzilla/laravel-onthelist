@@ -200,9 +200,6 @@
                                 @if(is_null($event))
                                     @include("vendor.event.table", ['table' => null])
                                 @else
-                                    <div class="d-none">
-                                        @include("vendor.event.table", ['table' => null])
-                                    </div>
                                     @foreach($event->tables as $table)
                                         @include("vendor.event.table", ['table' => $table])
                                     @endforeach

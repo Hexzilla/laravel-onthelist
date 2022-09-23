@@ -338,10 +338,6 @@
             const videosample = list.children('.video');
             const imagesample = list.children('.image');
             list.find('.display').remove();
-            const clone = headersample.clone().removeClass('d-none').addClass('display').addClass('active');
-            let html = clone.html();
-            html = html.replace('$HEADERIMAGE', headerImage);
-            list.append(clone.html(html));
 
             images.forEach(image => {
                 if(image.type === 'image')

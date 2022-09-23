@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\SettingController as SettingController;
 use App\Http\Controllers\SubscriptionController;
-use App\Http\Controllers\NotificationController;
 
 use App\Http\Controllers\Vendor\DashboardController as VendorDahsboardController;
 use App\Http\Controllers\Vendor\DjController as VendorDjController;
