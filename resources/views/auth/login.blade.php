@@ -24,11 +24,11 @@
                                     <div class="logo mb-4">
                                         <img src="{{ asset('images/logo-black.png') }}" />
                                     </div>
-                                    <h4 class="text-center mb-4">Sign in your account</h4>
+                                    <h4 class="text-center mb-4 sign-text">Sign in your account</h4>
                                     <form method="POST" action="{{ route('login') }}">
                                         @csrf
                                         <div class="form-group">
-                                            <label><strong>Email</strong></label>
+                                            <label class="sign-text"><strong>Email</strong></label>
                                             <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                                             @error('email')
                                                 <span class="invalid-feedback" role="alert">
@@ -37,7 +37,7 @@
                                             @enderror
                                         </div>
                                         <div class="form-group">
-                                            <label><strong>Password</strong></label>
+                                            <label class="sign-text"><strong>Password</strong></label>
                                             <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
                                             @error('password')
                                                 <span class="invalid-feedback" role="alert">
@@ -49,7 +49,7 @@
                                             <div class="form-group">
                                                 <div class="form-check ml-2">
                                                     <input class="form-check-input" type="checkbox" id="basic_checkbox_1" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                                                    <label class="form-check-label" for="basic_checkbox_1">Remember me</label>
+                                                    <label class="form-check-label sign-text" for="basic_checkbox_1">Remember me</label>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -64,8 +64,9 @@
                                             <button type="submit" class="btn btn-primary btn-block">Sign in</button>
                                         </div>
                                         <div class="flex items-center justify-end mt-4">
-                                            <a href="{{ url('auth/google') }}" class="btn btn-block btn-primary">
-                                                <img src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png" style="margin-top: -4.5px">
+                                            <a href="{{ url('auth/google') }}" class="btn btn-block btn-dark">
+                                                <img src="{{ asset('images/logo-google-icon.png')}}" style="height: 24px; margin: 8px; padding-right: 12px">
+                                                Sign in with Google
                                             </a>
                                         </div>
                                     </form>

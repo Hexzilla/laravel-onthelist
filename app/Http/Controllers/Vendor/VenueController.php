@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Venue;
+use App\Models\VenueCity;
 use App\Models\VenueMedia;
 use App\Models\VenueOffer;
 use App\Models\VenueTable;
@@ -27,15 +28,18 @@ class VenueController extends Controller
 
     public function create()
     {
+        $cities = DB::table('venue_cities')->get();
         return view('vendor.venue.create', [
             'title' => 'Create',
             'action' => route('vendors.venue.store'),
+            'cities' => $cities, 
             'venue' => null,
         ]);
     }
 
     public function edit($id)
     {
+        $cities = DB::table('venue_cities')->get();
         $venue = Venue::where('id', $id)->firstOrFail();
 
         if (is_null($venue)) {
@@ -45,6 +49,7 @@ class VenueController extends Controller
         return view('vendor.venue.create', [
             'title' => 'Edit',
             'action' => route('vendors.venue.update', $id),
+            'cities' => $cities,
             'venue' => $venue,
         ]);
     }
@@ -394,5 +399,23 @@ class VenueController extends Controller
         ->select('venue_bookings.*', 'users.name as userName')
         ->get();
         return json_encode(array('data' => $offers));
+    }
+
+    public function filterCity($id)
+    {
+        $user_id = Auth::user()->id;
+        $city = VenueCity::where('id', $id)->first();
+
+        $venues = DB::table('venues')
+            ->join('venue_cities', 'venue_cities.name', '=', 'venues.city')
+            ->where('venues.user_id', $user_id)
+            ->where('venue_cities.id', $id)
+            ->select('venues.*')
+            ->get();
+        
+        return view('admin.venue.list', [
+            'breadcrumb' => $city->name,
+            'venues' => $venues
+        ]);
     }
 }

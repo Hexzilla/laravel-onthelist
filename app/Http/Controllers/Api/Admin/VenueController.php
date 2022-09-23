@@ -23,24 +23,27 @@ class VenueController extends Controller
     public function index()
     {
         $venues = Venue::paginate(10);
-        return json_encode(array('success' => true, 'venues' => $venues));
+        $cities = VenueCity::get();
+        return json_encode(array('success' => true, 'venues' => $venues, 'cities' => $cities));
     }
 
     public function featured()
     {
         $venues = Venue::where('feature', 'yes')->paginate(10);
-        return json_encode(array('success' => true, 'venues' => $venues));
+        $cities = VenueCity::get();
+        return json_encode(array('success' => true, 'venues' => $venues, 'cities' => $cities));
     }
 
     public function edit($id)
     {
         $venue = Venue::where('id', $id)->firstOrFail();
+        $cities = VenueCity::get();
 
         if (is_null($venue)) {
             return json_encode(array('success' => false, 'error' => 'Failed to get venue'));
         }
 
-        return json_encode(array('success' => true, 'venue' => $venue));
+        return json_encode(array('success' => true, 'venue' => $venue, 'cities' => $cities));
     }
 
     public function update(Request $request, $id)
@@ -306,17 +309,13 @@ class VenueController extends Controller
         }
     }
 
-    public function filterCity(Request $request)
+    public function filterCity($id)
     {
-        $validator = Validator::make($request->all(), [
-            'city' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return json_encode(array('success' => false, 'error' => 'Failed to get venue'));
-        }
-
-        $venues = Venue::where('city', $request->city);
+        $venues = DB::table('venues')
+            ->join('venue_cities', 'venue_cities.name', '=', 'venues.city')
+            ->where('venue_cities.id', $id)
+            ->get();
+        
         return json_encode(array('success' => true, 'venues' => $venues));
     }
 }

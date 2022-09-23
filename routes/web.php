@@ -32,6 +32,7 @@ use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\DjController as AdminDjController;
 use App\Http\Controllers\Admin\NotificationController as AdminNotificationController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
+use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 
 use App\Http\Controllers\Auth\GoogleLoginController;
 use App\Http\Controllers\Auth\AppleLoginController;
@@ -67,6 +68,7 @@ Route::name('subscription.')->prefix('subscription')->as('subscription.')->group
 Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/', [VendorDahsboardController::class, 'index'])->name('dashboard');
+        Route::get('/reps', [VendorEventController::class, 'reps'])->name('reps');
 
         Route::controller(VendorBookingController::class)->name('booking.')->prefix('booking')->as('booking.')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -76,6 +78,7 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
 
         Route::controller(VendorPaymentController::class)->name('payment.')->prefix('payment')->as('payment.')->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::post('/store', 'store')->name('store');
         });
 
         Route::controller(VendorDjController::class)->name('dj.')->prefix('dj')->as('dj.')->group(function () {
@@ -94,6 +97,7 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
             Route::get('/edit/{id}', 'edit')->name('edit');
             Route::put('/update/{id}', 'update')->name('update');
             Route::get('/delete/{id}', 'destroy')->name('destroy');
+            Route::get('/{id}', 'filterCity')->name('filter');
         });
 
         Route::controller(VendorEventController::class)->name('event.')->prefix('events')->as('event.')->group(function () {
@@ -103,6 +107,9 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
             Route::get('/edit/{id}', 'edit')->name('edit');
             Route::put('/update/{id}', 'update')->name('update');
             Route::get('/delete/{id}', 'destroy')->name('destroy');
+            Route::get('/{id}', 'filterCity')->name('filter');
+            Route::get('/addrep/{id}', 'createRep')->name('createRep');
+            Route::post('/storerep', 'storeRep')->name('storeRep');
         });
 
         Route::controller(VendorSettingController::class)->name('setting.')->prefix('setting')->as('setting.')->group(function () {
@@ -134,16 +141,18 @@ Route::name('customers.')->prefix('customers')->as('customers.')->group(function
         Route::get('/', [CustomerDashboardController::class, 'index'])->name('dashboard');
         
         Route::controller(CustomerEventController::class)->name('events.')->prefix('events')->as('events.')->group(function () {
-            Route::get('/', 'index')->name('index');
+            Route::get('/all', 'index')->name('index');
             Route::get('/favorite', 'favourite')->name('favorite');
             Route::get('/favourited/{id}', 'favourited')->name('favourited');
             Route::get('/unfavourite/{id}', 'unfavourite')->name('unfavourite');
             Route::get('/booking/{id}', 'booking')->name('booking');
             Route::post('/create', 'createBooking')->name('createBooking');
+            Route::get('/rep', 'rep')->name('createRep');
+            Route::post('/storerep', 'storeRep')->name('storeRep');
         });
 
         Route::controller(CustomerVenueController::class)->name('venues.')->prefix('venues')->as('venues.')->group(function () {
-            Route::get('/', 'index')->name('index');
+            Route::get('/all', 'index')->name('index');
             Route::get('/favorite', 'favourite')->name('favorite');
             Route::get('/favourited/{id}', 'favourited')->name('favourited');
             Route::get('/unfavourite/{id}', 'unfavourite')->name('unfavourite');
@@ -203,7 +212,7 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
         });
 
         Route::controller(AdminVenueController::class)->name('venues.')->prefix('venues')->as('venues.')->group(function () {
-            Route::get('/', 'index')->name('index');
+            Route::get('/all', 'index')->name('index');
             Route::get('/featured', 'featured')->name('featured');
             Route::get('/edit/{id}', 'edit')->name('edit');
             Route::get('/delete/{id}', 'destroy')->name('destroy');
@@ -214,10 +223,13 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/reject/{id}', 'reject')->name('reject');
             Route::get('/city', 'addCity')->name('city');
             Route::post('/city', 'storeCity')->name('store');
+            Route::get('/{id}', 'filterCity')->name('filter');
+            Route::get('/upload/{id}','upload')->name('upload');
+            Route::post('/upload/{id}', 'uploadImage')->name('uploadImage');
         });
 
         Route::controller(AdminEventController::class)->name('events.')->prefix('events')->as('events.')->group(function () {
-            Route::get('/', 'index')->name('index');
+            Route::get('/all', 'index')->name('index');
             Route::get('/upcoming', 'upcoming')->name('upcoming');
             Route::get('/featured', 'featured')->name('featured');
             Route::get('/complete', 'complete')->name('complete');
@@ -228,6 +240,13 @@ Route::name('admin.')->prefix('admin')->as('admin.')->group(function () {
             Route::get('/unfeature/{id}', 'unfeature')->name('unfeature');
             Route::get('/approve/{id}', 'approve')->name('approve');
             Route::get('/reject/{id}', 'reject')->name('reject');
+            Route::get('/{id}', 'filterCity')->name('filter');
+            Route::get('/upload/{id}','upload')->name('upload');
+            Route::post('/upload/{id}', 'uploadImage')->name('uploadImage');
+        });
+
+        Route::controller(AdminPaymentController::class)->name('payments.')->prefix('payments')->as('payments.')->group(function() {
+            Route::get('/details', 'vendor')->name('vendor');
         });
 
         Route::controller(AdminNotificationController::class)->name('notifications.')->prefix('notifications')->as('notifications.')->group(function() {

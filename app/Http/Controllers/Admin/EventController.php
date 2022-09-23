@@ -9,11 +9,13 @@ use App\Models\EventGuestlist;
 use App\Models\EventMedia;
 use App\Models\EventTable;
 use App\Models\EventTicket;
+use App\Models\VenueCity;
 use App\Models\User;
 use App\Models\Dj;
 use App\Models\Venue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB; 
 use Carbon\Carbon;
 use Notification;
 use App\Notifications\Approved;
@@ -327,6 +329,47 @@ class EventController extends Controller
     public function destroy($id)
     {
         Event::where('id', $id)->delete();
+        return redirect()->route('admin.events.index');
+    }
+
+    public function filterCity($id)
+    {
+        $city = VenueCity::where('id', $id)->first();
+        $events = DB::table('events')
+            ->join('venues', 'venues.id', '=', 'events.venue_id')
+            ->join('venue_cities', 'venue_cities.name', '=', 'venues.city')
+            ->where('venue_cities.id', $id)
+            ->select('events.*')
+            ->get();
+            
+        return view('admin.venue.list', [
+            'breadcrumb' => $city->name,
+            'events' => $events
+        ]);
+    }
+
+    public function upload($id)
+    {
+        $event = Event::where('id', $id)->first();
+        if (is_null($event)) {
+            return redirect()->back();
+        }
+
+        return view('admin.event.upload', [
+            'event' => $event
+        ]);
+    }
+
+    public function uploadImage(Request $request, $id)
+    {
+        $event = Event::where('id', $id)->first();
+        if (is_null($event)) {
+            return redirect()->back();
+        }
+        if (!is_null($request->file('feature_image'))) {
+            $event->feature_image_path = upload_file($request->file('feature_image'));
+            $event->save();
+        }
         return redirect()->route('admin.events.index');
     }
 }

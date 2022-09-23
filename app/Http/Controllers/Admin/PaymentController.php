@@ -4,16 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\VendorAccount;
 
 class PaymentController extends Controller
 {
     public function vendor()
     {
-        $accounts = DB::table('vendor_accounts')
-            ->join('users', 'users.id', '=', 'vendor_accounts.vendor_id')
-            ->select('vendor_accounts.*', 'users.name')
-            ->get();
+        $accounts = VendorAccount::paginate(10);
 
-        return view('admin.payment.account', ['accounts' => $accounts]);
+        return view('admin.payment.detail', ['accounts' => $accounts]);
     }
 }

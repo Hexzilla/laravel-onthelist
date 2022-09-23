@@ -19,6 +19,9 @@
         <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 col-xxl-12">
                 <div class="card">
                     <div class="card-body">
+                        <div class="d-flex justify-content-end mr-4">
+                            <button type="button" class="btn btn-primary add-dj-button"><a href="{{ route('vendors.dj.create') }}">Add Dj</a></button>
+                        </div>
                         <div class="table-responsive">
                             <table id="example" class="display" style="min-width: 845px">
                                 <thead>

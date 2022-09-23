@@ -9,7 +9,7 @@
             <select class="form-control" name="table_type[]">
                 <option value="Type 1" {{ ($table && $table->type !== 'Type 1') ? '' : 'selected' }}>Type 1</option>
                 <option value="Type 2" {{ ($table && $table->type === 'Type 2') ? 'selected' : '' }}>Type 2</option>
-                <option value="Type 3" {{ ($table && $table->type === 'Type 2') ? 'selected' : '' }}>Type 3</option>
+                <option value="Type 3" {{ ($table && $table->type === 'Type 3') ? 'selected' : '' }}>Type 3</option>
             </select>
         </div>
     </div>
@@ -22,7 +22,7 @@
     <div class="col-md-6">
         <div class="form-group">
             <label for="offerPrice">Table Price</label>
-            <input type="number" min="0" max="100000000" class="form-control" placeholder="£0" name="table_price[]" value="{{ $table ? $table->price : old('table_price[]') }}">
+            <input type="number" min="0" max="100000000" class="form-control" placeholder="£0" name="table_price[]" step="any" value="{{ $table ? $table->price : old('table_price[]') }}">
         </div>
     </div>
     <div class="col-md-6">

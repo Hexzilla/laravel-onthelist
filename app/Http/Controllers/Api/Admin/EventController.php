@@ -9,6 +9,7 @@ use App\Models\EventGuestlist;
 use App\Models\EventMedia;
 use App\Models\EventTable;
 use App\Models\EventTicket;
+use App\Models\VenueCity;
 use App\Models\User;
 use App\Models\Dj;
 use App\Models\Venue;
@@ -319,5 +320,17 @@ class EventController extends Controller
     {
         Event::where('id', $id)->delete();
         return json_encode(array('success' => true));
+    }
+
+    public function filterCity($id)
+    {
+        $events = DB::table('events')
+            ->join('venues', 'venues.id', '=', 'events.venue_id')
+            ->join('venue_cities', 'venue_cities.name', '=', 'venues.city')
+            ->where('venue_cities.id', $id)
+            ->select('events.*')
+            ->get();
+            
+        return json_encode(array('success' => true, 'events' => $events));
     }
 }

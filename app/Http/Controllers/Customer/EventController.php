@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Booking;
+use App\Models\VenueCity;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserFavorite;
 use Illuminate\Support\Facades\DB;
+use App\Models\AffiliateProgram;
+use App\Models\ReferralLink;
+use App\Models\ReferralRelationship;
 
 class EventController extends Controller
 {
@@ -89,5 +93,59 @@ class EventController extends Controller
             'date' => $request->date,
         ]);
         return redirect()->route('customers.events.index');
+    }
+
+    public function filterCity($id)
+    {
+        $city = VenueCity::where('id', $id)->first();
+        $events = DB::table('events')
+            ->join('venues', 'venues.id', '=', 'events.venue_id')
+            ->join('venue_cities', 'venue_cities.name', '=', 'venues.city')
+            ->where('venue_cities.id', $id)
+            ->select('events.*')
+            ->get();
+            
+        return view('admin.venue.list', [
+            'breadcrumb' => $city->name,
+            'events' => $events
+        ]);
+    }
+
+    public function rep()
+    {
+        $user_id = Auth::user()->id;
+        $rep = AffiliateProgram::where('user_id', $user_id)->first();
+        return view('customer.rep', [
+            'rep' => $rep,
+            'title' => 'Create Affiliate Program',
+            'action' => route('customers.events.storeRep')
+        ]);
+    }
+
+    public function storeRep(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $rep = AffiliateProgram::where('user_id', $user_id)->first();
+        $request->validate([
+            'code' => 'required|unique:affiliate_programs',
+            'referral_fee' => 'required'
+        ]);
+        if (!is_null($rep)) {
+            $rep->code = $request->code;
+            $rep->referral_fee = $request->referral_fee;
+        } else {
+            $rep = AffiliateProgram::create([
+                'user_id' => $user_id,
+                'code' => $request->code,
+                'referral_fee' => $request->referral_fee
+            ]);
+        }
+
+        if (!is_null($request->additional_note)) {
+            $rep->additional_note = $request->additional_note;
+        }
+        $rep->save();
+
+        return redirect()->route('customers.dashboard');
     }
 }

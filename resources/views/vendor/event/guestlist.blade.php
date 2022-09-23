@@ -18,7 +18,7 @@
     <div class="col-md-6">
         <div class="form-group">
             <label for="guestlistPrice">Guestlist Price (£)</label>
-            <input type="number" min="0" max="100000000" class="form-control" placeholder="£0" name="guestlist_price[]" value="{{ $guestlist ? $guestlist->price : old('guestlist_qty[]') }}">
+            <input type="number" min="0" max="100000000" class="form-control" placeholder="£0" name="guestlist_price[]" step="any" value="{{ $guestlist ? $guestlist->price : old('guestlist_qty[]') }}">
         </div>
     </div>
     <div class="col-md-6">

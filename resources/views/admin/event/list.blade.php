@@ -70,6 +70,11 @@
                                                 <a href="{{ route('admin.events.feature', $event->id) }}"><i class="fa fa-bitcoin"></i></a>
                                             </button>
                                             @endif
+                                            @if($breadcrumb == "Featured")
+                                            <button type="button" title="Upload Image" class="btn btn-rounded btn-warning mb-1">
+                                                <a href="{{ route('admin.events.upload', $event->id) }}"><i class="mdi mdi-image-multiple"></i>
+                                            </button>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach
@@ -152,20 +157,17 @@
             <div class="modal-body">
                 <div id="carouselControls" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
-                        
-                    </div>
-                    <div class="carousel-items">
-                        <div class="carousel-item header-image d-none">
-                            <img class="d-block w-100" src="../$HEADERIMAGE" alt="Header Image">
+                        <div class="carousel-item active">
+                            <img class="d-block w-100" src="../../$HEADERIMAGE" alt="Header Image">
                             <div class="carousel-caption d-none d-md-block"><h5>Header Image</h5></div>
                         </div>
                         <div class="carousel-item image d-none">
-                            <img class="d-block w-100" src="../$PATH" alt="Gallery Image">
+                            <img class="d-block w-100" src="../../$PATH" alt="Gallery Image">
                             <div class="carousel-caption d-none d-md-block"><h5>Gallery Image</h5></div>
                         </div>
                         <div class="carousel-item video d-none">
                             <video controls autoplay>
-                                <source src="$PATH" type="video/mp4">
+                                <source src="../../$PATH" type="video/mp4">
                             </video>
                             <div class="carousel-caption d-none d-md-block"><h5>Video</h5></div>
                         </div>

@@ -458,4 +458,6 @@ class VenueController extends Controller
 
         return json_encode(array('success' => true, 'message' => $message));
     }
+
+    
 }

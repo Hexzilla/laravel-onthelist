@@ -9,10 +9,12 @@ use App\Models\EventGuestlist;
 use App\Models\EventMedia;
 use App\Models\EventTable;
 use App\Models\EventTicket;
+use App\Models\VenueCity;
 use App\Models\User;
 use App\Models\Venue;
 use App\Models\Dj;
 use App\Models\Booking;
+use App\Models\Affiliate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +22,8 @@ use Illuminate\Validation\Rule;
 use App\Rules\EventTicketRule;
 use App\Rules\EventTableRule;
 use App\Rules\EventGuestRule;
+use App\Models\AffiliateProgram;
+use App\Models\AffiliateLink;
 
 class EventController extends Controller
 {
@@ -451,5 +455,69 @@ class EventController extends Controller
             ->select('bookings.*', 'users.name as userName')
             ->get();
         return json_encode(array('data' => $guestlists));
+    }
+
+    public function createRep($id)
+    {
+        $programs = AffiliateProgram::get();
+        return view('vendor.event.affiliate', [
+            'programs' => $programs,
+            'title' => 'Create Affiliate',
+            'action' => route('vendors.event.storeRep', $id)
+        ]);
+    }
+
+    public function storeRep(Request $request, $id)
+    {
+        $user_id = Auth::user()->id;
+        $request->validate([
+            'program_id' => 'required',
+            'name' => 'required',
+        ]);
+
+        $program = AffiliateProgram::where('id', $request->program_id)->first();
+        $code = $program->code;
+        $url = route('customers.events.booking', $id);
+        $uri = $url.'?'.$code;
+
+        AffiliateLink::create([
+            'event_id' => $id,
+            'program_id' => $request->program_id,
+            'name' => $request->name,
+            'uri' => $uri,
+        ]);
+
+        return redirect()->route('vendors.event.index')->with('success', 'Event Affiliate created successfully!');
+    }
+
+    public function filterCity($id)
+    {
+        $user_id = Auth::user()->id;
+        $city = VenueCity::where('id', $id)->first();
+        $events = DB::table('events')
+            ->join('venues', 'venues.id', '=', 'events.venue_id')
+            ->join('venue_cities', 'venue_cities.name', '=', 'venues.city')
+            ->where('venue_cities.id', $id)
+            ->where('events.user_id', $user_id)
+            ->select('events.*')
+            ->get();
+            
+        return view('admin.venue.list', [
+            'breadcrumb' => $city->name,
+            'events' => $events
+        ]);
+    }
+
+    public function reps()
+    {
+        $reps = DB::table('reps_stats')
+            ->join('affiliate_links', 'affiliate_links.id', '=', 'reps_stats.affiliate_link_id')
+            ->join('affiliate_programs', 'affiliate_programs.id', '=', 'affiliate_links.affiliate_program_id')
+            ->select('affiliate_programs.referral_fee as fee', 'affiliate_links.name as name', 'reps_stats.qty as qty', 'reps_stats.price as price')
+            ->get();
+        
+        return view('vendor.event.reps', [
+            'reps' => $reps,
+        ]);
     }
 }

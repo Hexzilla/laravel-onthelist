@@ -24,7 +24,7 @@
     <div id="main-wrapper">
 
         <div class="nav-header">
-            <a href="index.html" class="brand-logo">
+            <a href="{{ route('dj.dashboard') }}" class="brand-logo">
                 <img src="{{asset('images/logo-abbr.png')}}" class="logo-abbr" height="30" />
                 <span class="logo-compact">On The List</span>
                 <img src="{{asset('images/logo.png')}}" class="brand-title" height="30" />

@@ -127,6 +127,7 @@ Route::prefix('v1')->group(function() {
                 Route::get('/offer/{id}', 'getOffers');
                 Route::get('/message/{id}', 'showMessage');
                 Route::get('/mark/{id}', 'markAsRead');
+                Route::get('/{id}', 'filterCity')->name('filter');
             });
         
             Route::controller(VendorEventController::class)->prefix('event')->group(function () {
@@ -141,6 +142,7 @@ Route::prefix('v1')->group(function() {
                 Route::get('/guestlist/{id}', 'getGuestlists');
                 Route::get('/message/{id}', 'showMessage');
                 Route::get('/mark/{id}', 'markAsRead');
+                Route::get('/{id}', 'filterCity')->name('filter');
             });
         
             Route::controller(VendorSettingController::class)->prefix('setting')->group(function () {
@@ -176,6 +178,8 @@ Route::prefix('v1')->group(function() {
                 Route::get('/listByDate', 'filter_date');
                 Route::post('/message', 'createMessage');
                 Route::post('/purchase', 'purchase');
+                Route::get('/city/{id}', 'filterCity');
+                Route::post('/check', 'ticket');
             });
         
             Route::controller(CustomerVenueController::class)->prefix('venues')->group(function () {
@@ -185,9 +189,11 @@ Route::prefix('v1')->group(function() {
                 Route::get('/unlike/{id}', 'remove_favorite');
                 Route::get('/{id}', 'venue');
                 Route::get('/booking/{id}', 'booking');
+                Route::post('/check', 'ticket');
                 Route::post('/create', 'createBooking');
                 Route::post('/message', 'createMessage');
                 Route::post('/purchase', 'purchase');
+                Route::get('/city/{id}', 'filterCity');
             });
 
             Route::controller(CustomerCardController::class)->prefix('cards')->group(function () {
@@ -255,6 +261,7 @@ Route::prefix('admin')->group(function(){
         Route::get('/unfeature/{id}', 'unfeature');
         Route::get('/approve/{id}', 'approve');
         Route::get('/reject/{id}', 'reject');
+        Route::get('/{id}', 'filterCity')->name('filter');
     });
 
     Route::controller(AdminEventController::class)->prefix('events')->group(function () {
@@ -269,6 +276,7 @@ Route::prefix('admin')->group(function(){
         Route::get('/unfeature/{id}', 'unfeature');
         Route::get('/approve/{id}', 'approve');
         Route::get('/reject/{id}', 'reject');
+        Route::get('/{id}', 'filterCity')->name('filter');
     });
 
     Route::controller(PushNotificationController::class)->prefix('notification')->group(function () {

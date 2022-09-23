@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class DjController extends Controller
 {
@@ -64,6 +65,10 @@ class DjController extends Controller
         $user = User::create([
             'name' => $request->name,
             'role' => 'dj',
+            'email' => 'dj212938123@ontherlist.app',
+            'email_verified_at' => date('Y-m-d H:i:s'),
+            'password' => Hash::make('djpassword123'),
+            'remember_token' => Str::random(10),
         ]);
 
         $dj = Dj::create([

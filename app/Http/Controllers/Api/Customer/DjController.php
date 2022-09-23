@@ -34,11 +34,16 @@ class DjController extends Controller
     {
         $dj = Dj::where('id', $dj_id)->first();
         $media = DjMedia::where('dj_id', $dj_id)->get();
+        $events = DB::table('events')
+            ->join('event_djs', 'event_djs.event_id', '=', 'events.id')
+            ->where('event_djs.dj_id', $dj_id)
+            ->get();
+        
         if (is_null($dj)) {
             return json_encode(array('success' => false, 'error' => 'Failed to get dj'));
         }
 
-        return json_encode(array('success' => true, 'dj' => $dj, 'media' => $media));
+        return json_encode(array('success' => true, 'dj' => $dj, 'media' => $media, 'events' => $events));
     }
 
     public function favourites()

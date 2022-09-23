@@ -13,7 +13,7 @@ use App\Models\UserFavorite;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Laravel\Cashier\Stripe;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
@@ -136,7 +136,34 @@ class EventController extends Controller
             'price' => $request->price,
             'date' => $request->date,
         ]);
-        return json_encode(array('success' => true, 'booking' => $booking));
+
+        $random = Str::random(30);
+        $image = QrCode::format('png')
+            ->size(300)->errorCorrection('H')
+            ->generate($random);
+        $file_name = Carbon::now().'.png';
+        $output_file = '/public/qrcode_img/'. $file_name;
+        Storage::disk('local')->put($output_file, $image);
+        $ticket = new Ticket;
+        $ticket->member_id = $booking->id;
+        $ticket->type = 'event';
+        $ticket->ticket_code = $random;
+        $ticket->ticket_img_url = url('/').'/storage/qrcode_img'.$filename;
+        $ticket->save();
+
+        return json_encode(array('success' => true, 'booking' => $booking, 'ticket' => $ticket));
+    }
+
+    public function ticket(Request $request)
+    {
+        $ticket = $request->ticket;
+        $result = Ticket::where('ticket_code', $ticket)->where('is_chacked', 0)->count();
+        if ($result == 0) {
+            return json_encode(array('result' => 'reject'));
+        } else {
+            DB::table('tickets')->where('ticket_code', $ticket)->update(['is_chacked' => 1]);
+            return json_encode(array('result' => 'approved'));
+        }
     }
 
     public function purchase(Request $request)
@@ -213,33 +240,21 @@ class EventController extends Controller
         return json_encode(array('success' => true, 'message' => $message));
     }
 
-    public function purchase(Request $request)
+    public function filterCity($id)
     {
-        $validator = Validator::make($request->all(), [
-            'paymentMethodId' => 'required',
-            'price' => 'required|numeric',
-            'vendor_id' => 'required',
-        ]);
-        if ($validator->fails()) {
-            return json_encode(array('success' => false, 'error' => $validator->errors()));
+        $city = VenueCity::where('id', $id)->first();
+        if (is_null($city)) {
+            return json_encode(array('success' => false, 'error' => 'Failed to get events'));
         }
-        try {
-            $user = Auth::user();
-            $stripeAccount = StripeAccount::where('user_id', $request->vendor_id)->first();
-            if (is_null($stripeAccount)) {
-                return json_encode(array('success' => false, 'error' => 'Failed to get stripe account.'));
-            }
-            Stripe::setApiKey($stripeAccount->key);
 
-            $stripeCharge = $user->charge(
-                $request->price * 100,
-                $request->paymentMethodId
-            );
+        $events = DB::table('events')
+            ->join('venues', 'venues.id', '=', 'events.venue_id')
+            ->join('venue_cities', 'venue_cities.name', '=', 'venues.city')
+            ->where('venue_cities.id', $id)
+            ->where('events.status', 'Approved')
+            ->select('events.*')
+            ->get();
 
-            return json_encode(array('success' => true));
-        }
-        catch (Exception $e) {
-            return json_encode(array('success' => false, 'error' => $e->getMessage()));
-        }
+        return json_encode(array('success' => true, 'events' => $events));
     }
 }

@@ -18,14 +18,14 @@
                 </ul>
             </li>
 
-            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-home-map-marker"></i><span class="nav-text">Venues</span></a>
+            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-map-marker"></i><span class="nav-text">Venues</span></a>
                 <ul aria-expanded="false">
                     <li><a href="{{ route('admin.venues.index') }}">All</a></li>
                     <li><a href="{{ route('admin.venues.featured') }}">Featured</a></li>
                 </ul>
             </li>
 
-            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-restore-clock"></i><span class="nav-text">Events</span></a>
+            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-ticket"></i><span class="nav-text">Events</span></a>
                 <ul aria-expanded="false">
                     <li><a href="{{ route('admin.events.index') }}">All</a></li>
                     <li><a href="{{ route('admin.events.upcoming') }}">Upcoming</a></li>
@@ -37,14 +37,15 @@
             <li><a href="{{ route('admin.booking.index') }}" aria-expanded="false"><i class="mdi mdi-table-large"></i><span class="nav-text">Bookings</span></a></li>
             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="mdi mdi-file-document"></i><span class="nav-text">Payments</span></a>
                 <ul aria-expanded="false">
-                    <li><a href="#">Orders</a></li>
+                    <li><a href="{{ route('admin.payments.vendor' )}}">Details</a></li>
+                    <!-- <li><a href="#">Orders</a></li>
                     <li><a href="#">Invoices</a></li>
-                    <li><a href="#">Transactions</a></li>
+                    <li><a href="#">Transactions</a></li> -->
                 </ul>
             </li>
             <li><a href="{{ route('admin.notifications.create') }}" aria-expanded="false"><i class="mdi mdi-bell-ring"></i><span class="nav-text">Notifications</span></a></li>
             <li><a href="javascript:void()" aria-expanded="false"><i class="mdi mdi-content-save-settings"></i><span class="nav-text">Logs</span></a></li>
-            <li><a href="{{ route('admin.setting.index') }}" aria-expanded="false"><i class="mdi mdi-crosshairs-gps"></i><span class="nav-text">Settings</span></a></li>
+            <li><a href="{{ route('admin.setting.index') }}" aria-expanded="false"><i class="mdi mdi-account-settings-variant"></i><span class="nav-text">Settings</span></a></li>
 
         </ul>
     </div>
