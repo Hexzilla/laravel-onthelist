@@ -72,7 +72,7 @@
                                 <td>$qty</td>
                                 <td>$price</td>
                                 <td>$no</td>
-                                <td><input type="checkbox" value="$id"></td>
+                                <td><input type="checkbox" class="checkbox-booking" value="$id"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -114,7 +114,7 @@
                                 <td>$qty</td>
                                 <td>$price</td>
                                 <td>$no</td>
-                                <td><input type="checkbox" value="$id"></td>
+                                <td><input type="checkbox" class="checkbox-booking" value="$id"></td>
                             </tr>
                         </tbody>
                     </table>

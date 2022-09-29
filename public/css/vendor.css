@@ -62,3 +62,12 @@
 .add-dj-button {
   min-width: 120px;
 }
+
+.checkbox-booking:after {
+  border: 1px solid rgba(27, 31, 56, 0.478431)!important;
+  background: #fff!important;
+}
+
+.checkbox-booking:checked:after {
+  color: rgba(27, 31, 56, 0.478431)!important;
+}
