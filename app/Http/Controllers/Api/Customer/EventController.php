@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers\Api\Customer;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
 use App\Models\Event;
 use App\Models\Booking;
 use App\Models\EventMessage;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Ticket;
+use App\Models\StripeAccount;
+use App\Models\VenueCity;
 use App\Models\UserFavorite;
+use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Stripe\Stripe;
 
 class EventController extends Controller
 {
@@ -148,7 +154,7 @@ class EventController extends Controller
         $ticket->member_id = $booking->id;
         $ticket->type = 'event';
         $ticket->ticket_code = $random;
-        $ticket->ticket_img_url = url('/').'/storage/qrcode_img'.$filename;
+        $ticket->ticket_img_url = url('/').'/storage/qrcode_img'.$file_name;
         $ticket->save();
 
         return json_encode(array('success' => true, 'booking' => $booking, 'ticket' => $ticket));
