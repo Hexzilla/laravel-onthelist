@@ -173,7 +173,7 @@ class VenueController extends Controller
         
         } catch (Exception $e) {
             DB::rollBack();
-            return json_encode(array('success' => false, 'error' => 'Something went wrong'));
+            return json_encode(array('success' => false, 'error' => $e->getMessage()));
         }
     }
 
