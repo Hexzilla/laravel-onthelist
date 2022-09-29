@@ -33,6 +33,9 @@
                     <h5>Tickets</h5>
                     <p>Available 26/100</p>
                 </div>
+                <div class="col-auto">
+                    <button id="scan-booking" type="button" class="btn btn-primary">Scan Booking</button>
+                </div>
             </div>
         </div>
         <div class="card-sponsor">
