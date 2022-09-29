@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Venue;
+use App\Models\VenueCity;
 use App\Models\VenueMedia;
 use App\Models\VenueOffer;
 use App\Models\VenueTable;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Notification;
 use App\Notifications\Approved;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Rules\VenueTableRule;
@@ -305,7 +307,7 @@ class VenueController extends Controller
         ]);
 
         if (!is_null($request->file('header_image'))) {
-            $venue->header_image_path = upload_file($request->file('header_image'), 'venue');
+            $city->header_image_path = upload_file($request->file('header_image'), 'venue');
         }
     }
 
