@@ -414,6 +414,17 @@
         function onScanSuccess(decodedText, decodedResult) {
             // handle the scanned code as you like, for example:
             console.log(`Code matched = ${decodedText}`, decodedResult);
+            if (decodedResult) {
+                $.ajax({
+                    url: '/api/event/scanbooking',
+                    type: "POST",
+                    dataType: 'json',
+                    data: decodedText,
+                    success: function(result) {
+                        
+                    }
+                });
+            }
         }
 
         function onScanFailure(error) {

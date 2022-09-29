@@ -111,6 +111,7 @@ Route::name('vendors.')->prefix('vendors')->as('vendors.')->group(function () {
             Route::get('/{id}', 'filterCity')->name('filter');
             Route::get('/addrep/{id}', 'createRep')->name('createRep');
             Route::post('/storerep', 'storeRep')->name('storeRep');
+            Route::post('/scanbooking', 'scanBooking')->name('scanbooking');
         });
 
         Route::controller(VendorSettingController::class)->name('setting.')->prefix('setting')->as('setting.')->group(function () {

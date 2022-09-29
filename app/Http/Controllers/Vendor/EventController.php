@@ -9,6 +9,7 @@ use App\Models\EventGuestlist;
 use App\Models\EventMedia;
 use App\Models\EventTable;
 use App\Models\EventTicket;
+use App\Models\Ticket;
 use App\Models\VenueCity;
 use App\Models\User;
 use App\Models\Venue;
@@ -519,5 +520,22 @@ class EventController extends Controller
         return view('vendor.event.reps', [
             'reps' => $reps,
         ]);
+    }
+
+    public function scanBooking(Request $request, $id)
+    {
+        $user_id = Auth::user()->id;
+        $request->validate([
+            'booking_id' => 'required',
+        ]);
+
+        $ticket = Ticket::where('member_id', $request->booking_id)->first();
+        if ($ticket) {
+            $ticket->is_chacked = 1;
+            $ticket->save();
+            return redirect()->route('vendors.event.index')->with('success', 'Scan Booking Success');
+        } else {
+            return redirect()->route('vendors.event.index')->with('error', 'Invalid Booking ID');
+        }
     }
 }
