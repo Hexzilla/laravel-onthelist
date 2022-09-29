@@ -244,6 +244,22 @@
         </div>
     </div>
 </div>
+
+<!-- Scan Booking Modal -->
+<div class="modal fade" id="modal_scan_booking">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Scan Booking</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="reader" width="600px"></div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('scripts')
@@ -394,6 +410,31 @@
             $("body").append(media);
             media.modal('show');
         }
+
+        function onScanSuccess(decodedText, decodedResult) {
+            // handle the scanned code as you like, for example:
+            console.log(`Code matched = ${decodedText}`, decodedResult);
+        }
+
+        function onScanFailure(error) {
+            // handle scan failure, usually better to ignore and keep scanning.
+            // for example:
+            console.warn(`Code scan error = ${error}`);
+        }
+
+        window.addEventListener('load', function() {
+            $('.scan-booking').click(function(event) {
+                event.preventDefault();
+                const eventId = $(this).attr("eventId");
+                console.log('eventId', eventId);
+
+                const html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 }, /* verbose= */ false);
+                html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+                $("#modal_scan_booking").modal('show');
+            });
+        });
+
     </script>
     <script src="{{ asset('js/plugins-init/datatables.init.js') }}"></script>
 @endsection

@@ -34,7 +34,7 @@
                     <p>Available 26/100</p>
                 </div>
                 <div class="col-auto">
-                    <button id="scan-booking" type="button" class="btn btn-primary">Scan Booking</button>
+                    <button type="button" class="btn btn-primary scan-booking" eventId="{{$event->id}}">Scan Booking</button>
                 </div>
             </div>
         </div>

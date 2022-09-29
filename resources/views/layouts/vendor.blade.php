@@ -80,6 +80,7 @@
     <script src="{{ asset('vendor/chart.js/Chart.bundle.min.js') }}"></script>
 
     <script src="{{ asset('vendor/toastr/js/toastr.min.js') }}"></script>
+    <script src="{{ asset('vendor/html5-qrcode/html5-qrcode.min.js') }}"></script>
     
     <!-- Inline scripts -->
     @yield('scripts')

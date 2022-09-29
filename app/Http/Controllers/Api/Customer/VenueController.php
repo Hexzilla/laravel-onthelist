@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Api\Customer;
 
 use App\Http\Controllers\Controller;
-use App\Models\Venue;
 use App\Models\Event;
 use App\Models\StripeAccount;
 use App\Models\Ticket;
 use App\Models\UserFavorite;
+use App\Models\Venue;
 use App\Models\VenueBooking;
 use App\Models\VenueCity;
 use App\Models\VenueMessage;
-use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -137,31 +137,44 @@ class VenueController extends Controller
             return json_encode(array('success' => false, 'error' => 'Failed to create booking'));
         }
 
-        $booking = VenueBooking::create([
-            'user_id' => $user_id,
-            'venue_id' => $request->venue_id,
-            'booking_type' => $request->booking_type,
-            'type' => $request->type,
-            'price' => $request->price,
-            'date' => $request->date,
-            'time' => $request->time,
-        ]);
+        try {
+            DB::beginTransaction();
 
-        $random = Str::random(30);
-        $image = QrCode::format('png')
-            ->size(300)->errorCorrection('H')
-            ->generate($random);
-        $file_name = Carbon::now().'.png';
-        $output_file = '/public/qrcode_img/'. $file_name;
-        Storage::disk('local')->put($output_file, $image);
-        $ticket = new Ticket;
-        $ticket->member_id = $booking->id;
-        $ticket->type = 'venue';
-        $ticket->ticket_code = $random;
-        $ticket->ticket_img_url = url('/').'/storage/qrcode_img'.$file_name;
-        $ticket->save();
+            $booking = VenueBooking::create([
+                'user_id' => $user_id,
+                'venue_id' => $request->venue_id,
+                'booking_type' => $request->booking_type,
+                'type' => $request->type,
+                'price' => $request->price,
+                'date' => $request->date,
+                'time' => $request->time,
+            ]);
 
-        return json_encode(array('success' => true, 'booking' => $booking));
+            $qrcode = json_encode(array(
+                'user_id' => $user_id,
+                'booking_id' => $booking->id,
+            ));
+            $image = QrCode::format('png')
+                ->size(300)->errorCorrection('H')
+                ->generate($qrcode);
+            $file_name = Str::uuid() . '.png';
+            $output_file = 'public/qrcodes/' . $file_name;
+            Storage::disk('local')->put($output_file, $image);
+            
+            $ticket = new Ticket;
+            $ticket->member_id = $booking->id;
+            $ticket->type = 'venue';
+            $ticket->ticket_code = $qrcode;
+            $ticket->ticket_img_url = url('/') . Storage::url($output_file);
+            $ticket->save();
+    
+            DB::commit();
+            return json_encode(array('success' => true, 'booking' => $booking, 'ticket' => $ticket));
+        
+        } catch (Exception $e) {
+            DB::rollBack();
+            return json_encode(array('success' => false, 'error' => 'Something went wrong'));
+        }
     }
 
     public function ticket(Request $request)
