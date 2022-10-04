@@ -34,9 +34,10 @@ heroku config:add DB_PORT=5432
 heroku config:add DB_DATABASE=d7vd04di4gi4v6
 heroku config:add DB_USERNAME=ufmgzbfakltefy
 heroku config:add DB_PASSWORD=b5696ee33cd5ed7a5dd977aa2ba7426deaf55de91f98394751f3cf98f72c7124
-
+heroku config:add IMAGICK_VERSION=3.7
 
 dbname=d7vd04di4gi4v6 host=ec2-3-217-14-181.compute-1.amazonaws.com port=5432 user=ufmgzbfakltefy password=b5696ee33cd5ed7a5dd977aa2ba7426deaf55de91f98394751f3cf98f72c7124 sslmode=require
 
 heroku run php artisan storage:link -a onthelist 
 heroku run php artisan migrate --seed -a onthelist 
+heroku create --buildpack https://github.com/daneren2005/heroku-buildpack-imagick.git
