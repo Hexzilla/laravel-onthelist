@@ -279,6 +279,7 @@
                 dataType: 'json',
                 success: function(dataResult){
                     var tickets = dataResult.data;
+                    console.log('tickets', tickets)
                     $(".display-modal").remove();
                     const body = $("#modal_event_ticket").clone().addClass("display-modal");
                     const tbody = body.find("tbody");

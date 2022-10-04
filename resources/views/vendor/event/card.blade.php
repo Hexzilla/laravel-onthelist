@@ -19,21 +19,21 @@
             <div class="mb-1"><a onclick="openGuestlistModal('{{$event->name}}', '{{$event->id}}')">Guestlists</a></div>
             <div class="mb-1"><a href="{{ route('vendors.event.createRep', $event->id) }}">Add Repo</a></div>
         </div>
-        <div class="card-body p-4">
-            <div class="row">
-                <div class="col-auto">
+        <div class="card-body padding-4">
+            <div class="card-body-content">
+                <div class="card-body-item">
                     <h5>Date</h5>
                     <p>{{ date('M d, Y', strtotime(explode(' ', $event->start)[0])) }}</p>
                 </div>
-                <div class="col-auto">
+                <div class="card-body-item">
                     <h5>Location</h5>
                     <p>{{ $event->venue->city }}</p>
                 </div>
-                <div class="col-auto">
+                <div class="card-body-item">
                     <h5>Tickets</h5>
                     <p>Available 26/100</p>
                 </div>
-                <div class="col-auto">
+                <div class="card-body-item position-r">
                     <button type="button" class="btn btn-primary scan-booking" eventId="{{$event->id}}">Scan Booking</button>
                 </div>
             </div>
