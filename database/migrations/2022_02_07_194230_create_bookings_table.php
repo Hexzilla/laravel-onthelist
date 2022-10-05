@@ -17,7 +17,7 @@ class CreateBookingsTable extends Migration
             $table->id();
             $table->foreignId("user_id")->constrained()->onDelete('cascade');
             $table->foreignId("event_id")->constrained()->onDelete('cascade');
-            $table->enum("booking_type", ["Table Booking", "Ticket", "Guestlist"]);
+            $table->enum("booking_type", ["Table", "Ticket", "Guestlist"]);
             $table->enum("type", ["EarlyBird", "VIP", "Standard"]);
             $table->integer('qty');
             $table->double('price', 10, 2)->default(0);

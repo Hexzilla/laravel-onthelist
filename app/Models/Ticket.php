@@ -14,6 +14,6 @@ class Ticket extends Model
         'type',
         'ticket_code',
         'ticket_img_url',
-        'is_chacked',
+        'is_checked',
     ];
 }

@@ -39,5 +39,17 @@ heroku config:add IMAGICK_VERSION=3.7
 dbname=d7vd04di4gi4v6 host=ec2-3-217-14-181.compute-1.amazonaws.com port=5432 user=ufmgzbfakltefy password=b5696ee33cd5ed7a5dd977aa2ba7426deaf55de91f98394751f3cf98f72c7124 sslmode=require
 
 heroku run php artisan storage:link -a onthelist 
-heroku run php artisan migrate --seed -a onthelist 
+heroku run php artisan migrate:fresh --seed -a onthelist 
 heroku create --buildpack https://github.com/daneren2005/heroku-buildpack-imagick.git
+
+
+heroku plugins:install heroku-repo
+heroku repo:clone -a onthelist
+heroku repo:download -a onthelist
+heroku repo:gc -a onthelist
+heroku repo:purge_cache -a onthelist
+heroku repo:reset -a onthelist
+
+
+
+https://imagemagick.org/archive/releases/ImageMagick-7.0.5-10.tar.xz

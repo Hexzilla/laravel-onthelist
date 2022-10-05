@@ -471,7 +471,7 @@ class EventController extends Controller
         $tables = DB::table('bookings')
             ->join('users', 'users.id', '=', 'bookings.user_id')
             ->where('bookings.event_id', $id)
-            ->where('bookings.booking_type', 'Table Booking')
+            ->where('bookings.booking_type', 'Table')
             ->select('bookings.*', 'users.name as userName')
             ->get();
         return json_encode(array('success' => true, 'tables' => $tables));

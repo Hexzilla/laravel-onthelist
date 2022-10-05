@@ -19,7 +19,7 @@ class CreateTicketsTable extends Migration
             $table->enum('type', ['event', 'venue']);
             $table->string('ticket_code');
             $table->string('ticket_img_url');
-            $table->enum('is_chacked', ['0', '1']);
+            $table->integer('is_checked');
             $table->timestamps();
         });
     }

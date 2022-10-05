@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Booking;
+use App\Models\Ticket;
 
 class BookingSeeder extends Seeder
 {
@@ -20,10 +21,10 @@ class BookingSeeder extends Seeder
         Schema::enableForeignKeyConstraints();
 
         for ($i = 0; $i < 30; $i++) {
-            Booking::create([
+            $booking = Booking::create([
                 'user_id' => 3,
                 'event_id' => 1,
-                'booking_type' => 'Table Booking',
+                'booking_type' => 'Table',
                 'qty' => 1,
                 'type' => 'EarlyBird',
                 'price' => '500',
@@ -31,7 +32,15 @@ class BookingSeeder extends Seeder
                 'date' => '2022-04-12',
             ]);
 
-            Booking::create([
+            Ticket::create([
+                'member_id' => $booking->id,
+                'type' => 'event',
+                'ticket_code' => 'test',
+                'ticket_img_url' => 'test',
+                'is_checked' => 0,
+            ]);
+
+            $booking = Booking::create([
                 'user_id' => 1,
                 'event_id' => 2,
                 'booking_type' => 'Ticket',
@@ -42,7 +51,15 @@ class BookingSeeder extends Seeder
                 'date' => '2022-04-12',
             ]);
 
-            Booking::create([
+            Ticket::create([
+                'member_id' => $booking->id,
+                'type' => 'event',
+                'ticket_code' => 'test',
+                'ticket_img_url' => 'test',
+                'is_checked' => 0,
+            ]);
+
+            $booking = Booking::create([
                 'user_id' => 3,
                 'event_id' => 3,
                 'booking_type' => 'Guestlist',
@@ -51,6 +68,14 @@ class BookingSeeder extends Seeder
                 'price' => '100',
                 'status' => 'Pending',
                 'date' => '2022-04-12',
+            ]);
+
+            Ticket::create([
+                'member_id' => $booking->id,
+                'type' => 'event',
+                'ticket_code' => 'test',
+                'ticket_img_url' => 'test',
+                'is_checked' => 0,
             ]);
         }
     }

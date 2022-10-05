@@ -428,10 +428,12 @@ class EventController extends Controller
     public function getTickets($id)
     {
         $tickets = DB::table('bookings')
+            ->join('tickets', 'bookings.id', '=', 'tickets.member_id')
             ->join('users', 'users.id', '=', 'bookings.user_id')
             ->where('bookings.event_id', $id)
             ->where('bookings.booking_type', 'Ticket')
-            ->select('bookings.*', 'users.name as userName')
+            ->where('tickets.type', 'event')
+            ->select('bookings.*', 'users.name as userName', 'tickets.is_checked')
             ->get();
         return json_encode(array('data' => $tickets));
     }
@@ -439,10 +441,12 @@ class EventController extends Controller
     public function getTables($id)
     {
         $tables = DB::table('bookings')
+            ->join('tickets', 'bookings.id', '=', 'tickets.member_id')
             ->join('users', 'users.id', '=', 'bookings.user_id')
             ->where('bookings.event_id', $id)
-            ->where('bookings.booking_type', 'Table Booking')
-            ->select('bookings.*', 'users.name as userName')
+            ->where('bookings.booking_type', 'Table')
+            ->where('tickets.type', 'event')
+            ->select('bookings.*', 'users.name as userName', 'tickets.is_checked')
             ->get();
         return json_encode(array('data' => $tables));
     }
@@ -450,10 +454,12 @@ class EventController extends Controller
     public function getGuestlists($id)
     {
         $guestlists = DB::table('bookings')
+            ->join('tickets', 'bookings.id', '=', 'tickets.member_id')
             ->join('users', 'users.id', '=', 'bookings.user_id')
             ->where('bookings.event_id', $id)
             ->where('bookings.booking_type', 'Guestlist')
-            ->select('bookings.*', 'users.name as userName')
+            ->where('tickets.type', 'event')
+            ->select('bookings.*', 'users.name as userName', 'tickets.is_checked')
             ->get();
         return json_encode(array('data' => $guestlists));
     }
@@ -531,7 +537,7 @@ class EventController extends Controller
 
         $ticket = Ticket::where('member_id', $request->booking_id)->first();
         if ($ticket) {
-            $ticket->is_chacked = 1;
+            $ticket->is_checked = 1;
             $ticket->save();
             return redirect()->route('vendors.event.index')->with('success', 'Scan Booking Success');
         } else {

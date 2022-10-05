@@ -40,7 +40,7 @@
                                 <select class="form-control" id="booking_type" name="booking_type" required>
                                     <option disabled selected>Select Booking Type</option>
                                     <option value="Ticket">Ticket</option>
-                                    <option value="Table Booking">Table Booking</option>
+                                    <option value="Table">Table Booking</option>
                                     <option value="Guestlist">Guestlist</option>
                                 </select>
                                 <span id="booking_type_error" class="d-none" role="alert">This field is required</span>
@@ -118,7 +118,7 @@
         function changeSelectOption() {
             var booking_type = $("#booking_type option:selected").val();
             $(".display-booking").addClass("d-none");
-            if (booking_type === "Table Booking") {
+            if (booking_type === "Table") {
                 $("#tables").removeClass("d-none");
                 changePrice("#tables");
                 $("#tables").on('change', function() {

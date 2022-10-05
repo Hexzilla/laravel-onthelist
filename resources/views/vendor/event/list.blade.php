@@ -72,7 +72,7 @@
                                 <td>$qty</td>
                                 <td>$price</td>
                                 <td>$no</td>
-                                <td><input type="checkbox" class="checkbox-booking" value="$id"></td>
+                                <td><input type="checkbox" class="checkbox-booking" readonly></td>
                             </tr>
                         </tbody>
                     </table>
@@ -114,7 +114,7 @@
                                 <td>$qty</td>
                                 <td>$price</td>
                                 <td>$no</td>
-                                <td><input type="checkbox" class="checkbox-booking" value="$id"></td>
+                                <td><input type="checkbox" class="checkbox-booking" readonly></td>
                             </tr>
                         </tbody>
                     </table>
@@ -156,7 +156,7 @@
                                 <td>$qty</td>
                                 <td>$price</td>
                                 <td>$no</td>
-                                <td><input type="checkbox" value="$id"></td>
+                                <td><input type="checkbox" class="checkbox-booking" readonly></td>
                             </tr>
                         </tbody>
                     </table>
@@ -293,7 +293,10 @@
                         html = html.replace('$qty', row.qty || '')
                         html = html.replace('$price', row.price)
                         html = html.replace('$no', row.id)
-                        html = html.replace('$id', row.id)
+                        const checkbox = clone.find(":checkbox");
+                        if (row.is_check === 1) {
+                            checkbox.attr('checked', true);
+                        }
                         tbody.append(clone.html(html));
                     })
                     const modal = body.html().replace('$TITLE', event);
@@ -316,14 +319,17 @@
                     const sample = tbody.children('.d-none');
 
                     $.each(tables, function(index, row){
-                        const clone = sample.clone().removeClass('d-none').addClass('display');
+                        const clone = sample.clone().removeClass('d-none').addClass('display');                        
                         let html = clone.html();
                         html = html.replace('$name', row.userName)
                         html = html.replace('$type', row.type)
                         html = html.replace('$qty', row.qty || '')
                         html = html.replace('$price', row.price)
                         html = html.replace('$no', row.id)
-                        html = html.replace('$id', row.id)
+                        const checkbox = clone.find(":checkbox");
+                        if (row.is_check === 1) {
+                            checkbox.attr('checked', true);
+                        }
                         tbody.append(clone.html(html));
                     })
                     const modal = body.html().replace('$TITLE', event);
@@ -353,7 +359,10 @@
                         html = html.replace('$qty', row.qty || '')
                         html = html.replace('$price', row.price)
                         html = html.replace('$no', row.id)
-                        html = html.replace('$id', row.id)
+                        const checkbox = clone.find(":checkbox");
+                        if (row.is_check === 1) {
+                            checkbox.attr('checked', true);
+                        }
                         tbody.append(clone.html(html));
                     })
                     const modal = body.html().replace('$TITLE', event);
@@ -391,15 +400,13 @@
             list.find('.display').remove();
 
             images.forEach(image => {
-                if(image.type === 'image')
-                {
-                    const clone = imagesample.clone().removeClass('d-none').addClass('display');
-                    let html = clone.html();
-                    html = html.replace('$PATH', image.path);
-                    list.append(clone.html(html));
-                }
-                if(image.type === 'video' || image.type === 'link')
-                {
+            if (image.type === 'image') {
+                const clone = imagesample.clone().removeClass('d-none').addClass('display');
+                let html = clone.html();
+                html = html.replace('$PATH', image.path);
+                list.append(clone.html(html));
+            }
+            if (image.type === 'video' || image.type === 'link') {
                     const clone = videosample.clone().removeClass('d-none').addClass('display');
                     let html = clone.html();
                     html = html.replace('$PATH', image.path);
@@ -440,7 +447,10 @@
                 const eventId = $(this).attr("eventId");
                 console.log('eventId', eventId);
 
-                const html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 }, /* verbose= */ false);
+            const html5QrcodeScanner = new Html5QrcodeScanner("reader", {
+                fps: 10,
+                qrbox: 250
+            }, /* verbose= */ false);
                 html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 
                 $("#modal_scan_booking").modal('show');
