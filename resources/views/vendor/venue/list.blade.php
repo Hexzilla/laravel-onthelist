@@ -370,7 +370,7 @@
         });
     }
 
-    function openTableModal(venue, venue_id){
+    /*function openTableModal(venue, venue_id){
         $.ajax({
             url: '/api/venue/table/' + venue_id,
             type: "POST",
@@ -397,7 +397,7 @@
                 body.modal('show');
             }
         });
-    }
+    }*/
 
     function openDetailModal(venue) {
         venue = JSON.parse(venue);

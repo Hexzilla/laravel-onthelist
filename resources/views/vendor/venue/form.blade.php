@@ -66,8 +66,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group border-input">
-                                    <label for="city">Town/City *</label>
-                                    <select class="form-control" name="city" required>
+                                    <label for="city">Town/City</label>
+                                    <input type="text" class="form-control" placeholder="" id="city" name="city" value="{{ $venue? $venue->city : old('city') }}" required>
+                                    <!-- <select class="form-control" name="city">
                                         @foreach($cities as $city)
                                             @if($venue && $venue->city == $city->name)
                                                 <option value="{{ $city->name }}" selected>{{ $city->name }}</option>
@@ -75,7 +76,7 @@
                                                 <option value="{{ $city->name }}">{{ $city->name }}</option>
                                             @endif
                                         @endforeach
-                                    </select>
+                                    </select> -->
                                     <span class="invalid-feedback" role="alert">This field is required</span>
                                 </div>
                                 <div class="form-group border-input">
