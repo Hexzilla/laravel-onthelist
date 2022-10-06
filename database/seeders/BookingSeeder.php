@@ -18,11 +18,12 @@ class BookingSeeder extends Seeder
     {
         Schema::disableForeignKeyConstraints();
         Booking::truncate();
+        Ticket::truncate();
         Schema::enableForeignKeyConstraints();
 
         for ($i = 0; $i < 30; $i++) {
             $booking = Booking::create([
-                'user_id' => 3,
+                'user_id' => 1,
                 'event_id' => 1,
                 'booking_type' => 'Table',
                 'qty' => 1,
@@ -37,7 +38,7 @@ class BookingSeeder extends Seeder
                 'type' => 'event',
                 'ticket_code' => 'test',
                 'ticket_img_url' => 'test',
-                'is_checked' => 0,
+                'is_checked' => rand(0, 10) >= 5 ? 1 : 0,
             ]);
 
             $booking = Booking::create([
@@ -56,11 +57,11 @@ class BookingSeeder extends Seeder
                 'type' => 'event',
                 'ticket_code' => 'test',
                 'ticket_img_url' => 'test',
-                'is_checked' => 0,
+                'is_checked' => rand(0, 10) >= 5 ? 1 : 0,
             ]);
 
             $booking = Booking::create([
-                'user_id' => 3,
+                'user_id' => 1,
                 'event_id' => 3,
                 'booking_type' => 'Guestlist',
                 'qty' => 1,
@@ -75,7 +76,7 @@ class BookingSeeder extends Seeder
                 'type' => 'event',
                 'ticket_code' => 'test',
                 'ticket_img_url' => 'test',
-                'is_checked' => 0,
+                'is_checked' => rand(0, 10) >= 5 ? 1 : 0,
             ]);
         }
     }

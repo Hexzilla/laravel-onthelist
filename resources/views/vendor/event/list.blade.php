@@ -72,7 +72,7 @@
                                 <td>$qty</td>
                                 <td>$price</td>
                                 <td>$no</td>
-                                <td><input type="checkbox" class="checkbox-booking" readonly></td>
+                                <td><input type="checkbox" class="checkbox-booking" disabled></td>
                             </tr>
                         </tbody>
                     </table>
@@ -114,7 +114,7 @@
                                 <td>$qty</td>
                                 <td>$price</td>
                                 <td>$no</td>
-                                <td><input type="checkbox" class="checkbox-booking" readonly></td>
+                                <td><input type="checkbox" class="checkbox-booking" disabled></td>
                             </tr>
                         </tbody>
                     </table>
@@ -156,7 +156,7 @@
                                 <td>$qty</td>
                                 <td>$price</td>
                                 <td>$no</td>
-                                <td><input type="checkbox" class="checkbox-booking" readonly></td>
+                                <td><input type="checkbox" class="checkbox-booking" disabled></td>
                             </tr>
                         </tbody>
                     </table>
@@ -279,7 +279,6 @@
                 dataType: 'json',
                 success: function(dataResult){
                     var tickets = dataResult.data;
-                    console.log('tickets', tickets)
                     $(".display-modal").remove();
                     const body = $("#modal_event_ticket").clone().addClass("display-modal");
                     const tbody = body.find("tbody");
@@ -293,11 +292,12 @@
                         html = html.replace('$qty', row.qty || '')
                         html = html.replace('$price', row.price)
                         html = html.replace('$no', row.id)
-                        const checkbox = clone.find(":checkbox");
-                        if (row.is_check === 1) {
+                        const item = clone.html(html);
+                        if (row.is_checked === 1) {
+                            const checkbox = item.find("input:checkbox");
                             checkbox.attr('checked', true);
                         }
-                        tbody.append(clone.html(html));
+                        tbody.append(item);
                     })
                     const modal = body.html().replace('$TITLE', event);
                     $("body").append(body.html(modal));
@@ -326,11 +326,12 @@
                         html = html.replace('$qty', row.qty || '')
                         html = html.replace('$price', row.price)
                         html = html.replace('$no', row.id)
-                        const checkbox = clone.find(":checkbox");
-                        if (row.is_check === 1) {
+                        const item = clone.html(html);
+                        if (row.is_checked === 1) {
+                            const checkbox = item.find("input:checkbox");
                             checkbox.attr('checked', true);
                         }
-                        tbody.append(clone.html(html));
+                        tbody.append(item);
                     })
                     const modal = body.html().replace('$TITLE', event);
                     $("body").append(body.html(modal));
@@ -359,11 +360,12 @@
                         html = html.replace('$qty', row.qty || '')
                         html = html.replace('$price', row.price)
                         html = html.replace('$no', row.id)
-                        const checkbox = clone.find(":checkbox");
-                        if (row.is_check === 1) {
+                        const item = clone.html(html);
+                        if (row.is_checked === 1) {
+                            const checkbox = item.find("input:checkbox");
                             checkbox.attr('checked', true);
                         }
-                        tbody.append(clone.html(html));
+                        tbody.append(item);
                     })
                     const modal = body.html().replace('$TITLE', event);
                     $("body").append(body.html(modal));
