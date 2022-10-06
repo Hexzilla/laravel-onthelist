@@ -293,7 +293,7 @@
                         html = html.replace('$price', row.price)
                         html = html.replace('$no', row.id)
                         const item = clone.html(html);
-                        if (row.is_checked === 1) {
+                        if (row.is_scanned === 1) {
                             const checkbox = item.find("input:checkbox");
                             checkbox.attr('checked', true);
                         }
@@ -327,7 +327,7 @@
                         html = html.replace('$price', row.price)
                         html = html.replace('$no', row.id)
                         const item = clone.html(html);
-                        if (row.is_checked === 1) {
+                        if (row.is_scanned === 1) {
                             const checkbox = item.find("input:checkbox");
                             checkbox.attr('checked', true);
                         }
@@ -361,7 +361,7 @@
                         html = html.replace('$price', row.price)
                         html = html.replace('$no', row.id)
                         const item = clone.html(html);
-                        if (row.is_checked === 1) {
+                        if (row.is_scanned === 1) {
                             const checkbox = item.find("input:checkbox");
                             checkbox.attr('checked', true);
                         }

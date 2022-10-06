@@ -38,7 +38,7 @@ class BookingSeeder extends Seeder
                 'type' => 'event',
                 'ticket_code' => 'test',
                 'ticket_img_url' => 'test',
-                'is_checked' => rand(0, 10) >= 5 ? 1 : 0,
+                'is_scanned' => rand(0, 10) >= 5 ? 1 : 0,
             ]);
 
             $booking = Booking::create([
@@ -57,7 +57,7 @@ class BookingSeeder extends Seeder
                 'type' => 'event',
                 'ticket_code' => 'test',
                 'ticket_img_url' => 'test',
-                'is_checked' => rand(0, 10) >= 5 ? 1 : 0,
+                'is_scanned' => rand(0, 10) >= 5 ? 1 : 0,
             ]);
 
             $booking = Booking::create([
@@ -76,7 +76,7 @@ class BookingSeeder extends Seeder
                 'type' => 'event',
                 'ticket_code' => 'test',
                 'ticket_img_url' => 'test',
-                'is_checked' => rand(0, 10) >= 5 ? 1 : 0,
+                'is_scanned' => rand(0, 10) >= 5 ? 1 : 0,
             ]);
         }
     }

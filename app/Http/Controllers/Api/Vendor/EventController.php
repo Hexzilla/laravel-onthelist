@@ -11,6 +11,7 @@ use App\Models\EventTable;
 use App\Models\EventTicket;
 use App\Models\User;
 use App\Models\Venue;
+use App\Models\VenueCity;
 use App\Models\Dj;
 use App\Models\Booking;
 use Illuminate\Http\Request;

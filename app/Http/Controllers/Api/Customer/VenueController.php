@@ -180,11 +180,11 @@ class VenueController extends Controller
     public function ticket(Request $request)
     {
         $ticket = $request->ticket;
-        $result = Ticket::where('ticket_code', $ticket)->where('is_checked', 0)->count();
+        $result = Ticket::where('ticket_code', $ticket)->where('is_scanned', 0)->count();
         if ($result == 0) {
             return json_encode(array('result' => 'reject'));
         } else {
-            DB::table('tickets')->where('ticket_code', $ticket)->update(['is_checked' => 1]);
+            DB::table('tickets')->where('ticket_code', $ticket)->update(['is_scanned' => 1]);
             return json_encode(array('result' => 'approved'));
         }
     }
